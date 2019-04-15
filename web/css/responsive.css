@@ -121,8 +121,8 @@
 @media (max-width: 767px) {
 
   .header-area {
-    height: 60px !important;
-    background: #000;
+    height: 90px !important;
+    background: white;
   }
   .navbar-header a.navbar-brand, .stick .navbar-header a.navbar-brand {
     display: inline-block;
@@ -133,19 +133,23 @@
     padding: 15px 0;
   }
   .nav.navbar-nav.navbar-right, .stick .nav.navbar-nav.navbar-right {
-    background-color: #252525;
+    background-color: rgba(0, 0, 0, 0);
     padding: 0;
     margin-top: 0;
   }
   .main-menu ul.navbar-nav li, .stick .main-menu ul.navbar-nav li {
     display: block;
+    background: white;
   }
   .main-menu ul.navbar-nav li a, .stick .main-menu ul.navbar-nav li a {
     padding: 10px 2px;
+
   }
   .main-menu ul.navbar-nav li.active a::after, .stick .main-menu ul.navbar-nav li.active a::after {
     border: 0px solid #fff;
+
   }
+
   .logo {
     height: inherit;
     left: 0;

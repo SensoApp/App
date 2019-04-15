@@ -56,7 +56,7 @@ class MailerService
 
     public function sendMail($messagebody,$messagesubject){
 
-        $this->mailrecipient = 'smouheb@senso.lu';
+        $this->mailrecipient = 'info@senso.lu';
 
         $this->mailSender($this->mailrecipient, $messagebody, $messagesubject);
 
