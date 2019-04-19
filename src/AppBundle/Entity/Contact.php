@@ -36,6 +36,26 @@ class Contact
     private $lastname;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    private $datefbirth;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $sexe;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $contracttype;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $socialesecunumber;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Mail", mappedBy="contact")
      */
     private $mail;
@@ -101,6 +121,71 @@ class Contact
     public function setLastname($lastname)
     {
         $this->lastname = $lastname;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getDatefbirth()
+    {
+        return $this->datefbirth;
+    }
+
+    /**
+     * @param mixed $datefbirth
+     */
+    public function setDatefbirth($datefbirth)
+    {
+        $this->datefbirth = $datefbirth;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSexe()
+    {
+        return $this->sexe;
+    }
+
+    /**
+     * @param mixed $sexe
+     */
+    public function setSexe($sexe)
+    {
+        $this->sexe = $sexe;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContracttype()
+    {
+        return $this->contracttype;
+    }
+
+    /**
+     * @param mixed $contracttype
+     */
+    public function setContracttype($contracttype)
+    {
+        $this->contracttype = $contracttype;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSocialesecunumber()
+    {
+        return $this->socialesecunumber;
+    }
+
+    /**
+     * @param mixed $socialesecunumber
+     */
+    public function setSocialesecunumber($socialesecunumber)
+    {
+        $this->socialesecunumber = $socialesecunumber;
     }
 
     /**
