@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Services
+ * Country
  *
- * @ORM\Table(name="services")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ServicesRepository")
+ * @ORM\Table(name="country")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CountryRepository")
  */
-class Services
+class Country
 {
     /**
      * @var int
@@ -24,10 +24,14 @@ class Services
     /**
      * @var string
      *
-     * @ORM\Column(name="servicename", type="string", length=255)
+     * @ORM\Column(name="countryname", type="string", length=255)
      */
-    private $servicename;
+    private $countryname;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\City", mappedBy="country")
+     */
+    private $city;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -55,27 +59,27 @@ class Services
     }
 
     /**
-     * Set servicename.
+     * Set countryname.
      *
-     * @param string $servicename
+     * @param string $countryname
      *
-     * @return Services
+     * @return Country
      */
-    public function setServicename($servicename)
+    public function setCountryname($countryname)
     {
-        $this->servicename = $servicename;
+        $this->countryname = $countryname;
 
         return $this;
     }
 
     /**
-     * Get servicename.
+     * Get countryname.
      *
      * @return string
      */
-    public function getServicename()
+    public function getCountryname()
     {
-        return $this->servicename;
+        return $this->countryname;
     }
 
     /**
@@ -109,5 +113,6 @@ class Services
     {
         $this->updatedAt = $updatedAt;
     }
+
 
 }

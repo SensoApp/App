@@ -60,11 +60,37 @@ class Contact
      */
     private $mail;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CitizenshipDetails", mappedBy="contact")
+     */
+    private $citizenshipdetails;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ClientContract", mappedBy="contact")
+     */
+    private $clientcontract;
+
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Phone", mappedBy="contact")
      */
     private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Address", mappedBy="contact")
+     */
+    private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\BankDetails", mappedBy="contact")
+     */
+    private $bankdetails;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Contract", mappedBy="contact")
+     */
+    private $contract;
 
     /**
      * @ORM\Column(type="datetime")
@@ -299,5 +325,185 @@ class Contact
     public function removePhone(\AppBundle\Entity\Phone $phone)
     {
         $this->phone->removeElement($phone);
+    }
+
+    /**
+     * Add citizenshipdetail.
+     *
+     * @param \AppBundle\Entity\CitizenshipDetails $citizenshipdetail
+     *
+     * @return Contact
+     */
+    public function addCitizenshipdetail(\AppBundle\Entity\CitizenshipDetails $citizenshipdetail)
+    {
+        $this->citizenshipdetails[] = $citizenshipdetail;
+
+        return $this;
+    }
+
+    /**
+     * Remove citizenshipdetail.
+     *
+     * @param \AppBundle\Entity\CitizenshipDetails $citizenshipdetail
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCitizenshipdetail(\AppBundle\Entity\CitizenshipDetails $citizenshipdetail)
+    {
+        return $this->citizenshipdetails->removeElement($citizenshipdetail);
+    }
+
+    /**
+     * Get citizenshipdetails.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCitizenshipdetails()
+    {
+        return $this->citizenshipdetails;
+    }
+
+    /**
+     * Add clientcontract.
+     *
+     * @param \AppBundle\Entity\ClientContract $clientcontract
+     *
+     * @return Contact
+     */
+    public function addClientcontract(\AppBundle\Entity\ClientContract $clientcontract)
+    {
+        $this->clientcontract[] = $clientcontract;
+
+        return $this;
+    }
+
+    /**
+     * Remove clientcontract.
+     *
+     * @param \AppBundle\Entity\ClientContract $clientcontract
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeClientcontract(\AppBundle\Entity\ClientContract $clientcontract)
+    {
+        return $this->clientcontract->removeElement($clientcontract);
+    }
+
+    /**
+     * Get clientcontract.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClientcontract()
+    {
+        return $this->clientcontract;
+    }
+
+    /**
+     * Add address.
+     *
+     * @param \AppBundle\Entity\Address $address
+     *
+     * @return Contact
+     */
+    public function addAddress(\AppBundle\Entity\Address $address)
+    {
+        $this->address[] = $address;
+
+        return $this;
+    }
+
+    /**
+     * Remove address.
+     *
+     * @param \AppBundle\Entity\Address $address
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeAddress(\AppBundle\Entity\Address $address)
+    {
+        return $this->address->removeElement($address);
+    }
+
+    /**
+     * Get address.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Add bankdetail.
+     *
+     * @param \AppBundle\Entity\BankDetails $bankdetail
+     *
+     * @return Contact
+     */
+    public function addBankdetail(\AppBundle\Entity\BankDetails $bankdetail)
+    {
+        $this->bankdetails[] = $bankdetail;
+
+        return $this;
+    }
+
+    /**
+     * Remove bankdetail.
+     *
+     * @param \AppBundle\Entity\BankDetails $bankdetail
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeBankdetail(\AppBundle\Entity\BankDetails $bankdetail)
+    {
+        return $this->bankdetails->removeElement($bankdetail);
+    }
+
+    /**
+     * Get bankdetails.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBankdetails()
+    {
+        return $this->bankdetails;
+    }
+
+    /**
+     * Add contract.
+     *
+     * @param \AppBundle\Entity\ClientContract $contract
+     *
+     * @return Contact
+     */
+    public function addContract(\AppBundle\Entity\ClientContract $contract)
+    {
+        $this->contract[] = $contract;
+
+        return $this;
+    }
+
+    /**
+     * Remove contract.
+     *
+     * @param \AppBundle\Entity\ClientContract $contract
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeContract(\AppBundle\Entity\ClientContract $contract)
+    {
+        return $this->contract->removeElement($contract);
+    }
+
+    /**
+     * Get contract.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContract()
+    {
+        return $this->contract;
     }
 }

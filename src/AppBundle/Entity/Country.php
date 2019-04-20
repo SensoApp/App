@@ -28,6 +28,25 @@ class Country
      */
     private $countryname;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\City", mappedBy="country")
+     */
+    private $city;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('now');
+    }
 
     /**
      * Get id.
@@ -61,5 +80,75 @@ class Country
     public function getCountryname()
     {
         return $this->countryname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+
+
+    /**
+     * Add city.
+     *
+     * @param \AppBundle\Entity\City $city
+     *
+     * @return Country
+     */
+    public function addCity(\AppBundle\Entity\City $city)
+    {
+        $this->city[] = $city;
+
+        return $this;
+    }
+
+    /**
+     * Remove city.
+     *
+     * @param \AppBundle\Entity\City $city
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCity(\AppBundle\Entity\City $city)
+    {
+        return $this->city->removeElement($city);
+    }
+
+    /**
+     * Get city.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCity()
+    {
+        return $this->city;
     }
 }
