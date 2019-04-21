@@ -48,7 +48,7 @@ class Contact
     /**
      * @ORM\Column(type="string")
      */
-    private $contracttype;
+    private $contacttype;
 
     /**
      * @ORM\Column(type="string")
@@ -182,21 +182,6 @@ class Contact
         $this->sexe = $sexe;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContracttype()
-    {
-        return $this->contracttype;
-    }
-
-    /**
-     * @param mixed $contracttype
-     */
-    public function setContracttype($contracttype)
-    {
-        $this->contracttype = $contracttype;
-    }
 
     /**
      * @return mixed
@@ -505,5 +490,29 @@ class Contact
     public function getContract()
     {
         return $this->contract;
+    }
+
+    /**
+     * Set contacttype.
+     *
+     * @param string $contacttype
+     *
+     * @return Contact
+     */
+    public function setContacttype($contacttype)
+    {
+        $this->contacttype = $contacttype;
+
+        return $this;
+    }
+
+    /**
+     * Get contacttype.
+     *
+     * @return string
+     */
+    public function getContacttype()
+    {
+        return $this->contacttype;
     }
 }
