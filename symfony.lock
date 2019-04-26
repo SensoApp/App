@@ -56,6 +56,19 @@
             "src/DataFixtures/AppFixtures.php"
         ]
     },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
+        },
+        "files": [
+            "config/packages/doctrine_migrations.yaml",
+            "src/Migrations/.gitignore"
+        ]
+    },
     "doctrine/event-manager": {
         "version": "v1.0.0"
     },
@@ -68,6 +81,9 @@
     "doctrine/lexer": {
         "version": "v1.0.1"
     },
+    "doctrine/migrations": {
+        "version": "v2.0.1"
+    },
     "doctrine/orm": {
         "version": "v2.6.3"
     },
@@ -76,6 +92,19 @@
     },
     "doctrine/reflection": {
         "version": "v1.0.0"
+    },
+    "easycorp/easyadmin-bundle": {
+        "version": "2.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.0",
+            "ref": "0a51040a43c6f2172a3a0135cd15daf2043905d7"
+        },
+        "files": [
+            "config/packages/easy_admin.yaml",
+            "config/routes/easy_admin.yaml"
+        ]
     },
     "egulias/email-validator": {
         "version": "2.1.7"
@@ -88,6 +117,18 @@
     },
     "monolog/monolog": {
         "version": "1.24.0"
+    },
+    "nikic/php-parser": {
+        "version": "v4.2.1"
+    },
+    "ocramius/package-versions": {
+        "version": "1.4.0"
+    },
+    "ocramius/proxy-manager": {
+        "version": "2.2.2"
+    },
+    "pagerfanta/pagerfanta": {
+        "version": "v2.1.2"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -168,6 +209,9 @@
     "symfony/event-dispatcher": {
         "version": "v4.2.7"
     },
+    "symfony/expression-language": {
+        "version": "v4.2.7"
+    },
     "symfony/filesystem": {
         "version": "v4.2.7"
     },
@@ -219,6 +263,15 @@
     },
     "symfony/intl": {
         "version": "v4.2.7"
+    },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
     },
     "symfony/monolog-bridge": {
         "version": "v4.2.7"
@@ -411,7 +464,25 @@
     "symfony/yaml": {
         "version": "v4.2.7"
     },
+    "twig/extensions": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "ddb2e0a77773b7fd75d8d649545f174e664500ab"
+        },
+        "files": [
+            "config/packages/twig_extensions.yaml"
+        ]
+    },
     "twig/twig": {
         "version": "v2.8.1"
+    },
+    "zendframework/zend-code": {
+        "version": "3.3.1"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "3.2.1"
     }
 }

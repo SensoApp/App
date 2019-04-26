@@ -38,7 +38,7 @@ class Contact
     /**
      * @ORM\Column(type="date", nullable=true)
      */
-    private $datefbirth;
+    private $dateofbirth;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -153,17 +153,17 @@ class Contact
     /**
      * @return mixed
      */
-    public function getDatefbirth()
+    public function getDateofbirth()
     {
-        return $this->datefbirth;
+        return $this->dateofbirth;
     }
 
     /**
      * @param mixed $datefbirth
      */
-    public function setDatefbirth($datefbirth)
+    public function setDateofbirth($dateofbirth)
     {
-        $this->datefbirth = $datefbirth;
+        $this->dateofbirth = $dateofbirth;
     }
 
     /**
@@ -514,5 +514,12 @@ class Contact
     public function getContacttype()
     {
         return $this->contacttype;
+    }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+
+        return (string) $this->getMail();
     }
 }

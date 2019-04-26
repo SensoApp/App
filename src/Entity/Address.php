@@ -200,4 +200,11 @@ class Address
     {
         $this->updatedAt = $updatedAt;
     }
+
+    public function __toString()
+    {
+        // TODO: Implement __toString() method.
+
+        return (string) $this->getContact() ;
+    }
 }
