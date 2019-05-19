@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -29,6 +30,8 @@ class Mail
 
     /**
      * @ORM\Column(name="mail", type="string")
+     * @Assert\Email(message="The email '{{value}}' is not valid ", checkMX=true)
+     * @Assert\NotBlank()
      */
     private $mail;
 
@@ -126,11 +129,10 @@ class Mail
         $this->updatedAt = $updatedAt;
     }
 
-    public function __toString()
+    /*public function __toString()
     {
-        // TODO: Implement __toString() method.
 
         return (string) $this->getMail();
-    }
+    }*/
 
 }

@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * BankDetails
  *
  * @ORM\Table(name="bank_details")
  * @ORM\Entity(repositoryClass="App\Repository\BankDetailsRepository")
+ *
  */
 class BankDetails
 {
@@ -25,6 +27,7 @@ class BankDetails
      * @var string
      *
      * @ORM\Column(name="iban", type="string", length=255)
+     * @Assert\Iban( message="This is not a valid Iban")
      */
     private $iban;
 
@@ -32,6 +35,8 @@ class BankDetails
      * @var string
      *
      * @ORM\Column(name="biccode", type="string", length=255)
+     * @Assert\Bic( message="This is not a valid Bic code")
+     * @Assert\NotBlank()
      */
     private $biccode;
 

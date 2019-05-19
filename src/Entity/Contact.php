@@ -10,9 +10,10 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
  * @ORM\Table(name="contact")
  */
 class Contact
@@ -27,16 +28,22 @@ class Contact
 
     /**
      * @ORM\Column(type="string", name="firstname")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="3", minMessage="This field must be at least '{{limit}}' character long")
+     *
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Length(min="2", minMessage="This field must be at least '{{limit}}' character long")
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     *
      */
     private $dateofbirth;
 
@@ -52,16 +59,17 @@ class Contact
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Length(min="5", minMessage="This field must be at least 5 character long")
      */
     private $socialesecunumber;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mail", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="App\Entity\Mail", mappedBy="contact", cascade={"persist", "remove"})
      */
     private $mail;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\CitizenshipDetails", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="App\Entity\CitizenshipDetails", mappedBy="contact", cascade={"persist", "remove"})
      */
     private $citizenshipdetails;
 
@@ -73,22 +81,22 @@ class Contact
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="contact", cascade={"persist", "remove"})
      */
     private $phone;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="contact", cascade={"persist", "remove"})
      */
     private $address;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BankDetails", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="App\Entity\BankDetails", mappedBy="contact", cascade={"persist", "remove"})
      */
     private $bankdetails;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Contract", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="App\Entity\Contract", mappedBy="contact", cascade={"persist","remove"})
      */
     private $contract;
 
@@ -106,6 +114,11 @@ class Contact
     {
         $this->createdAt = new \DateTime('now');
         $this->mail = new ArrayCollection();
+        $this->address = new ArrayCollection();
+        $this->phone = new ArrayCollection();
+        $this->contract = new ArrayCollection();
+        $this->bankdetails = new ArrayCollection();
+        $this->citizenshipdetails = new ArrayCollection();
     }
 
     /**
@@ -257,6 +270,7 @@ class Contact
      */
     public function addMail(\App\Entity\Mail $mail)
     {
+        $mail->setContact($this);
         $this->mail[] = $mail;
 
         return $this;
@@ -273,7 +287,7 @@ class Contact
     }
 
     /**
-     * @return mixed
+     * @return ArrayCollection|Phone
      */
     public function getPhone()
     {
@@ -297,7 +311,8 @@ class Contact
      */
     public function addPhone(\App\Entity\Phone $phone)
     {
-        $this->phone[] = $phone;
+        $phone->setContact($this);
+        $this->phone[] =  $phone;
 
         return $this;
     }
@@ -321,6 +336,7 @@ class Contact
      */
     public function addCitizenshipdetail(\App\Entity\CitizenshipDetails $citizenshipdetail)
     {
+        $citizenshipdetail->setContact($this);
         $this->citizenshipdetails[] = $citizenshipdetail;
 
         return $this;
@@ -391,8 +407,9 @@ class Contact
      *
      * @return Contact
      */
-    public function addAddress(\App\Entity\Address $address)
+    public function addAddres(\App\Entity\Address $address)
     {
+        $address->setContact($this);
         $this->address[] = $address;
 
         return $this;
@@ -405,7 +422,7 @@ class Contact
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeAddress(\App\Entity\Address $address)
+    public function removeAddres(\App\Entity\Address $address)
     {
         return $this->address->removeElement($address);
     }
@@ -429,6 +446,7 @@ class Contact
      */
     public function addBankdetail(\App\Entity\BankDetails $bankdetail)
     {
+        $bankdetail->setContact($this);
         $this->bankdetails[] = $bankdetail;
 
         return $this;
@@ -459,12 +477,13 @@ class Contact
     /**
      * Add contract.
      *
-     * @param \App\Entity\ClientContract $contract
+     * @param \App\Entity\Contract $contract
      *
      * @return Contact
      */
-    public function addContract(\App\Entity\ClientContract $contract)
+    public function addContract(\App\Entity\Contract $contract)
     {
+        $contract->setContact($this);
         $this->contract[] = $contract;
 
         return $this;
@@ -473,11 +492,11 @@ class Contact
     /**
      * Remove contract.
      *
-     * @param \App\Entity\ClientContract $contract
+     * @param \App\Entity\Contract $contract
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeContract(\App\Entity\ClientContract $contract)
+    public function removeContract(\App\Entity\Contract $contract)
     {
         return $this->contract->removeElement($contract);
     }
@@ -515,6 +534,7 @@ class Contact
     {
         return $this->contacttype;
     }
+
 
     public function __toString()
     {

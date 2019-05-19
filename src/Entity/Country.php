@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,9 +30,10 @@ class Country
     private $countryname;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\City", mappedBy="country")
+     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="country")
      */
-    private $city;
+    private $address;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -46,6 +48,7 @@ class Country
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
+        $this->address = new ArrayCollection();
     }
 
     /**
@@ -119,13 +122,13 @@ class Country
     /**
      * Add city.
      *
-     * @param \App\Entity\City $city
+     * @param \App\Entity\Address $address
      *
      * @return Country
      */
-    public function addCity(\App\Entity\City $city)
+    public function addAddress(\App\Entity\Address $address)
     {
-        $this->city[] = $city;
+        $this->address[] = $address;
 
         return $this;
     }
@@ -133,13 +136,13 @@ class Country
     /**
      * Remove city.
      *
-     * @param \App\Entity\City $city
+     * @param \App\Entity\Address $city
      *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeCity(\App\Entity\City $city)
+    public function removeCity(\App\Entity\Address $address)
     {
-        return $this->city->removeElement($city);
+        return $this->address->removeElement($address);
     }
 
     /**
@@ -147,8 +150,8 @@ class Country
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCity()
+    public function getAddress()
     {
-        return $this->city;
+        return $this->address;
     }
 }

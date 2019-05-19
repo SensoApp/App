@@ -26,6 +26,7 @@ class Phone
 
     /**
      * @ORM\Column(type="string")
+     *
      */
     private $phonenumber;
 

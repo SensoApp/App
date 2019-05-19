@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * Address
  *
@@ -28,12 +29,19 @@ class Address
      */
     private $street;
 
+
     /**
      * @var string
      *
      * @ORM\Column(name="postcode", type="string", length=255)
      */
     private $postcode;
+
+
+    /**
+     * @ORM\Column(name="city", type="string", length=255)
+     */
+    private $city;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="address")
@@ -43,10 +51,9 @@ class Address
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="address")
-     * @ORM\JoinColumn(name="city_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="address")
      */
-    private $city;
+    private $country;
 
     /**
      * @ORM\Column(type="datetime")
@@ -122,23 +129,37 @@ class Address
     }
 
     /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
      * Set contact.
      *
-     * @param \App\Entity\Contact|null $contact
+     * @param  $contact
      *
-     * @return Address
      */
-    public function setContact(\App\Entity\Contact $contact = null)
+    public function setContact($contact)
     {
         $this->contact = $contact;
 
-        return $this;
     }
 
     /**
      * Get contact.
      *
-     * @return \App\Entity\Contact|null
+     * @return mixed
      */
     public function getContact()
     {
@@ -146,27 +167,19 @@ class Address
     }
 
     /**
-     * Set city.
-     *
-     * @param \App\Entity\City|null $city
-     *
-     * @return Address
+     * @return mixed
      */
-    public function setCity(\App\Entity\City $city = null)
+    public function getCountry()
     {
-        $this->city = $city;
-
-        return $this;
+        return $this->country;
     }
 
     /**
-     * Get city.
-     *
-     * @return \App\Entity\City|null
+     * @param mixed $country
      */
-    public function getCity()
+    public function setCountry($country): void
     {
-        return $this->city;
+        $this->country = $country;
     }
 
     /**
@@ -205,6 +218,6 @@ class Address
     {
         // TODO: Implement __toString() method.
 
-        return (string) $this->getContact() ;
+        return (string) $this->getContact();
     }
 }
