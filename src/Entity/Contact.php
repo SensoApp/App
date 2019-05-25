@@ -242,6 +242,9 @@ class Contact
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+
+        // TODO: Implement trigger to update other entities linked.
+
     }
 
     /**
@@ -270,9 +273,11 @@ class Contact
      */
     public function addMail(\App\Entity\Mail $mail)
     {
-        $mail->setContact($this);
-        $this->mail[] = $mail;
+        if(!$this->contract->contains($mail)) {
 
+            $mail->setContact($this);
+            $this->mail[] = $mail;
+        }
         return $this;
     }
 
@@ -311,9 +316,11 @@ class Contact
      */
     public function addPhone(\App\Entity\Phone $phone)
     {
-        $phone->setContact($this);
-        $this->phone[] =  $phone;
+        if(!$this->contract->contains($phone)) {
 
+            $phone->setContact($this);
+            $this->phone[] = $phone;
+        }
         return $this;
     }
 
@@ -336,9 +343,10 @@ class Contact
      */
     public function addCitizenshipdetail(\App\Entity\CitizenshipDetails $citizenshipdetail)
     {
-        $citizenshipdetail->setContact($this);
-        $this->citizenshipdetails[] = $citizenshipdetail;
-
+        if(!$this->contract->contains($citizenshipdetail)) {
+            $citizenshipdetail->setContact($this);
+            $this->citizenshipdetails[] = $citizenshipdetail;
+        }
         return $this;
     }
 
@@ -373,7 +381,12 @@ class Contact
      */
     public function addClientcontract(\App\Entity\ClientContract $clientcontract)
     {
-        $this->clientcontract[] = $clientcontract;
+        if(!$this->contract->contains($clientcontract)){
+
+            $clientcontract->setContact($this);
+            $this->clientcontract[] = $clientcontract;
+
+        }
 
         return $this;
     }
@@ -409,8 +422,12 @@ class Contact
      */
     public function addAddres(\App\Entity\Address $address)
     {
-        $address->setContact($this);
-        $this->address[] = $address;
+        if(!$this->contract->contains($address)){
+
+            $address->setContact($this);
+            $this->address[] = $address;
+        }
+
 
         return $this;
     }
@@ -446,9 +463,11 @@ class Contact
      */
     public function addBankdetail(\App\Entity\BankDetails $bankdetail)
     {
-        $bankdetail->setContact($this);
-        $this->bankdetails[] = $bankdetail;
+        if(!$this->contract->contains($bankdetail)) {
 
+            $bankdetail->setContact($this);
+            $this->bankdetails[] = $bankdetail;
+        }
         return $this;
     }
 
@@ -483,9 +502,11 @@ class Contact
      */
     public function addContract(\App\Entity\Contract $contract)
     {
-        $contract->setContact($this);
-        $this->contract[] = $contract;
+        if(!$this->contract->contains($contract)) {
 
+            $contract->setContact($this);
+            $this->contract[] = $contract;
+        }
         return $this;
     }
 
@@ -538,7 +559,6 @@ class Contact
 
     public function __toString()
     {
-        // TODO: Implement __toString() method.
 
         return (string) $this->getMail();
     }

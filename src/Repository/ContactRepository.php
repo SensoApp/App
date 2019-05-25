@@ -40,7 +40,8 @@ class ContactRepository extends ServiceEntityRepository
 
         $qr = $this->createQueryBuilder('u')
                     ->select(
-                             'u.firstname',
+                             'u.id',
+                                    'u.firstname',
                                     'u.lastname',
                                     'u.contacttype'
                             )

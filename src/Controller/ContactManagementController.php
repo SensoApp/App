@@ -61,6 +61,7 @@ class ContactManagementController extends AbstractController
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->listOfAllContacts();
 
+
         return $this->render('form/admin.main.html.twig', [
 
             'list' => $list,
@@ -69,19 +70,55 @@ class ContactManagementController extends AbstractController
     }
 
     /**
-     * @Route("/newadmin/edit", name="edit")
+     * @Route("/newadmin/edit/{id}", name="edit")
      */
-    public function editContact(){
+    public function editContact(Request $request, $id, Contact $contact){
 
+        $form = $this->createForm(ContactType::class, $contact);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $task = $form->getData();
+
+            $task->setUpdatedAt(new \DateTime('now'));
+            $this->em->flush($task);
+
+            $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
+
+            return $this->redirectToRoute('adminsenso');
+
+        }
+
+
+        return $this->render('form/edit.html.twig', [
+
+            'form' => $form->createView()
+        ]);
 
     }
 
     /**
-     * @Route("/newadmin/delete", name="delete")
+     * @Route("/newadmin/delete/{id}", name="delete")
      */
-    public function deleteContact(){
+    public function deleteContact($id){
 
+        $contactToDelete = $this->getDoctrine()->getRepository(Contact::class)
+                        ->findOneBy(['id' => $id]);
 
+        if (!$contactToDelete) {
+
+            throw $this->createNotFoundException('No Contact found for id '.$id);
+
+        }
+
+        $this->em->remove($contactToDelete);
+        $this->em->flush();
+
+        $this->addFlash('success','Contact successfully deleted');
+
+        return $this->redirectToRoute('adminsenso');
     }
 
     /**

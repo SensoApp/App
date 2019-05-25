@@ -1,5 +1,57 @@
 {% extends 'base.html.twig' %}
 {% block body %}
+    <header>
+        <!-- header-area start -->
+        <div id="sticker" class="header-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+
+                        <!-- Navigation -->
+                        <nav class="navbar navbar-default navbar-light">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a href="{{ path('homepage') }}" >
+                                    <img src="{{ asset('img/Logo_Senso_3.png') }}" alt="logo">
+                                </a>
+                                <!-- Brand -->
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1" id="navbar-example" >
+                                <ul class="nav navbar-nav navbar-right" >
+                                    <li class="active">
+                                    <li>
+                                        <a class="page-scroll" href="{{ path('homepage') }}">About</a>
+                                    </li>
+                                    <li>
+                                        <a class="page-scroll" href="{{ path('homepage') }}">Services</a>
+                                    </li>
+                                    <li>
+                                        <a class="page-scroll" href="{{ path('homepage') }}">Contact</a>
+                                    </li>
+                                    <li>
+                                        <a class="btn btn-success"  href="{{ path('createcontact') }}"><i>My</i>Senso</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- navbar-collapse -->
+                        </nav>
+                        <!-- END: Navigation -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-area end -->
+    </header>
+    <br>
+    <br>
+    <br>
 <!-- form user info -->
     <div class="col-md-8 offset-md-2">
     <span class="anchor" id="formUserEdit"></span>
@@ -12,8 +64,9 @@
     <br>
     <br>
     <div class="card card-outline-secondary">
-    <div class="card-header">
-        <h3 class="mb-0 text-center">User Information</h3>
+        <div class="card-header">
+            <h3 class="mb-0 text-center">User Information</h3>
+        </div>
     </div>
     <br>
     <div class="card-body">
@@ -121,14 +174,18 @@
             {% if list[0].documentType is null %}
                 <input class="form-control" type="text" value="no data to display" readonly>
             {% else %}
+                {% set documentnum = 0 %}
+                {% for lists in list %}
+                {% set documentnum = documentnum+1 %}
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Document Type</label>
+                    <label class="col-lg-3 col-form-label form-control-label">Document Type {{ documentnum }}</label>
                     <div class="col-lg-9">
                         <input class="form-control" type="text" value="{{ lists.documentType }}" readonly>
                         <input class="form-control" type="text" value="{{ lists.documentId }}" readonly>
-                        <input class="form-control" type="text" value="{{ lists.expireDate }}" readonly>
+                        <input class="form-control" type="datetime-local" value="{{ lists.expireDate|date('Y-m-d') }}" readonly>
                     </div>
                 </div>
+                {% endfor %}
             {% endif %}
             <br>
                 <div class="card-header">
@@ -143,10 +200,19 @@
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label form-control-label">Contract Type {{ contractnum }}</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ list.contractType }}" readonly>
-                        <input class="form-control" type="text" value="{{ list.startDate }}" readonly>
-                        <input class="form-control" type="text" value="{{ list.probationPeriodEndDate }}" readonly>
-                        <input class="form-control" type="text" value="{{ list.endDate }}" readonly>
+                        <input class="form-control" type="text" value="{{ lists.contractType }}" readonly>
+                    </div>
+                        <label class="col-lg-3 col-form-label form-control-label">Start Date</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="{{ lists.startDate|date('Y-m-d') }}" readonly>
+                    </div>
+                        <label class="col-lg-3 col-form-label form-control-label">Probation Period</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="{{ lists.probationPeriodEndDate|date('Y-m-d') }}" readonly>
+                    </div>
+                        <label class="col-lg-3 col-form-label form-control-label">Probation Period</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" value="{{ lists.endDate|date('Y-m-d') }}" readonly>
                     </div>
                 </div>
                 <br>
@@ -165,6 +231,6 @@
             </div>
         </form>
     </div>
-</div>
-<!-- /form user info -->
+    </div>
+    <!-- /form user info -->
 {% endblock %}
