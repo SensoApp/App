@@ -34,7 +34,7 @@ class ContactManagementController extends AbstractController
      */
     public function createContact(Request $request){
 
-        $form = $this->createForm(ContactType::class, $this->contact);
+        $form = $this->createForm(ContactType::class);
 
         $form->handleRequest($request);
 
