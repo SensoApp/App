@@ -55,14 +55,13 @@ class ContactManagementController extends AbstractController
     }
 
     /**
-     *@Route("/newadmin", name="adminsenso" )
+     * @Route(path="/newadmin", name="adminsenso" )
      */
     public function listContact(){
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->listOfAllContacts();
 
-
-        return $this->render('form/admin.main.html.twig', [
+        return $this->render('form/admin.html.twig', [
 
             'list' => $list,
 

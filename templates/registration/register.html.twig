@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="container-fluid">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <header>
+        <!-- header-area start -->
+        <div id="sticker" class="header-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+
+                        <!-- Navigation -->
+                        <nav class="navbar navbar-default navbar-light">
+                            <!-- Brand and toggle get grouped for better mobile display -->
+                            <div class="navbar-header">
+                                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".bs-example-navbar-collapse-1" aria-expanded="false">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <a href="{{ path('homepage') }}" >
+                                    <img src="{{ asset('img/Logo_Senso_3.png') }}" alt="logo">
+                                </a>
+                                <!-- Brand -->
+                            </div>
+                            <!-- Collect the nav links, forms, and other content for toggling -->
+                            <div class="collapse navbar-collapse main-menu bs-example-navbar-collapse-1" id="navbar-example" >
+                                <ul class="nav navbar-nav navbar-right" >
+                                    <li class="active">
+                                    <li>
+                                        <a class="page-scroll" href="{{ path('homepage') }}">About</a>
+                                    </li>
+                                    <li>
+                                        <a class="page-scroll" href="{{ path('homepage') }}">Services</a>
+                                    </li>
+                                    <li>
+                                        <a class="page-scroll" href="{{ path('homepage') }}">Contact</a>
+                                    </li>
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <li>
+                                            <a class="btn btn-success"  href="{{ path('adminsenso') }}"><i>My</i>Senso</a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a class="btn btn-primary"  href="{{ path('app_login') }}">Login</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <!-- navbar-collapse -->
+                        </nav>
+
+                        <!-- END: Navigation -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-area end -->
+    </header>
+    <div class="row">
+        <h2 class="text-center"> Welcome to My Senso Registration ✅</h2>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-4 col-lg-4">
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.roles) }}
+        {{ form_row(registrationForm.plainPassword.first) }}
+        {{ form_row(registrationForm.plainPassword.second) }}
+    {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}

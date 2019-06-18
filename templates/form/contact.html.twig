@@ -41,13 +41,23 @@
                                     <li>
                                         <a class="page-scroll" href="{{ path('homepage') }}">Contact</a>
                                     </li>
-                                    <li>
-                                        <a class="btn btn-success"  href="{{ path('createcontact') }}"><i>My</i>Senso</a>
-                                    </li>
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <li>
+                                            <a class="btn btn-success"  href="{{ path('adminsenso') }}"><i>My</i>Senso</a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a class="btn btn-primary"  href="{{ path('app_login') }}">Login</a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <!-- navbar-collapse -->
                         </nav>
+
                         <!-- END: Navigation -->
                     </div>
                 </div>

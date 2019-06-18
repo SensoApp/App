@@ -1,4 +1,4 @@
-{% extends 'default/index.html.twig' %}
+{% extends 'base.html.twig' %}
 {% block body %}
     <header>
         <!-- header-area start -->
@@ -35,13 +35,23 @@
                                     <li>
                                         <a class="page-scroll" href="{{ path('homepage') }}">Contact</a>
                                     </li>
-                                    <li>
-                                        <a class="btn btn-success"  href="{{ path('createcontact') }}"><i>My</i>Senso</a>
-                                    </li>
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                        <li>
+                                            <a class="btn btn-success"  href="{{ path('adminsenso') }}"><i>My</i>Senso</a>
+                                        </li>
+                                        <li>
+                                            <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a class="btn btn-primary"  href="{{ path('app_login') }}">Login</a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <!-- navbar-collapse -->
                         </nav>
+
                         <!-- END: Navigation -->
                     </div>
                 </div>
@@ -63,7 +73,10 @@
     <br>
         <div class="row">
             <h2 class="title text-center">List of Contacts</h2>
-            <div class="col-lg-offset-9 col-md-1">
+            <div class="col-lg-offset-8 col-md-1">
+                <a href="{{ path('app_register') }}">
+                    <input class="btn btn-success" value="Create User account">
+                </a>
                 <a href="{{ path('createcontact') }}">
                     <input class="btn btn-primary" value="Create Contact">
                 </a>
