@@ -5,7 +5,7 @@
       <paths name="Prod_symfony">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/www" />
+            <mapping deploy="/staging" local="$PROJECT_DIR$" />
           </mappings>
         </serverdata>
       </paths>
