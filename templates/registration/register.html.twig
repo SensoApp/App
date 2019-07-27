@@ -74,6 +74,15 @@
         <!-- header-area end -->
     </header>
     <div class="row">
+        {% for message in app.session.flashBag.get('success') %}
+            <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                <i class="fa fa-window-close text-right" aria-hidden="true">
+                    {{ message }}
+                </i>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
         <h2 class="text-center"> Welcome to My Senso Registration ✅</h2>
     </div>
     <div class="row">
@@ -87,16 +96,15 @@
         </div>
     </div>
     <script>
+
         $(function () {
-
-            $.getJSON({{ path('app_register') }}, function (json) {
-                var items = [];
-                $.each(json, function (key, val) {
-                    items.push(key+' '+val);
-                });
-                console.log(items);
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove(),
+                    location.reload()
+                );
             });
-
-        })
+        });
     </script>
 {% endblock %}

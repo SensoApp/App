@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,19 +37,9 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $arr = ['Email' => $user->getEmail(), 'Username' => $user->getUsername()];
+            $this->addFlash('success', 'The user has been created successfully');
 
-
-            $json = json_encode($arr);
-
-            // do anything else you need here, like send an email
-
-            return new JsonResponse([
-                'json' => $json,
-                'html' => $this->render('registration/register.html.twig', [
-                    'registrationForm' => $form->createView()
-                ])
-            ]);
+            return $this->redirectToRoute('app_register');
         }
 
         return $this->render('registration/register.html.twig', [
