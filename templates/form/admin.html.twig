@@ -42,10 +42,6 @@
                                         <li>
                                             <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
                                         </li>
-                                    {% else %}
-                                        <li>
-                                            <a class="btn btn-primary"  href="{{ path('app_login') }}">Login</a>
-                                        </li>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -63,9 +59,11 @@
     <br>
     <br>
     <div class="container-fluid">
-    {% for msg in app.session.flashBag.get('success') %}
-        <div class="alert alert-success" id="alerFlash">
-            {{ msg }}
+    {% for message in app.session.flashBag.get('success') %}
+        <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+            <i class="fa fa-window-close text-right" aria-hidden="true">
+                {{ message }}
+            </i>
         </div>
     {% endfor %}
     <br>
@@ -146,11 +144,15 @@
             </table>
         </div>
     </div>
-    {% block javascripts %}
-        <script>
-
-            var element = document.getElementById('alertFlash');
-            console.log(element);
-        </script>
-    {% endblock %}
+    <script>
+        $(function () {
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove(),
+                    location.reload()
+                );
+            });
+        });
+    </script>
 {% endblock %}

@@ -28,24 +28,26 @@ class ContactManagementController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      * @Route("/newadmin/createcontact", name="createcontact" )
      */
     public function createContact(Request $request){
 
-        $form = $this->createForm(ContactType::class);
 
-        $form->handleRequest($request);
+        $form = $this->createForm(ContactType::class, $this->contact)
+                     ->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
             $task = $form->getData();
 
+            $name = $task->getFirstName();
+
             $this->em->persist($task);
             $this->em->flush();
 
-            return $this->redirectToRoute('homepage');
+            $this->addFlash('success', 'Contact '.$name.' created successfully');
+
+            return $this->redirectToRoute('adminsenso');
         }
 
         return $this->render('form/contact.html.twig', [
@@ -82,6 +84,7 @@ class ContactManagementController extends AbstractController
             $task = $form->getData();
 
             $task->setUpdatedAt(new \DateTime('now'));
+
             $this->em->flush($task);
 
             $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');

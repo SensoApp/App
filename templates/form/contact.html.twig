@@ -86,8 +86,7 @@
         </div>
         <br>
         <div class="card-body">
-            <form class="form" role="form" autocomplete="off">
-                {{ form_start(form) }}
+            {{ form_start(form, {'method': 'post'}) }}
                 <div class="form-group row">
                     <div class="col-lg-9">
                        {{ form_row(form.firstname) }}
@@ -178,7 +177,6 @@
                     </div>
                 </div>
                 {{ form_end(form) }}
-            </form>
         </div>
     </div>
 

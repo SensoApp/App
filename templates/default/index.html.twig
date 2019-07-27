@@ -42,14 +42,11 @@
                                     </li>
                                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                         <li>
-                                            <a class="btn btn-success"  href="{{ path('adminsenso') }}"><i>My</i>Senso</a>
-                                        </li>
-                                        <li>
                                         <a class="btn btn-primary" href="{{ path('app_logout') }}">Logout</a>
                                         </li>
                                     {% else %}
                                         <li>
-                                        <a class="btn btn-primary"  href="{{ path('app_login') }}">Login</a>
+                                            <a class="btn btn-success"  href="{{ path('adminsenso') }}"><i>My</i>Senso</a>
                                         </li>
                                     {% endif %}
                                 </ul>
