@@ -22,7 +22,7 @@ class Timesheet
     private $nbreDaysWorked;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $nbreDaysOff;
 
@@ -44,12 +44,17 @@ class Timesheet
     /**
      * @ORM\Column(type="integer")
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $status;
+
+    public function __construct()
+    {
+        $this->date = new \DateTime('now');
+    }
 
     public function getId(): ?int
     {
@@ -116,18 +121,6 @@ class Timesheet
         return $this;
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    public function setUserId(int $userId): self
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -136,6 +129,18 @@ class Timesheet
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?int
+    {
+        return $this->user;
+    }
+
+    public function setUser(int $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

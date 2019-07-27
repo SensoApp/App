@@ -86,4 +86,17 @@
     {{ form_end(registrationForm) }}
         </div>
     </div>
+    <script>
+        $(function () {
+
+            $.getJSON({{ path('app_register') }}, function (json) {
+                var items = [];
+                $.each(json, function (key, val) {
+                    items.push(key+' '+val);
+                });
+                console.log(items);
+            });
+
+        })
+    </script>
 {% endblock %}

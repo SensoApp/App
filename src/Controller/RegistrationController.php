@@ -4,13 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\LoginFormAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class RegistrationController extends AbstractController
 {
@@ -19,9 +18,7 @@ class RegistrationController extends AbstractController
      */
     public function register(
                                 Request $request,
-                                UserPasswordEncoderInterface $passwordEncoder,
-                                GuardAuthenticatorHandler $guardHandler,
-                                LoginFormAuthenticator $authenticator
+                                UserPasswordEncoderInterface $passwordEncoder
                             ): Response
     {
         $user = new User();
@@ -41,14 +38,19 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $arr = ['Email' => $user->getEmail(), 'Username' => $user->getUsername()];
+
+
+            $json = json_encode($arr);
+
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            return new JsonResponse([
+                'json' => $json,
+                'html' => $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView()
+                ])
+            ]);
         }
 
         return $this->render('registration/register.html.twig', [
