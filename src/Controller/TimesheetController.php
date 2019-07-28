@@ -9,15 +9,30 @@
 namespace App\Controller;
 
 
-use App\Form\TimesheetType;
+use App\Entity\Timesheet;
 use App\Service\DateGeneratorService;
-use function PHPSTORM_META\type;
+use App\Timesheet\TimesheetValidator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class TimesheetController extends AbstractController
 {
+    private $security;
+    private $timesheet;
+    private $entitymanager;
+
+    public function __construct(Security $security, EntityManagerInterface $entityManager)
+    {
+
+        $this->security = $security;
+        $this->timesheet = new Timesheet();
+        $this->entitymanager = $entityManager;
+    }
+
     /**
      * @Route(path="/timesheet", name="timesheet")
      */
@@ -38,21 +53,34 @@ class TimesheetController extends AbstractController
      * @param Request $request
      * @Route(path="/timesheet/save", name="saveTimesheet")
      */
-    public function saveTimesheet(Request $request)
+    public function saveTimesheet(Request $request, TimesheetValidator $timesheetValidator)
     {
-        dd($request);
+        $security = $this->security->getToken()->getUsername();
+       $validation =  $timesheetValidator->validateTimeSheet($request, $security);
+        $timesheet = $this->hydrateTimesheet($request, $security);
 
-        $parseRequest = $request->request->get('nbrOfDays');
+        if($validation){
 
+            try{
+                $this->entitymanager->persist($timesheet);
+                $this->entitymanager->flush();
 
-        $totalNbreOfDays = (int) $parseRequest;
+            }catch (\Exception $e){
 
+                echo  $e->getMessage();
+            }
 
-        //get the lenght of the set of 1 received from the request
+            return new JsonResponse([
+                                        'success' => '  Your Timesheet has been saved in the database, 
+                                                   you  will receive a pdf copy shortly...'
+                                    ]);
+        }
 
-
-        dd($totalNbreOfDays);
-
+        return new JsonResponse([
+                                    'error' => '  A Timesheet for the same period and 
+                                            for the same user has been generated already, 
+                                            if you wish to modify it please got to your dashboard and edit it'
+                                ]);
         //Retrieve data posted and check the sum of days
             // within the days collected count the number of Saturdays or Sundays
 
@@ -79,4 +107,30 @@ class TimesheetController extends AbstractController
 
     }
 
+    protected function hydrateTimesheet($request, $security) : Timesheet
+    {
+        foreach ($request->request as $dayType => $days){
+
+            $days = (int) $days;
+
+            switch ($dayType){
+                case $dayType === 'nbrOfDays':
+                    $this->timesheet->setNbreDaysWorked($days);
+                    break;
+                case $dayType === 'nbreOfSundays' && $days > 0:
+                    //dd( $days);
+                    $this->timesheet->setNbreOfSundays($days);
+                    break;
+                case $dayType === 'nbrOfBankHolidays' && $days > 0:
+                    $this->timesheet->setNbrOfBankHolidays($days);
+                    break;
+            }
+        }
+        $month =$request->request->get('currentMonth');
+        $this->timesheet->setMonth($month);
+        $this->timesheet->setUser($security);
+        $this->timesheet->setStatus('Created');
+
+        return $this->timesheet;
+    }
 }

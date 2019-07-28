@@ -17,6 +17,11 @@ class Timesheet
     private $id;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $month;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $nbreDaysWorked;
@@ -24,15 +29,15 @@ class Timesheet
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $nbreDaysOff;
+    private $nbrOfBankHolidays;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $nbreOfSaturdays;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $nbreOfSundays;
 
@@ -42,7 +47,7 @@ class Timesheet
     private $date;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $user;
 
@@ -73,17 +78,6 @@ class Timesheet
         return $this;
     }
 
-    public function getNbreDaysOff(): ?int
-    {
-        return $this->nbreDaysOff;
-    }
-
-    public function setNbreDaysOff(int $nbreDaysOff): self
-    {
-        $this->nbreDaysOff = $nbreDaysOff;
-
-        return $this;
-    }
 
     public function getNbreOfSaturdays(): ?int
     {
@@ -133,14 +127,38 @@ class Timesheet
         return $this;
     }
 
-    public function getUser(): ?int
+    public function getUser(): ?string
     {
         return $this->user;
     }
 
-    public function setUser(int $user): self
+    public function setUser(string $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbrOfBankHolidays(): ?int
+    {
+        return $this->nbrOfBankHolidays;
+    }
+
+    public function setNbrOfBankHolidays(?int $nbrOfBankHolidays): self
+    {
+        $this->nbrOfBankHolidays = $nbrOfBankHolidays;
+
+        return $this;
+    }
+
+    public function getMonth(): ?string
+    {
+        return $this->month;
+    }
+
+    public function setMonth(string $month): self
+    {
+        $this->month = $month;
 
         return $this;
     }
