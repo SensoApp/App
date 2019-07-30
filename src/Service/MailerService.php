@@ -10,7 +10,9 @@ namespace App\Service;
 
 use App\Entity\Mail;
 use Doctrine\ORM\EntityManagerInterface;
+use Swift_Attachment;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MailerService
 {
@@ -23,12 +25,17 @@ class MailerService
 
     private $templating;
 
-    const LOGO = '/../../../public/img/Logo_Senso_email.png';
+    private $path;
 
 
-    public function __construct(EntityManagerInterface $entityManager,
+
+
+    public function __construct(
+                                EntityManagerInterface $entityManager,
                                 \Swift_Mailer $mailer,
-                                ContainerInterface $container)
+                                ContainerInterface $container,
+                                ParameterBagInterface $params
+                                )
     {
         $this->emailtocheckrep = $entityManager->getRepository(Mail::class);
 
@@ -36,29 +43,39 @@ class MailerService
 
         $this->templating = $container->get('twig');
 
+       $this->path = $params->get('kernel.project_dir').'/public/img/Logo_Senso_email.png';
+
     }
 
 
-    public function mailSender($mail, $messagebody, $messagesubject)
+    public function mailSender($mail, $messagebody, $messagesubject, $attach = null)
     {
 
         $message = (new \Swift_Message('Info'))
             ->setFrom(['info@senso.lu' => 'Info Senso'])
             ->setTo($mail)
+            ->setBcc('smouheb@senso.lu')
             ->setSubject($messagesubject)
             ->setBody($messagebody, 'text/html')
             ->setCharset('UTF-8');
+        if($attach !== null){
+
+            $message->attach(Swift_Attachment::fromPath($attach));
+
+            $this->mailer->send($message);
+        }
 
         $this->mailer->send($message);
 
     }
 
 
-    public function sendMail($messagebody,$messagesubject){
+    public function sendMail($messagebody,$messagesubject, $attach = null){
 
-        $this->mailrecipient = 'info@senso.lu';
+        $this->mailrecipient = 'jmazegh@senso.lu';
 
-        $this->mailSender($this->mailrecipient, $messagebody, $messagesubject);
+        $this->mailSender($this->mailrecipient, $messagebody, $messagesubject, $attach);
+
 
     }
 
@@ -69,7 +86,7 @@ class MailerService
             ->setTo($mail)
             ->setSubject('Confirmation');
 
-        $image = $message->embed(\Swift_EmbeddedFile::fromPath(__DIR__.self::LOGO));
+        $image = $message->embed(\Swift_EmbeddedFile::fromPath($this->path));
 
         $messagebody = $this->templating->render('mail_template/confirmation.html.twig', [
 

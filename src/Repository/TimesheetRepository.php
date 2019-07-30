@@ -19,6 +19,27 @@ class TimesheetRepository extends ServiceEntityRepository
         parent::__construct($registry, Timesheet::class);
     }
 
+
+    public function getTimesheetData($user, $month)
+    {
+
+       $query =  $this->getEntityManager()
+             ->createQuery(
+               'SELECT t
+                    FROM App\Entity\Timesheet t
+                    WHERE t.user= :user 
+                    AND t.month = :month
+                    AND t.status = :status'
+
+             )->setParameters([
+                                'month'=>$month,
+                                'user'=>$user,
+                                'status' => 'Created'
+                              ]);
+
+        return $query->execute();
+    }
+
     // /**
     //  * @return Timesheet[] Returns an array of Timesheet objects
     //  */

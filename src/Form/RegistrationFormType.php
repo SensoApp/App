@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use function PHPSTORM_META\type;
+use function Sodium\add;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -20,14 +21,17 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
+            ->add('firstname')
+            ->add('lastname')
             ->add('roles', ChoiceType::class, [
 
                 'choices' => [
 
                     'ROLES' => [
 
-                        'Admin' => 'ROLE_ADMIN'
-                    ]
+                        'Admin' => 'ROLE_ADMIN',
+                        'User'  => 'ROLE_USER'
+                     ]
                 ],
                 'multiple' => true,
                 'label' => false

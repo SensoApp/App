@@ -10,8 +10,6 @@ framework:
         cookie_secure: auto
         cookie_samesite: lax
 
-    assets:
-        base_path: 'public/*'
 
     #esi: true
     fragments: true

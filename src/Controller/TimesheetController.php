@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Timesheet;
 use App\Service\DateGeneratorService;
+use App\Service\GeneratePdfReport;
 use App\Timesheet\TimesheetValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,7 +54,7 @@ class TimesheetController extends AbstractController
      * @param Request $request
      * @Route(path="/timesheet/save", name="saveTimesheet")
      */
-    public function saveTimesheet(Request $request, TimesheetValidator $timesheetValidator)
+    public function saveTimesheet(Request $request, TimesheetValidator $timesheetValidator, GeneratePdfReport $generatePdfReport)
     {
         $security = $this->security->getToken()->getUsername();
        $validation =  $timesheetValidator->validateTimeSheet($request, $security);
@@ -70,6 +71,10 @@ class TimesheetController extends AbstractController
                 echo  $e->getMessage();
             }
 
+            /////// HOOOK THIS PROCESS TO AN EVENT OR SEND THIS TO A QUEUE//////
+            $generatePdfReport->reportConstructTimeSheet($timesheet->getMonth());
+
+
             return new JsonResponse([
                                         'success' => '  Your Timesheet has been saved in the database, 
                                                    you  will receive a pdf copy shortly...'
@@ -81,15 +86,26 @@ class TimesheetController extends AbstractController
                                             for the same user has been generated already, 
                                             if you wish to modify it please got to your dashboard and edit it'
                                 ]);
-        //Retrieve data posted and check the sum of days
-            // within the days collected count the number of Saturdays or Sundays
+            //Retrieve data posted and check the sum of days ->done
+            // within the days collected count the number of Saturdays or Sundays ->done
 
-        //Generate PDF timesheet
-        //Save to DB with inital status
+        //Generate PDF timesheet -> done
+        //Save to DB with inital status -> done
 
         //Send email to the related user with the pdf generated and the link to the app page with the generated timesheet
         // on the UI create an entry with its status and a button to validate
     }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route(path="/timesheet/template", name="template")
+     */
+    public function viewTemplate()
+    {
+
+
+    }
+
 
     public function editTimesheet()
     {
@@ -101,11 +117,6 @@ class TimesheetController extends AbstractController
 
     }
 
-
-    public function validateTimesheet()
-    {
-
-    }
 
     protected function hydrateTimesheet($request, $security) : Timesheet
     {
