@@ -280,7 +280,6 @@ div#preloader {
 }
 
 .main-menu ul.navbar-nav li a {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   color: rgba(0, 0, 0, 1);
   font-size: 15px;
   font-weight: 500;
@@ -339,7 +338,7 @@ div#preloader {
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
-  background-color: black;
+  background-color: white;
   color: #fff;
 }
 
@@ -348,7 +347,7 @@ div#preloader {
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: black;
+  background-color: white;
   width: 30px;
   height: 2px;
 }
@@ -384,6 +383,7 @@ div#preloader {
 
 .header-area.stick {
   background-color: lightblue;
+  border: black;
   height: 70px;
   position: fixed;
   top: 0;
@@ -431,13 +431,11 @@ div#preloader {
 
 .stick .main-menu ul.navbar-nav li.active a {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-  color: black;
   position: relative;
 }
 
 .stick .mainmenu ul#nav>li:hover>a, .stick .mainmenu ul#nav li .mega-menu, .stick .mainmenu ul#nav li ul.sub-menu {
   background-color: #f5f5f5;
-  color: black;
   outline: medium none;
 }
 
@@ -557,7 +555,6 @@ div#preloader {
 }
 
 .test-overly {
-  background: rgba(0, 0, 0, 0.80);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -2348,6 +2345,10 @@ span.email-notes {
   padding-top: 30px;
 }
 
+.men {
+
+  color: #1b1e21!important;
+}
 
 /*----------------------------------------
  .End CSS

@@ -11,11 +11,14 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use LogicException;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Security;
 use App\Entity\Timesheet;
+
+
 class GeneratePdfReport
 {
 
@@ -27,6 +30,8 @@ class GeneratePdfReport
     private $params;
     private $mailerservice;
 
+    const TIMESHEET_SENT = 'Sent';
+    const TIMESHEET_VALIDATED = 'Validated';
 
     public function __construct(
                                 Security $security,
@@ -50,7 +55,7 @@ class GeneratePdfReport
 
     }
 
-    public function generatePdfReport($template, $filename)
+    public function generatePdfReport($template, $filename, $id)
     {
         $option1 = $this->options->setIsRemoteEnabled(true);
         $option2 = $this->options->set('defaultFont', 'titillium');
@@ -67,12 +72,20 @@ class GeneratePdfReport
 
         file_put_contents($filepath, $output);
 
-        /////////TO DO///////
-        /// HOOK THIS TO A SERVICE///////
-        //change email address recipient///
-        $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
+        try{
 
-        ////// THEN UPDATE STATUS OF RELATED TIMESHEET IN THE DATABASE///////
+            /////////TO DO///////
+            /// HOOK THIS TO A SERVICE///////
+            //change email address recipient///
+            $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
+
+            $this->entity->getRepository(Timesheet::class)
+                         ->updateStatus(self::TIMESHEET_SENT, $id);
+
+        } catch (\Exception $e){
+
+            return $e->getMessage();
+        }
 
 
     }
@@ -83,14 +96,26 @@ class GeneratePdfReport
         $lastname = $this->security->getToken()->getUser()->getLastName();
         $user = $this->security->getToken()->getUsername();
 
-        $query = $this->entity->getRepository(Timesheet::class)->getTimesheetData($user, $month);
+        $query = $this->entity->getRepository(Timesheet::class)
+                              ->getTimesheetData($user, $month);
 
-        foreach ($query as $key){
+        if(!empty($query)){
+
+
+            foreach ($query as $key){
+
 
             $nbreofdays = $key->getNbreDaysWorked() > 0  ? $key->getNbreDaysWorked() : 0;
             $nbreofbk = $key->getNbrOfBankHolidays() > 0  ? $key->getNbrOfBankHolidays() : 0;
             $nbreofsat = $key->getNbreOfSaturdays() > 0  ? $key->getNbreOfSaturdays() : 0;
             $nbreofsun = $key->getNbreOfSundays() > 0  ? $key->getNbreOfSundays() : 0;
+            $id = $key->getId();
+
+            };
+
+        }  else {
+
+                throw new LogicException('The timesheet you are trying to submit contains no data');
         }
 
         $filename = date('dmy').'_'.uniqid().'_'.$firstname.$lastname.'.pdf';
@@ -106,6 +131,6 @@ class GeneratePdfReport
 
         ]);
 
-        $this->generatePdfReport($template, $filename);
+        $this->generatePdfReport($template, $filename, $id);
     }
 }

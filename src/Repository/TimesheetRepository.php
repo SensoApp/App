@@ -14,6 +14,12 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class TimesheetRepository extends ServiceEntityRepository
 {
+
+    const TIMESHEET_CREATED = 'Created';
+    const TIMESHEET_SENT = 'Sent';
+    const TIMESHEET_VALIDATED = 'Validated';
+
+
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Timesheet::class);
@@ -34,10 +40,28 @@ class TimesheetRepository extends ServiceEntityRepository
              )->setParameters([
                                 'month'=>$month,
                                 'user'=>$user,
-                                'status' => 'Created'
+                                'status' => self::TIMESHEET_CREATED
                               ]);
 
         return $query->execute();
+    }
+
+    public function updateStatus($status, $id)
+    {
+        $query = $this->getEntityManager()
+                      ->createQuery(
+                        'update 
+                              App\Entity\Timesheet t 
+                              set t.status = :status
+                              where t.id = :id'
+                      );
+
+        $query->setParameters([
+                                'status' =>$status,
+                                'id' => $id
+
+                                ]);
+        $query->execute();
     }
 
     // /**

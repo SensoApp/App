@@ -52,7 +52,7 @@ class MailerService
     {
 
         $message = (new \Swift_Message('Info'))
-            ->setFrom(['info@senso.lu' => 'Info Senso'])
+            ->setFrom(['info@senso.lu' => 'Info Senso no-reply'])
             ->setTo($mail)
             ->setBcc('smouheb@senso.lu')
             ->setSubject($messagesubject)
@@ -72,7 +72,7 @@ class MailerService
 
     public function sendMail($messagebody,$messagesubject, $attach = null){
 
-        $this->mailrecipient = 'jmazegh@senso.lu';
+        $this->mailrecipient = 'smouheb@senso.lu';
 
         $this->mailSender($this->mailrecipient, $messagebody, $messagesubject, $attach);
 

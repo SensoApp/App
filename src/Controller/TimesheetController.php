@@ -66,12 +66,13 @@ class TimesheetController extends AbstractController
                 $this->entitymanager->persist($timesheet);
                 $this->entitymanager->flush();
 
-            }catch (\Exception $e){
+            } catch (\Exception $e){
 
                 echo  $e->getMessage();
             }
 
             /////// HOOOK THIS PROCESS TO AN EVENT OR SEND THIS TO A QUEUE//////
+            ///
             $generatePdfReport->reportConstructTimeSheet($timesheet->getMonth());
 
 
@@ -94,16 +95,6 @@ class TimesheetController extends AbstractController
 
         //Send email to the related user with the pdf generated and the link to the app page with the generated timesheet
         // on the UI create an entry with its status and a button to validate
-    }
-
-    /**
-     * @return \Symfony\Component\HttpFoundation\Response
-     * @Route(path="/timesheet/template", name="template")
-     */
-    public function viewTemplate()
-    {
-
-
     }
 
 
