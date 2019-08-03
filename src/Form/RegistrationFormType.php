@@ -2,9 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Contact;
 use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\Entity;
 use function PHPSTORM_META\type;
 use function Sodium\add;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -23,6 +27,15 @@ class RegistrationFormType extends AbstractType
             ->add('email')
             ->add('firstname')
             ->add('lastname')
+            ->add('contact', EntityType::class,[
+                    'class' => Contact::class,
+                    'placeholder' => 'Select a contact',
+                    'choice_label' => function(Contact $contact){
+                            return $contact->getFirstname().' '.$contact->getLastname();
+                    },
+                    'required' => false
+
+                ])
             ->add('roles', ChoiceType::class, [
 
                 'choices' => [

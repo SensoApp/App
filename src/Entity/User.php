@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\Table(name="user")
  */
 class User implements UserInterface
 {
@@ -44,6 +45,14 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     *
+     * @ORM\Column(nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="user")
+     * @ORM\JoinColumn(referencedColumnName="contact_id", referencedColumnName="id")
+     */
+    private $contact;
 
 
     public function getId(): ?int
@@ -129,6 +138,7 @@ class User implements UserInterface
         return $this->getUsername();
     }
 
+
     public function getFirstname(): ?string
     {
         return $this->firstname;
@@ -152,4 +162,22 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getContact()
+    {
+        return $this->contact;
+    }
+
+    /**
+     * @param mixed $contact
+     */
+    public function setContact($contact): void
+    {
+        $this->contact = $contact;
+    }
+
+
 }

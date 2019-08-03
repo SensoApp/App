@@ -76,7 +76,7 @@ class GeneratePdfReport
 
             /////////TO DO///////
             /// HOOK THIS TO A SERVICE///////
-            //change email address recipient///
+            //change email address recipient with the actual mail of the user///
             $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
 
             $this->entity->getRepository(Timesheet::class)

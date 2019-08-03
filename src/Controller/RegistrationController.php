@@ -15,10 +15,7 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/newadmin/register", name="app_register")
      */
-    public function register(
-                                Request $request,
-                                UserPasswordEncoderInterface $passwordEncoder
-                            ): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -32,7 +29,11 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            if($form->get('contact')->getData() !==null){
 
+                $id = (int) $form->get('contact')->getData()->getId();
+                $user->setContact($id);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

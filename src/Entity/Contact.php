@@ -110,6 +110,12 @@ class Contact
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="contact")
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $user;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -119,6 +125,8 @@ class Contact
         $this->contract = new ArrayCollection();
         $this->bankdetails = new ArrayCollection();
         $this->citizenshipdetails = new ArrayCollection();
+        $this->clientcontract = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     /**
@@ -561,5 +569,40 @@ class Contact
     {
 
         return (string) $this->getMail();
+    }
+
+    public function getUser(): ?int
+    {
+        return $this->user;
+    }
+
+    public function setUser(?int $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function addAddress(Address $address): self
+    {
+        if (!$this->address->contains($address)) {
+            $this->address[] = $address;
+            $address->setContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $address): self
+    {
+        if ($this->address->contains($address)) {
+            $this->address->removeElement($address);
+            // set the owning side to null (unless already changed)
+            if ($address->getContact() === $this) {
+                $address->setContact(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -42,6 +42,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
+
     public function supports(Request $request)
     {
         return $request->attributes->get('_route') === 'app_login'
@@ -88,7 +89,19 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new RedirectResponse($this->router->generate('adminsenso'));
+        foreach ($token->getUser()->getRoles() as $role){
+
+            if($role === 'ROLE_ADMIN'){
+
+                return new RedirectResponse($this->router->generate('adminsenso'));
+
+            } else {
+
+                return new RedirectResponse($this->router->generate('timesheet'));
+
+            }
+        }
+
     }
 
     //method call on failure so that it can be redirected to the login pages

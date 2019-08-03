@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Timesheet;
 use App\Service\DateGeneratorService;
 use App\Service\GeneratePdfReport;
+use App\Timesheet\TimeSheetHydrator;
 use App\Timesheet\TimesheetValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,11 +55,16 @@ class TimesheetController extends AbstractController
      * @param Request $request
      * @Route(path="/timesheet/save", name="saveTimesheet")
      */
-    public function saveTimesheet(Request $request, TimesheetValidator $timesheetValidator, GeneratePdfReport $generatePdfReport)
+    public function saveTimesheet(
+                                  Request $request,
+                                  TimesheetValidator $timesheetValidator,
+                                  GeneratePdfReport $generatePdfReport,
+                                  TimeSheetHydrator $timeSheetHydrator
+                                )
     {
         $security = $this->security->getToken()->getUsername();
-       $validation =  $timesheetValidator->validateTimeSheet($request, $security);
-        $timesheet = $this->hydrateTimesheet($request, $security);
+        $validation =  $timesheetValidator->validateTimeSheet($request, $security);
+        $timesheet = $timeSheetHydrator->hydrateTimesheet($request, $security);
 
         if($validation){
 
@@ -108,31 +114,4 @@ class TimesheetController extends AbstractController
 
     }
 
-
-    protected function hydrateTimesheet($request, $security) : Timesheet
-    {
-        foreach ($request->request as $dayType => $days){
-
-            $days = (int) $days;
-
-            switch ($dayType){
-                case $dayType === 'nbrOfDays':
-                    $this->timesheet->setNbreDaysWorked($days);
-                    break;
-                case $dayType === 'nbreOfSundays' && $days > 0:
-                    //dd( $days);
-                    $this->timesheet->setNbreOfSundays($days);
-                    break;
-                case $dayType === 'nbrOfBankHolidays' && $days > 0:
-                    $this->timesheet->setNbrOfBankHolidays($days);
-                    break;
-            }
-        }
-        $month =$request->request->get('currentMonth');
-        $this->timesheet->setMonth($month);
-        $this->timesheet->setUser($security);
-        $this->timesheet->setStatus('Created');
-
-        return $this->timesheet;
-    }
 }
