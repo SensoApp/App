@@ -80,7 +80,7 @@ class GeneratePdfReport
             $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
 
             $this->entity->getRepository(Timesheet::class)
-                         ->updateStatus(self::TIMESHEET_SENT, $id);
+                         ->updateStatus(self::TIMESHEET_SENT, $id, $filepath);
 
         } catch (\Exception $e){
 

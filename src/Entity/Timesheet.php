@@ -56,6 +56,11 @@ class Timesheet
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $path;
+
     public function __construct()
     {
         $this->date = new \DateTime('now');
@@ -159,6 +164,18 @@ class Timesheet
     public function setMonth(string $month): self
     {
         $this->month = $month;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
 
         return $this;
     }

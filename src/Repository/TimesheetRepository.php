@@ -46,22 +46,48 @@ class TimesheetRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
-    public function updateStatus($status, $id)
+    public function updateStatus($status, $id, $filepath)
     {
         $query = $this->getEntityManager()
                       ->createQuery(
                         'update 
-                              App\Entity\Timesheet t 
-                              set t.status = :status
-                              where t.id = :id'
+                                  App\Entity\Timesheet t 
+                              set t.status = :status, 
+                                  t.path= :path
+                              where 
+                                  t.id = :id'
                       );
 
         $query->setParameters([
                                 'status' =>$status,
-                                'id' => $id
+                                'id' => $id,
+                                'path' => $filepath
 
                                 ]);
         $query->execute();
+    }
+
+    public function selectPerMonth($user, $month)
+    {
+        $query =  $this->getEntityManager()
+
+            ->createQuery(
+                'SELECT t
+                    FROM App\Entity\Timesheet t
+                    WHERE t.user= :user 
+                    AND t.month = :month'
+
+            )->setParameters([
+
+                'month'=>$month,
+                'user'=>$user
+            ]);
+
+         foreach ($query->getResult() as $req){
+
+             return $req->getId();
+         }
+
     }
 
     // /**

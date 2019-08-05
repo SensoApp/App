@@ -1,15 +1,169 @@
 {% extends 'base.html.twig' %}
     {% block body %}
         {% include 'header.html.twig' %}
-            <div class="container-fluid">
+        <div class="container-fluid">
+            <div class="row">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
                 <div class="row">
-                    <h3>Dashboard</h3>
-                    <!-- I need a section own details (addresse, IBAN, secu details, phone number, current contract, current rate, contract expiration date-->
-
-                    <!-- I need a section timesheet (list timesheet with status and option to view, edit, and delete "only for admin")-->
-                    <!-- I need a section invoice (tbd e.g. list invoices + status, view, "edit and delete only for admin" send email to achat_accountant stuff etc...)-->
-                    <!-- I need a section statements (tbd)-->
+                    {% for message in app.session.flashBag.get('success') %}
+                        <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                            <i class="fa fa-window-close text-right" aria-hidden="true">
+                                {{ message }}
+                            </i>
+                        </div>
+                    {% endfor %}
                 </div>
+                <h2 class="h2 text-center">Welcome {{ firsname }} {{ lastname }}</h2>
+                <!-- I need a section own details (addresse, IBAN, secu details, phone number, current contract, current rate, contract expiration date-->
+                <br/>
+                <br/>
+                <br/>
             </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Personal details</h3>
+                    <br/>
+                    <ul>
+                        <li>
+                            <address>Address</address>
+                        </li>
+                        <li>Iban</li>
+                        <li>Security number</li>
+                        <li>00352661661196</li>
+                    </ul>
+                </section>
+            </div>
+            <!-- I need a section timesheet (list timesheet with status and option to view, edit, and delete "only for admin")-->
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Timesheet</h3>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th>Month</th>
+                            <th>Date of Submission</th>
+                            <th>Number of days worked</th>
+                            <th>Bank holidays</th>
+                            <th>Number of Saturdays</th>
+                            <th>Number of Sundays</th>
+                            <th>Status</th>
+                            <th>View timesheet</th>
+                            <th>Download timesheet</th>
+                            <th>Edit timesheet</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th>Delete timesheet</th>
+                            {% endif %}
+                            </thead>
+                            <tbody>
+                            {% if timesheet != null %}
+                                {%  for list in timesheet %}
+                                    <tr>
+                                        <td>{{ list.month }}</td>
+                                        <td>{{ list.date|date('m/d/Y') }}</td>
+                                        <td>{{ list.nbreDaysWorked }}</td>
+                                        <td>{{ list.nbrOfBankHolidays }}</td>
+                                        <td>{{ list.nbreOfSaturdays }}</td>
+                                        <td>{{ list.nbreOfSundays }}</td>
+                                        <td>{{ list.status }}</td>
+                                        {% if list.path != null %}
+                                            <td>
+                                                <p data-placement="top" data-toggle="tooltip" title="View">
+                                                    <a href="{{ path('viewtimesheetpdf', {id:  list.id}) }}">
+                                                        <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
+                                                        </button>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p data-placement="top" data-toggle="tooltip" title="download">
+                                                    <a href="{{ path('downloadtimesheet', {id:  list.id}) }}">
+                                                        <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
+                                                        </button>
+                                                    </a>
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                    {% if list.status != 'Validated' %}
+                                                    <a href="{{ path('timesheet')}}">
+                                                        <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
+                                                        </button>
+                                                    </a>
+                                                    {% endif %}
+                                                </p>
+                                            </td>
+                                            {% if is_granted('ROLE_ADMIN') and list.status != 'Validated'%}
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                        <a href="{{ path('deletetimesheet', {id:  list.id}) }}">
+                                                            <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                            </button>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                            {% endif %}
+                                        {% else %}
+                                            <td>
+                                                <i>No valid entries recorded</i>
+                                            </td>
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                            <td>
+                                <i>No timesheet recorded</i>
+                            </td>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                    <form method="post" action="{{ path('upload_timesheet') }}" enctype="multipart/form-data" class="col-md-4">
+                        <label class="custom-file-label" for="customfile">Timesheet Upload</label>
+                        <br/>
+                        <br/>
+                        <label for="selectmonth">Select a month</label>
+                        <select name="month" class="form-control col-md-4" id="selectmonth">
+                            <option selected></option>
+                            {% for list in timesheet %}
+                                {%if list.status == 'Sent' %}
+                                    <option>
+                                        {{ list.month }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="custom-file">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            <input type="file" class="custom-file-input" id="customFile" name="file">
+                        </div>
+                        <br/>
+                        <br/>
+                        <input type="submit" class="btn btn-success" value="Validate">
+                    </form>
+                </section>
+                <!-- I need a section invoice (tbd e.g. list invoices + status, view, "edit and delete only for admin" send email to achat_accountant stuff etc...)-->
+                <!-- I need a section statements (tbd)-->
+            </div>
+        </div>
         {% include 'footer.html.twig' %}
+        <script>
+            $(function () {
+                $('i').on('click', function () {
+                    setTimeout(
+                        20000,
+                        $('.alert').remove(),
+                        location.reload()
+                    );
+                });
+            });
+        </script>
     {% endblock %}

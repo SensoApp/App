@@ -97,7 +97,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
             } else {
 
-                return new RedirectResponse($this->router->generate('timesheet'));
+                return new RedirectResponse($this->router->generate('user_dashboard'));
 
             }
         }

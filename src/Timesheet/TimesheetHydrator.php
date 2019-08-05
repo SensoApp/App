@@ -11,7 +11,7 @@ namespace App\Timesheet;
 
 use App\Entity\Timesheet;
 
-class TimeSheetHydrator
+class TimesheetHydrator
 {
     private $timesheet;
 
