@@ -16,6 +16,15 @@
                         </div>
                     {% endfor %}
                 </div>
+                <div class="row">
+                    {% for message in app.session.flashBag.get('error') %}
+                        <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
+                            <i class="fa fa-window-close text-right" aria-hidden="true">
+                                {{ message }}
+                            </i>
+                        </div>
+                    {% endfor %}
+                </div>
                 <h2 class="h2 text-center">Welcome {{ firsname }} {{ lastname }}</h2>
                 <!-- I need a section own details (addresse, IBAN, secu details, phone number, current contract, current rate, contract expiration date-->
                 <br/>

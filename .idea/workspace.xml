@@ -2,19 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet/030819_5d45da6633e98_Devtest1Devtest1.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TimesheetController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TimesheetController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Timesheet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TimesheetRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TimesheetRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Timesheet/TimeSheetHydrator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -58,48 +47,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Controller/TimesheetController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="174" column="75" selection-start-line="174" selection-start-column="75" selection-end-line="174" selection-end-column="75" />
+            <state relative-caret-position="389">
+              <caret line="162" lean-forward="true" selection-start-line="162" selection-end-line="162" />
               <folding>
                 <element signature="e#6#43#0#PHP" expanded="true" />
                 <element signature="e#73#98#0#PHP" expanded="true" />
-                <element signature="e#5369#5385#1#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/60a7d9ce-c9a0-4f81-b6fd-e1150c855641/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="72" column="24" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/registration/register.html.twig">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="25" column="10" selection-start-line="17" selection-start-column="4" selection-end-line="25" selection-end-column="10" />
-              <folding>
-                <element signature="e#368#384#0#Twig" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Repository/TimesheetRepository.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="515">
-              <caret line="89" selection-start-line="89" selection-end-line="89" />
-              <folding>
-                <element signature="e#34#59#0#PHP" expanded="true" />
+                <element signature="e#4728#4744#1#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,24 +64,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/user/dashboard.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
-              <caret line="154" column="18" selection-start-line="154" selection-start-column="18" selection-end-line="154" selection-end-column="18" />
+            <state relative-caret-position="333">
+              <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
               <folding>
                 <element signature="e#12#26#0#Twig" expanded="true" />
-                <element signature="e#7619#7635#0#Twig" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Service/UploadHelper.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="63">
+              <caret line="46" selection-start-line="46" selection-end-line="46" />
+              <folding>
+                <element signature="e#118#143#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
+        <entry file="file://$PROJECT_DIR$/src/Service/GeneratePdfReport.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="37" column="58" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="58" />
+            <state relative-caret-position="368">
+              <caret line="89" selection-start-line="89" selection-end-line="89" />
               <folding>
-                <element signature="e#122#147#0#PHP" expanded="true" />
+                <element signature="e#118#158#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/60a7d9ce-c9a0-4f81-b6fd-e1150c855641/console.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -185,7 +161,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Entity/Mail.php" />
         <option value="$PROJECT_DIR$/src/Repository/ContactRepository.php" />
         <option value="$PROJECT_DIR$/templates/form/test" />
         <option value="$PROJECT_DIR$/templates/form/admin.main.html.twig" />
@@ -230,11 +205,12 @@
         <option value="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/.datagrid/cell" />
         <option value="$PROJECT_DIR$/src/Entity/Timesheet.php" />
-        <option value="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" />
         <option value="$PROJECT_DIR$/src/Controller/UserController.php" />
-        <option value="$PROJECT_DIR$/templates/user/dashboard.html.twig" />
         <option value="$PROJECT_DIR$/src/Repository/TimesheetRepository.php" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/60a7d9ce-c9a0-4f81-b6fd-e1150c855641/console.sql" />
+        <option value="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" />
+        <option value="$PROJECT_DIR$/templates/user/dashboard.html.twig" />
+        <option value="$PROJECT_DIR$/src/Service/UploadHelper.php" />
         <option value="$PROJECT_DIR$/src/Controller/TimesheetController.php" />
       </list>
     </option>
@@ -342,7 +318,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/templating" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="x" value="41" />
     <option name="y" value="23" />
     <option name="width" value="1399" />
@@ -376,6 +352,12 @@
               <item name="senso" type="b2602c69:ProjectViewProjectNode" />
               <item name="senso" type="462c0819:PsiDirectoryNode" />
               <item name="report" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="senso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="senso" type="462c0819:PsiDirectoryNode" />
+              <item name="report" type="462c0819:PsiDirectoryNode" />
+              <item name="timesheet" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="senso" type="b2602c69:ProjectViewProjectNode" />
@@ -416,6 +398,12 @@
               <item name="senso" type="462c0819:PsiDirectoryNode" />
               <item name="templates" type="462c0819:PsiDirectoryNode" />
               <item name="registration" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="senso" type="b2602c69:ProjectViewProjectNode" />
+              <item name="senso" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -506,12 +494,12 @@
       <workItem from="1564418189717" duration="24743000" />
       <workItem from="1564522979206" duration="110000" />
       <workItem from="1564736544450" duration="42382000" />
-      <workItem from="1565032971177" duration="8935000" />
+      <workItem from="1565032971177" duration="13913000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="462871000" />
+    <option name="totallyTimeSpent" value="467849000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -523,10 +511,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="23" width="1399" height="877" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24907885" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24177396" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -536,7 +524,7 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49928468" weight="0.32866243" />
-      <window_info anchor="bottom" id="Database Console" order="7" visible="true" weight="0.26751593" />
+      <window_info anchor="bottom" id="Database Console" order="7" visible="true" weight="0.25301206" />
       <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32866243" />
       <window_info anchor="bottom" id="File Transfer" order="10" weight="0.32891566" />
@@ -618,19 +606,6 @@
     </option>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/timesheet/timesheetTemplatePDF.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-446">
-          <caret line="107" column="34" selection-start-line="107" selection-start-column="34" selection-end-line="107" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/DateGeneratorService.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/footer.html.twig">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/security/login.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -958,22 +933,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Service/GeneratePdfReport.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-78">
-          <caret line="33" column="3" lean-forward="true" selection-start-line="33" selection-start-column="3" selection-end-line="33" selection-end-column="44" />
-          <folding>
-            <element signature="e#118#158#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="37" column="58" selection-start-line="37" selection-start-column="44" selection-end-line="37" selection-end-column="58" />
           <folding>
             <element signature="e#122#147#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/Core/Core_c.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2022">
+          <caret line="258" column="6" selection-start-line="258" selection-start-column="6" selection-end-line="258" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Repository/TimesheetRepository.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
+          <folding>
+            <element signature="e#34#59#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -988,42 +970,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/user/dashboard.html.twig">
+    <entry file="file://$PROJECT_DIR$/src/Service/MailerService.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="154" column="18" selection-start-line="154" selection-start-column="18" selection-end-line="154" selection-end-column="18" />
+        <state relative-caret-position="303">
+          <caret line="79" column="5" selection-start-line="79" selection-start-column="5" selection-end-line="79" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/GeneratePdfReport.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="368">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
           <folding>
-            <element signature="e#12#26#0#Twig" expanded="true" />
-            <element signature="e#7619#7635#0#Twig" expanded="true" />
+            <element signature="e#118#158#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Repository/TimesheetRepository.php">
+    <entry file="file://$PROJECT_DIR$/templates/user/dashboard.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="515">
-          <caret line="89" selection-start-line="89" selection-end-line="89" />
+        <state relative-caret-position="333">
+          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
           <folding>
-            <element signature="e#34#59#0#PHP" expanded="true" />
+            <element signature="e#12#26#0#Twig" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/60a7d9ce-c9a0-4f81-b6fd-e1150c855641/console.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="72" column="24" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
+        <state relative-caret-position="390">
+          <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/TimesheetController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="174" column="75" selection-start-line="174" selection-start-column="75" selection-end-line="174" selection-end-column="75" />
+        <state relative-caret-position="389">
+          <caret line="162" lean-forward="true" selection-start-line="162" selection-end-line="162" />
           <folding>
             <element signature="e#6#43#0#PHP" expanded="true" />
             <element signature="e#73#98#0#PHP" expanded="true" />
-            <element signature="e#5369#5385#1#PHP" expanded="true" />
+            <element signature="e#4728#4744#1#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Service/UploadHelper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="46" selection-start-line="46" selection-end-line="46" />
+          <folding>
+            <element signature="e#118#143#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

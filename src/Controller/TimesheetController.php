@@ -9,17 +9,16 @@ namespace App\Controller;
 use App\Entity\Timesheet;
 use App\Service\DateGeneratorService;
 use App\Service\GeneratePdfReport;
+use App\Service\UploadHelper;
 use App\Timesheet\TimesheetHydrator;
 use App\Timesheet\TimesheetValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class TimesheetController extends AbstractController
 {
@@ -140,40 +139,27 @@ class TimesheetController extends AbstractController
     /**
      * @Route(path="/newadmin/uploadtimesheet", name="upload_timesheet")
      */
-    public function validateTimeSheet(Request $request)
+    public function validateTimeSheet(Request $request, UploadHelper $uploadHelper)
     {
-        //dd($request);
-        $filepath  = $this->getParameter('kernel.project_dir').'/report/timesheet_signed';
-        /**
-         * @var UploadedFile $uploadedfile
-         */
-       $uploadedfile =  $request->files->get('file');
+        try{
 
-       $month = $request->request->get('month');
+           $fileuploaded =  $uploadHelper->uploadTimesheet($request);
 
-       $originalfilename = pathinfo($uploadedfile->getClientOriginalName(), PATHINFO_FILENAME);
-       $newfilename = $originalfilename.uniqid().'.'.$uploadedfile->guessExtension();
-       $finalpath = $filepath.'/'.$newfilename;
+            if($fileuploaded){
 
-       $uploadedfile->move($filepath, $newfilename);
+                $this->addFlash('success', 'Timesheet validated, the invoice process has started');
 
-       $user = $this->security->getToken()->getUsername();
+            } else {
 
-       $entity = $this->entitymanager->getRepository(Timesheet::class);
+                $this->addFlash('error', 'file upload cannot be null when submitted');
+            }
 
-       $id = $entity->selectPerMonth($user, $month);
+            return $this->redirectToRoute('user_dashboard');
 
-       $entity->updateStatus(self::TIMESHEET_VALIDATED, $id, $finalpath);
+        } catch (\Exception $exception){
 
-       $this->addFlash('success', 'Timesheet validated, the invoice process has started');
-
-       return $this->redirectToRoute('user_dashboard');
-
-        /**
-         * TODO upload timehseet
-         * - manage exception
-         * - Add exception when the query returns null (wrong month etc...)
-         * */
+           return $exception->getMessage();
+        }
 
     }
 
