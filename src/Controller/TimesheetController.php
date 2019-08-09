@@ -27,6 +27,7 @@ class TimesheetController extends AbstractController
     private $entitymanager;
 
     const TIMESHEET_VALIDATED = 'Validated';
+    const EDIT_TIMESHEET = 'edit';
 
     public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
@@ -78,23 +79,19 @@ class TimesheetController extends AbstractController
                 echo  $e->getMessage();
             }
 
-            /////// HOOOK THIS PROCESS TO AN EVENT OR SEND THIS TO A QUEUE//////
-            ///add created date as datetime and updated date as datetime
             $generatePdfReport->reportConstructTimeSheet($timesheet->getMonth());
 
-
             return new JsonResponse([
-                                        'success' => '  Your Timesheet has been saved in the database, 
+                                        'success' => 'Your Timesheet has been saved in the database, 
                                                    you  will receive a pdf copy shortly...'
                                     ]);
         }
 
         return new JsonResponse([
-                                    'error' => '  A Timesheet for the same period and 
+                                    'error' => 'A Timesheet for the same period and 
                                             for the same user has been generated already, 
                                             if you wish to modify it please got to your dashboard and edit it'
                                 ]);
-
     }
 
     /**
@@ -139,20 +136,26 @@ class TimesheetController extends AbstractController
     /**
      * @Route(path="/newadmin/uploadtimesheet", name="upload_timesheet")
      */
-    public function validateTimeSheet(Request $request, UploadHelper $uploadHelper)
+    public function validateUploadTimeSheet(Request $request, UploadHelper $uploadHelper)
     {
         try{
 
            $fileuploaded =  $uploadHelper->uploadTimesheet($request);
 
-            if($fileuploaded){
+           switch($fileuploaded){
 
-                $this->addFlash('success', 'Timesheet validated, the invoice process has started');
+               case $fileuploaded['status'] === 'success':
 
-            } else {
+                   $this->addFlash('success', sprintf('Timesheet validated, %s', $fileuploaded['message']));
 
-                $this->addFlash('error', 'file upload cannot be null when submitted');
-            }
+                   break;
+
+               case $fileuploaded['status'] === 'error':
+
+                   $this->addFlash('error', sprintf('Error : %s',$fileuploaded['message']));
+
+                   break;
+           }
 
             return $this->redirectToRoute('user_dashboard');
 
@@ -163,8 +166,38 @@ class TimesheetController extends AbstractController
 
     }
 
-    public function editTimesheet()
+    /**
+     * @Route(path="/timesheet/edit/{id}", name="modify_timesheet")
+     */
+    public function editTimesheet(DateGeneratorService $dateGenerator, Request $request,$id, GeneratePdfReport $generatePdfReport)
     {
+
+        if($request->request->get('edit')){
+
+            $this->entitymanager
+                  ->getRepository(Timesheet::class)
+                  ->updateTimesheet($request, $id);
+
+            $generatePdfReport->reportConstructTimeSheet($request->request->get('currentMonth'), self::EDIT_TIMESHEET);
+
+
+            return new JsonResponse([
+                'success' => 'Timesheet has been modified successfully.. a copy is on its way'
+            ]);
+        }
+
+        $timesheettoedit = $this->entitymanager
+                                ->getRepository(Timesheet::class)
+                                ->find($id);
+
+        $dates = $dateGenerator->periodRequest($timesheettoedit->getMonth());
+
+
+        return $this->render('timesheet/timesheetEdit.html.twig', [
+
+            'date' => $dates,
+            'id' => $id
+        ]);
 
     }
 
@@ -178,8 +211,19 @@ class TimesheetController extends AbstractController
                                   ->getRepository(Timesheet::class)
                                   ->find($id);
 
-        $this->entitymanager->remove($timesheettodelete);
-        $this->entitymanager->flush();
+        $filetodelete = $timesheettodelete->getPath();
+
+        try{
+
+            $this->entitymanager->remove($timesheettodelete);
+            $this->entitymanager->flush();
+
+        } catch (\Exception $exception){
+
+            echo $exception->getMessage();
+        }
+
+        unlink($filetodelete);
 
         $this->addFlash('success', 'Timesheet deleted successfully');
 

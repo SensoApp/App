@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Timesheet;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,22 +28,35 @@ class TimesheetRepository extends ServiceEntityRepository
     }
 
 
-    public function getTimesheetData($user, $month)
+    public function getTimesheetData($user, $month, $edit = null)
     {
 
        $query =  $this->getEntityManager()
              ->createQuery(
                'SELECT t
                     FROM App\Entity\Timesheet t
-                    WHERE t.user= :user 
+                    WHERE t.user = :user 
                     AND t.month = :month
                     AND t.status = :status'
+             );
 
-             )->setParameters([
-                                'month'=>$month,
-                                'user'=>$user,
-                                'status' => self::TIMESHEET_CREATED
-                              ]);
+       if($edit !== null){
+
+           $query->setParameters([
+               'month'=>$month,
+               'user'=>$user,
+               'status' => self::TIMESHEET_SENT
+           ]);
+
+       } else {
+
+           $query->setParameters([
+               'month'=>$month,
+               'user'=>$user,
+               'status' => self::TIMESHEET_CREATED
+           ]);
+
+       }
 
         return $query->execute();
     }
@@ -89,6 +104,47 @@ class TimesheetRepository extends ServiceEntityRepository
          }
 
     }
+
+    public function updateTimesheet($request, $id)
+    {
+
+        $arr = [
+           'nbreDaysWorked' => $nbreofdays = $request->request->get('nbrOfDays') > 0 ? $request->request->get('nbrOfDays') : 0 ,
+           'nbreOfSaturdays' => $nbreOfSaturdays = $request->request->get('nbreOfSaturdays') > 0 ? $request->request->get('nbreOfSaturdays') : 0 ,
+           'nbreOfSundays' =>  $nbreOfSundays = $request->request->get('nbreOfSundays') > 0 ? $request->request->get('nbreOfSundays') : 0,
+           'nbrOfBankHolidays' =>$nbrOfBankHolidays = $request->request->get('nbrOfBankHolidays') > 0 ? $request->request->get('nbrOfBankHolidays') : 0,
+            'updatedAt' => new DateTime(),
+            'id' => $id
+        ];
+
+        try {
+
+            $query = $this->getEntityManager()
+            ->createQuery(
+                'update
+                                  App\Entity\Timesheet t
+                              set t.nbreDaysWorked = :nbreDaysWorked,
+                                  t.nbreOfSaturdays= :nbreOfSaturdays,
+                                  t.nbreOfSundays = :nbreOfSundays,
+                                  t.nbrOfBankHolidays = :nbrOfBankHolidays,
+                                  t.updatedAt = :updatedAt
+                              where
+                                  t.id = :id'
+
+            )->setParameters($arr);
+
+
+        } catch (\Exception $exception){
+
+            echo $exception->getMessage();
+        }
+
+        return $query->execute();
+    }
+
+
+
+        //dd($request->request->get('nbrOfDays'), $request->request->get('currentMonth') );
 
     // /**
     //  * @return Timesheet[] Returns an array of Timesheet objects

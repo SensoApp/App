@@ -8,8 +8,13 @@
 
 namespace App\Service;
 
+use DateTime;
+
 class DateGeneratorService
 {
+
+    const PREVIOUS_PERIOD = "prev=prev";
+    const NEXT_PERIOD = "next=next";
 
     /**
      * @param null $month
@@ -24,6 +29,10 @@ class DateGeneratorService
         //en fonction du mois passé, genere tous les jours du mois et la date associé
 
         for($i = 1; $i <= 31; $i++){
+
+            $year = date('Y');
+
+            $month =  is_string($month) ? strtotime($year.'-'.$month) : $month;
 
             $monthrequested = date('m', $month);
 
@@ -44,7 +53,9 @@ class DateGeneratorService
             $year = date('Y', $month);
 
            $time =  mktime(12, 0,0, $monthrequested, $i, $year);
+
             if(date('m',$time) ==$monthrequested){
+
                 $list[] = date('d-M-Y', $time);
             }
         }
@@ -61,12 +72,11 @@ class DateGeneratorService
      */
     public function periodRequest($month, $prevOrNext = null) : array
     {
-        if($prevOrNext ==="prev=prev"){
-
+        if($prevOrNext === self::PREVIOUS_PERIOD){
 
             return self::dateGenerator($month, true);
 
-        } elseif ($prevOrNext ==="next=next"){
+        } elseif ($prevOrNext === self::NEXT_PERIOD){
 
             return self::dateGenerator($month, false, true);
 

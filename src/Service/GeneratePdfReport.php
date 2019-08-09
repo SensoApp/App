@@ -32,6 +32,8 @@ class GeneratePdfReport
 
     const TIMESHEET_SENT = 'Sent';
     const TIMESHEET_VALIDATED = 'Validated';
+    const EDIT_TIMESHEET = 'edit';
+
 
     public function __construct(
                                 Security $security,
@@ -90,14 +92,22 @@ class GeneratePdfReport
 
     }
 
-    public function reportConstructTimeSheet($month)
+    public function reportConstructTimeSheet($month, $edit = null)
     {
         $firstname = $this->security->getToken()->getUser()->getFirstName();
         $lastname = $this->security->getToken()->getUser()->getLastName();
         $user = $this->security->getToken()->getUsername();
 
-        $query = $this->entity->getRepository(Timesheet::class)
-                              ->getTimesheetData($user, $month);
+        if($edit !==null){
+
+            $query = $this->entity->getRepository(Timesheet::class)
+                ->getTimesheetData($user, $month, self::EDIT_TIMESHEET);
+
+        } else {
+
+            $query = $this->entity->getRepository(Timesheet::class)
+                ->getTimesheetData($user, $month);
+        }
 
         if(!empty($query)){
 
