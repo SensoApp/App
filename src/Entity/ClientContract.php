@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -29,18 +31,11 @@ class ClientContract
     private $startDate;
 
     /**
-     * @var string
+     * @var \DateTime
      *
      * @ORM\Column(name="endDate", type="date", nullable=true)
      */
     private $endDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="contracttype", type="string", length=255)
-     */
-    private $contracttype;
 
     /**
      * @var int
@@ -50,11 +45,30 @@ class ClientContract
     private $rate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="clientcontract")
+     * @ORM\Column(type="integer")
+     */
+    private $extrapercentsatyrday;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $extrapercentsunday;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $extrapercentbankholidays;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clientcontract")
      * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      */
-    private $contact;
+    private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="contract")
+     */
+    private $invoice;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -69,6 +83,7 @@ class ClientContract
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
+        $this->invoice = new ArrayCollection();
     }
 
     /**
@@ -129,29 +144,6 @@ class ClientContract
         return $this->endDate;
     }
 
-    /**
-     * Set contracttype.
-     *
-     * @param string $contracttype
-     *
-     * @return ClientContract
-     */
-    public function setContracttype($contracttype)
-    {
-        $this->contracttype = $contracttype;
-
-        return $this;
-    }
-
-    /**
-     * Get contracttype.
-     *
-     * @return string
-     */
-    public function getContracttype()
-    {
-        return $this->contracttype;
-    }
 
     /**
      * Set rate.
@@ -175,30 +167,6 @@ class ClientContract
     public function getRate()
     {
         return $this->rate;
-    }
-
-    /**
-     * Set contact.
-     *
-     * @param \App\Entity\Contact|null $contact
-     *
-     * @return ClientContract
-     */
-    public function setContact(\App\Entity\Contact $contact = null)
-    {
-        $this->contact = $contact;
-
-        return $this;
-    }
-
-    /**
-     * Get contact.
-     *
-     * @return \App\Entity\Contact|null
-     */
-    public function getContact()
-    {
-        return $this->contact;
     }
 
     /**
@@ -231,5 +199,84 @@ class ClientContract
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getExtrapercentsatyrday(): ?int
+    {
+        return $this->extrapercentsatyrday;
+    }
+
+    public function setExtrapercentsatyrday(int $extrapercentsatyrday): self
+    {
+        $this->extrapercentsatyrday = $extrapercentsatyrday;
+
+        return $this;
+    }
+
+    public function getExtrapercentsunday(): ?int
+    {
+        return $this->extrapercentsunday;
+    }
+
+    public function setExtrapercentsunday(int $extrapercentsunday): self
+    {
+        $this->extrapercentsunday = $extrapercentsunday;
+
+        return $this;
+    }
+
+    public function getExtrapercentbankholidays(): ?int
+    {
+        return $this->extrapercentbankholidays;
+    }
+
+    public function setExtrapercentbankholidays(int $extrapercentbankholidays): self
+    {
+        $this->extrapercentbankholidays = $extrapercentbankholidays;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoice(): Collection
+    {
+        return $this->invoice;
+    }
+
+    public function addInvoice(Invoice $invoice): self
+    {
+        if (!$this->invoice->contains($invoice)) {
+            $this->invoice[] = $invoice;
+            $invoice->setContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoice(Invoice $invoice): self
+    {
+        if ($this->invoice->contains($invoice)) {
+            $this->invoice->removeElement($invoice);
+            // set the owning side to null (unless already changed)
+            if ($invoice->getContract() === $this) {
+                $invoice->setContract(null);
+            }
+        }
+
+        return $this;
     }
 }

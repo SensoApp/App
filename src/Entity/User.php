@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -49,10 +51,25 @@ class User implements UserInterface
     /**
      *
      * @ORM\Column(nullable=true)
-     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="user")
-     * @ORM\JoinColumn(referencedColumnName="contact_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="App\Entity\Contact", inversedBy="user")
      */
     private $contact;
+
+    /**
+     * @ORM\Column(nullable=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="user")
+     */
+    private $invoice;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="user")
+     */
+    private $clientcontract;
+
+    public function __construct()
+    {
+        $this->clientcontract = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -177,6 +194,49 @@ class User implements UserInterface
     public function setContact($contact): void
     {
         $this->contact = $contact;
+    }
+
+    public function getInvoice(): ?string
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(?string $invoice): self
+    {
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getClientcontract(): Collection
+    {
+        return $this->clientcontract;
+    }
+
+    public function addClientcontract(User $clientcontract): self
+    {
+        if (!$this->clientcontract->contains($clientcontract)) {
+            $this->clientcontract[] = $clientcontract;
+            $clientcontract->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClientcontract(User $clientcontract): self
+    {
+        if ($this->clientcontract->contains($clientcontract)) {
+            $this->clientcontract->removeElement($clientcontract);
+            // set the owning side to null (unless already changed)
+            if ($clientcontract->getUser() === $this) {
+                $clientcontract->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 

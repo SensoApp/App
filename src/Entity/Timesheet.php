@@ -57,6 +57,11 @@ class Timesheet
     private $status;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Invoice", mappedBy="timesheet")
+     */
+    private $invoice;
+
+    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $path;
@@ -70,6 +75,7 @@ class Timesheet
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
 
     public function __construct()
     {
@@ -211,6 +217,24 @@ class Timesheet
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(?Invoice $invoice): self
+    {
+        $this->invoice = $invoice;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newTimesheet = $invoice === null ? null : $this;
+        if ($newTimesheet !== $invoice->getTimesheet()) {
+            $invoice->setTimesheet($newTimesheet);
+        }
 
         return $this;
     }

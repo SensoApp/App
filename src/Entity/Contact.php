@@ -111,7 +111,7 @@ class Contact
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="contact")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="contact")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $user;
