@@ -10,7 +10,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactRepository")
@@ -28,16 +27,12 @@ class Contact
 
     /**
      * @ORM\Column(type="string", name="firstname")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="3", minMessage="This field must be at least '{{limit}}' character long")
      *
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     * @Assert\Length(min="2", minMessage="This field must be at least '{{limit}}' character long")
      */
     private $lastname;
 
@@ -59,7 +54,6 @@ class Contact
 
     /**
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\Length(min="5", minMessage="This field must be at least 5 character long")
      */
     private $socialesecunumber;
 

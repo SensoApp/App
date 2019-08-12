@@ -69,6 +69,7 @@ class ClientContract
      * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="contract")
      */
     private $invoice;
+
     /**
      * @ORM\Column(type="datetime")
      */

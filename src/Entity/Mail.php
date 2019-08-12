@@ -42,6 +42,11 @@ class Mail
     private $contact;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="clientcontact")
+     */
+    private $clientcontact;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -127,6 +132,18 @@ class Mail
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function getClientcontact(): ?ContactEndClient
+    {
+        return $this->clientcontact;
+    }
+
+    public function setClientcontact(?ContactEndClient $clientcontact): self
+    {
+        $this->clientcontact = $clientcontact;
+
+        return $this;
     }
 
     /*public function __toString()

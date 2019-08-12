@@ -11,6 +11,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Entity\Mail;
 use App\Entity\Phone;
+use App\Form\ContactEndClientType;
 use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,6 +68,36 @@ class FormContactController extends AbstractController
 
         return new Response('OK');
 
+    }
+
+    /**
+     * @param Request $request
+     * @Route(path="/newadmin/create-client", name="create_client")
+     */
+    public function createClientContact(Request $request)
+    {
+        $form = $this->createForm(ContactEndClientType::class)
+                     ->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $clientcontact = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($clientcontact);
+            $em->flush();
+
+            $this->addFlash('success', sprintf('Client %s hase been created', $clientcontact->getClientName()));
+
+            return $this->redirectToRoute('adminsenso');
+        }
+
+        return $this->render('form/contact-end-client.html.twig', [
+
+            'form' => $form->createView()
+
+        ]);
     }
 
 }

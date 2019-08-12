@@ -37,6 +37,11 @@ class Phone
     private $contact;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="clientcontact")
+     */
+    private $clientcontact;
+
+    /**
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
@@ -131,6 +136,18 @@ class Phone
         // TODO: Implement __toString() method.
 
         return (string) $this->getPhonenumber();
+    }
+
+    public function getClientcontact(): ?ContactEndClient
+    {
+        return $this->clientcontact;
+    }
+
+    public function setClientcontact(?ContactEndClient $clientcontact): self
+    {
+        $this->clientcontact = $clientcontact;
+
+        return $this;
     }
 
 }

@@ -27,7 +27,7 @@ class ContactType extends AbstractType
                     'label' => 'First Name'
                 ])
                 ->add('lastname', TextType::class, [
-                    'label' => 'Last Name'
+                    'label' => 'Last Name',
                 ])
                 ->add('dateofbirth', BirthdayType::class, [
                     'placeholder' => [
@@ -53,7 +53,7 @@ class ContactType extends AbstractType
                     'placeholder' => 'Select a type',
                     'choices' => [
                         'Employee' => 'Employee',
-                        'Prospect' => 'Prospect'
+                        'Prospect' => 'Prospect',
                     ]
                 ])
                 ->add('socialesecunumber')
