@@ -25,12 +25,14 @@ class UserController extends AbstractController
     private $user;
     private $firstname;
     private $lastname;
+    private $userid;
 
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entitymanager = $entityManager;
         $this->user = $security->getToken()->getUser()->getEmail();
+        $this->userid = $security->getToken()->getUser()->getId();
         $this->firstname = $security->getToken()->getUser()->getFirstName();
         $this->lastname = $security->getToken()->getUser()->getLastName();
     }
@@ -52,11 +54,16 @@ class UserController extends AbstractController
                           ->getRepository(Timesheet::class)
                           ->findBy(['user' => $this->user]);
 
+        $clientcontract = $this->entitymanager
+                               ->getRepository(ClientContract::class)
+                               ->findBy(['user'=> $this->userid]);
+
         return $this->render('user/dashboard.html.twig', [
 
             'timesheet' => $timesheet,
             'firsname' => $this->firstname,
-            'lastname' => $this->lastname
+            'lastname' => $this->lastname,
+            'clientcontract' => $clientcontract
         ]);
     }
 
@@ -110,7 +117,7 @@ class UserController extends AbstractController
 
         }
 
-        return $this->render('user/clientcontractmanagement.html.twig', [
+        return $this->render('form/clientcontractmanagement.html.twig', [
 
             'form' => $form->createView()
         ]);

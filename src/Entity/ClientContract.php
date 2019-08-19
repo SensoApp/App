@@ -24,6 +24,11 @@ class ClientContract
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="clientname")
+     */
+    private $clientname;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="startDate", type="date")
@@ -85,6 +90,7 @@ class ClientContract
     {
         $this->createdAt = new \DateTime('now');
         $this->invoice = new ArrayCollection();
+        $this->clientname = new ArrayCollection();
     }
 
     /**
@@ -280,4 +286,18 @@ class ClientContract
 
         return $this;
     }
+
+    public function getClientname(): ?ContactEndClient
+    {
+        return $this->clientname;
+    }
+
+    public function setClientname(?ContactEndClient $clientname): self
+    {
+        $this->clientname = $clientname;
+
+        return $this;
+    }
+
+
 }

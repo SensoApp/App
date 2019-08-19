@@ -8,7 +8,6 @@
 
 namespace App\Service;
 
-use DateTime;
 
 class DateGeneratorService
 {

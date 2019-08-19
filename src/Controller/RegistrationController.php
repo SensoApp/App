@@ -29,6 +29,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
             if($form->get('contact')->getData() !==null){
 
                 $id = (int) $form->get('contact')->getData()->getId();

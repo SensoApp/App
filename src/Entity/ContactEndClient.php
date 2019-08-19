@@ -48,11 +48,17 @@ class ContactEndClient
      */
     private $mail;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="clientname")
+     */
+    private $contract;
+
     public function __construct()
     {
         $this->address = new ArrayCollection();
         $this->phone = new ArrayCollection();
         $this->mail = new ArrayCollection();
+        $this->contract = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,6 +189,52 @@ class ContactEndClient
             // set the owning side to null (unless already changed)
             if ($mail->getClientcontact() === $this) {
                 $mail->setClientcontact(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->clientname;
+    }
+
+    public function getContract(): ?ClientContract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?ClientContract $contract): self
+    {
+        $this->contract = $contract;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newClientname = $contract === null ? null : $this;
+        if ($newClientname !== $contract->getClientname()) {
+            $contract->setClientname($newClientname);
+        }
+
+        return $this;
+    }
+
+    public function addContract(ClientContract $contract): self
+    {
+        if (!$this->contract->contains($contract)) {
+            $this->contract[] = $contract;
+            $contract->setClientname($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContract(ClientContract $contract): self
+    {
+        if ($this->contract->contains($contract)) {
+            $this->contract->removeElement($contract);
+            // set the owning side to null (unless already changed)
+            if ($contract->getClientname() === $this) {
+                $contract->setClientname(null);
             }
         }
 

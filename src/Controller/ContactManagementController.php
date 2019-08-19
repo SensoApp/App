@@ -10,6 +10,7 @@ namespace App\Controller;
 
 
 use App\Entity\Contact;
+use App\Entity\ContactEndClient;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -62,10 +63,18 @@ class ContactManagementController extends AbstractController
     public function listContact(){
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->listOfAllContacts();
+        /**
+         * TODO listofClients
+         * update the forms and add it to the main, create the edit and delete part
+         * Add email and phones etc to the ContactEndClient class
+         */
+      //$listofclients = $this->getDoctrine()->getRepository(ContactEndClient::class)->findAll();
+
 
         return $this->render('form/admin.html.twig', [
 
-            'list' => $list,
+            'list' => $list
+           // 'clients' => $listofclients
 
         ]);
     }

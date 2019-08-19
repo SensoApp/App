@@ -15,23 +15,27 @@ class ClientContractType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('clientname')
             ->add('startDate')
             ->add('endDate')
             ->add('rate')
             ->add('extrapercentsatyrday', IntegerType::class, [
 
                 'label' => 'Extra percentage for Saturdays',
-                'attr' => ['placeholder' => 'Expecting numbers e.g. 150 for 150%']
+                'attr' => ['placeholder' => 'Expecting numbers e.g. 150 for 150%'],
+                'required' => false
             ])
             ->add('extrapercentsunday', IntegerType::class, [
 
                 'label' => 'Extra percentage for Sundays',
-                'attr' => ['placeholder' => 'Expecting numbers e.g. 200 for 200%']
+                'attr' => ['placeholder' => 'Expecting numbers e.g. 200 for 200%'],
+                'required' => false
             ])
             ->add('extrapercentbankholidays', IntegerType::class, [
 
                 'label' => 'Extra percentage for Bank holidays',
-                'attr' => ['placeholder' => 'Expecting numbers e.g. 160 for 160%']
+                'attr' => ['placeholder' => 'Expecting numbers e.g. 160 for 160%'],
+                'required' => false
             ])
             ->add('user')
             ->add('Submit', SubmitType::class)
