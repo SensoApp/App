@@ -1,188 +1,190 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {% include 'header.html.twig' %}
-    <br>
-    <br>
-    <br>
-<!-- form user info -->
-    <div class="col-md-8 offset-md-2">
-    <span class="anchor" id="formUserEdit"></span>
-    <hr class="my-5">
-        <a href="{{ path('adminsenso')}}">
-            <button class="btn btn-success" value="Back">
-                <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold"> Back</i>
-            </button>
-        </a>
-    <br>
-    <br>
-    <div class="card card-outline-secondary">
-        <div class="card-header">
-            <h3 class="mb-0 text-center">User Information</h3>
+    <body>
+        {% include 'header.html.twig' %}
+        <br>
+        <br>
+        <br>
+    <!-- form user info -->
+        <div class="col-md-8 offset-md-2">
+        <span class="anchor" id="formUserEdit"></span>
+        <hr class="my-5">
+            <a href="{{ path('adminsenso')}}">
+                <button class="btn btn-success" value="Back">
+                    <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold"> Back</i>
+                </button>
+            </a>
+        <br>
+        <br>
+        <div class="card card-outline-secondary">
+            <div class="card-header">
+                <h3 class="mb-0 text-center">User Information</h3>
+            </div>
         </div>
-    </div>
-    <br>
-    <div class="card-body">
-        <form class="form" role="form" autocomplete="off">
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label">First name</label>
-                <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ list[0].firstname }}" readonly>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label">Last name</label>
-                <div class="col-lg-9">
-                    <input class="form-control" type="text" value="{{ list[0].lastname }}"readonly>
-                </div>
-            </div>
-            {% if list[0].contacttype is null %}
-            <input class="form-control" type="text" value="no data to display" readonly>
-            {% else %}
-            <div class="form-group row">
-                <label class="col-lg-3 col-form-label form-control-label">Contact Type</label>
-                <div class="col-lg-9">
-                    <input class="form-control" type="text" value="{{ list[0].contacttype }}"readonly>
-                </div>
-            </div>
-            {% endif %}
-            <div class="card-header">
-                <h3 class="mb-0">Email</h3>
-            </div>
-            {% if list[0].mail is null %}
-            <input class="form-control" type="text" value="no data to display" readonly>
-            {% else %}
-            {% set mailnum = 0%}
-            {% for lists in list %}
+        <br>
+        <div class="card-body">
+            <form class="form" role="form" autocomplete="off">
                 <div class="form-group row">
-                    {% set mailnum = mailnum+1 %}
-                    <label class="col-lg-3 col-form-label form-control-label">Email {{ mailnum }}</label>
+                    <label class="col-lg-3 col-form-label form-control-label">First name</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="email" value="{{ lists.mail }}" readonly>
+                            <input class="form-control" type="text" value="{{ list[0].firstname }}" readonly>
                     </div>
                 </div>
-            {% endfor %}
-            {% endif %}
-            <div class="card-header">
-                <h3 class="mb-0">Phone</h3>
-            </div>
-            {% if list[0].phonenumber is null %}
-            <input class="form-control" type="text" value="no data to display" readonly>
-            {% else %}
-            {% set phonenum = 0%}
-            {% for lists in list %}
-                {% set phonenum = phonenum+1 %}
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Phone {{ phonenum }}</label>
+                    <label class="col-lg-3 col-form-label form-control-label">Last name</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ lists.phonenumber }}" readonly>
+                        <input class="form-control" type="text" value="{{ list[0].lastname }}"readonly>
                     </div>
                 </div>
-            {% endfor %}
-            {% endif %}
-            <br>
-            <div class="card-header">
-                <h3 class="mb-0">Address</h3>
-            </div>
-            {% if list[0].street is null %}
-            <input class="form-control" type="text" value="no data to display" readonly>
-            {% else %}
-            {% set addressnum = 0 %}
-            {% for lists in list %}
-            {% set addressnum = addressnum+1 %}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Address {{ addressnum }}</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="url" value="{{ lists.street }}" readonly>
-                        <input class="form-control" type="url" value="{{ lists.postcode }}  {{ lists.city }}" readonly>
-                    </div>
-                </div>
-                <br>
-            {% endfor %}
-            {% endif %}
-            <br>
-            <div class="card-header">
-                <h3 class="mb-0">Bank Details</h3>
-            </div>
-            {% if list[0].iban is null %}
-            <input class="form-control" type="text" value="no data to display" readonly>
-            {% else %}
-                {% set banknum = 0 %}
-                {% for lists in list %}
-                {% set banknum = banknum+1 %}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Bank Details {{ banknum }}</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="url" value="{{ lists.iban }}" readonly>
-                        <input class="form-control" type="url" value="{{ lists.biccode }}" readonly>
-                    </div>
-                </div>
-                <br>
-                {% endfor %}
-            {% endif %}
-            <br>
-            <div class="card-header">
-                <h3 class="mb-0">Citizenship details</h3>
-            </div>
-            {% if list[0].documentType is null %}
+                {% if list[0].contacttype is null %}
                 <input class="form-control" type="text" value="no data to display" readonly>
-            {% else %}
-                {% set documentnum = 0 %}
-                {% for lists in list %}
-                {% set documentnum = documentnum+1 %}
+                {% else %}
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Document Type {{ documentnum }}</label>
+                    <label class="col-lg-3 col-form-label form-control-label">Contact Type</label>
                     <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ lists.documentType }}" readonly>
-                        <input class="form-control" type="text" value="{{ lists.documentId }}" readonly>
-                        <input class="form-control" type="datetime-local" value="{{ lists.expireDate|date('Y-m-d') }}" readonly>
+                        <input class="form-control" type="text" value="{{ list[0].contacttype }}"readonly>
                     </div>
                 </div>
-                {% endfor %}
-            {% endif %}
-            <br>
+                {% endif %}
                 <div class="card-header">
-                    <h3 class="mb-0">Contract details</h3>
+                    <h3 class="mb-0">Email</h3>
                 </div>
-            {% if list[0].contractType is null %}
-                <input class="form-control" type="text" value="no contract linked" readonly>
-            {% else %}
-                {% set contractnum = 0 %}
+                {% if list[0].mail is null %}
+                <input class="form-control" type="text" value="no data to display" readonly>
+                {% else %}
+                {% set mailnum = 0%}
                 {% for lists in list %}
-                {% set contractnum = contractnum+1 %}
-                <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Contract Type {{ contractnum }}</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ lists.contractType }}" readonly>
+                    <div class="form-group row">
+                        {% set mailnum = mailnum+1 %}
+                        <label class="col-lg-3 col-form-label form-control-label">Email {{ mailnum }}</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="email" value="{{ lists.mail }}" readonly>
+                        </div>
                     </div>
-                        <label class="col-lg-3 col-form-label form-control-label">Start Date</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ lists.startDate|date('Y-m-d') }}" readonly>
-                    </div>
-                        <label class="col-lg-3 col-form-label form-control-label">Probation Period</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ lists.probationPeriodEndDate|date('Y-m-d') }}" readonly>
-                    </div>
-                        <label class="col-lg-3 col-form-label form-control-label">Probation Period</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" value="{{ lists.endDate|date('Y-m-d') }}" readonly>
-                    </div>
-                </div>
-                <br>
                 {% endfor %}
-            {% endif %}
-            <br>
-            <br>
-            <div class="form-group row">
-                <div class="col-lg-9">
-                    <a href="{{ path('adminsenso')}}">
-                        <button class="btn btn-success" value="Back">
-                            <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold"> Back</i>
-                        </button>
-                    </a>
+                {% endif %}
+                <div class="card-header">
+                    <h3 class="mb-0">Phone</h3>
                 </div>
-            </div>
-        </form>
-    </div>
-    </div>
+                {% if list[0].phonenumber is null %}
+                <input class="form-control" type="text" value="no data to display" readonly>
+                {% else %}
+                {% set phonenum = 0%}
+                {% for lists in list %}
+                    {% set phonenum = phonenum+1 %}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Phone {{ phonenum }}</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" value="{{ lists.phonenumber }}" readonly>
+                        </div>
+                    </div>
+                {% endfor %}
+                {% endif %}
+                <br>
+                <div class="card-header">
+                    <h3 class="mb-0">Address</h3>
+                </div>
+                {% if list[0].street is null %}
+                <input class="form-control" type="text" value="no data to display" readonly>
+                {% else %}
+                {% set addressnum = 0 %}
+                {% for lists in list %}
+                {% set addressnum = addressnum+1 %}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Address {{ addressnum }}</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="url" value="{{ lists.street }}" readonly>
+                            <input class="form-control" type="url" value="{{ lists.postcode }}  {{ lists.city }}" readonly>
+                        </div>
+                    </div>
+                    <br>
+                {% endfor %}
+                {% endif %}
+                <br>
+                <div class="card-header">
+                    <h3 class="mb-0">Bank Details</h3>
+                </div>
+                {% if list[0].iban is null %}
+                <input class="form-control" type="text" value="no data to display" readonly>
+                {% else %}
+                    {% set banknum = 0 %}
+                    {% for lists in list %}
+                    {% set banknum = banknum+1 %}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Bank Details {{ banknum }}</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="url" value="{{ lists.iban }}" readonly>
+                            <input class="form-control" type="url" value="{{ lists.biccode }}" readonly>
+                        </div>
+                    </div>
+                    <br>
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <div class="card-header">
+                    <h3 class="mb-0">Citizenship details</h3>
+                </div>
+                {% if list[0].documentType is null %}
+                    <input class="form-control" type="text" value="no data to display" readonly>
+                {% else %}
+                    {% set documentnum = 0 %}
+                    {% for lists in list %}
+                    {% set documentnum = documentnum+1 %}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Document Type {{ documentnum }}</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" value="{{ lists.documentType }}" readonly>
+                            <input class="form-control" type="text" value="{{ lists.documentId }}" readonly>
+                            <input class="form-control" type="datetime-local" value="{{ lists.expireDate|date('Y-m-d') }}" readonly>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                <br>
+                    <div class="card-header">
+                        <h3 class="mb-0">Contract details</h3>
+                    </div>
+                {% if list[0].contractType is null %}
+                    <input class="form-control" type="text" value="no contract linked" readonly>
+                {% else %}
+                    {% set contractnum = 0 %}
+                    {% for lists in list %}
+                    {% set contractnum = contractnum+1 %}
+                    <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Contract Type {{ contractnum }}</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" value="{{ lists.contractType }}" readonly>
+                        </div>
+                            <label class="col-lg-3 col-form-label form-control-label">Start Date</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" value="{{ lists.startDate|date('Y-m-d') }}" readonly>
+                        </div>
+                            <label class="col-lg-3 col-form-label form-control-label">Probation Period</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" value="{{ lists.probationPeriodEndDate|date('Y-m-d') }}" readonly>
+                        </div>
+                            <label class="col-lg-3 col-form-label form-control-label">Probation Period</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" value="{{ lists.endDate|date('Y-m-d') }}" readonly>
+                        </div>
+                    </div>
+                    <br>
+                    {% endfor %}
+                {% endif %}
+                <br>
+                <br>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        <a href="{{ path('adminsenso')}}">
+                            <button class="btn btn-success" value="Back">
+                                <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold"> Back</i>
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+    </body>
     <!-- /form user info -->
 {% endblock %}

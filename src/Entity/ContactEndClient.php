@@ -34,31 +34,39 @@ class ContactEndClient
     private $contactperson;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Address", mappedBy="clientcontact")
-     */
-    private $address;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="clientcontact")
+     * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="clientcontact" , cascade={"persist", "remove"})
      */
     private $phone;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Mail", mappedBy="clientcontact")
+     * @ORM\OneToMany(targetEntity="App\Entity\Mail", mappedBy="clientcontact" , cascade={"persist", "remove"})
      */
     private $mail;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="clientname")
      */
     private $contract;
 
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
+
     public function __construct()
     {
-        $this->address = new ArrayCollection();
         $this->phone = new ArrayCollection();
         $this->mail = new ArrayCollection();
+        $this->address = new ArrayCollection();
         $this->contract = new ArrayCollection();
+        $this->createdAt = new \DateTime('now');
     }
 
     public function getId(): ?int
@@ -103,35 +111,39 @@ class ContactEndClient
     }
 
     /**
-     * @return Collection|Address[]
+     * @return mixed
      */
-    public function getAddress(): Collection
+    public function getCreatedAt()
     {
-        return $this->address;
+        return $this->createdAt;
     }
 
-    public function addAddress(Address $address): self
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
     {
-        if (!$this->address->contains($address)) {
-            $this->address[] = $address;
-            $address->setClientcontact($this);
-        }
-
-        return $this;
+        $this->createdAt = $createdAt;
     }
 
-    public function removeAddress(Address $address): self
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
     {
-        if ($this->address->contains($address)) {
-            $this->address->removeElement($address);
-            // set the owning side to null (unless already changed)
-            if ($address->getClientcontact() === $this) {
-                $address->setClientcontact(null);
-            }
-        }
-
-        return $this;
+        return $this->updatedAt;
     }
+
+    /**
+     * @param mixed $updatedAt
+     */
+    public function setUpdatedAt($updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+
+
 
     /**
      * @return Collection|Phone[]
@@ -140,6 +152,16 @@ class ContactEndClient
     {
         return $this->phone;
     }
+
+
+    /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
+
 
     public function addPhone(Phone $phone): self
     {
@@ -170,6 +192,14 @@ class ContactEndClient
     public function getMail(): Collection
     {
         return $this->mail;
+    }
+
+    /**
+     * @param mixed $mail
+     */
+    public function setMail($mail): void
+    {
+        $this->mail = $mail;
     }
 
     public function addMail(Mail $mail): self
@@ -240,4 +270,6 @@ class ContactEndClient
 
         return $this;
     }
+
+
 }

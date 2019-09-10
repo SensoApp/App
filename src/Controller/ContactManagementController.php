@@ -11,11 +11,15 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Entity\ContactEndClient;
+use App\Form\ContactEndClientType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\ContactType;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Form\ClientContractType;
+use App\Entity\ClientContract;
+
 
 class ContactManagementController extends AbstractController
 {
@@ -31,7 +35,8 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/createcontact", name="createcontact" )
      */
-    public function createContact(Request $request){
+    public function createContact(Request $request)
+    {
 
 
         $form = $this->createForm(ContactType::class, $this->contact)
@@ -58,23 +63,50 @@ class ContactManagementController extends AbstractController
     }
 
     /**
+     * @param Request $request
+     * @Route(path="/newadmin/create-client", name="create_client")
+     */
+    public function createClientContact(Request $request)
+    {
+        $form = $this->createForm(ContactEndClientType::class)
+            ->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $clientcontact = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($clientcontact);
+            $em->flush();
+
+
+            $this->addFlash('success', sprintf('Client %s hase been created', $clientcontact->getClientName()));
+
+            return $this->redirectToRoute('adminsenso');
+        }
+
+        return $this->render('form/contact-end-client.html.twig', [
+
+            'form' => $form->createView()
+
+        ]);
+    }
+
+    /**
      * @Route(path="/newadmin", name="adminsenso" )
      */
     public function listContact(){
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->listOfAllContacts();
-        /**
-         * TODO listofClients
-         * update the forms and add it to the main, create the edit and delete part
-         * Add email and phones etc to the ContactEndClient class
-         */
-      //$listofclients = $this->getDoctrine()->getRepository(ContactEndClient::class)->findAll();
 
+
+        $listofclients = $this->getDoctrine()->getRepository(ContactEndClient::class)->listOfAllClients();
 
         return $this->render('form/admin.html.twig', [
 
-            'list' => $list
-           // 'clients' => $listofclients
+            'list' => $list,
+           'lists' => $listofclients
 
         ]);
     }
@@ -82,7 +114,8 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/edit/{id}", name="edit")
      */
-    public function editContact(Request $request, $id, Contact $contact){
+    public function editContact(Request $request, $id, Contact $contact)
+    {
 
         $form = $this->createForm(ContactType::class, $contact);
 
@@ -92,9 +125,11 @@ class ContactManagementController extends AbstractController
 
             $task = $form->getData();
 
+            dd($task);
+
             $task->setUpdatedAt(new \DateTime('now'));
 
-            $this->em->flush($task);
+            $this->em->flush();
 
             $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
 
@@ -102,8 +137,36 @@ class ContactManagementController extends AbstractController
 
         }
 
-
         return $this->render('form/edit.html.twig', [
+
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/newadmin/edit-client/{id}", name="edit_client")
+     */
+    public function editClient(Request $request, $id, ContactEndClient $contact)
+    {
+        $form = $this->createForm(ContactEndClientType::class, $contact);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $task = $form->getData();
+
+            $task->setUpdatedAt(new \DateTime('now'));
+
+            $this->em->flush();
+
+            $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
+
+            return $this->redirectToRoute('adminsenso');
+
+        }
+        return $this->render('form/edit-client.html.twig', [
 
             'form' => $form->createView()
         ]);
@@ -132,6 +195,29 @@ class ContactManagementController extends AbstractController
         return $this->redirectToRoute('adminsenso');
     }
 
+
+    /**
+     * @Route("/newadmin/delete-client/{id}", name="delete_client")
+     */
+    public function deleteClient($id){
+
+        $contactToDelete = $this->getDoctrine()->getRepository(ContactEndClient::class)
+            ->findOneBy(['id' => $id]);
+
+        if (!$contactToDelete) {
+
+            throw $this->createNotFoundException('No Contact found for id '.$id);
+
+        }
+
+        $this->em->remove($contactToDelete);
+        $this->em->flush();
+
+        $this->addFlash('success','Contact successfully deleted');
+
+        return $this->redirectToRoute('adminsenso');
+    }
+
     /**
      * @Route("/newadmin/view/{id}", name="view")
      */
@@ -143,6 +229,57 @@ class ContactManagementController extends AbstractController
         return $this->render('form/viewcontact.html.twig', [
 
             'list' => $list
+        ]);
+
+    }
+
+    /**
+     * @Route("/newadmin/view-client/{id}", name="view_client")
+     */
+    public function viewClient($id){
+
+        $list = $this->getDoctrine()->getRepository(ContactEndClient::class)->viewOneClient($id);
+
+
+        return $this->render('form/view-client.html.twig', [
+
+            'list' => $list
+        ]);
+
+    }
+
+    /**
+     * @Route(path="/newadmin/clientcontract", name="client_contract")
+     */
+    public function clientContractManagement(Request $request)
+    {
+        $clientcontractentity = new ClientContract();
+        $form = $this->createForm(ClientContractType::class, $clientcontractentity);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $clientcontract = $form->getData();
+
+           //$clientcontract->setUser($clientcontract->getUser());
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($clientcontract);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Contract has been created successfully');
+
+            //redirect to list of contract, add view and query to list thm all
+            return $this->redirectToRoute('user_dashboard');
+
+        }
+
+        return $this->render('form/clientcontractmanagement.html.twig', [
+
+            'form' => $form->createView()
         ]);
 
     }

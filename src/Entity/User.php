@@ -64,11 +64,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="user")
      */
-    private $clientcontract;
+    private $clientContracts;
+
 
     public function __construct()
     {
-        $this->clientcontract = new ArrayCollection();
+        $this->clientContracts = new ArrayCollection();
     }
 
 
@@ -209,35 +210,36 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|User[]
+     * @return Collection|ClientContract[]
      */
-    public function getClientcontract(): Collection
+    public function getClientContracts(): Collection
     {
-        return $this->clientcontract;
+        return $this->clientContracts;
     }
 
-    public function addClientcontract(User $clientcontract): self
+    public function addClientContract(ClientContract $clientContract): self
     {
-        if (!$this->clientcontract->contains($clientcontract)) {
-            $this->clientcontract[] = $clientcontract;
-            $clientcontract->setUser($this);
+        if (!$this->clientContracts->contains($clientContract)) {
+            $this->clientContracts[] = $clientContract;
+            $clientContract->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeClientcontract(User $clientcontract): self
+    public function removeClientContract(ClientContract $clientContract): self
     {
-        if ($this->clientcontract->contains($clientcontract)) {
-            $this->clientcontract->removeElement($clientcontract);
+        if ($this->clientContracts->contains($clientContract)) {
+            $this->clientContracts->removeElement($clientContract);
             // set the owning side to null (unless already changed)
-            if ($clientcontract->getUser() === $this) {
-                $clientcontract->setUser(null);
+            if ($clientContract->getUser() === $this) {
+                $clientContract->setUser(null);
             }
         }
 
         return $this;
     }
+
 
 
 }

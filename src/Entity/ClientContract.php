@@ -24,7 +24,7 @@ class ClientContract
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="clientname")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="contract")
      */
     private $clientname;
 
@@ -64,11 +64,6 @@ class ClientContract
      */
     private $extrapercentbankholidays;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clientcontract")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
-     */
-    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="contract")
@@ -85,12 +80,17 @@ class ClientContract
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clientContracts")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
 
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
         $this->invoice = new ArrayCollection();
-        $this->clientname = new ArrayCollection();
     }
 
     /**
@@ -244,17 +244,6 @@ class ClientContract
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Invoice[]
@@ -295,6 +284,18 @@ class ClientContract
     public function setClientname(?ContactEndClient $clientname): self
     {
         $this->clientname = $clientname;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

@@ -50,14 +50,10 @@ class Address
     private $contact;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="clientcontact")
-     */
-    private $clientcontact;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="address")
      */
     private $country;
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -218,22 +214,12 @@ class Address
         $this->updatedAt = $updatedAt;
     }
 
-    public function __toString()
+
+    /*public function __toString()
     {
         // TODO: Implement __toString() method.
 
         return (string) $this->getContact();
-    }
+    }*/
 
-    public function getClientcontact(): ?ContactEndClient
-    {
-        return $this->clientcontact;
-    }
-
-    public function setClientcontact(?ContactEndClient $clientcontact): self
-    {
-        $this->clientcontact = $clientcontact;
-
-        return $this;
-    }
 }

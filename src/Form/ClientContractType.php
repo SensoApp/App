@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\ClientContract;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -37,7 +38,11 @@ class ClientContractType extends AbstractType
                 'attr' => ['placeholder' => 'Expecting numbers e.g. 160 for 160%'],
                 'required' => false
             ])
-            ->add('user')
+            ->add('user', EntityType::class, [
+                'class' => 'App\Entity\User',
+                'by_reference' => false,
+                'placeholder' => 'Select a user'
+            ])
             ->add('Submit', SubmitType::class)
         ;
     }

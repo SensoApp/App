@@ -42,7 +42,7 @@ class Mail
     private $contact;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="clientcontact")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ContactEndClient", inversedBy="mail")
      */
     private $clientcontact;
 

@@ -11,12 +11,10 @@ namespace App\Controller;
 
 use App\Entity\ClientContract;
 use App\Entity\Timesheet;
-use App\Form\ClientContractType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\HttpFoundation\Request;
 
 
 class UserController extends AbstractController
@@ -89,39 +87,5 @@ class UserController extends AbstractController
          */
     }
 
-    /**
-     * @Route(path="/newadmin/clientcontract", name="client_contract")
-     */
-    public function clientContractManagement(Request $request)
-    {
-        $clientcontractentity = new ClientContract();
-        $form = $this->createForm(ClientContractType::class, $clientcontractentity);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-
-            $clientcontract = $form->getData();
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($clientcontract);
-
-            $em->flush();
-
-            $this->addFlash('success', 'Contract has been created successfully');
-
-            //redirect to list of contract, add view and query to list thm all
-            return $this->redirectToRoute('user_dashboard');
-
-
-        }
-
-        return $this->render('form/clientcontractmanagement.html.twig', [
-
-            'form' => $form->createView()
-        ]);
-
-    }
 
 }

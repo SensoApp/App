@@ -19,6 +19,39 @@ class ContactEndClientRepository extends ServiceEntityRepository
         parent::__construct($registry, ContactEndClient::class);
     }
 
+
+    public function listOfAllClients(): array
+    {
+        $qr = $this->createQueryBuilder('u')
+            ->select('u.id','u.clientname', 'u.type', 'u.contactperson')
+            ->leftJoin('u.mail', 'm')
+            ->addSelect( 'm.mail')
+            ->leftJoin('u.phone', 'p')
+            ->addSelect('p.phonenumber');
+
+
+        return $qr->getQuery()
+                  ->execute();
+    }
+
+
+    public function viewOneClient($id): array
+    {
+        $qr = $this->createQueryBuilder('u')
+            ->select('u.id','u.clientname', 'u.type', 'u.contactperson')
+            ->leftJoin('u.mail', 'm')
+            ->addSelect( 'm.mail')
+            ->leftJoin('u.phone', 'p')
+            ->addSelect('p.phonenumber')
+            ->where('u.id = :id');
+
+        $qr->setParameter('id', $id);
+
+
+        return $qr->getQuery()
+            ->execute();
+    }
+
     // /**
     //  * @return ContactEndClient[] Returns an array of ContactEndClient objects
     //  */
