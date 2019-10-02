@@ -43,6 +43,11 @@ class Invoice
     private $status;
 
     /**
+     * @ORM\Column(type="string", length=6)
+     */
+    private $month;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -51,6 +56,47 @@ class Invoice
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $totalamount;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $vat;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $bankholidayamount;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $saturdyamount;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $sundayamount;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $businessdaysamount;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $invoicenumber;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime('now');
+        $this->date = new \DateTime('now');
+    }
 
     public function getId(): ?int
     {
@@ -123,7 +169,11 @@ class Invoice
         return $this->contract;
     }
 
-    public function setContract(int $contract): self
+    /**
+     * @param ClientContract $contract
+     * @return Invoice
+     */
+    public function setContract($contract): self
     {
         $this->contract = $contract;
 
@@ -135,10 +185,119 @@ class Invoice
         return $this->timesheet;
     }
 
-    public function setTimesheet(string $timesheet): self
+    /**
+     * @param Timesheet $timesheet
+     * @return Invoice
+     */
+    public function setTimesheet($timesheet): self
     {
         $this->timesheet = $timesheet;
 
         return $this;
     }
+
+    public function getTotalAmount(): ?float
+    {
+        return $this->totalamount;
+    }
+
+    public function setTotalAmount(float $totalamount): self
+    {
+        $this->totalamount = $totalamount;
+
+        return $this;
+    }
+
+    public function getVat(): ?float
+    {
+        return $this->vat;
+    }
+
+    public function setVat(float $vat): self
+    {
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMonth()
+    {
+        return $this->month;
+    }
+
+    /**
+     * @param string $month
+     */
+    public function setMonth(string $month): self
+    {
+        $this->month = $month;
+
+        return $this;
+    }
+
+    public function getBankholidayamount(): ?float
+    {
+        return $this->bankholidayamount;
+    }
+
+    public function setBankholidayamount(?float $bankholidayamount): self
+    {
+        $this->bankholidayamount = $bankholidayamount;
+
+        return $this;
+    }
+
+    public function getSaturdyamount(): ?float
+    {
+        return $this->saturdyamount;
+    }
+
+    public function setSaturdyamount(?float $saturdyamount): self
+    {
+        $this->saturdyamount = $saturdyamount;
+
+        return $this;
+    }
+
+    public function getSundayamount(): ?float
+    {
+        return $this->sundayamount;
+    }
+
+    public function setSundayamount(?float $sundayamount): self
+    {
+        $this->sundayamount = $sundayamount;
+
+        return $this;
+    }
+
+    public function getBusinessdaysamount(): ?float
+    {
+        return $this->businessdaysamount;
+    }
+
+    public function setBusinessdaysamount(float $businessdaysamount): self
+    {
+        $this->businessdaysamount = $businessdaysamount;
+
+        return $this;
+    }
+
+    public function getInvoicenumber(): ?int
+    {
+        return $this->invoicenumber;
+    }
+
+    public function setInvoicenumber(?int $invoicenumber): self
+    {
+        $this->invoicenumber = $invoicenumber;
+
+        return $this;
+    }
+
+
+
 }

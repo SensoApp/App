@@ -49,6 +49,9 @@ class ContactEndClient
      */
     private $contract;
 
+    /**
+     * TODO Add VAT stuff for the invoicing
+     */
 
     /**
      * @ORM\Column(type="datetime")

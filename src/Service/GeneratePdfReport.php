@@ -34,6 +34,9 @@ class GeneratePdfReport
     const TIMESHEET_VALIDATED = 'Validated';
     const EDIT_TIMESHEET = 'edit';
 
+    const INVOICE_SENT = 'Sent';
+    const INVOICE_VALIDATED = 'Validated';
+    const EDIT_INVOICE = 'edit';
 
     public function __construct(
                                 Security $security,
@@ -57,7 +60,7 @@ class GeneratePdfReport
 
     }
 
-    public function generatePdfReport($template, $filename, $id)
+    public function generatePdfReport($template, $filename, $id = null, $invoice = false)
     {
         $option1 = $this->options->setIsRemoteEnabled(true);
         $option2 = $this->options->set('defaultFont', 'titillium');
@@ -70,22 +73,43 @@ class GeneratePdfReport
         $this->dompdf->render();
         $output = $this->dompdf->output();
 
-        $filepath = $this->params->get('kernel.project_dir').'/report/timesheet/'.$filename;
+        if(!$invoice){
 
-        file_put_contents($filepath, $output);
+            $filepath = $this->params->get('kernel.project_dir').'/report/timesheet/'.$filename;
 
-        try{
+            file_put_contents($filepath, $output);
 
-            $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
+            try{
 
-            $this->entity->getRepository(Timesheet::class)
-                         ->updateStatus(self::TIMESHEET_SENT, $id, $filepath);
+                $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
 
-        } catch (\Exception $e){
+                $this->entity->getRepository(Timesheet::class)
+                    ->updateStatus(self::TIMESHEET_SENT, $id, $filepath);
 
-            return $e->getMessage();
+            } catch (\Exception $e){
+
+                return $e->getMessage();
+            }
+
+        } else {
+
+            $filepath = $this->params->get('kernel.project_dir').'/report/invoice/'.$filename;
+
+            file_put_contents($filepath, $output);
+
+            try{
+
+                $this->mailerservice->sendMail('Hello Test','Invoice', $filepath);
+
+                /*$this->entity->getRepository(Timesheet::class)
+                    ->updateStatus(self::INVOICE_SENT, $id, $filepath);*/
+
+            } catch (\Exception $e){
+
+                return $e->getMessage();
+            }
+
         }
-
 
     }
 
@@ -139,5 +163,26 @@ class GeneratePdfReport
         ]);
 
         $this->generatePdfReport($template, $filename, $id);
+    }
+
+    /**
+     * Construct to Generate Invoice
+     */
+    public function reportConstructInvoice($invoice)
+    {
+        $firstname = $this->security->getToken()->getUser()->getFirstName();
+        $lastname = $this->security->getToken()->getUser()->getLastName();
+        $user = $this->security->getToken()->getUsername();
+
+        $filename = date('dmy').'_'.uniqid().'_'.$firstname.$lastname.'.pdf';
+
+        $template =  $this->template->render('/invoice/invoiceTemplatePDF.html.twig' , [
+
+            'name' => $firstname.' '.$lastname,
+            'invoice'=> $invoice,
+
+        ]);
+
+        $this->generatePdfReport($template, $filename, $id = null, $invoice=true);
     }
 }

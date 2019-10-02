@@ -33,23 +33,51 @@
             </div>
             <div class="row">
                 <section class="col-md-12">
-                    <h3 class="h3 text-center" style="font-weight: bold">Personal details</h3>
+                    <h3 class="h3 text-center" style="font-weight: bold">Personnal details</h3>
                     <br/>
-                    <ul>
-                        <li>
-                            <address>Address</address>
-                        </li>
-                        <li>Iban</li>
-                        <li>Security number</li>
-                        <li>00352661661196</li>
-                    </ul>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Date of Birth</th>
+                            <th>Social security number</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th>Delete contact</th>
+                            {% endif %}
+                            </thead>
+                            <tbody>
+                            {% if personaldetails != null %}
+                                {%  for listing in personaldetails %}
+                                    <tr>
+                                        <td>{{ listing.firstname }}</td>
+                                        <td>{{ listing.lastname }}</td>
+                                        <td>{{ listing.dateofbirth|date('m/d/Y') }}</td>
+                                        <td>{{ listing.socialesecunumber }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <td>
+                                    <i>No personal details recorded</i>
+                                </td>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                </section>
+                <!-- I need a section invoice (tbd e.g. list invoices + status, view, "edit and delete only for admin" send email to achat_accountant stuff etc...)-->
+                <!-- I need a section statements (tbd)-->
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Contracts</h3>
+                    {% include 'form/clientcontractview.html.twig' %}
                 </section>
             </div>
-            <section class="col-md-12">
-                <h3 class="h3 text-center" style="font-weight: bold">Contracts</h3>
-                {% include 'form/clientcontractview.html.twig' %}
-            </section>
             <!-- I need a section timesheet (list timesheet with status and option to view, edit, and delete "only for admin")-->
+            <br>
+            <br>
             <div class="row">
                 <section class="col-md-12">
                     <h3 class="h3 text-center" style="font-weight: bold">Timesheet</h3>
@@ -160,6 +188,58 @@
                         </div>
                         <br/>
                         <br/>
+                        <input type="submit" class="btn btn-success" value="Validate">
+                    </form>
+                </section>
+                <!-- I need a section invoice (tbd e.g. list invoices + status, view, "edit and delete only for admin" send email to achat_accountant stuff etc...)-->
+                <!-- I need a section statements (tbd)-->
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Invoice</h3>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th>Month</th>
+                            <th>Date of Submission</th>
+                            <th>Status</th>
+                            <th>Bank holidays</th>
+                            <th>Saturdays</th>
+                            <th>Sundays</th>
+                            <th>Normal Business days</th>
+                            <th>Total Amount</th>
+                            <th>View invoice</th>
+                            <th>Download invoice</th>
+                            <th>Edit invoice</th>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <th>Delete invoice</th>
+                            {% endif %}
+                            </thead>
+                            <tbody>
+                            {% if invoice != null %}
+                                {%  for list in invoice %}
+                                    <tr>
+                                        <td>{{ list.month }}</td>
+                                        <td>{{ list.date|date('m/d/Y') }}</td>
+                                        <td>{{ list.status }}</td>
+                                        <td>{{ list.bankholidayamount }} €</td>
+                                        <td>{{ list.saturdyamount }} € </td>
+                                        <td>{{ list.sundayamount}} € </td>
+                                        <td>{{ list.businessdaysamount }} €</td>
+                                        <td>{{ list.totalAmount }} € </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <td>
+                                    <i>No invoice recorded</i>
+                                </td>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                    <form method="post" action="{{ path('upload_timesheet') }}" class="col-md-4">
                         <input type="submit" class="btn btn-success" value="Validate">
                     </form>
                 </section>

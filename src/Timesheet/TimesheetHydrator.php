@@ -31,8 +31,10 @@ class TimesheetHydrator
                     $this->timesheet->setNbreDaysWorked($days);
                     break;
                 case $dayType === 'nbreOfSundays' && $days > 0:
-                    //dd( $days);
                     $this->timesheet->setNbreOfSundays($days);
+                    break;
+                case $dayType === 'nbreOfSaturdays'&& $days > 0:
+                    $this->timesheet->setNbreOfSaturdays($days);
                     break;
                 case $dayType === 'nbrOfBankHolidays' && $days > 0:
                     $this->timesheet->setNbrOfBankHolidays($days);

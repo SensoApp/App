@@ -10,6 +10,8 @@ namespace App\Controller;
 
 
 use App\Entity\ClientContract;
+use App\Entity\Contact;
+use App\Entity\Invoice;
 use App\Entity\Timesheet;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,6 +50,10 @@ class UserController extends AbstractController
 
         //Query to get all related connected user
 
+        $personaldetails = $this->entitymanager
+                                ->getRepository(Contact::class)
+                                ->findBy(['user' => $this->user]);
+
         $timesheet = $this->entitymanager
                           ->getRepository(Timesheet::class)
                           ->findBy(['user' => $this->user]);
@@ -56,12 +62,18 @@ class UserController extends AbstractController
                                ->getRepository(ClientContract::class)
                                ->findBy(['user'=> $this->userid]);
 
+        $invoice = $this->entitymanager
+                        ->getRepository(Invoice::class)
+                        ->findBy(['user' => $this->user]);
+
         return $this->render('user/dashboard.html.twig', [
 
             'timesheet' => $timesheet,
             'firsname' => $this->firstname,
             'lastname' => $this->lastname,
-            'clientcontract' => $clientcontract
+            'clientcontract' => $clientcontract,
+            'invoice' => $invoice,
+            'personaldetails' => $personaldetails
         ]);
     }
 

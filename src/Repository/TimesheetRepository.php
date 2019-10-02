@@ -121,7 +121,7 @@ class TimesheetRepository extends ServiceEntityRepository
 
             $query = $this->getEntityManager()
             ->createQuery(
-                'update
+                         'update
                                   App\Entity\Timesheet t
                               set t.nbreDaysWorked = :nbreDaysWorked,
                                   t.nbreOfSaturdays= :nbreOfSaturdays,

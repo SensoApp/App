@@ -50,17 +50,17 @@ class ClientContract
     private $rate;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $extrapercentsatyrday;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $extrapercentsunday;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $extrapercentbankholidays;
 

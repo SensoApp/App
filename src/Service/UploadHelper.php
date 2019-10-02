@@ -80,8 +80,13 @@ class UploadHelper
 
                     $this->uploadfeedback = [
                                                 'status'=>'success',
-                                                'message' => 'the invoice process has started'
+                                                'message' => 'the invoice process has started',
+                                                'id' => $id
                                             ];
+
+                    /**
+                     * TODO Move the event trigger here??? or in another class and we just instanctiate it here??
+                     */
 
                     return $this->uploadfeedback;
 

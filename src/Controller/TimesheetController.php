@@ -7,6 +7,7 @@ namespace App\Controller;
 
 
 use App\Entity\Timesheet;
+use App\Events\TimeSheetValidationEvent;
 use App\Service\DateGeneratorService;
 use App\Service\GeneratePdfReport;
 use App\Service\UploadHelper;
@@ -14,6 +15,7 @@ use App\Timesheet\TimesheetHydrator;
 use App\Timesheet\TimesheetValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -136,7 +138,7 @@ class TimesheetController extends AbstractController
     /**
      * @Route(path="/newadmin/uploadtimesheet", name="upload_timesheet")
      */
-    public function validateUploadTimeSheet(Request $request, UploadHelper $uploadHelper)
+    public function validateUploadTimeSheet(Request $request, UploadHelper $uploadHelper, EventDispatcherInterface $eventDispatcher)
     {
         try{
 
@@ -145,6 +147,11 @@ class TimesheetController extends AbstractController
            switch($fileuploaded){
 
                case $fileuploaded['status'] === 'success':
+
+                    $timesheetobject = $this->entitymanager->getRepository(Timesheet::class)->find($fileuploaded['id']);
+
+                    $event = new TimeSheetValidationEvent($timesheetobject);
+                   $eventDispatcher->dispatch(TimeSheetValidationEvent::NAME, $event);
 
                    $this->addFlash('success', sprintf('Timesheet validated, %s', $fileuploaded['message']));
 
