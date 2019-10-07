@@ -68,7 +68,9 @@ class TimesheetRepository extends ServiceEntityRepository
                         'update 
                                   App\Entity\Timesheet t 
                               set t.status = :status, 
-                                  t.path= :path
+                                  t.path= :path,
+                                  t.updatedAt = :updatdate
+
                               where 
                                   t.id = :id'
                       );
@@ -76,7 +78,8 @@ class TimesheetRepository extends ServiceEntityRepository
         $query->setParameters([
                                 'status' =>$status,
                                 'id' => $id,
-                                'path' => $filepath
+                                'path' => $filepath,
+                                'updatdate' => new \DateTime('now')
 
                                 ]);
         $query->execute();

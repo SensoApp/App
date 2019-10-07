@@ -8,6 +8,7 @@
 
 namespace App\Service;
 
+use App\Entity\Invoice;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -34,9 +35,9 @@ class GeneratePdfReport
     const TIMESHEET_VALIDATED = 'Validated';
     const EDIT_TIMESHEET = 'edit';
 
-    const INVOICE_SENT = 'Sent';
-    const INVOICE_VALIDATED = 'Validated';
-    const EDIT_INVOICE = 'edit';
+    const INVOICE_SENT = 'Sent for validation';
+    const INVOICE_VALIDATED = 'Validated - sent to client';
+    const INVOICE_CLOSED = 'Closed';
 
     public function __construct(
                                 Security $security,
@@ -101,8 +102,8 @@ class GeneratePdfReport
 
                 $this->mailerservice->sendMail('Hello Test','Invoice', $filepath);
 
-                /*$this->entity->getRepository(Timesheet::class)
-                    ->updateStatus(self::INVOICE_SENT, $id, $filepath);*/
+                $this->entity->getRepository(Invoice::class)
+                    ->updateStatus(self::INVOICE_SENT, $id, $filepath);
 
             } catch (\Exception $e){
 
@@ -167,8 +168,13 @@ class GeneratePdfReport
 
     /**
      * Construct to Generate Invoice
+     * @param $invoice
+     * @param array $timesheetdata
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
-    public function reportConstructInvoice($invoice)
+    public function reportConstructInvoice($invoice, $invoiceid, array $timesheetdata)
     {
         $firstname = $this->security->getToken()->getUser()->getFirstName();
         $lastname = $this->security->getToken()->getUser()->getLastName();
@@ -176,13 +182,15 @@ class GeneratePdfReport
 
         $filename = date('dmy').'_'.uniqid().'_'.$firstname.$lastname.'.pdf';
 
+
         $template =  $this->template->render('/invoice/invoiceTemplatePDF.html.twig' , [
 
             'name' => $firstname.' '.$lastname,
             'invoice'=> $invoice,
+            'timesheetdata' => $timesheetdata
 
         ]);
 
-        $this->generatePdfReport($template, $filename, $id = null, $invoice=true);
+        $this->generatePdfReport($template, $filename, $invoiceid, $invoice=true);
     }
 }

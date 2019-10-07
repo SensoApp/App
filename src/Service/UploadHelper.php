@@ -84,9 +84,6 @@ class UploadHelper
                                                 'id' => $id
                                             ];
 
-                    /**
-                     * TODO Move the event trigger here??? or in another class and we just instanctiate it here??
-                     */
 
                     return $this->uploadfeedback;
 

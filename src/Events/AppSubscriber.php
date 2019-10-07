@@ -9,6 +9,8 @@
 namespace App\Events;
 
 
+use App\Controller\InvoiceController;
+use App\Entity\Invoice;
 use App\Invoice\InvoiceGenerator;
 use App\Repository\InvoiceRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -50,17 +52,31 @@ class AppSubscriber implements EventSubscriberInterface
 
         return [
 
-            TimeSheetValidationEvent::NAME => 'onTimesheetValidated'
+            TimeSheetValidationEvent::NAME => 'onTimesheetValidated',
+            InvoiceValidationEvent::NAME => 'onInvoiceValidated'
         ];
     }
 
 
     public function onTimesheetValidated(TimeSheetValidationEvent $event)
     {
-        //dd($event);
         $items = $this->invoiceRepository->findTimesheetAndContractForInvoice($event->getTimesheetId());
 
         $this->invoiceGenerator->retrieveDataForInvoice($items);
 
+    }
+
+    public function onInvoiceValidated(InvoiceValidationEvent $event)
+    {
+        $this->invoiceRepository
+             ->updateStatusAfterValidation(
+                                        InvoiceController::INVOICE_VALIDATED,
+                                               $event->getInvoiceId(),
+                                  InvoiceController::PAYMENT_PENDING
+                                          );
+
+        // send email to client (create process to get the email address of Client (Clientcontract)?
+        // send email to accountant (subject Vente... and vente email address)
+        // Add signed timesheet (path when uploded/validated is up to date i.e. timesheet_signed
     }
 }

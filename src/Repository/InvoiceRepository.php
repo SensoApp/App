@@ -70,6 +70,54 @@ class InvoiceRepository extends ServiceEntityRepository
 
     }
 
+    public function updateStatus($status, $id, $filepath = null)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'update 
+                          App\Entity\Invoice t 
+                      set t.status = :status, 
+                          t.path= :path,
+                          t.updatedAt = :updatdate
+                      where 
+                          t.id = :id'
+            );
+
+        $query->setParameters([
+            'status' =>$status,
+            'id' => $id,
+            'path' => $filepath,
+            'updatdate' => new \DateTime('now')
+
+        ]);
+
+        $query->execute();
+    }
+
+    public function updateStatusAfterValidation($status, $id, $paymentstatus)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'update 
+                          App\Entity\Invoice t 
+                      set t.status = :status, 
+                          t.paymentstatus = :paymentstatus,
+                          t.updatedAt = :updatdate
+                      where 
+                          t.id = :id'
+            );
+
+        $query->setParameters([
+            'status' =>$status,
+            'id' => $id,
+            'paymentstatus' => $paymentstatus,
+            'updatdate' => new \DateTime('now')
+
+        ]);
+
+        $query->execute();
+    }
+
     // /**
     //  * @return Invoice[] Returns an array of Invoice objects
     //  */

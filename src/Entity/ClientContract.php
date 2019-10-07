@@ -86,6 +86,11 @@ class ClientContract
      */
     private $user;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="clientcontract")
+     */
+    private $contact;
+
 
     public function __construct()
     {
@@ -296,6 +301,18 @@ class ClientContract
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?Contact $contact): self
+    {
+        $this->contact = $contact;
 
         return $this;
     }

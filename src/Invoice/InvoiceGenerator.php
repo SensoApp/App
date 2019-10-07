@@ -9,6 +9,9 @@ use App\Entity\Timesheet;
 use App\Service\GeneratePdfReport;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class InvoiceGenerator
 {
@@ -50,11 +53,11 @@ class InvoiceGenerator
      * Retrieves the data passed by the event to the Subscriber and then triggers the invoice calculation
      * @param $id
      */
-    public function retrieveDataForInvoice(array $id)
+    public function retrieveDataForInvoice(array $timesheetdata)
     {
         //Get the timesheet + the contract data related to the user
 
-        foreach ($id as $item){
+        foreach ($timesheetdata as $item){
 
            $this->nbreDaysWorked =  $item['nbreDaysWorked'];
            $this->nbrOfBankHolidays = $item['nbrOfBankHolidays'];
@@ -71,9 +74,8 @@ class InvoiceGenerator
 
         }
 
-        $this->hydrateInvoice($this->invoiceCalculationUtil());
+        $this->hydrateInvoice($this->invoiceCalculationUtil(),$timesheetdata );
 
-        $this->generatepdf->reportConstructInvoice($this->invoice);
     }
 
     /**
@@ -128,7 +130,7 @@ class InvoiceGenerator
     /**
      * It sets the invoice entity with the data retrieved after the Timehseet has been validated
      */
-    public function hydrateInvoice($amount)
+    public function hydrateInvoice($amount, array $timesheetdata)
     {
 
         $this->contract = $this->entityManager
@@ -163,9 +165,12 @@ class InvoiceGenerator
             $this->entityManager->persist($invoice);
             $this->entityManager->flush();
 
+            $this->generatepdf->reportConstructInvoice($this->invoice,$invoice->getId(), $timesheetdata);
+
         } catch (Exception $exception){
 
-            return $exception->getMessage();
+             $exception->getMessage();
+
         }
 
     }

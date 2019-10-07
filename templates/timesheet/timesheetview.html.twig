@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <body>
     {% include 'header.html.twig' %}
         <div class="container-fluid">
             <div class="row">
@@ -82,194 +83,194 @@
     <br/>
     <br/>
     {% include 'footer.html.twig'%}
+        <script type="text/javascript">
 
-    <script type="text/javascript">
+            $(function () {
 
-        $(function () {
+                var nbreOfDays;
 
-            var nbreOfDays;
+                var totalValue;
 
-            var totalValue;
+                var nbreOfSaturdays = [];
 
-            var nbreOfSaturdays = [];
+                var finalSaturdays;
 
-            var finalSaturdays;
+                var nbreOfSundays = [];
 
-            var nbreOfSundays = [];
+                var finalSundays;
 
-            var finalSundays;
+                var nbrOfBankHolidays = [];
 
-            var nbrOfBankHolidays = [];
+                var finalBankHolidays;
 
-            var finalBankHolidays;
+                var currentMonth;
 
-            var currentMonth;
+               $('#count').on('click', function () {
 
-           $('#count').on('click', function () {
+                   nbreOfDays = $('.nbreDays').text();
 
-               nbreOfDays = $('.nbreDays').text();
+                   totalValue = $('#total');
 
-               totalValue = $('#total');
+                   if(!totalValue.empty()){
 
-               if(!totalValue.empty()){
+                       totalValue.empty();
 
-                   totalValue.empty();
+                       totalValue.append(nbreOfDays.length);
 
-                   totalValue.append(nbreOfDays.length);
+                       nbreOfDays = nbreOfDays.length;
 
-                   nbreOfDays = nbreOfDays.length;
+                   } else {
 
-               } else {
+                       totalValue.append(nbreOfDays.length);
 
-                   totalValue.append(nbreOfDays.length);
+                       nbreOfDays = nbreOfDays.length;
 
-                   nbreOfDays = nbreOfDays.length;
-
-               }
-           });
-
-           $('.days').blur( function () {
-
-               var valueUpdate = $(this).val();
-
-               if(valueUpdate === "0" || valueUpdate === ""){
-
-                   $(this).removeClass('nbreDays');
-
-               } else if ( valueUpdate === "1") {
-
-                   $(this).addClass('nbreDays');
-
-                   let otherdays = $(this).parent().siblings('tr .wdays').text();
-
-                   switch (otherdays != null) {
-
-                       case otherdays === 'Sat' :
-
-                           nbreOfSaturdays.push(1);
-
-                           finalSaturdays = nbreOfSaturdays.length;
-
-                           break;
-
-                       case otherdays === 'Sun':
-
-                           nbreOfSundays.push(1);
-
-                           finalSundays = nbreOfSundays.length;
-
-                           break;
                    }
-               }
-           });
+               });
+
+               $('.days').blur( function () {
+
+                   var valueUpdate = $(this).val();
+
+                   if(valueUpdate === "0" || valueUpdate === ""){
+
+                       $(this).removeClass('nbreDays');
+
+                   } else if ( valueUpdate === "1") {
+
+                       $(this).addClass('nbreDays');
+
+                       let otherdays = $(this).parent().siblings('tr .wdays').text();
+
+                       switch (otherdays != null) {
+
+                           case otherdays === 'Sat' :
+
+                               nbreOfSaturdays.push(1);
+
+                               finalSaturdays = nbreOfSaturdays.length;
+
+                               break;
+
+                           case otherdays === 'Sun':
+
+                               nbreOfSundays.push(1);
+
+                               finalSundays = nbreOfSundays.length;
+
+                               break;
+                       }
+                   }
+               });
 
 
-            $('select').on('blur', function () {
+                $('select').on('blur', function () {
 
-                let otherd = $(this).find(':selected').text();
-                let otherdays = $(this).parent().siblings('tr .wdays').text();
+                    let otherd = $(this).find(':selected').text();
+                    let otherdays = $(this).parent().siblings('tr .wdays').text();
 
-               console.log(otherd);
+                   console.log(otherd);
 
-                if (otherd === "Bank holidays" && !( otherdays === "Sat" || otherdays === "Sun")) {
+                    if (otherd === "Bank holidays" && !( otherdays === "Sat" || otherdays === "Sun")) {
 
-                    nbrOfBankHolidays.push(1);
+                        nbrOfBankHolidays.push(1);
 
-                    finalBankHolidays = nbrOfBankHolidays.length;
+                        finalBankHolidays = nbrOfBankHolidays.length;
 
-                    console.log(finalBankHolidays);
+                        console.log(finalBankHolidays);
 
-                }
-            });
+                    }
+                });
 
-            $('#reset').on('click', function () {
+                $('#reset').on('click', function () {
 
-                location.reload();
+                    location.reload();
 
-            });
+                });
 
 
-            $('#sub').on('click', function () {
+                $('#sub').on('click', function () {
 
-                nbreOfDays = $('.nbreDays').text();
+                    nbreOfDays = $('.nbreDays').text();
 
-                currentMonth = $('.hidden').first().text();
+                    currentMonth = $('.hidden').first().text();
 
-                nbreOfDays = nbreOfDays.length;
+                    nbreOfDays = nbreOfDays.length;
 
-                finalSaturdays;
+                    finalSaturdays;
 
-                finalSundays;
+                    finalSundays;
 
-                finalBankHolidays;
+                    finalBankHolidays;
 
-                let confirmation = confirm(
-                      "Can you confirm that you worked "+ nbreOfDays+" days \n"+
-                      " Saturdays: "+ (finalSaturdays === undefined ? "0" : finalSaturdays )+"\n"+
-                      " Sundays: "+ (finalSundays === undefined ? "0" : finalSundays )+"\n"+
-                      " Bank Holidays: "+ + (finalBankHolidays === undefined ? "0" : finalBankHolidays )
-                     );
+                    let confirmation = confirm(
+                          "Can you confirm that you worked "+ nbreOfDays+" days \n"+
+                          " Saturdays: "+ (finalSaturdays === undefined ? "0" : finalSaturdays )+"\n"+
+                          " Sundays: "+ (finalSundays === undefined ? "0" : finalSundays )+"\n"+
+                          " Bank Holidays: "+ + (finalBankHolidays === undefined ? "0" : finalBankHolidays )
+                         );
 
-                if(confirmation){
+                    if(confirmation){
 
-                    $.ajax({
-                        url:'{{ path('saveTimesheet') }}',
-                        type: 'POST',
-                        data: {
-                                nbrOfDays : nbreOfDays,
-                                nbreOfSaturdays: finalSaturdays,
-                                nbreOfSundays: finalSundays,
-                                nbrOfBankHolidays: finalBankHolidays,
-                                currentMonth: currentMonth
-                              },
-                        dataType: 'html',
+                        $.ajax({
+                            url:'{{ path('saveTimesheet') }}',
+                            type: 'POST',
+                            data: {
+                                    nbrOfDays : nbreOfDays,
+                                    nbreOfSaturdays: finalSaturdays,
+                                    nbreOfSundays: finalSundays,
+                                    nbrOfBankHolidays: finalBankHolidays,
+                                    currentMonth: currentMonth
+                                  },
+                            dataType: 'html',
 
-                        success: function (msg) {
+                            success: function (msg) {
 
-                            var obj =  JSON.parse(msg);
+                                var obj =  JSON.parse(msg);
 
-                            $.each(obj, function (key, val) {
+                                $.each(obj, function (key, val) {
 
-                                if(key === 'error'){
-
-                                $('.row').first().append(
-                                        '<div id="target1" class="col-md-12 text-center alert alert-danger">'+
-                                        '<i class="fa fa-window-close text-right" aria-hidden="true">'+val+'</i>'+
-                                        '</div>');
-
-                                } else if (key === 'success') {
+                                    if(key === 'error'){
 
                                     $('.row').first().append(
-                                        '<div id="target1" class="col-md-12 text-center alert alert-success">'+
-                                        '<i class="fa fa-window-close text-right" aria-hidden="true">'+val+'</i>'+
-                                        '</div>');
+                                            '<div id="target1" class="col-md-12 text-center alert alert-danger">'+
+                                            '<i class="fa fa-window-close text-right" aria-hidden="true">'+val+'</i>'+
+                                            '</div>');
 
-                                }
+                                    } else if (key === 'success') {
 
-                                $('html, body').animate({
-                                    'scrollTop' : $("#target1").position().top
-                                });
+                                        $('.row').first().append(
+                                            '<div id="target1" class="col-md-12 text-center alert alert-success">'+
+                                            '<i class="fa fa-window-close text-right" aria-hidden="true">'+val+'</i>'+
+                                            '</div>');
 
-                                $('#target1').on('click', function () {
+                                    }
 
-                                    setTimeout(
-                                        500,
-                                        $('.alert').remove(),
-                                        location.reload()
-                                    );
+                                    $('html, body').animate({
+                                        'scrollTop' : $("#target1").position().top
+                                    });
 
-                                });
-                            })
+                                    $('#target1').on('click', function () {
 
-                        }
+                                        setTimeout(
+                                            500,
+                                            $('.alert').remove(),
+                                            location.reload()
+                                        );
 
-                    });
+                                    });
+                                })
 
-                }
+                            }
+
+                        });
+
+                    }
+
+                });
 
             });
 
-        });
-
-    </script>
+        </script>
+    </body>
 {% endblock %}

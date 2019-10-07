@@ -2,32 +2,109 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Events/AppSubscriber.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Events/TimeSheetValidationEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/senso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/senso.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Events/InvoiceValidationEvent.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet/220819_5d5e62743417a_JamalMazegh.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d5e62c4883d5.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TimesheetController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TimesheetController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/011019_5d93bdcdd898e_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/021019_5d9442114fa15_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/021019_5d948428d1889_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93599e4c596_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93704cccfc1_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93ab4dd4cc2_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93ac573d7e1_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93b86576368_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93b92374e3c_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93bc519ed69_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93bdb954bd3_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/011019_5d93be2658e41_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/021019_5d9484014be7b_JamalMazegh.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d935b9e8418c.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d936692af4ba.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93672bb1d81.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d936747b26fe.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d9367582db4a.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d9367857eb01.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93707bb5479.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ab657f19b.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ab85f38ca.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ab9815602.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93abba3e296.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ac6894f74.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ace8ce754.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ad5093821.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ad8c2a2e3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93adaf50813.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93adfb7757f.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ae1a66e18.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ae60a4055.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93af3c3c1de.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93af9e3603b.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93afc2386c2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93afef7186b.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b0013f8d2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b00fcc7f7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b05b2f046.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b09440e33.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b09d09ca5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b0abbb3a7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b0c684814.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b0cfdab6d.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b0dd0b6e2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b0f352f47.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b162b7cd0.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b1aa64fea.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b1d106ae3.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b218db3fc.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b2736c5a5.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b298e4430.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b323d2be8.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b32b0e333.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b34440752.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b3f8cb3c4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b408d93d4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b434b5a9b.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b4476f0e2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b46384a03.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b55ee4e61.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b632586b4.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b63ecfd17.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b662cd54d.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b67919d74.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b68a279ee.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b70fb49da.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b7814d97c.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b7d510237.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b7e7c3643.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b87fc4b8c.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b9369f432.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b967ca571.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93b97caf073.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ba2b45a52.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ba408167d.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93ba6e0e3d1.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bab266a90.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bac87f9df.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bb2cd61b2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bb6160d86.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bc156d5ad.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bc64d96e2.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93bdcdbd941.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d93be38dbc3b.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d943fb53c589.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d943fe6a0a6c.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d94404e8ba2d.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d9442112dfb7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725d948428abe76.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/ClientContract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ClientContract.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ContactEndClient.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ContactEndClient.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Events/AppSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Events/AppSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/TimesheetRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TimesheetRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/UploadHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UploadHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -92,46 +169,6 @@
         <option value="CSS File" />
       </list>
     </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>toggle</find>
-      <find>color</find>
-      <find>list</find>
-      <find>navba</find>
-      <find>navbar-light</find>
-      <find>light</find>
-      <find>navbar-example</find>
-      <find>li</find>
-      <find>active</find>
-      <find>header-area.stick</find>
-      <find>img</find>
-      <find>instance</find>
-      <find>pho</find>
-      <find>add</find>
-      <find>addre</find>
-      <find>city</find>
-      <find>streetcity</find>
-      <find>]</find>
-      <find>clientcontract</find>
-      <find>0</find>
-      <find>iban</find>
-      <find>nav</find>
-      <find>head</find>
-      <find>stick</find>
-      <find>sticker</find>
-      <find>scroll</find>
-      <find>header-area</find>
-      <find>a</find>
-      <find>ul</find>
-      <find>loader</find>
-    </findStrings>
-    <replaceStrings>
-      <replace />
-    </replaceStrings>
-    <dirStrings>
-      <dir>$PROJECT_DIR$/app/Resources/views</dir>
-    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -244,10 +281,6 @@
       <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher-contracts" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
-  </component>
   <component name="ProjectId" id="1RarbTOdsDCdhOQ59sQq78AzId6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
@@ -325,12 +358,12 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@326a917" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@5d63c7e5" type="7427dc5b:ServiceModel$ServiceGroupNode" />
             </path>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@326a917" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@66c49b0f" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@5d63c7e5" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@69e09aae" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />
@@ -370,7 +403,8 @@
       <workItem from="1568108179626" duration="10096000" />
       <workItem from="1568730857253" duration="30640000" />
       <workItem from="1569915403766" duration="368000" />
-      <workItem from="1569916134424" duration="15800000" />
+      <workItem from="1569916134424" duration="31715000" />
+      <workItem from="1570206864945" duration="11062000" />
     </task>
     <servers />
   </component>

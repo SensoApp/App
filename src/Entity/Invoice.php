@@ -92,6 +92,16 @@ class Invoice
      */
     private $invoicenumber;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $path;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentstatus;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -180,7 +190,7 @@ class Invoice
         return $this;
     }
 
-    public function getTimesheet(): ?string
+    public function getTimesheet()
     {
         return $this->timesheet;
     }
@@ -294,6 +304,30 @@ class Invoice
     public function setInvoicenumber(?int $invoicenumber): self
     {
         $this->invoicenumber = $invoicenumber;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function getPaymentstatus(): ?string
+    {
+        return $this->paymentstatus;
+    }
+
+    public function setPaymentstatus(?string $paymentstatus): self
+    {
+        $this->paymentstatus = $paymentstatus;
 
         return $this;
     }
