@@ -25,18 +25,7 @@ class InvoiceRepository extends ServiceEntityRepository
     public function findTimesheetAndContractForInvoice($id) : array
     {
         $email = $this->getEntityManager()
-                       ->createQuery('select u.nbreDaysWorked,
-                                                  u.nbrOfBankHolidays,
-                                                  u.nbreOfSaturdays,
-                                                  u.nbreOfSundays,
-                                                  u.user,
-                                                  u.month,
-                                                  u.id as timesheetid,
-                                                  c.rate,
-                                                  c.extrapercentsatyrday,
-                                                  c.extrapercentsunday,
-                                                  c.extrapercentbankholidays,
-                                                  c.id as contractid
+                       ->createQuery('select u
                                             from App\Entity\Timesheet u 
                                             inner join App\Entity\ClientContract c
                                             where u.id='.$id);
@@ -118,32 +107,20 @@ class InvoiceRepository extends ServiceEntityRepository
         $query->execute();
     }
 
-    // /**
-    //  * @return Invoice[] Returns an array of Invoice objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Invoice
+   public function multipleSelectionInvoiceClientTimesheet($invoiceid)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $query = $this->getEntityManager()
+                      ->createQuery(
+                          'select i 
+                                from App\Entity\Invoice i
+                                inner join App\Entity\ClientContract c
+                                inner join App\Entity\Timesheet t 
+                                where i.id='.$invoiceid
+                      );
+
+
+        return $query->getResult();
+
     }
-    */
 }

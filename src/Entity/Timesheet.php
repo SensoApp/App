@@ -76,6 +76,12 @@ class Timesheet
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClientContract", inversedBy="timesheets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $contract;
+
 
     public function __construct()
     {
@@ -235,6 +241,18 @@ class Timesheet
         if ($newTimesheet !== $invoice->getTimesheet()) {
             $invoice->setTimesheet($newTimesheet);
         }
+
+        return $this;
+    }
+
+    public function getContract(): ?ClientContract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?ClientContract $contract): self
+    {
+        $this->contract = $contract;
 
         return $this;
     }

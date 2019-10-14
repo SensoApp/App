@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 
+use App\Entity\ClientContract;
 use App\Entity\Timesheet;
 use App\Events\TimeSheetValidationEvent;
 use App\Service\DateGeneratorService;
@@ -44,14 +45,17 @@ class TimesheetController extends AbstractController
      */
     public function viewTimesheet(DateGeneratorService $dateGenerator, Request $request)
     {
-
         $month = $request->server->get('REQUEST_TIME');
 
         $dates = $dateGenerator->periodRequest($month, $request->getQueryString());
 
+        $contract = $this->entitymanager->getRepository(ClientContract::class)
+                                        ->findBy(['user' =>$this->getUser()->getId()]);
+
         return $this->render('timesheet/timesheetview.html.twig', [
 
-           'date' => $dates
+           'date' => $dates,
+           'contractdetails' => $contract
        ]);
     }
 
@@ -80,7 +84,6 @@ class TimesheetController extends AbstractController
 
                 echo  $e->getMessage();
             }
-
             $generatePdfReport->reportConstructTimeSheet($timesheet->getMonth());
 
             return new JsonResponse([

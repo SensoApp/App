@@ -7,7 +7,22 @@
             <div class="row">
                 <br>
                 <br>
+                <br>
+                <br>
                 <h3 class="text-center">Timesheet</h3>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="text-center">Select a client</h4>
+                    <select class="col-md-4 md-textarea form-control clientcontract" required>
+                        <option value=""></option>
+                            {% for contractdetail in contractdetails %}
+                                <option value="{{ contractdetail.clientname }}"> {{ contractdetail.id }}-{{ contractdetail.clientname }}</option>
+                            {% endfor %}
+                    </select>
+                </div>
             </div>
             <br>
             <br>
@@ -104,6 +119,15 @@
                 var finalBankHolidays;
 
                 var currentMonth;
+
+                var clientname;
+
+                $('.clientcontract').blur(function () {
+
+                     clientname = $(this).find(':selected').text();
+
+                    console.log(clientname);
+                });
 
                $('#count').on('click', function () {
 
@@ -203,6 +227,8 @@
 
                     finalBankHolidays;
 
+                    clientname;
+
                     let confirmation = confirm(
                           "Can you confirm that you worked "+ nbreOfDays+" days \n"+
                           " Saturdays: "+ (finalSaturdays === undefined ? "0" : finalSaturdays )+"\n"+
@@ -220,8 +246,10 @@
                                     nbreOfSaturdays: finalSaturdays,
                                     nbreOfSundays: finalSundays,
                                     nbrOfBankHolidays: finalBankHolidays,
-                                    currentMonth: currentMonth
+                                    currentMonth: currentMonth,
+                                    clientcontract: clientname,
                                   },
+
                             dataType: 'html',
 
                             success: function (msg) {

@@ -42,6 +42,7 @@ class UploadHelper
         try{
 
             $filepath  = $this->params->get('kernel.project_dir').'/report/timesheet_signed';
+
             /**
              * @var UploadedFile $uploadedfile
              */
@@ -83,12 +84,8 @@ class UploadHelper
                                                 'message' => 'the invoice process has started',
                                                 'id' => $id
                                             ];
-
-
                     return $this->uploadfeedback;
-
                 }
-
             } else {
 
                 $this->uploadfeedback = [
@@ -97,10 +94,7 @@ class UploadHelper
                                         ];
 
                 return $this->uploadfeedback;
-
             }
-
-
         } catch (\Exception $exception){
 
             echo $exception->getMessage();

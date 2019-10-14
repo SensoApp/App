@@ -64,9 +64,7 @@ class MailerService
 
             $this->mailer->send($message);
         }
-
         $this->mailer->send($message);
-
     }
 
 
@@ -117,5 +115,35 @@ class MailerService
         return $query!= null?true:false;
 
 
+    }
+
+    /**
+     * @param $mail
+     * @param $messagebody
+     * @param $messagesubject
+     * @param array|null $attach
+     * Send email with multiple attachements
+     */
+    public function sendMultipleAttachement($mail, $messagebody, $messagesubject, array $attach = null)
+    {
+        $message = (new \Swift_Message('Invoice'))
+            ->setFrom(['info@senso.lu' => 'Info Senso no-reply'])
+            ->setTo($mail)
+            ->setBcc('smouheb@senso.lu')
+            ->setSubject($messagesubject)
+            ->setBody($messagebody, 'text/html')
+            ->setCharset('UTF-8');
+
+             if(count($attach) > 1 ){
+
+                 foreach ($attach as $attachement){
+
+                     $message->attach(Swift_Attachment::fromPath($attachement));
+                 }
+
+                 $this->mailer->send($message);
+             }
+
+             $this->mailer->send($message);
     }
 }

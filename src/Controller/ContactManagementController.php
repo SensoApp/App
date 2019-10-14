@@ -125,8 +125,6 @@ class ContactManagementController extends AbstractController
 
             $task = $form->getData();
 
-            dd($task);
-
             $task->setUpdatedAt(new \DateTime('now'));
 
             $this->em->flush();
@@ -261,8 +259,6 @@ class ContactManagementController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
             $clientcontract = $form->getData();
-
-           //$clientcontract->setUser($clientcontract->getUser());
 
             $em = $this->getDoctrine()->getManager();
 

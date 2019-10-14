@@ -9,7 +9,6 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -67,13 +66,6 @@ class Contact
      * @ORM\OneToMany(targetEntity="App\Entity\CitizenshipDetails", mappedBy="contact", cascade={"persist", "remove"})
      */
     private $citizenshipdetails;
-
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="contact")
-     */
-    private $clientcontract;
-
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Phone", mappedBy="contact", cascade={"persist", "remove"})
@@ -246,8 +238,6 @@ class Contact
     {
         $this->updatedAt = $updatedAt;
 
-        // TODO: Implement trigger to update other entities linked.
-
     }
 
     /**
@@ -373,47 +363,6 @@ class Contact
     public function getCitizenshipdetails()
     {
         return $this->citizenshipdetails;
-    }
-
-    /**
-     * Add clientcontract.
-     *
-     * @param \App\Entity\ClientContract $clientcontract
-     *
-     * @return Contact
-     */
-    public function addClientcontract(\App\Entity\ClientContract $clientcontract)
-    {
-        if(!$this->contract->contains($clientcontract)){
-
-            $clientcontract->setContact($this);
-            $this->clientcontract[] = $clientcontract;
-
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove clientcontract.
-     *
-     * @param \App\Entity\ClientContract $clientcontract
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeClientcontract(\App\Entity\ClientContract $clientcontract)
-    {
-        return $this->clientcontract->removeElement($clientcontract);
-    }
-
-    /**
-     * Get clientcontract.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getClientcontract()
-    {
-        return $this->clientcontract;
     }
 
     /**

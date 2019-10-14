@@ -94,30 +94,30 @@
                                 <th>Number of Sundays</th>
                                 <th>View timesheet</th>
                                 <th>Download timesheet</th>
-                                {% if timesheet != null %}
-                                    {% if timesheet[0].status != 'Validated' %}
+                                {% for tsheet in timesheet if tsheet.status != 'Validated' %}
+                                    {% if loop.index < 2 %}
                                         <th>Edit timesheet</th>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <th>Delete timesheet</th>
+                                        {% endif %}
                                     {% endif %}
-                                    {% if is_granted('ROLE_ADMIN') and timesheet[0].status != 'Validated'%}
-                                        <th>Delete timesheet</th>
-                                    {% endif %}
-                                {% endif %}
+                                {% endfor %}
                             </thead>
                             <tbody>
                             {% if timesheet != null %}
-                                {%  for list in timesheet %}
+                                {%  for tsheet in timesheet %}
                                     <tr class="text-center">
-                                        <td>{{ list.month }}</td>
-                                        <td>{{ list.date|date('m/d/Y') }}</td>
-                                        <td>{{ list.status }}</td>
-                                        <td>{{ list.nbreDaysWorked }}</td>
-                                        <td>{{ list.nbrOfBankHolidays }}</td>
-                                        <td>{{ list.nbreOfSaturdays }}</td>
-                                        <td>{{ list.nbreOfSundays }}</td>
-                                        {% if list.path != null %}
+                                        <td>{{ tsheet.month }}</td>
+                                        <td>{{ tsheet.date|date('m/d/Y') }}</td>
+                                        <td>{{ tsheet.status }}</td>
+                                        <td>{{ tsheet.nbreDaysWorked }}</td>
+                                        <td>{{ tsheet.nbrOfBankHolidays }}</td>
+                                        <td>{{ tsheet.nbreOfSaturdays }}</td>
+                                        <td>{{ tsheet.nbreOfSundays }}</td>
+                                        {% if tsheet.path != null %}
                                             <td>
                                                 <p data-placement="top" data-toggle="tooltip" title="View">
-                                                    <a href="{{ path('viewtimesheetpdf', {id:  list.id}) }}">
+                                                    <a href="{{ path('viewtimesheetpdf', {id:  tsheet.id}) }}">
                                                         <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
                                                         </button>
                                                     </a>
@@ -125,7 +125,7 @@
                                             </td>
                                             <td>
                                                 <p data-placement="top" data-toggle="tooltip" title="download">
-                                                    <a href="{{ path('downloadtimesheet', {id: list.id}) }}">
+                                                    <a href="{{ path('downloadtimesheet', {id: tsheet.id}) }}">
                                                         <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
                                                         </button>
                                                     </a>
@@ -133,18 +133,18 @@
                                             </td>
                                             <td>
                                                 <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                    {% if list.status != 'Validated' %}
-                                                    <a href="{{ path('modify_timesheet', {id: list.id}) }}">
+                                                    {% if tsheet.status != 'Validated' %}
+                                                    <a href="{{ path('modify_timesheet', {id: tsheet.id}) }}">
                                                         <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
                                                         </button>
                                                     </a>
                                                     {% endif %}
                                                 </p>
                                             </td>
-                                            {% if is_granted('ROLE_ADMIN') and list.status != 'Validated'%}
+                                            {% if is_granted('ROLE_ADMIN') and tsheet.status != 'Validated'%}
                                                 <td>
                                                     <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                        <a href="{{ path('deletetimesheet', {id:  list.id}) }}">
+                                                        <a href="{{ path('deletetimesheet', {id:  tsheet.id}) }}">
                                                             <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
                                                             </button>
                                                         </a>
@@ -174,10 +174,10 @@
                         <label for="selectmonth">Select a month</label>
                         <select name="month" class="form-control col-md-4" id="selectmonth">
                             <option selected></option>
-                            {% for list in timesheet %}
-                                {%if list.status == 'Sent' %}
+                            {% for tsheet in timesheet %}
+                                {%if tsheet.status == 'Sent' %}
                                     <option>
-                                        {{ list.month }}
+                                        {{ tsheet.month }}
                                     </option>
                                 {% endif %}
                             {% endfor %}

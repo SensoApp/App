@@ -9,15 +9,19 @@
 namespace App\Timesheet;
 
 
+use App\Entity\ClientContract;
 use App\Entity\Timesheet;
+use Doctrine\ORM\EntityManagerInterface;
 
 class TimesheetHydrator
 {
     private $timesheet;
+    private $entityManager;
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->timesheet = new Timesheet();
+        $this->entityManager = $entityManager;
     }
 
     public function hydrateTimesheet($request, $security) : Timesheet
@@ -38,6 +42,18 @@ class TimesheetHydrator
                     break;
                 case $dayType === 'nbrOfBankHolidays' && $days > 0:
                     $this->timesheet->setNbrOfBankHolidays($days);
+                    break;
+                case $dayType === 'clientcontract':
+
+                    $clientcontract = $this->entityManager
+                                           ->getRepository(ClientContract::class)
+                                           ->findBy(['id'=> $days]);
+
+                    foreach ($clientcontract as $cli){
+
+                        $this->timesheet->setContract($cli);
+
+                    }
                     break;
             }
         }

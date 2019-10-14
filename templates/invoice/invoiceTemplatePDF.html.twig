@@ -125,7 +125,7 @@
                             {{ data.nbreDaysWorked }}
                         </td>
                         <td>
-                            {{data.rate}} EUR
+                            {{data.contract.rate}} EUR
                         </td>
                         {% endfor %}
                         <td>
@@ -142,7 +142,7 @@
                             </td>
                             {% if data.nbrOfBankHolidays is not null %}
                                 <td>
-                                    {{data.rate * data.extrapercentbankholidays}} EUR
+                                    {{data.contract.rate * data.contract.extrapercentbankholidays}} EUR
                                 </td>
                             {% endif %}
                         {% endfor %}
@@ -160,7 +160,7 @@
                             </td>
                             {% if data.nbreOfSaturdays is not null %}
                                 <td>
-                                    {{data.rate * data.extrapercentsatyrday}} EUR
+                                    {{data.contract.rate * data.contract.extrapercentsatyrday}} EUR
                                 </td>
                             {% endif %}
                         {% endfor %}
@@ -178,7 +178,7 @@
                             </td>
                             {% if data.nbreOfSundays is not null %}
                                 <td>
-                                    {{data.rate * data.extrapercentsunday}} EUR
+                                    {{data.contract.rate * data.contract.extrapercentsunday}} EUR
                                 </td>
                             {% endif %}
                         {% endfor %}

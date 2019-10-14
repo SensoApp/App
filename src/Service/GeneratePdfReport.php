@@ -170,9 +170,6 @@ class GeneratePdfReport
      * Construct to Generate Invoice
      * @param $invoice
      * @param array $timesheetdata
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
      */
     public function reportConstructInvoice($invoice, $invoiceid, array $timesheetdata)
     {
@@ -181,7 +178,6 @@ class GeneratePdfReport
         $user = $this->security->getToken()->getUsername();
 
         $filename = date('dmy').'_'.uniqid().'_'.$firstname.$lastname.'.pdf';
-
 
         $template =  $this->template->render('/invoice/invoiceTemplatePDF.html.twig' , [
 

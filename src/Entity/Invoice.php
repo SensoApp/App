@@ -174,7 +174,7 @@ class Invoice
         return $this;
     }
 
-    public function getContract(): ?int
+    public function getContract()
     {
         return $this->contract;
     }

@@ -10,8 +10,8 @@ namespace App\Events;
 
 
 use App\Controller\InvoiceController;
-use App\Entity\Invoice;
 use App\Invoice\InvoiceGenerator;
+use App\Invoice\InvoiceDispatcher;
 use App\Repository\InvoiceRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,11 +21,17 @@ class AppSubscriber implements EventSubscriberInterface
 
     private $invoiceRepository;
     private $invoiceGenerator;
+    private $invoiceValidator;
 
-    public function __construct(InvoiceRepository $invoiceRepository, InvoiceGenerator $invoiceGenerator)
+    public function __construct(
+                                InvoiceRepository $invoiceRepository,
+                                InvoiceGenerator $invoiceGenerator,
+                                InvoiceDispatcher $invoiceValidator
+                                )
     {
         $this->invoiceRepository = $invoiceRepository;
         $this->invoiceGenerator = $invoiceGenerator;
+        $this->invoiceValidator = $invoiceValidator;
     }
 
     /**
@@ -64,19 +70,15 @@ class AppSubscriber implements EventSubscriberInterface
 
         $this->invoiceGenerator->retrieveDataForInvoice($items);
 
+
     }
 
     public function onInvoiceValidated(InvoiceValidationEvent $event)
     {
-        $this->invoiceRepository
-             ->updateStatusAfterValidation(
-                                        InvoiceController::INVOICE_VALIDATED,
-                                               $event->getInvoiceId(),
-                                  InvoiceController::PAYMENT_PENDING
-                                          );
+       $this->invoiceRepository->updateStatusAfterValidation(InvoiceController::INVOICE_VALIDATED, $event->getInvoiceId(), InvoiceController::PAYMENT_PENDING);
 
-        // send email to client (create process to get the email address of Client (Clientcontract)?
-        // send email to accountant (subject Vente... and vente email address)
-        // Add signed timesheet (path when uploded/validated is up to date i.e. timesheet_signed
+       $invocedata =  $this->invoiceRepository->multipleSelectionInvoiceClientTimesheet($event->getInvoiceId());
+
+       $this->invoiceValidator->retrieveDataForFinalInvoice($invocedata);
     }
 }

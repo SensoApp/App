@@ -27,8 +27,8 @@ class InvoiceController extends AbstractController
     private $entitymanager;
 
     const INVOICE_VALIDATED = 'Validated - sent to client';
-    const EDIT_INVOICE = 'edit';
     const PAYMENT_PENDING = 'Unpaid';
+    const PAYMENT_PAID = 'Paid';
 
     public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
@@ -48,15 +48,9 @@ class InvoiceController extends AbstractController
                               ->getRepository(Invoice::class)
                               ->find(['id' => $id]);
 
-        try{
 
             $event = new InvoiceValidationEvent($invoiceobject);
             $eventDispatcher->dispatch(InvoiceValidationEvent::NAME, $event);
-
-        } catch (\Exception $exception){
-
-           echo $exception->getMessage();
-        }
 
         // for all that create messengers and queues so that it can be done async
 

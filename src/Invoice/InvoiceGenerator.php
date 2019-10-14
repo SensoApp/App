@@ -9,9 +9,6 @@ use App\Entity\Timesheet;
 use App\Service\GeneratePdfReport;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class InvoiceGenerator
 {
@@ -59,22 +56,22 @@ class InvoiceGenerator
 
         foreach ($timesheetdata as $item){
 
-           $this->nbreDaysWorked =  $item['nbreDaysWorked'];
-           $this->nbrOfBankHolidays = $item['nbrOfBankHolidays'];
-           $this->nbreOfSaturdays = $item['nbreOfSaturdays'];
-           $this->nbreOfSundays = $item['nbreOfSundays'];
-           $this->user = $item['user'];
-           $this->month = $item['month'];
-           $this->rate = $item['rate'];
-           $this->timesheetid = $item['timesheetid'];
-           $this->contractid = $item['contractid'];
-           $this->extrapercentsatyrday = $item['extrapercentsatyrday'];
-           $this->extrapercentsunday = $item['extrapercentsunday'];
-           $this->extrapercentbankholidays = $item['extrapercentbankholidays'];
+           $this->nbreDaysWorked =  $item->getnbreDaysWorked();
+           $this->nbrOfBankHolidays = $item->getnbrOfBankHolidays();
+           $this->nbreOfSaturdays = $item->getnbreOfSaturdays();
+           $this->nbreOfSundays = $item->getnbreOfSundays();
+           $this->user = $item->getUser();
+           $this->month = $item->getMonth();
+           $this->rate = $item->getContract()->getRate();
+           $this->timesheetid = $item->getId();
+           $this->contractid = $item->getContract()->getId();
+           $this->extrapercentsatyrday = $item->getContract()->getExtrapercentsatyrday();
+           $this->extrapercentsunday = $item->getContract()->getExtrapercentsunday();
+           $this->extrapercentbankholidays = $item->getContract()->getExtrapercentbankholidays();
 
         }
 
-        $this->hydrateInvoice($this->invoiceCalculationUtil(),$timesheetdata );
+        $this->hydrateInvoice($this->invoiceCalculationUtil(), $timesheetdata);
 
     }
 
@@ -169,7 +166,7 @@ class InvoiceGenerator
 
         } catch (Exception $exception){
 
-             $exception->getMessage();
+            echo $exception->getMessage(); die;
 
         }
 

@@ -87,15 +87,21 @@ class ClientContract
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="clientcontract")
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $contact;
+    private $vat;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Timesheet", mappedBy="contract")
+     */
+    private $timesheets;
 
 
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
         $this->invoice = new ArrayCollection();
+        $this->timesheets = new ArrayCollection();
     }
 
     /**
@@ -305,14 +311,45 @@ class ClientContract
         return $this;
     }
 
-    public function getContact(): ?Contact
+    public function getVat(): ?float
     {
-        return $this->contact;
+        return $this->vat;
     }
 
-    public function setContact(?Contact $contact): self
+    public function setVat(?float $vat): self
     {
-        $this->contact = $contact;
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Timesheet[]
+     */
+    public function getTimesheets(): Collection
+    {
+        return $this->timesheets;
+    }
+
+    public function addTimesheet(Timesheet $timesheet): self
+    {
+        if (!$this->timesheets->contains($timesheet)) {
+            $this->timesheets[] = $timesheet;
+            $timesheet->setContract($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimesheet(Timesheet $timesheet): self
+    {
+        if ($this->timesheets->contains($timesheet)) {
+            $this->timesheets->removeElement($timesheet);
+            // set the owning side to null (unless already changed)
+            if ($timesheet->getContract() === $this) {
+                $timesheet->setContract(null);
+            }
+        }
 
         return $this;
     }
