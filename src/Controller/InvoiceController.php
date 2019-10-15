@@ -29,6 +29,7 @@ class InvoiceController extends AbstractController
     const INVOICE_VALIDATED = 'Validated - sent to client';
     const PAYMENT_PENDING = 'Unpaid';
     const PAYMENT_PAID = 'Paid';
+    const INVOICE_CLOSED = 'Closed';
 
     public function __construct(Security $security, EntityManagerInterface $entityManager)
     {
@@ -92,17 +93,6 @@ class InvoiceController extends AbstractController
         return $this->redirectToRoute('user_dashboard');
     }
 
-
-    public function viewInvoice()
-    {
-
-    }
-
-    public function generateManualInvoice()
-    {
-
-    }
-
     /**
      *
      * @param Request $request
@@ -144,12 +134,47 @@ class InvoiceController extends AbstractController
 
     /**
      * Show all the invoices per users/ employees with their status
+     * @Route(path="/user/invoice/list", name="listofinvoice")
      */
     public function listOfInvoices()
     {
-        //Show all the invoices with all the status and give the ability to sort
-        //Sort per status, month etc
-        // Search per Users, Status, month etc...
+        $listofinvoices = $this->entitymanager->getRepository(Invoice::class)->selectInvoiceAndUserData();
+
+        return $this->render('invoice/listOfInvoices.html.twig', [
+            'invoice' => $listofinvoices
+        ]);
+
+    }
+
+    /**
+     * Validates that the payment has been received at the bank and update the status of related invoice
+     * @Route(path="/user/invoice/paymentreceived/{id}", name="paymentreceived")
+     */
+    public function paymentReceivedValidation($id)
+    {
+        try{
+            $this->entitymanager
+                ->getRepository('App:Invoice')
+                ->updateStatusAfterValidation(self::INVOICE_CLOSED, $id, self::PAYMENT_PAID);
+
+
+        } catch (\Exception $exception){
+
+             echo $exception->getMessage();
+
+            $this->addFlash('error', 'the invoice has not been updated - please check');
+
+
+        }
+
+        $this->addFlash('success', 'the invoice has been updated');
+
+        return $this->redirectToRoute('listofinvoice');
+
+    }
+
+    public function generateManualInvoice()
+    {
 
     }
 

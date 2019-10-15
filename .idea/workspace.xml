@@ -2,33 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Invoice/InvoiceDispatcher.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/invoice/071019_5d9b4b86698ed_JamalMazegh.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/invoice/071019_5d9b579265adb_JamalMazegh.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet/071019_5d9b46f20a1d7_JamalMazegh.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet/071019_5d9b4b0ee61df_JamalMazegh.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet/071019_5d9b577ce9475_JamalMazegh.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/071019_5d9b45293b133_JamalMazegh5d9b4b864006f.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/071019_5d9b45293b133_JamalMazegh5d9b579255c0d.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ContactManagementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ContactManagementController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TimesheetController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TimesheetController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/ClientContract.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/ClientContract.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contact.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Invoice.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Timesheet.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Timesheet.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Events/AppSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Events/AppSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ClientContractType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ClientContractType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/MailerService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/MailerService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UploadHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UploadHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form/clientcontractmanagement.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/clientcontractmanagement.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -329,7 +308,7 @@
       <workItem from="1569915403766" duration="368000" />
       <workItem from="1569916134424" duration="31715000" />
       <workItem from="1570206864945" duration="31387000" />
-      <workItem from="1570645193941" duration="16092000" />
+      <workItem from="1570645193941" duration="25093000" />
     </task>
     <servers />
   </component>

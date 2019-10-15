@@ -123,4 +123,28 @@ class InvoiceRepository extends ServiceEntityRepository
         return $query->getResult();
 
     }
+
+    public function selectInvoiceAndUserData() : array
+    {
+        $query = $this->getEntityManager()
+                      ->createQuery(
+                          'select 
+                                    i.id, 
+                                    i.status,
+                                    i.date, 
+                                    i.totalamount, 
+                                    i.paymentstatus, 
+                                    i.user, 
+                                    u.firstname, 
+                                    u.lastname
+                                from 
+                                    App\Entity\Invoice i
+                                inner join 
+                                    App\Entity\User u
+                                where 
+                                    u.email = i.user'
+                            );
+
+        return $query->getResult();
+    }
 }

@@ -104,65 +104,66 @@
                                 {% endfor %}
                             </thead>
                             <tbody>
-                            {% if timesheet != null %}
-                                {%  for tsheet in timesheet %}
-                                    <tr class="text-center">
-                                        <td>{{ tsheet.month }}</td>
-                                        <td>{{ tsheet.date|date('m/d/Y') }}</td>
-                                        <td>{{ tsheet.status }}</td>
-                                        <td>{{ tsheet.nbreDaysWorked }}</td>
-                                        <td>{{ tsheet.nbrOfBankHolidays }}</td>
-                                        <td>{{ tsheet.nbreOfSaturdays }}</td>
-                                        <td>{{ tsheet.nbreOfSundays }}</td>
-                                        {% if tsheet.path != null %}
-                                            <td>
-                                                <p data-placement="top" data-toggle="tooltip" title="View">
-                                                    <a href="{{ path('viewtimesheetpdf', {id:  tsheet.id}) }}">
-                                                        <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
-                                                        </button>
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p data-placement="top" data-toggle="tooltip" title="download">
-                                                    <a href="{{ path('downloadtimesheet', {id: tsheet.id}) }}">
-                                                        <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
-                                                        </button>
-                                                    </a>
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                    {% if tsheet.status != 'Validated' %}
-                                                    <a href="{{ path('modify_timesheet', {id: tsheet.id}) }}">
-                                                        <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
-                                                        </button>
-                                                    </a>
-                                                    {% endif %}
-                                                </p>
-                                            </td>
-                                            {% if is_granted('ROLE_ADMIN') and tsheet.status != 'Validated'%}
+                                {% if timesheet != null %}
+                                    {%  for tsheet in timesheet %}
+                                        <tr class="text-center">
+                                            <td>{{ tsheet.month }}</td>
+                                            <td>{{ tsheet.date|date('m/d/Y') }}</td>
+                                            <td>{{ tsheet.status }}</td>
+                                            <td>{{ tsheet.nbreDaysWorked }}</td>
+                                            <td>{{ tsheet.nbrOfBankHolidays }}</td>
+                                            <td>{{ tsheet.nbreOfSaturdays }}</td>
+                                            <td>{{ tsheet.nbreOfSundays }}</td>
+                                            {% if tsheet.path != null %}
                                                 <td>
-                                                    <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                        <a href="{{ path('deletetimesheet', {id:  tsheet.id}) }}">
-                                                            <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                    <p data-placement="top" data-toggle="tooltip" title="View">
+                                                        <a href="{{ path('viewtimesheetpdf', {id:  tsheet.id}) }}">
+                                                            <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
                                                             </button>
                                                         </a>
                                                     </p>
                                                 </td>
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="download">
+                                                        <a href="{{ path('downloadtimesheet', {id: tsheet.id}) }}">
+                                                            <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
+                                                            </button>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                        {% if tsheet.status != 'Validated' %}
+                                                        <a href="{{ path('modify_timesheet', {id: tsheet.id}) }}">
+                                                            <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
+                                                            </button>
+                                                        </a>
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                                {% if is_granted('ROLE_ADMIN') and tsheet.status != 'Validated'%}
+                                                    <td>
+                                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                            <a href="{{ path('deletetimesheet', {id:  tsheet.id}) }}">
+                                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                                </button>
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                {% endif %}
+                                            {% else %}
+                                                <td>
+                                                    <i>No valid entries recorded</i>
+                                                </td>
                                             {% endif %}
-                                        {% else %}
-                                            <td>
-                                                <i>No valid entries recorded</i>
-                                            </td>
-                                        {% endif %}
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                            <td>
-                                <i>No timesheet recorded</i>
-                            </td>
-                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <td>
+                                    <i>No timesheet recorded</i>
+                                </td>
+                                {% endif %}
+                            </tbody>
                         </table>
                     </div>
                     <br/>
