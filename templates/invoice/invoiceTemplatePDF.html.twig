@@ -220,17 +220,19 @@
                         <td>
                             {{ invoice.totalamount }} EUR
                         </td>
+                        {%  set vatpercentage =   invoice.vat * 100  %}
                         <td>
-                            0,00%
+                            {{ vatpercentage }}%
                         </td>
+
                         <td>
-                            0 EUR
+                            {{invoice.vatamount}} EUR
                         </td>
                         <td>
 
                         </td>
                         <td>
-                            {{ invoice.totalamount }} EUR
+                            {{ invoice.amountttc }} EUR
                         </td>
                     </tr>
                 </tbody>

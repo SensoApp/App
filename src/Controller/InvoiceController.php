@@ -164,7 +164,6 @@ class InvoiceController extends AbstractController
 
             $this->addFlash('error', 'the invoice has not been updated - please check');
 
-
         }
 
         $this->addFlash('success', 'the invoice has been updated');

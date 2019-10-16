@@ -102,6 +102,16 @@ class Invoice
      */
     private $paymentstatus;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $amountttc;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $vatamount;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -328,6 +338,30 @@ class Invoice
     public function setPaymentstatus(?string $paymentstatus): self
     {
         $this->paymentstatus = $paymentstatus;
+
+        return $this;
+    }
+
+    public function getAmountttc(): ?float
+    {
+        return $this->amountttc;
+    }
+
+    public function setAmountttc(?float $amountttc): self
+    {
+        $this->amountttc = $amountttc;
+
+        return $this;
+    }
+
+    public function getVatamount(): ?float
+    {
+        return $this->vatamount;
+    }
+
+    public function setVatamount(?float $vatamount): self
+    {
+        $this->vatamount = $vatamount;
 
         return $this;
     }

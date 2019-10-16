@@ -32,12 +32,15 @@ class InvoiceGenerator
     private $businessdays;
     private $invoicenormaldays;
     private $finalamountwithspecialdays;
+    private $amounttc;
     private $normalamount;
     private $invoice;
     private $entityManager;
     private $timesheet;
     private $contract;
     private $generatepdf;
+    private $vat;
+    private $vatamount;
 
     public function __construct(EntityManagerInterface $entityManager, GeneratePdfReport $generatePdfReport)
     {
@@ -53,7 +56,6 @@ class InvoiceGenerator
     public function retrieveDataForInvoice(array $timesheetdata)
     {
         //Get the timesheet + the contract data related to the user
-
         foreach ($timesheetdata as $item){
 
            $this->nbreDaysWorked =  $item->getnbreDaysWorked();
@@ -68,6 +70,7 @@ class InvoiceGenerator
            $this->extrapercentsatyrday = $item->getContract()->getExtrapercentsatyrday();
            $this->extrapercentsunday = $item->getContract()->getExtrapercentsunday();
            $this->extrapercentbankholidays = $item->getContract()->getExtrapercentbankholidays();
+           $this->vat = $item->getContract()->getVat();
 
         }
 
@@ -99,13 +102,19 @@ class InvoiceGenerator
 
                 $this->finalamountwithspecialdays = $this->invoicenormaldays + $this->pricebankholidays + $this->pricesaturday + $this->pricesunday;
 
+                $this->vatamount = $this->vat * $this->finalamountwithspecialdays;
+
+                $this->amounttc = $this->finalamountwithspecialdays + $this->vatamount;
+
                 $splitInvoice = [
 
                         'Bank holidays' => $this->pricebankholidays,
                         'Work on Saturdays' => $this->pricesaturday,
                         'Work on Sundays' => $this->pricesunday,
                         'Business days' => $this->invoicenormaldays,
-                        'Total amount' => $this->finalamountwithspecialdays
+                        'TotalamountHT' => $this->finalamountwithspecialdays,
+                        'AmountTTC' => $this->amounttc,
+                        'VatAmount' => $this->vatamount
                 ];
 
                 return $splitInvoice;
@@ -115,10 +124,16 @@ class InvoiceGenerator
         }
         $this->normalamount = $this->rate * $this->nbreDaysWorked;
 
+        $this->vatamount = $this->vat * $this->normalamount;
+
+        $this->amounttc = $this->normalamount + $this->vatamount;
+
         $normalInvoice = [
                             'Business days' => $this->normalamount,
-                            'Total amount' => $this->normalamount
-                         ];
+                            'TotalamountHT' => $this->normalamount,
+                            'AmountTTC' => $this->amounttc,
+                            'VatAmount' => $this->vatamount
+        ];
 
         return $normalInvoice ;
 
@@ -148,11 +163,13 @@ class InvoiceGenerator
         array_key_exists('Work on Saturdays', $amount)  ? $this->invoice->setSaturdyamount($amount['Work on Saturdays']): $this->invoice->setSaturdyamount(0);
         array_key_exists('Work on Sundays', $amount)  ? $this->invoice->setSundayamount($amount['Work on Sundays']) : $this->invoice->setSundayamount(0);
         $this->invoice->setBusinessdaysamount($amount['Business days']);
-        $this->invoice->setTotalAmount($amount['Total amount']);
+        $this->invoice->setTotalAmount($amount['TotalamountHT']);
+        $this->invoice->setAmountttc($amount['AmountTTC']);
+        $this->invoice->setVatamount($amount['VatAmount']);
         $this->invoice->setTimesheet($this->timesheet[0]);
         $this->invoice->setContract($this->contract[0]);
         $this->invoice->setInvoicenumber($invoicenumber);
-        $this->invoice->setVat(0);
+        $this->invoice->setVat($this->vat);
         $this->invoice->setMonth($this->month);
 
         $invoice = $this->invoice;
@@ -166,7 +183,7 @@ class InvoiceGenerator
 
         } catch (Exception $exception){
 
-            echo $exception->getMessage(); die;
+            echo dd($exception->getMessage());
 
         }
 
