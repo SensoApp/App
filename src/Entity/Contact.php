@@ -9,6 +9,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -97,11 +98,6 @@ class Contact
      */
     private $updatedAt;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="contact")
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $user;
 
     public function __construct()
     {
@@ -113,7 +109,7 @@ class Contact
         $this->bankdetails = new ArrayCollection();
         $this->citizenshipdetails = new ArrayCollection();
         $this->clientcontract = new ArrayCollection();
-        $this->user = new ArrayCollection();
+        $this->bankDetails = new ArrayCollection();
     }
 
     /**
@@ -413,12 +409,12 @@ class Contact
      *
      * @return Contact
      */
-    public function addBankdetail(\App\Entity\BankDetails $bankdetail)
+    public function addBankdetail(BankDetails $bankdetail)
     {
         if(!$this->contract->contains($bankdetail)) {
 
-            $bankdetail->setContact($this);
             $this->bankdetails[] = $bankdetail;
+            $bankdetail->setContact($this);
         }
         return $this;
     }
@@ -515,17 +511,6 @@ class Contact
         return (string) $this->getMail();
     }
 
-    public function getUser(): ?int
-    {
-        return $this->user;
-    }
-
-    public function setUser(?int $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
     public function addAddress(Address $address): self
     {

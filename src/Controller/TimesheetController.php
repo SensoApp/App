@@ -9,16 +9,16 @@ namespace App\Controller;
 use App\Entity\ClientContract;
 use App\Entity\Timesheet;
 use App\Events\TimeSheetValidationEvent;
+use App\Message\SendDocument;
 use App\Service\DateGeneratorService;
 use App\Service\GeneratePdfReport;
 use App\Service\UploadHelper;
-use App\Timesheet\TimesheetHydrator;
-use App\Timesheet\TimesheetValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -38,6 +38,7 @@ class TimesheetController extends AbstractController
         $this->security = $security;
         $this->timesheet = new Timesheet();
         $this->entitymanager = $entityManager;
+        $this->security = $security;
     }
 
     /**
@@ -45,6 +46,7 @@ class TimesheetController extends AbstractController
      */
     public function viewTimesheet(DateGeneratorService $dateGenerator, Request $request)
     {
+
         $month = $request->server->get('REQUEST_TIME');
 
         $dates = $dateGenerator->periodRequest($month, $request->getQueryString());
@@ -63,41 +65,16 @@ class TimesheetController extends AbstractController
      * @param Request $request
      * @Route(path="/timesheet/save", name="saveTimesheet")
      */
-    public function saveTimesheet(
-        Request $request,
-        TimesheetValidator $timesheetValidator,
-        GeneratePdfReport $generatePdfReport,
-        TimesheetHydrator $timeSheetHydrator
-                                )
+    public function saveTimesheet(Request $request, MessageBusInterface $messageBus, Security $security)
     {
-        $security = $this->security->getToken()->getUsername();
-        $validation =  $timesheetValidator->validateTimeSheet($request, $security);
-        $timesheet = $timeSheetHydrator->hydrateTimesheet($request, $security);
-
-        if($validation){
-
-            try{
-                $this->entitymanager->persist($timesheet);
-                $this->entitymanager->flush();
-
-            } catch (\Exception $e){
-
-                echo  $e->getMessage();
-            }
-            $generatePdfReport->reportConstructTimeSheet($timesheet->getMonth());
-
-            return new JsonResponse([
-                                        'success' => 'Your Timesheet has been saved in the database, 
-                                                   you  will receive a pdf copy shortly...'
-                                    ]);
-        }
+        $message = new SendDocument($request, $security);
+        $messageBus->dispatch($message);
 
         return new JsonResponse([
-                                    'error' => 'A Timesheet for the same period and 
-                                            for the same user has been generated already, 
-                                            if you wish to modify it please got to your dashboard and edit it'
+                                    'success' => 'Your Timesheet is beeing processed, you  will receive a pdf copy shortly...'
                                 ]);
     }
+
 
     /**
      *
@@ -139,7 +116,7 @@ class TimesheetController extends AbstractController
     }
 
     /**
-     * @Route(path="/newadmin/uploadtimesheet", name="upload_timesheet")
+     * @Route(path="/user/uploadtimesheet", name="upload_timesheet")
      */
     public function validateUploadTimeSheet(Request $request, UploadHelper $uploadHelper, EventDispatcherInterface $eventDispatcher)
     {
@@ -154,7 +131,7 @@ class TimesheetController extends AbstractController
                     $timesheetobject = $this->entitymanager->getRepository(Timesheet::class)->find($fileuploaded['id']);
 
                     $event = new TimeSheetValidationEvent($timesheetobject);
-                   $eventDispatcher->dispatch(TimeSheetValidationEvent::NAME, $event);
+                    $eventDispatcher->dispatch(TimeSheetValidationEvent::NAME, $event);
 
                    $this->addFlash('success', sprintf('Timesheet validated, %s', $fileuploaded['message']));
 

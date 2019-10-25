@@ -20,7 +20,8 @@ class BankDetailsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('iban', TextType::class)
-                ->add('biccode', TextType::class);
+                ->add('biccode', TextType::class)
+                ->add('ibanstatement', TextType::class);
 
     }
 

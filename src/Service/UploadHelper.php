@@ -9,11 +9,15 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Entity\StatementFile;
 use App\Entity\Timesheet;
+use Doctrine\DBAL\DBALException as DBALExceptionAlias;
 use Doctrine\ORM\EntityManagerInterface;
+use ParseCsv\Csv;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Validation;
 
@@ -25,6 +29,7 @@ class UploadHelper
     private $security;
     private $validator;
     private $uploadfeedback = [];
+    private $csvitems;
 
     const TIMESHEET_VALIDATED = 'Validated';
     const NO_ERROR = 'no error';
@@ -102,6 +107,113 @@ class UploadHelper
         }
     }
 
+    public function uploadStatement($request)
+    {
+        try{
+
+            $filepath  = $this->params->get('kernel.project_dir').'/report/statement';
+
+            /**
+             * @var UploadedFile $uploadedfile
+             */
+            $uploadedfile =  $request->files->get('csv_file');
+
+            if(!is_null($uploadedfile)){
+
+                $feedback = $this->validCsvFile($uploadedfile);
+
+                if($feedback !== self::NO_ERROR){
+
+                    $this->uploadfeedback = [
+                        'status'=>'error',
+                        'message' => $feedback
+                    ];
+
+                    return $this->uploadfeedback;
+
+                } else {
+
+                    $csv = new Csv();
+
+                    $csv->auto($uploadedfile);
+
+                    foreach ($csv->data as $first){
+
+                        $statement = new StatementFile();
+
+                        foreach ($first as $title => $fileparser){
+
+                            switch ($title){
+
+                                case $title === 'BeneficiaryAccount' :
+                                    $statement->setAccount($fileparser);
+                                break;
+
+                                case $title === 'Code' :
+                                    $statement->setReferencemovement($fileparser);
+                                break;
+
+                                case $title === 'Text' :
+                                    $statement->setOperations($fileparser);
+                                break;
+
+                                case $title === 'Communication' :
+                                    $statement->setCommunication($fileparser);
+                                break;
+
+                                case $title === 'OperationDate' :
+                                    $date = date($fileparser);
+                                    $statement->setOperationdate($date);
+                                break;
+
+                                case $title === 'Amount' :
+                                    $amount = (float)$fileparser;
+                                    $statement->setAmount($amount);
+                                break;
+
+                            }
+
+                            $this->entityManager->persist($statement);
+                        }
+                    }
+
+                    $this->entityManager->getRepository(StatementFile::class)
+                                        ->removeDuplicates($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
+
+                    $linesinstered = count( $this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
+
+                    $this->entityManager->flush();
+
+                    $this->uploadfeedback = [
+                        'status'=>'success',
+                        'message' => 'the file is uploaded successfully, '.$linesinstered.' line(s) inserted',
+                    ];
+
+                    return $this->uploadfeedback;
+                }
+
+            } else {
+
+                $this->uploadfeedback = [
+                    'status'=>'error',
+                    'message' => 'Some data are expecting, null submitted'
+                ];
+
+                return $this->uploadfeedback;
+            }
+
+        } catch (DBALExceptionAlias $exception){
+
+            if($exception){
+
+                return $this->uploadfeedback = [
+                    'status'=>'error',
+                    'message' => 'Oups Exception thrown check your file'
+                    ];
+            }
+        }
+    }
+
     public function validFileUpload($files) :? string
     {
        $violations =  $this->validator->validate($files, [
@@ -122,6 +234,28 @@ class UploadHelper
        }
 
        return self::NO_ERROR ;
+    }
+
+    public function validCsvFile($file)
+    {
+        $violations = $this->validator->validate($file,[
+            new File([
+
+                'mimeTypes' => 'text/plain'
+                ])
+            ]);
+
+        if(count($violations) > 0) {
+
+            foreach ($violations as $item) {
+
+                $response = $item->getMessage();
+            }
+
+            return $response;
+        }
+
+        return self::NO_ERROR ;
     }
 
 }

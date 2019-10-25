@@ -26,15 +26,18 @@ class UserController extends AbstractController
     private $firstname;
     private $lastname;
     private $userid;
+    private $usercontact;
 
 
     public function __construct(EntityManagerInterface $entityManager, Security $security)
     {
         $this->entitymanager = $entityManager;
         $this->user = $security->getToken()->getUser()->getEmail();
+        $this->usercontact = $security->getToken()->getUser()->getContact();
         $this->userid = $security->getToken()->getUser()->getId();
         $this->firstname = $security->getToken()->getUser()->getFirstName();
         $this->lastname = $security->getToken()->getUser()->getLastName();
+
     }
 
 
@@ -52,7 +55,7 @@ class UserController extends AbstractController
 
         $personaldetails = $this->entitymanager
                                 ->getRepository(Contact::class)
-                                ->findBy(['user' => $this->user]);
+                                ->findBy(['id' => $this->usercontact]);
 
         $timesheet = $this->entitymanager
                           ->getRepository(Timesheet::class)

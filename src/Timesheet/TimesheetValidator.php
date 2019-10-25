@@ -28,7 +28,8 @@ class TimesheetValidator
             ->findBy([
                 'month' => $month,
                 'user' => $user
-            ]);
+
+        ]);
 
         if(!empty($req)){
 

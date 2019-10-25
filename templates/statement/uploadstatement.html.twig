@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statement upload{% endblock %}
+
+{% block body %}
+<body>
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    <div class="container-fluid">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        {% include 'header.html.twig' %}
+        <div class="row">
+            {% for message in app.session.flashBag.get('success') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashBag.get('error') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h2 class="text-center"> Upload Statement ✅</h2>
+        </div>
+        <div class="row">
+            <form method="post" action="{{ path('uploadstatement') }}" enctype="multipart/form-data" class="col-md-4">
+                <div class="form-group">
+                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
+                    <div class="col-md-8">
+                        <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                        <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove(),
+                    location.reload()
+                );
+            });
+        });
+    </script>
+</body>
+{% endblock %}

@@ -112,6 +112,7 @@ class ContactType extends AbstractType
                     'allow_add' =>true,
                     'prototype' => true,
                     'label' => false,
+                    'required' => false,
                     'by_reference' => false,
                     'entry_options' =>[
                         'label' => false

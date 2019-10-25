@@ -24,7 +24,7 @@ class TimesheetHydrator
         $this->entityManager = $entityManager;
     }
 
-    public function hydrateTimesheet($request, $security) : Timesheet
+    public function hydrateTimesheet($request, $user) : Timesheet
     {
         foreach ($request->request as $dayType => $days){
 
@@ -59,7 +59,7 @@ class TimesheetHydrator
         }
         $month =$request->request->get('currentMonth');
         $this->timesheet->setMonth($month);
-        $this->timesheet->setUser($security);
+        $this->timesheet->setUser($user);
         $this->timesheet->setStatus('Created');
 
         return $this->timesheet;

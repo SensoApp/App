@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -31,11 +32,6 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $lastname;
-
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $email;
 
     /**
      * @ORM\Column(type="json")
@@ -66,10 +62,23 @@ class User implements UserInterface
      */
     private $clientContracts;
 
+    /**
+     * @ORM\Column(name="mail", type="string")
+     * @Assert\Email(message="The email '{{value}}' is not valid ", checkMX=true)
+     * @Assert\NotBlank()
+     */
+    private $email;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\StatementFile", mappedBy="user")
+     */
+    private $statementFiles;
+
 
     public function __construct()
     {
         $this->clientContracts = new ArrayCollection();
+        $this->statementFiles = new ArrayCollection();
     }
 
 
@@ -78,26 +87,15 @@ class User implements UserInterface
         return $this->id;
     }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
 
     /**
      * A visual identifier that represents this user.
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername()
     {
-        return (string) $this->email;
+        return $this->email;
     }
 
     /**
@@ -240,6 +238,48 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|StatementFile[]
+     */
+    public function getStatementFiles(): Collection
+    {
+        return $this->statementFiles;
+    }
+
+    public function addStatementFile(StatementFile $statementFile): self
+    {
+        if (!$this->statementFiles->contains($statementFile)) {
+            $this->statementFiles[] = $statementFile;
+            $statementFile->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStatementFile(StatementFile $statementFile): self
+    {
+        if ($this->statementFiles->contains($statementFile)) {
+            $this->statementFiles->removeElement($statementFile);
+            // set the owning side to null (unless already changed)
+            if ($statementFile->getUser() === $this) {
+                $statementFile->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 
 
 }

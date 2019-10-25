@@ -233,7 +233,7 @@
                                         <td>{{ list.month }}</td>
                                         <td>{{ list.date|date('m/d/Y') }}</td>
                                         <td>{{ list.status }}</td>
-                                        {% if list.status != 'Validated - sent to client' %}
+                                        {% if list.status == 'Sent for validation'  %}
                                             <td>
                                                 <p data-placement="top" data-toggle="tooltip" title="Validate">
                                                     <a href="{{ path('validateinvoice', {id:  list.id}) }}">
@@ -269,7 +269,7 @@
                                                 </a>
                                             </p>
                                         </td>
-                                        {% if is_granted('ROLE_ADMIN') and list.status != 'Validated - sent to client'%}
+                                        {% if is_granted('ROLE_ADMIN') and list.status == 'Sent for validation'%}
                                             <td>
                                                 <p data-placement="top" data-toggle="tooltip" title="Delete">
                                                     <a href="{{ path('deleteinvoice', {id:  list.id}) }}">

@@ -40,7 +40,7 @@ class InvoiceController extends AbstractController
     }
 
     /**
-     * @Route(path="/newadmin/validateinvoice/{id}", name="validateinvoice")
+     * @Route(path="/user/validateinvoice/{id}", name="validateinvoice")
      */
     public function validateInvoice($id, EventDispatcherInterface $eventDispatcher)
     {

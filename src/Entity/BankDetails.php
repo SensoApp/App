@@ -56,6 +56,14 @@ class BankDetails
      */
     private $updatedAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Iban( message="This is not a valid Iban")
+     */
+    private $ibanstatement;
+
 
     public function __construct()
     {
@@ -181,5 +189,17 @@ class BankDetails
         // TODO: Implement __toString() method.
 
         return (string) $this->getContact();
+    }
+
+    public function getIbanstatement()
+    {
+        return $this->ibanstatement;
+    }
+
+    public function setIbanstatement($ibanstatement)
+    {
+        $this->ibanstatement = $ibanstatement;
+
+        return $this;
     }
 }

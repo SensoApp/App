@@ -38,8 +38,7 @@ class ContactManagementController extends AbstractController
     public function createContact(Request $request)
     {
 
-
-        $form = $this->createForm(ContactType::class, $this->contact)
+        $form = $this->createForm(ContactType::class)
                      ->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
@@ -56,9 +55,10 @@ class ContactManagementController extends AbstractController
             return $this->redirectToRoute('adminsenso');
         }
 
-        return $this->render('form/contact.html.twig', [
 
-            'form' =>$form->createView()
+        return $this->render('form/newcontact.html.twig', [
+
+            'form' => $form->createView()
         ]);
     }
 
@@ -135,7 +135,7 @@ class ContactManagementController extends AbstractController
 
         }
 
-        return $this->render('form/edit.html.twig', [
+        return $this->render('form/contactedit.html.twig', [
 
             'form' => $form->createView()
         ]);
