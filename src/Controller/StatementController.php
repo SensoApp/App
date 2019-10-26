@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Entity\StatementFile;
 use App\Service\UploadHelper;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,9 +19,6 @@ class StatementController extends AbstractController
      */
     public function uploadCsvStatement(Request $request, UploadHelper $helper)
     {
-        /**
-         * TODO add related user to the statement
-         */
             if(!is_null($request->files->get('csv_file'))){
 
                 try {
@@ -37,7 +35,13 @@ class StatementController extends AbstractController
                 }
             }
 
-        return $this->render('statement/uploadstatement.html.twig');
+            $data = $this->getDoctrine()
+                        ->getRepository(StatementFile::class)
+                        ->lastUploadedPerUserAndAccount();
+
+        return $this->render('statement/uploadstatement.html.twig', [
+            'data' => $data
+        ]);
 
     }
 

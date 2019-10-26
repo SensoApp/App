@@ -2,50 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/StatementController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Events/UserUpdateStatement.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Message/SendDocument.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/MessageHandler/SendDocumentHandler.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/statement/uploadstatement.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/senso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/senso.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/easy_admin.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/test/validator.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/test/validator.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/translation.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/twig_extensions.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes/easy_admin.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ContactManagementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ContactManagementController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TimesheetController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TimesheetController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/BankDetails.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/BankDetails.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contact.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Mail.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Mail.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BankDetailsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BankDetailsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ContactType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ContactType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/ContractType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ContractType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/RegistrationFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/RegistrationFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/LoginFormAuthenticator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UploadHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UploadHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Timesheet/TimesheetHydrator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Timesheet/TimesheetValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Timesheet/TimesheetValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form/contact.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/contactedit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/newcontact.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/register.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/register.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/translations/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/var/cache/.gitkeep" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/StatementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/StatementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/statement/uploadstatement.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statement/uploadstatement.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -242,18 +203,18 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/web/lib" />
+      <recent name="$PROJECT_DIR$/web/img" />
+      <recent name="$PROJECT_DIR$/web" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates/statement" />
       <recent name="$PROJECT_DIR$/templates/form" />
       <recent name="$PROJECT_DIR$/public/css" />
       <recent name="$PROJECT_DIR$/report" />
       <recent name="$PROJECT_DIR$/templates" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/templates" />
-      <recent name="$PROJECT_DIR$/web/lib" />
-      <recent name="$PROJECT_DIR$/web/img" />
-      <recent name="$PROJECT_DIR$/web" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -341,7 +302,7 @@
       <workItem from="1571407897409" duration="9353000" />
       <workItem from="1571601402012" duration="29744000" />
       <workItem from="1571862152739" duration="1316000" />
-      <workItem from="1571888411746" duration="33746000" />
+      <workItem from="1571888411746" duration="44517000" />
     </task>
     <servers />
   </component>

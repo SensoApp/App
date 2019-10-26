@@ -34,20 +34,55 @@
         <div class="row">
             <h2 class="text-center"> Upload Statement ✅</h2>
         </div>
+        <br>
+        <br>
+        <br>
         <div class="row">
             <form method="post" action="{{ path('uploadstatement') }}" enctype="multipart/form-data" class="col-md-4">
+                <label for="name" class="col-md-5 col-sm-5 col-xs-12 control-label">Upload your file here: </label>
                 <div class="form-group">
-                    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
                     <div class="col-md-8">
                         <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
                         <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Account</th>
+                        <th>Last uploaded</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if data is not null %}
+                    {% for list in data %}
+                        <tr>
+                            <td>{{ list.firstname }}</td>
+                            <td>{{ list.lastname }}</td>
+                            <td>{{ list.account }}</td>
+                            <td>{{ list.last_updated }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td>
+                            <i>No record uploaded</i>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
     <script>

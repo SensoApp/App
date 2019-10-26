@@ -6,6 +6,7 @@ use App\Entity\StatementFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @method StatementFile|null find($id, $lockMode = null, $lockVersion = null)
@@ -94,5 +95,21 @@ class StatementFileRepository extends ServiceEntityRepository
 
             return $ORMException->getMessage();
         }
+    }
+
+    public function lastUploadedPerUserAndAccount()
+    {
+        $em = $this->getEntityManager();
+
+        $query ='SELECT  u.firstname, u.lastname, s.account, max(s.updated_at) as last_updated
+                  FROM statement_file s
+                  INNER JOIN user u on s.user_id = u.id
+                  WHERE s.user_id IS NOT NULL
+                  group by u.firstname, u.lastname, s.account';
+
+        $stmt = $em->getConnection()->prepare($query);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
     }
 }
