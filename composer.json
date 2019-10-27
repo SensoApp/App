@@ -23,6 +23,7 @@
         "dompdf/dompdf": "^0.8.3",
         "league/flysystem-bundle": "^1.0",
         "parsecsv/php-parsecsv": "^1.1",
+        "php-amqplib/php-amqplib": "^2.10",
         "sensio/framework-extra-bundle": "^5.0.0",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",

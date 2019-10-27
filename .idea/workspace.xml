@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/StatementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/StatementController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/statement/uploadstatement.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/statement/uploadstatement.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -171,6 +171,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-icu" />
       <path value="$PROJECT_DIR$/vendor/symfony/intl" />
       <path value="$PROJECT_DIR$/vendor/parsecsv/php-parsecsv" />
+      <path value="$PROJECT_DIR$/vendor/php-amqplib/php-amqplib" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RarbTOdsDCdhOQ59sQq78AzId6" />
@@ -302,7 +303,7 @@
       <workItem from="1571407897409" duration="9353000" />
       <workItem from="1571601402012" duration="29744000" />
       <workItem from="1571862152739" duration="1316000" />
-      <workItem from="1571888411746" duration="44517000" />
+      <workItem from="1571888411746" duration="45733000" />
     </task>
     <servers />
   </component>
