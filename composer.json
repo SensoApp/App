@@ -21,6 +21,7 @@
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.6",
         "dompdf/dompdf": "^0.8.3",
+        "knplabs/knp-paginator-bundle": "^4.0",
         "league/flysystem-bundle": "^1.0",
         "parsecsv/php-parsecsv": "^1.1",
         "php-amqplib/php-amqplib": "^2.10",

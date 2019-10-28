@@ -12,9 +12,12 @@ namespace App\Controller;
 use App\Entity\ClientContract;
 use App\Entity\Contact;
 use App\Entity\Invoice;
+use App\Entity\StatementFile;
 use App\Entity\Timesheet;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
@@ -45,12 +48,8 @@ class UserController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route(path="/user/dashboard", name="user_dashboard")
      */
-    public function viewDashboard()
+    public function viewDashboard(Request $request, PaginatorInterface $paginator)
     {
-        /**
-         * TODO Add query to get contact details (address, tel etc...)
-         */
-
         //Query to get all related connected user
 
         $personaldetails = $this->entitymanager
@@ -69,6 +68,18 @@ class UserController extends AbstractController
                         ->getRepository(Invoice::class)
                         ->findBy(['user' => $this->user]);
 
+        $statement = $this->entitymanager
+                          ->getRepository(StatementFile::class)
+                          ->findBy(['user' => $this->userid]);
+
+        $pagination = $paginator->paginate($statement, $request->query->getInt('page', 1), 10 );
+
+        $statementsum = $this->entitymanager
+                             ->getRepository(StatementFile::class)
+                             ->selectSumPerUserStaement($this->userid);
+
+
+
         return $this->render('user/dashboard.html.twig', [
 
             'timesheet' => $timesheet,
@@ -76,7 +87,9 @@ class UserController extends AbstractController
             'lastname' => $this->lastname,
             'clientcontract' => $clientcontract,
             'invoice' => $invoice,
-            'personaldetails' => $personaldetails
+            'personaldetails' => $personaldetails,
+            'pagination' => $pagination,
+            'statementsum' => $statementsum
         ]);
     }
 

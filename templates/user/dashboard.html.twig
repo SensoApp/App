@@ -292,6 +292,85 @@
                 </section>
                 <!-- I need a section statements (tbd)-->
             </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Satement</h3>
+                    <br/>
+                    <br/>
+                    <div class="table table-responsive">
+                        <table class="col-md-3">
+                            <tr class="table-bordered">
+                                <th>Account</th>
+                                <td>{{ statementsum[0].account }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Consultant</th>
+                                <td>{{ statementsum[0].firstname }}  {{ statementsum[0].lastname }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Current Balance</th>
+                                <td>{{ statementsum[0].Current_Balance }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Currency</th>
+                                <td>EUR</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Date</th>
+                                <td>{{ "now"|date('d-m-Y') }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Estimated Balance</th>
+                                <td>{{ statementsum[0].Estimated + statementsum[0].Current_Balance }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead class="label-primary" style="color: whitesmoke">
+                            <th>#</th>
+                            <th>Reference</th>
+                            <th>Operation</th>
+                            <th>Communication</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Currency</th>
+                            </thead>
+                            <tbody>
+                            {% if pagination != null %}
+                                {% set idline = 0 %}
+                                {% for list in pagination %}
+                                    {% set idline = idline +1 %}
+                                    <tr>
+                                        <td>{{ idline }}</td>
+                                        <td>{{ list.referencemovement }}</td>
+                                        <td>{{ list.operations }}</td>
+                                        <td>{{ list.communication }}</td>
+                                        <td>{{ list.operationdate}}</td>
+                                        <td>{{ list.amount }}</td>
+                                        <td>EUR</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        <i>No statement recorded</i>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <div class="navigation">
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
+                        </table>
+                    </div>
+                </section>
+            </div>
+                <!-- I need a section statements (tbd)-->
+            </div>
         </div>
         {% include 'footer.html.twig' %}
         <script>
