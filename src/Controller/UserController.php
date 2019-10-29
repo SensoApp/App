@@ -43,34 +43,14 @@ class UserController extends AbstractController
 
     }
 
-
     /**
      * @return \Symfony\Component\HttpFoundation\Response
      * @Route(path="/user/dashboard", name="user_dashboard")
      */
     public function viewDashboard(Request $request, PaginatorInterface $paginator)
     {
-        //Query to get all related connected user
 
-        $personaldetails = $this->entitymanager
-                                ->getRepository(Contact::class)
-                                ->findBy(['id' => $this->usercontact]);
-
-        $timesheet = $this->entitymanager
-                          ->getRepository(Timesheet::class)
-                          ->findBy(['user' => $this->user]);
-
-        $clientcontract = $this->entitymanager
-                               ->getRepository(ClientContract::class)
-                               ->findBy(['user'=> $this->userid]);
-
-        $invoice = $this->entitymanager
-                        ->getRepository(Invoice::class)
-                        ->findBy(['user' => $this->user]);
-
-        $statement = $this->entitymanager
-                          ->getRepository(StatementFile::class)
-                          ->findBy(['user' => $this->userid]);
+        $statement = $this->selectStatementWithConditions($request);
 
         $pagination = $paginator->paginate($statement, $request->query->getInt('page', 1), 10 );
 
@@ -78,21 +58,18 @@ class UserController extends AbstractController
                              ->getRepository(StatementFile::class)
                              ->selectSumPerUserStaement($this->userid);
 
-
-
         return $this->render('user/dashboard.html.twig', [
 
-            'timesheet' => $timesheet,
+            'timesheet' => $this->selectTimesheet(),
             'firsname' => $this->firstname,
             'lastname' => $this->lastname,
-            'clientcontract' => $clientcontract,
-            'invoice' => $invoice,
-            'personaldetails' => $personaldetails,
+            'clientcontract' => $this->selectClientContract(),
+            'invoice' => $this->selectInvoice(),
+            'personaldetails' => $this->selectPersonalDetails(),
             'pagination' => $pagination,
             'statementsum' => $statementsum
         ]);
     }
-
 
     public function listOfUsers()
     {
@@ -113,6 +90,70 @@ class UserController extends AbstractController
         /**
          * TODO add deletion of users
          */
+    }
+
+    protected function returnAnArrayForRequest($request) :? array
+    {
+        if(count($request->request) > 0){
+
+            foreach ($request->request as $key=>$value){
+
+                $data[] = [$key => $value];
+            }
+
+            return $data;
+        }
+
+        return null;
+    }
+
+    protected function selectStatementWithConditions($request)
+    {
+        $minamount =  $request->request->get('Min-amount');
+        $maxamount = $request->request->get('Max-amount');
+        $mindate = $request->request->get('Min-date');
+        $maxdate = $request->request->get('Max-date');
+
+        if(!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) ){
+
+            return $this->entitymanager
+                        ->getRepository(StatementFile::class)
+                        ->searchByCriterion($request, $this->userid );
+
+        }
+
+        return $this->entitymanager
+                    ->getRepository(StatementFile::class)
+                    ->selectAllForPagination($this->userid);
+
+    }
+
+    protected function selectPersonalDetails()
+    {
+        return $this->entitymanager
+            ->getRepository(Contact::class)
+            ->findBy(['id' => $this->usercontact]);
+    }
+
+    protected function selectTimesheet()
+    {
+       return $this->entitymanager
+            ->getRepository(Timesheet::class)
+            ->findBy(['user' => $this->user]);
+    }
+
+    protected function selectClientContract()
+    {
+        return  $this->entitymanager
+            ->getRepository(ClientContract::class)
+            ->findBy(['user'=> $this->userid]);
+    }
+
+    protected function selectInvoice()
+    {
+        return $this->entitymanager
+            ->getRepository(Invoice::class)
+            ->findBy(['user' => $this->user]);
     }
 
 

@@ -148,4 +148,54 @@ class StatementFileRepository extends ServiceEntityRepository
 
         return $stmt->fetchAll();
     }
+
+    public function selectAllForPagination($userid)
+    {
+        $em = $this->getEntityManager()->createQueryBuilder()->select( 's')->from('App:StatementFile', 's');
+
+        $em->andWhere('s.user=:userid');
+
+        $em->setParameters([
+
+            'userid' => $userid
+        ]);
+
+        return $em->getQuery()->getResult();
+    }
+
+    public function searchByCriterion($datatosearch, $userid)
+    {
+        $em = $this->getEntityManager()->createQueryBuilder()->select( 's')->from('App:StatementFile', 's');
+
+        $req = $datatosearch->request;
+
+            if( !empty($req->get('Min-date')) && !empty($req->get('Max-date'))){
+
+                $em->andWhere('s.operationdate between :mindate and :maxdate');
+                $em->andWhere('s.user= :userid');
+
+                $em->setParameters([
+
+                    'mindate' => $req->get('Min-date'),
+                    'maxdate' => $req->get('Max-date'),
+                    'userid'  => $userid
+                ]);
+
+            } elseif(!empty($req->get('Min-amount')) && !empty($req->get('Max-amount'))){
+
+                $em->andWhere('s.amount between :minamount and :maxamount');
+                $em->andWhere('s.user= :userid');
+
+                $em->setParameters([
+
+                    'minamount' => $req->get('Min-amount'),
+                    'maxamount' => $req->get('Max-amount'),
+                    'userid'    => $userid
+
+                ]);
+            }
+
+        return $em->getQuery()->getResult();
+
+    }
 }

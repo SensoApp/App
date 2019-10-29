@@ -299,6 +299,7 @@
                     <br/>
                     <div class="table table-responsive">
                         <table class="col-md-3">
+                            {% if statementsum is not empty %}
                             <tr class="table-bordered">
                                 <th>Account</th>
                                 <td>{{ statementsum[0].account }}</td>
@@ -317,28 +318,67 @@
                             </tr>
                             <tr class="table-bordered">
                                 <th>Date</th>
-                                <td>{{ "now"|date('d-m-Y') }}</td>
+                                <td>{{ "now"|date('d/m/Y') }}</td>
                             </tr>
                             <tr class="table-bordered">
                                 <th>Estimated Balance</th>
                                 <td>{{ statementsum[0].Estimated + statementsum[0].Current_Balance }}</td>
                             </tr>
+                            {% else %}
+                            <tr>
+                                <td>
+                                    Nothing to report
+                                </td>
+                            </tr>
+                            {% endif %}
                         </table>
                     </div>
                 </section>
             </div>
+            <br>
+            <br>
+            <br>
             <div class="row">
+                <form method="post" class="col-md-12">
+                    <div class="col-md-3 text-center">
+                        <label for="search">Amount between</label>
+                        <br>
+                        <div class="col-md-6">
+                            <input class="form-control" type="number" placeholder="Min amount" name="Min-amount">
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="number" placeholder="Max amount" name="Max-amount">
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <label for="search" class="text-center">Dates between</label>
+                        <br>
+                        <div class="col-md-6">
+                            <input class="form-control" type="date" placeholder="Min date" name="Min-date">
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="date" placeholder="Max date" name="Max-date">
+                        </div>
+                    </div>
+                    <br>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+                <br>
+                <br>
+                <br>
                 <section class="col-md-12">
                     <div class="table-responsive">
                         <table id="mytable" class="table table-bordred table-striped">
                             <thead class="label-primary" style="color: whitesmoke">
-                            <th>#</th>
-                            <th>Reference</th>
-                            <th>Operation</th>
-                            <th>Communication</th>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Currency</th>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Reference</th>
+                                    <th>Operation</th>
+                                    <th>Communication</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                </tr>
                             </thead>
                             <tbody>
                             {% if pagination != null %}
@@ -350,7 +390,7 @@
                                         <td>{{ list.referencemovement }}</td>
                                         <td>{{ list.operations }}</td>
                                         <td>{{ list.communication }}</td>
-                                        <td>{{ list.operationdate}}</td>
+                                        <td>{{ list.operationdate|date('m-d-Y')}}</td>
                                         <td>{{ list.amount }}</td>
                                         <td>EUR</td>
                                     </tr>

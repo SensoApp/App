@@ -11,12 +11,16 @@ namespace App\Service;
 
 use App\Entity\StatementFile;
 use App\Entity\Timesheet;
+use Cassandra\Exception\ExecutionException;
+use DateTimeZone;
 use Doctrine\DBAL\DBALException as DBALExceptionAlias;
 use Doctrine\ORM\EntityManagerInterface;
+use mysql_xdevapi\Exception;
 use ParseCsv\Csv;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Validation;
@@ -30,16 +34,20 @@ class UploadHelper
     private $validator;
     private $uploadfeedback = [];
     private $csvitems;
+    private $dateGenerator;
 
     const TIMESHEET_VALIDATED = 'Validated';
     const NO_ERROR = 'no error';
 
-    public function __construct(ParameterBagInterface $params, EntityManagerInterface $entityManager, Security $security)
+
+
+    public function __construct(ParameterBagInterface $params, EntityManagerInterface $entityManager, Security $security, DateGeneratorService $dateGenerator)
     {
         $this->params = $params;
         $this->entityManager = $entityManager;
         $this->security = $security;
         $this->validator = Validation::createValidator();
+        $this->dateGenerator = $dateGenerator;
     }
 
     public function uploadTimesheet($request) : array
@@ -143,7 +151,9 @@ class UploadHelper
 
                         foreach ($first as $title => $fileparser){
 
-                            switch ($title){
+                            try{
+
+                                switch ($title){
 
                                 case $title === 'BeneficiaryAccount' :
                                     $statement->setAccount($fileparser);
@@ -162,7 +172,13 @@ class UploadHelper
                                 break;
 
                                 case $title === 'OperationDate' :
-                                    $date = date($fileparser);
+                                    $dateformatmin = explode('/',$fileparser);
+                                    $day = $dateformatmin[0];
+                                    $month = $dateformatmin[1];
+                                    $year =  $dateformatmin[2];
+                                    $newarr = [$year, $month, $day];
+                                    $newformat = implode('-', $newarr);
+                                    $date = new \DateTime( $newformat, new DateTimeZone('Europe/Luxembourg'));
                                     $statement->setOperationdate($date);
                                 break;
 
@@ -173,7 +189,13 @@ class UploadHelper
 
                             }
 
-                            $this->entityManager->persist($statement);
+
+                                $this->entityManager->persist($statement);
+
+                            } catch (\Exception $exception){
+
+                                echo $exception->getMessage();die;
+                            }
                         }
                     }
 
@@ -206,6 +228,7 @@ class UploadHelper
 
             if($exception){
 
+                echo $exception->getMessage();die;
                 return $this->uploadfeedback = [
                     'status'=>'error',
                     'message' => 'Oups Exception thrown check your file'

@@ -17,7 +17,7 @@ class StatementFile
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime")
      */
     private $operationdate;
 
@@ -71,12 +71,12 @@ class StatementFile
         return $this->id;
     }
 
-    public function getOperationdate(): ?string
+    public function getOperationdate()
     {
         return $this->operationdate;
     }
 
-    public function setOperationdate(string $operationdate): self
+    public function setOperationdate(\DateTimeInterface $operationdate)
     {
         $this->operationdate = $operationdate;
 

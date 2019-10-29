@@ -9,6 +9,9 @@
 namespace App\Service;
 
 
+use DateTimeInterface;
+use Exception;
+
 class DateGeneratorService
 {
 
@@ -84,6 +87,49 @@ class DateGeneratorService
             return self::dateGenerator($month);
 
         }
+    }
+
+    public function dateFormatter($request)
+    {
+        $datesformatted = [];
+
+        if(!empty($request->request->get('Min-date'))){
+            $dateformatmin = explode('-',$request->request->get('Min-date'));
+            $date = date_create();
+            date_date_set($date,$dateformatmin[0], $dateformatmin[1], $dateformatmin[2]);
+            $datemin = date_format($date, 'd/m/y');
+            $datesformatted['datemin'] = $datemin;
+        }
+
+        if(!empty($request->request->get('Max-date'))){
+
+            $dateformatmax = explode('-',$request->request->get('Max-date'));
+
+            $datemax = date_create();
+
+            date_date_set($datemax,$dateformatmax[0], $dateformatmax[1], $dateformatmax[2]);
+
+            $datemaxi = date_format($datemax, 'd/m/y');
+
+            $datesformatted['datemax'] = $datemin;
+
+        }
+
+        return $datesformatted;
+    }
+
+    public function dateFormatterToDate($datetodb)
+    {
+        try {
+
+            $datemin = new \DateTime($datetodb);
+
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+        }
+
+        return $datemin;
     }
 
 }
