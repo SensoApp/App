@@ -198,4 +198,28 @@ class StatementFileRepository extends ServiceEntityRepository
         return $em->getQuery()->getResult();
 
     }
+
+    public function selectPerOpertionsRef($refs)
+    {
+        $em = $this->getEntityManager();
+
+        foreach ($refs as $ref){
+
+            $new[] = $ref;
+        }
+
+        $con = $em->createQuery('select s 
+                                        from App\Entity\StatementFile s 
+                                        where s.referencemovement in (:refs)');
+
+        $con->setParameters(['refs' => $new]);
+
+        return $con->getResult();
+
+           /* $quer = 'select * from statement_file s where s.referencemovement in (?)';
+
+            $st = $em->getConnection()->executeQuery($quer,[$new], [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY]);
+
+        return $st->fetchAll();*/
+    }
 }

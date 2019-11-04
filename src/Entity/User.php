@@ -53,12 +53,12 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(nullable=true)
-     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="user", cascade={"remove"})
      */
     private $invoice;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="user", cascade={"remove"})
      */
     private $clientContracts;
 
@@ -70,7 +70,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\StatementFile", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\StatementFile", mappedBy="user", cascade={"remove"})
      */
     private $statementFiles;
 

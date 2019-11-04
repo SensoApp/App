@@ -25,6 +25,7 @@
         "league/flysystem-bundle": "^1.0",
         "parsecsv/php-parsecsv": "^1.1",
         "php-amqplib/php-amqplib": "^2.10",
+        "phpoffice/phpspreadsheet": "^1.9",
         "sensio/framework-extra-bundle": "^5.0.0",
         "symfony/apache-pack": "^1.0",
         "symfony/asset": "4.2.*",

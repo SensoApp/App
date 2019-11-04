@@ -16,8 +16,108 @@
             <br>
             <br>
             <br>
+            <section class="container-fluid">
+                <div class="row">
+                    <h2 class="title text-center">Contracts Per Users</h2>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordred table-striped">
+                            <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Start date</th>
+                                <th>End date</th>
+                                <th>Rate</th>
+                                <th>Fee Saturday</th>
+                                <th>Fee Sunday</th>
+                                <th>Fee Bank holidays</th>
+                                <th>User</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for client in clientcontract %}
+                                <tr>
+                                    <td>{{ client.clientname }}</td>
+                                    <td>{{ client.startDate|date('d-m-Y') }}</td>
+                                    <td>{{ client.endDate|date('d-m-Y') }}</td>
+                                    <td>{{ client.rate }}</td>
+                                    <td>{{ client.extrapercentsatyrday }}</td>
+                                    <td>{{ client.extrapercentsunday }}</td>
+                                    <td>{{ client.extrapercentbankholidays }}</td>
+                                    <td>{{ client.user.firstname }} {{ client.user.lastname }} </td>
+                                    <td>
+                                        <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                            <a href="{{ path('edit_client_contract', {id : client.id}) }}">
+                                                <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                            <a href="{{ path('delete_client', {id : client.id}) }}">
+                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <section class="container-fluid">
+                <div class="row">
+                    <h2 class="title text-center">Users</h2>
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordred table-striped">
+                            <thead>
+                            <tr>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Email</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td>{{ user.firstname }}</td>
+                                    <td>{{ user.lastname }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                            <a href="{{ path('edituser', {id : user.id}) }}">
+                                                <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                            </a>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                            <a href="{{ path('deleteuser', {id : user.id}) }}">
+                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
             <div class="row">
-                <h2 class="title text-center">List of Contacts</h2>
+                <h2 class="title text-center">Contacts</h2>
             </div>
             <br>
             <div class="row">
@@ -86,7 +186,7 @@
             </div>
             <section class="container-fluid">
                 <div class="row">
-                    <h2 class="title text-center">List of Clients</h2>
+                    <h2 class="title text-center">Clients</h2>
                 </div>
                 <div class="row">
                     <div class="table-responsive">

@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Contact;
 use App\Entity\ContactEndClient;
+use App\Entity\User;
 use App\Form\ContactEndClientType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,10 +104,17 @@ class ContactManagementController extends AbstractController
 
         $listofclients = $this->getDoctrine()->getRepository(ContactEndClient::class)->listOfAllClients();
 
+        $listofcontracts = $this->getDoctrine()->getRepository(ClientContract::class)->findAll();
+
+
+        $listofusers = $this->getDoctrine()->getRepository(User::class)->findAll();
+
         return $this->render('form/admin.html.twig', [
 
             'list' => $list,
-           'lists' => $listofclients
+           'lists' => $listofclients,
+            'users' => $listofusers,
+            'clientcontract' => $listofcontracts
 
         ]);
     }
@@ -279,5 +287,67 @@ class ContactManagementController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route(path="/newadmin/clientcontract/edit/{id}", name="edit_client_contract")
+     */
+    public function editClientContractManagement(Request $request, $id, ClientContract $clientContract)
+    {
+
+        $form = $this->createForm(ClientContractType::class, $clientContract);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $clientcontract = $form->getData();
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($clientcontract);
+
+            $em->flush();
+
+            $this->addFlash('success', 'Contract '.$id.' has been edited successfully');
+
+            //redirect to list of contract, add view and query to list thm all
+            return $this->redirectToRoute('user_dashboard');
+
+        }
+
+        return $this->render('form/clientcontractmanagement.edit.html.twig', [
+
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route(path="/newadmin/clientcontract/delete/{id}", name="delete_client_contract")
+     */
+    public function deleteClientContractManagement(Request $request, $id)
+    {
+
+        $clientcontacttodelete = $this->em
+            ->getRepository(ClientContract::class)
+            ->find($id);
+
+        try{
+
+            $this->em->remove($clientcontacttodelete);
+            $this->em->flush();
+
+        } catch (\Exception $exception){
+
+            echo $exception->getMessage();
+        }
+
+
+        $this->addFlash('success', 'User deleted successfully');
+
+        return $this->redirectToRoute('adminsenso');
+
+    }
+
 
 }

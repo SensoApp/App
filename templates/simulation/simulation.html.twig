@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <body>
+    {% include 'header.html.twig' %}
+        <div class="container-fluid">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <h2 class="text-center">Simulation Tool ✅</h2>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="col-md-offset-2 col-md-6">
+                    <table class="table table-responsive">
+                        <tr>
+                            <th>Salaire Brut</th>
+                            <td>8500 EUR</td>
+                        </tr>
+                        <tr>
+                            <th>Class d'impot</th>
+                            <td>Class 2</td>
+                        </tr>
+                        <tr>
+                            <th>Situation matrimoniale</th>
+                            <td>Marié</td>
+                        </tr>
+                        <tr>
+                            <th>Residence</th>
+                            <td>Luxembourg</td>
+                        </tr>
+                        <tr>
+                            <th>Avantage</th>
+                            <td>Aucun</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% include 'footer.html.twig' %}
+    </body>
+{% endblock %}

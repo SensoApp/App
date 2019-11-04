@@ -10,10 +10,15 @@ namespace App\Events;
 
 
 use App\Controller\InvoiceController;
+use App\Controller\UserController;
 use App\Invoice\InvoiceGenerator;
 use App\Invoice\InvoiceDispatcher;
 use App\Repository\InvoiceRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 class AppSubscriber implements EventSubscriberInterface
 {
@@ -22,6 +27,7 @@ class AppSubscriber implements EventSubscriberInterface
     private $invoiceRepository;
     private $invoiceGenerator;
     private $invoiceValidator;
+    private $filpathafterdownloadexcel;
 
     public function __construct(
                                 InvoiceRepository $invoiceRepository,
@@ -59,7 +65,8 @@ class AppSubscriber implements EventSubscriberInterface
         return [
 
             TimeSheetValidationEvent::NAME => 'onTimesheetValidated',
-            InvoiceValidationEvent::NAME => 'onInvoiceValidated'
+            InvoiceValidationEvent::NAME => 'onInvoiceValidated',
+            KernelEvents::RESPONSE => 'onKernelResponse',
         ];
     }
 
@@ -81,4 +88,20 @@ class AppSubscriber implements EventSubscriberInterface
 
        $this->invoiceValidator->retrieveDataForFinalInvoice($invocedata);
     }
+
+    public function onKernelResponse(ResponseEvent $responseEvent)
+    {
+        $response  = $responseEvent->getResponse();
+
+        if($response instanceof BinaryFileResponse && $response->getFile()->getExtension() === 'xls'){
+
+            $path = $response->getFile()->getPathname();
+
+            // logg that the user downloaded their statement...
+
+        }
+
+        return;
+    }
+
 }

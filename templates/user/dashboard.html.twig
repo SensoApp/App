@@ -359,6 +359,7 @@
                         <div class="col-md-6">
                             <input class="form-control" type="date" placeholder="Max date" name="Max-date">
                         </div>
+                        <input type="hidden" name="specialrequest" value="1">
                     </div>
                     <br>
                     <button class="btn btn-primary">Submit</button>
@@ -382,19 +383,37 @@
                             </thead>
                             <tbody>
                             {% if pagination != null %}
+                                {% set id = null %}
                                 {% set idline = 0 %}
                                 {% for list in pagination %}
                                     {% set idline = idline +1 %}
                                     <tr>
                                         <td>{{ idline }}</td>
-                                        <td>{{ list.referencemovement }}</td>
+                                        <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
                                         <td>{{ list.operations }}</td>
                                         <td>{{ list.communication }}</td>
                                         <td>{{ list.operationdate|date('m-d-Y')}}</td>
                                         <td>{{ list.amount }}</td>
                                         <td>EUR</td>
                                     </tr>
+                                    {% set id = list.referencemovement %}
                                 {% endfor %}
+                                <form method="post" action="{{ path('downloadstatement') }}">
+                                    {% for items in pagination %}
+                                        {% set itemnumber = (itemnumber|default(0) + 1) %}
+                                            <input type="hidden" value="{{ items.referencemovement}}" name="ref{{ itemnumber}}">
+                                    {% endfor %}
+                                    <div class="col-md-offset-10">
+                                        <div class="col-md-">
+                                            Export to Excel
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button>
+                                                <i class="fa fa-file-excel-o fa-3x exportToExcel" style="color: #4cae4c"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             {% else %}
                                 <tr>
                                     <td>
@@ -415,6 +434,7 @@
         {% include 'footer.html.twig' %}
         <script>
             $(function () {
+
                 $('i').on('click', function () {
                     setTimeout(
                         20000,
@@ -422,6 +442,7 @@
                         location.reload()
                     );
                 });
+
             });
         </script>
     </body>

@@ -3,16 +3,33 @@
 namespace App\Form;
 
 use App\Entity\ClientContract;
+use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 class ClientContractType extends AbstractType
 {
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    public function __construct(TokenStorageInterface $tokenStorage)
+    {
+
+        $this->tokenStorage = $tokenStorage;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -45,19 +62,12 @@ class ClientContractType extends AbstractType
                 'attr' => ['placeholder' => 'Expecting numbers e.g. 1,6 for 160%'],
                 'required' => false
             ])
-            ->add('user', EntityType::class, [
-                'class' => 'App\Entity\User',
-                'by_reference' => false,
-                'placeholder' => 'Select a user'
-            ])
-            ->add('Submit', SubmitType::class)
-        ;
-    }
 
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => ClientContract::class,
-        ]);
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'placeholder' => 'Select an option'
+            ])
+            ->add('Submit', SubmitType::class);
+
     }
 }
