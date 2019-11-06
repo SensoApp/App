@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Entity/SimulationCalculationDetails.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/StatementFile.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/StatementFile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/DateGeneratorService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/DateGeneratorService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UploadHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UploadHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SimulationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SimulationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -190,6 +190,10 @@
       <path value="$PROJECT_DIR$/vendor/symfony/translation" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
       <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
+      <path value="$PROJECT_DIR$/vendor/phpoffice/phpspreadsheet" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/matrix" />
+      <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RarbTOdsDCdhOQ59sQq78AzId6" />
@@ -222,18 +226,18 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php.debug" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/web/lib" />
+      <recent name="$PROJECT_DIR$/web/img" />
+      <recent name="$PROJECT_DIR$/web" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates/statement" />
       <recent name="$PROJECT_DIR$/templates/form" />
       <recent name="$PROJECT_DIR$/public/css" />
       <recent name="$PROJECT_DIR$/report" />
       <recent name="$PROJECT_DIR$/templates" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/templates" />
-      <recent name="$PROJECT_DIR$/web/lib" />
-      <recent name="$PROJECT_DIR$/web/img" />
-      <recent name="$PROJECT_DIR$/web" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -269,12 +273,12 @@
           <expand>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@a6755bb4" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@36df0b34" type="7427dc5b:ServiceModel$ServiceGroupNode" />
             </path>
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@a6755bb4" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@7d67fcc7" type="9fbbdea:ServiceModel$ServiceNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@36df0b34" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@4cf3b2ba" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />

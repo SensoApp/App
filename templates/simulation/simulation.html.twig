@@ -10,7 +10,7 @@
             <br>
             <br>
             <div class="row">
-                <h2 class="text-center">Simulation Tool ✅</h2>
+                <h2 class="text-center">Package Simulation Tool ✅</h2>
             </div>
             <br>
             <br>
@@ -20,31 +20,87 @@
                 <br>
                 <br>
                 <div class="col-md-offset-2 col-md-6">
-                    <table class="table table-responsive">
-                        <tr>
-                            <th>Salaire Brut</th>
-                            <td>8500 EUR</td>
-                        </tr>
-                        <tr>
-                            <th>Class d'impot</th>
-                            <td>Class 2</td>
-                        </tr>
-                        <tr>
-                            <th>Situation matrimoniale</th>
-                            <td>Marié</td>
-                        </tr>
-                        <tr>
-                            <th>Residence</th>
-                            <td>Luxembourg</td>
-                        </tr>
-                        <tr>
-                            <th>Avantage</th>
-                            <td>Aucun</td>
-                        </tr>
-                    </table>
+                    <form action="{{ path('simulation') }}" method="post">
+                        <table class="table table-responsive">
+                            <tr>
+                                <th class="bg-primary">Daily Rate</th>
+                                <td>
+                                    <input required name="daily-rate" class="form-control" type="text" placeholder="Expected daily rate e..g 650 for 650 EUR">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Days worked</th>
+                                <td>
+                                    <input required name="days-worked" class="form-control" type="text" placeholder="Enter a number e.g 21 for 21 days worked">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Gross salary</th>
+                                <td>
+                                    <input required name="gross-salary" class="form-control" type="number" placeholder="Enter an amount e.g. 7500 for 7500 EUR">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Lunch vouchers</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control" name="lunch-vouchers" id="package">
+                                        <option value="">Select Yes or No</option>
+                                        <option value="lunchv-yes">Yes</option>
+                                        <option value="lunchv-no">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Taxe class</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control" name="taxe-class" id="package">
+                                        <option value="">Select your taxe class</option>
+                                        <option value="class1">Class 1</option>
+                                        <option value="class1a">Class 1a</option>
+                                        <option value="class2">Class 2</option>
+                                        <option value="specific-tax-rate">Specific taxe rate</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Specific taxes rate</th>
+                                <td>
+                                    <input name="specific-rate" class="form-control" type="number" placeholder="Enter a rate in decimal e.g. 0.20 for 20%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Residency</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control" name="residency" id="package">
+                                        <option value="">Luxembourg resident?</option>
+                                        <option value="residency-yes">Yes</option>
+                                        <option value="residency-no">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Payroll package</th>
+                                <td>
+                                    <label for="package"></label>
+                                    <select required class="form-control" name="Package" id="package">
+                                        <option value="">Select your package</option>
+                                        <option value="basic">Basic</option>
+                                        <option value="premium">Premium</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </form>
                 </div>
             </div>
         </div>
+    <br>
+    <br>
+    <br>
     {% include 'footer.html.twig' %}
     </body>
 {% endblock %}
