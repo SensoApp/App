@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SimulationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SimulationController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/TaxeClassesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TaxeClassesRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -325,7 +323,7 @@
       <workItem from="1571862152739" duration="1316000" />
       <workItem from="1571888411746" duration="45733000" />
       <workItem from="1573103592973" duration="119000" />
-      <workItem from="1573103779879" duration="23465000" />
+      <workItem from="1573103779879" duration="24206000" />
     </task>
     <servers />
   </component>

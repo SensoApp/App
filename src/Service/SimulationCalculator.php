@@ -182,8 +182,6 @@ class SimulationCalculator
 
         }
 
-        //$taxeclasscalculated = number_format((float)$taxeclasscalculated, 2, '.', ',');
-
         return $taxeclasscalculated;
     }
 
