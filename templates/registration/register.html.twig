@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<body>
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    <div class="container-fluid">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        {% include 'header.html.twig' %}
+        <div class="row">
+            {% for message in app.session.flashBag.get('success') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h2 class="text-center"> Welcome to My Senso Registration ✅</h2>
+        </div>
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-4">
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.firstname) }}
+            {{ form_row(registrationForm.lastname) }}
+            {{ form_row(registrationForm.contact) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.roles) }}
+            {{ form_row(registrationForm.plainPassword.first) }}
+            {{ form_row(registrationForm.plainPassword.second) }}
+        {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(function () {
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove(),
+                    location.reload()
+                );
+            });
+        });
+    </script>
+</body>
+{% endblock %}

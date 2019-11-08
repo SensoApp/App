@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Senso Sàrl</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+        <!-- Google Fonts -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700|Raleway:300,400,400i,500,500i,700,800,900" rel="stylesheet">
+        <meta charset="UTF-8">
+        <title>Timesheet - #123</title>
+        <style type="text/css">
+            @page {
+                margin: 0cm 0cm;
+            }
+            body {
+                margin: 0px;
+            }
+            * {
+                font-family: "Perpetua Titling MT", Arial, sans-serif;
+            }
+            a {
+                color: #fff;
+                text-decoration: none;
+            }
+            table {
+                font-size: x-small;
+            }
+            tfoot tr td {
+                font-weight: bold;
+                font-size: x-small;
+            }
+            .invoice table {
+                margin: 15px;
+            }
+            .invoice h3 {
+                margin-left: 15px;
+            }
+            .information {
+                background-color: #60A7A6;
+                color: #FFF;
+            }
+            .information .logo {
+                margin: 5px;
+            }
+            .information table {
+                padding: 10px;
+            }
+
+            #sig{
+                 background-color: #60A7A6;
+                 color: #FFF;
+                 font-weight: bold;
+                 margin-top:100px ;
+                 text-align: center;
+                 top: 50%;
+            }
+
+            #sig2{
+
+                 padding-top:50px;
+                 display: inline-block;
+                 padding-right: 15px;
+                 margin-left: 15px
+            }
+
+        </style>
+
+        <!-- Bootstrap CSS File -->
+
+        <!-- =======================================================
+          Theme Name: eBusiness
+          Theme URL: https://bootstrapmade.com/ebusiness-bootstrap-corporate-template/
+          Author: BootstrapMade.com
+          License: https://bootstrapmade.com/license/
+        ======================================================= -->
+
+    </head>
+    <body>
+        <div>
+            <img src="/Applications/Apps/Senso/senso/public/img/Logo_Senso_3.png" alt="Logo"  width="100" height="100" class="logo"/>
+        </div>
+        <div class="information">
+            <table width="100%">
+                <tr>
+                    <td align="left" style="width: 40%;">
+                        <h3>{{ name }}</h3>
+                    </td>
+                    <td align="right" style="width: 40%;">
+
+                        <h3>SENSO SARL</h3>
+                        <pre>
+                            http://www.senso.lu
+                            3 rue Sangels
+                            5425 Gostingen
+                        </pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div class="invoice">
+            <h3>Timesheet {{ month }}</h3>
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th>Number of days worked</th>
+                        <th>Including Bank holidays</th>
+                        <th>Number of Saturdays</th>
+                        <th>Number of Sundays</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ nbreofdays }}</td>
+                        <td>{{ nbreofbk }}</td>
+                        <td>{{ nbreofsat }}</td>
+                        <td>{{ nbreofsun }}</td>
+                    </tr>
+                </tbody>
+                <br>
+                <br>
+                <br>
+                <br>
+                <tfoot id="totaltf">
+                    <tr>
+                        <td colspan="1"></td>
+                        <td align="left">Total</td>
+                        <td align="left" class="gray">{{ nbreofdays }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+            <br>
+            <br>
+            <div id="sig">Signature</div>
+            <div class="row" id="sig2">
+                <label for="sign">Consultant</label>
+                <input type="text" style=" width:50% ">
+                <label for="sign">Client</label>
+                <input type="text" style=" width: 30% ">
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <div style="padding-top: 100px;">
+
+
+            </div>
+        </div>
+        <div class="information" style="position: absolute; bottom: 0;">
+            <table width="100%">
+                <tr>
+                    <td align="left" style="width: 50%;">
+                    </td>
+                    <td align="right" style="width: 50%;">
+                        For Consultants By Consultants
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

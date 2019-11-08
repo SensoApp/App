@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    {{ parent() }}
+    <style type="text/css">
+        html {background-color: #9d9d9d }
+    </style>
+{% endblock %}
+{% block body %}
+    {% include 'header.html.twig' %}
+    <br>
+    <br>
+    <br>
+    <!-- form user info -->
+    <div class="col-md-8 offset-md-2">
+        <span class="anchor" id="formUserEdit"></span>
+        <hr class="my-5">
+        <a href="{{ path('adminsenso')}}">
+            <button class="btn btn-success" value="Back">
+                <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold"> Back</i>
+            </button>
+        </a>
+        <br>
+        <br>
+        <div class="card card-outline-secondary">
+            <div class="card-header">
+                <h3 class="mb-0 text-center">User Information</h3>
+            </div>
+        </div>
+        <br>
+        <div class="card-body">
+            {{ form_start(form) }}
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                       {{ form_row(form.firstname) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        {{ form_row(form.lastname) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                       {{ form_row(form.sexe) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        {{ form_row(form.dateofbirth) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                      {{ form_row(form.contacttype) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        {{ form_row(form.socialesecunumber) }}
+                    </div>
+                </div>
+                <div class="card-header">
+                    <h3 class="mb-0">Contact Details</h3>
+                </div>
+                {% if form.mail is not empty %}
+                    {% for mails in form.mail %}
+                        <div class="form-group row">
+                            <div class="col-lg-9">
+                                {{ form_row(mails) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            {{ form_row(form.mail.vars.prototype) }}
+                        </div>
+                    </div>
+                {% endif %}
+                {% if form.mail is not empty %}
+                    {% for phones in form.phone %}
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            {{ form_row(phones) }}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% else %}
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        {{ form_row(form.phone.vars.prototype) }}
+                    </div>
+                </div>
+                {% endif %}
+                <br>
+                {% if form.address is not empty %}
+                    {% for addresses in form.address %}
+                        <div class="form-group row">
+                            <div class="col-lg-9">
+                                {{ form_row(addresses) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            {{ form_row(form.address.vars.prototype) }}
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <br>
+                <div class="card-header">
+                    <h3 class="mb-0">Citizenship Details</h3>
+                </div>
+                {% if form.address is not empty %}
+                    {% for citizenship in form.citizenshipdetails %}
+                        <div class="form-group row">
+                            <div class="col-lg-9">
+                                {{ form_row(citizenship) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            {{ form_row(form.citizenshipdetails.vars.prototype) }}
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <div class="card-header">
+                    <h3 class="mb-0">Bank Details</h3>
+                </div>
+                {% if form.bankdetails is not empty %}
+                    {% for bankdetails in form.bankdetails %}
+                        <div class="form-group row">
+                            <div class="col-lg-9">
+                                {{ form_row(bankdetails) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            {{ form_row(form.bankdetails.vars.prototype) }}
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <div class="card-header">
+                    <h3 class="mb-0">Contract details</h3>
+                </div>
+                {% if form.contract is not empty %}
+                    {% for contracts in form.contract %}
+                        <div class="form-group row">
+                            <div class="col-lg-9">
+                                {{ form_row(contracts) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            {{ form_row(form.contract.vars.prototype) }}
+                        </div>
+                    </div>
+                {% endif %}
+                <br>
+                <br>
+                <div class="form-group row">
+                    <div class="col-lg-9">
+                        {{ form_row(form.Submit) }}
+                    </div>
+                </div>
+                {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+

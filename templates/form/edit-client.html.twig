@@ -1,0 +1,42 @@
+{% block body %}
+    <body>
+        {% include 'header.html.twig' %}
+        <div class="container-fluid">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2 class="title text-center">Client Contract</h2>
+            <div class="row col-md-offset-0">
+                <a href="{{ path('adminsenso')}}">
+                    <button class="btn btn-success" value="Back">
+                        <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold"> Back</i>
+                    </button>
+                </a>
+            </div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_start(form) }}
+                    {{ form_row(form.clientname) }}
+                    {{ form_row(form.type) }}
+                    {{ form_row(form.contactperson) }}
+                    {% if form.children.phone.children|length > 0 %}
+                        {{ form_row(form.phone) }}
+                    {% else %}
+                        {{ form_row(form.phone.vars.prototype)}}
+                    {% endif %}
+                    {% if form.children.phone.children | length > 0 %}
+                        {{ form_row(form.mail) }}
+                    {% else %}
+                        {{ form_row(form.mail.vars.prototype) }}
+                    {% endif %}
+                    {{ form_row(form.Submit) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </body>
+{% endblock %}

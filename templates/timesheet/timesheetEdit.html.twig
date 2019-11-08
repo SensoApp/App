@@ -1,0 +1,268 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% include 'header.html.twig' %}
+    <div class="container-fluid">
+        <div class="row">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h3 class="text-center">Timesheet</h3>
+        </div>
+        <br>
+        <br>
+        <form action="{{ path('modify_timesheet', {id: id}) }}" method="post" id="test">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col" class="text-center">Day</th>
+                    <th scope="col" class="text-center">Date</th>
+                    <th scope="col" class="col-md-2 text-center">Number of Days</th>
+                    <th scope="col" class="text-center">Comments</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for dates  in  date %}
+                    <tr>
+                        {% set currentM = dates|date('M')  %}
+                        <span class="hidden">{{ currentM }}</span>
+                        <td class="text-center wdays">{{ dates|date('D') }}</td>
+                        <td class="text-center">{{ dates }}</td>
+                        {% if  dates|date('D') == 'Sat' or dates|date('D') == 'Sun' %}
+                            <td class="col-xs-1 ">
+                                <textarea class="form-control days text-center" cols="1" rows="1" form="test" name="testing">0</textarea>
+                            </td>
+                        {% else %}
+                            <td class="col-xs-1 ">
+                                <textarea class="form-control days nbreDays text-center" cols="1" rows="1" style="font-weight: bold">1</textarea>
+                            </td>
+                        {% endif %}
+                        <td>
+                            <select class="col-md-8 md-textarea form-control wdays">
+                                <option value=""></option>
+                                <option value="Day off">Day off</option>
+                                <option value="Bank holidays worked" id="bkh">Bank holidays</option>
+                                <option value="Sick">Sick</option>
+                            </select>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-offset-3">
+                    <h4 class="col-md-2">Total of days</h4>
+                    <div class="col-md-2" style="font-weight: bold; font-size: large" id="total">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-offset-8">
+                <input class="btn btn-danger col-md-2" id="count" value="count">
+                <input class="btn btn-primary col-md-2"  value="Reset" id="reset">
+            </div>
+            <div class="col-lg-offset-10">
+                <input class="btn btn-success col-md-4" id="sub" type="button" value="Submit">
+            </div>
+        </form>
+    </div>
+    <br/>
+    <br/>
+    {% include 'footer.html.twig'%}
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var nbreOfDays;
+
+            var totalValue;
+
+            var nbreOfSaturdays = [];
+
+            var finalSaturdays;
+
+            var nbreOfSundays = [];
+
+            var finalSundays;
+
+            var nbrOfBankHolidays = [];
+
+            var finalBankHolidays;
+
+            var currentMonth;
+
+            $('#count').on('click', function () {
+
+                nbreOfDays = $('.nbreDays').text();
+
+                totalValue = $('#total');
+
+                if(!totalValue.empty()){
+
+                    totalValue.empty();
+
+                    totalValue.append(nbreOfDays.length);
+
+                    nbreOfDays = nbreOfDays.length;
+
+                } else {
+
+                    totalValue.append(nbreOfDays.length);
+
+                    nbreOfDays = nbreOfDays.length;
+
+                }
+            });
+
+            $('.days').blur( function () {
+
+                var valueUpdate = $(this).val();
+
+                if(valueUpdate === "0" || valueUpdate === ""){
+
+                    $(this).removeClass('nbreDays');
+
+                } else if ( valueUpdate === "1") {
+
+                    $(this).addClass('nbreDays');
+
+                    let otherdays = $(this).parent().siblings('tr .wdays').text();
+
+                    switch (otherdays != null) {
+
+                        case otherdays === 'Sat' :
+
+                            nbreOfSaturdays.push(1);
+
+                            finalSaturdays = nbreOfSaturdays.length;
+
+                            break;
+
+                        case otherdays === 'Sun':
+
+                            nbreOfSundays.push(1);
+
+                            finalSundays = nbreOfSundays.length;
+
+                            break;
+                    }
+                }
+            });
+
+
+            $('select').on('blur', function () {
+
+                let otherd = $(this).find(':selected').text();
+                let otherdays = $(this).parent().siblings('tr .wdays').text();
+
+                console.log(otherd);
+
+                if (otherd === "Bank holidays" && !( otherdays === "Sat" || otherdays === "Sun")) {
+
+                    nbrOfBankHolidays.push(1);
+
+                    finalBankHolidays = nbrOfBankHolidays.length;
+
+                    console.log(finalBankHolidays);
+
+                }
+            });
+
+            $('#reset').on('click', function () {
+
+                location.reload();
+
+            });
+
+
+            $('#sub').on('click', function () {
+
+                nbreOfDays = $('.nbreDays').text();
+
+                currentMonth = $('.hidden').first().text();
+
+                nbreOfDays = nbreOfDays.length;
+
+                finalSaturdays;
+
+                finalSundays;
+
+                finalBankHolidays;
+
+                let edit = 'edit';
+
+                let confirmation = confirm(
+                    "Can you confirm that you worked "+ nbreOfDays+" days \n"+
+                    " Saturdays: "+ (finalSaturdays === undefined ? "0" : finalSaturdays )+"\n"+
+                    " Sundays: "+ (finalSundays === undefined ? "0" : finalSundays )+"\n"+
+                    " Bank Holidays: "+ + (finalBankHolidays === undefined ? "0" : finalBankHolidays )
+                );
+
+                if(confirmation){
+
+                    $.ajax({
+                        url:'{{ path('modify_timesheet', {id: id}) }}',
+                        type: 'POST',
+                        data: {
+                            nbrOfDays : nbreOfDays,
+                            nbreOfSaturdays: finalSaturdays,
+                            nbreOfSundays: finalSundays,
+                            nbrOfBankHolidays: finalBankHolidays,
+                            currentMonth: currentMonth,
+                            edit: edit
+                        },
+                        dataType: 'html',
+
+                        success: function (msg) {
+
+                            var obj =  JSON.parse(msg);
+
+                            $.each(obj, function (key, val) {
+
+                                if(key === 'error'){
+
+                                    $('.row').first().append(
+                                        '<div id="target1" class="col-md-12 text-center alert alert-danger">'+
+                                        '<i class="fa fa-window-close text-right" aria-hidden="true">'+val+'</i>'+
+                                        '</div>');
+
+                                } else if (key === 'success') {
+
+                                    $('.row').first().append(
+                                        '<div id="target1" class="col-md-12 text-center alert alert-success">'+
+                                        '<i class="fa fa-window-close text-right" aria-hidden="true">'+val+'</i>'+
+                                        '</div>');
+
+                                }
+
+                                $('html, body').animate({
+                                    'scrollTop' : $("#target1").position().top
+                                });
+
+                                $('#target1').on('click', function () {
+
+                                    setTimeout(
+                                        500,
+                                        $('.alert').remove(),
+                                        location.reload()
+                                    );
+
+                                });
+                            })
+
+                        }
+
+                    });
+
+                }
+
+            });
+
+        });
+
+    </script>
+{% endblock %}

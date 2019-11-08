@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordred table-striped">
+                <thead>
+                    <th>Client Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Rate</th>
+                    <th>Extra Percent for Bank holidays</th>
+                    <th>Extra Percent for Saturday</th>
+                    <th>Extra Percent for Sunday</th>
+                </thead>
+                <tbody>
+                {% if clientcontract != null %}
+                    {%  for list in clientcontract %}
+                        <tr>
+                            <td>{{ list.clientname }}</td>
+                            <td>{{ list.startDate|date('m/d/Y') }}</td>
+                        {% if list.endDate != null %}
+                            <td>{{ list.endDate|date('m/d/Y') }}</td>
+                        {% else %}
+                            <td>no end date</td>
+                        {% endif %}
+                            <td>{{ list.rate }}</td>
+                            <td>{{ list.extrapercentbankholidays }}</td>
+                            <td>{{ list.extrapercentsatyrday }}</td>
+                            <td>{{ list.extrapercentsunday }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <td>
+                        <i>No contracts recorded</i>
+                    </td>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

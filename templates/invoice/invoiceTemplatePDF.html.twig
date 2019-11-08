@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Senso Sàrl</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"  integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+        <!-- Google Fonts -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400i,600,700|Raleway:300,400,400i,500,500i,700,800,900" rel="stylesheet">
+        <meta charset="UTF-8">
+        <title>Timesheet - #123</title>
+        <style type="text/css">
+            @page {
+                margin: 0cm 0cm;
+            }
+            body {
+                margin: 0px;
+            }
+            * {
+                font-family: "Perpetua Titling MT", Arial, sans-serif;
+            }
+            a {
+                color: #fff;
+                text-decoration: none;
+            }
+            table {
+                font-size: x-small;
+            }
+            tfoot tr td {
+                font-weight: bold;
+                font-size: x-small;
+            }
+            .invoice table {
+                margin: 15px;
+            }
+            .invoice h3 {
+                margin-left: 15px;
+            }
+            .information {
+                background-color: #60A7A6;
+                color: #FFF;
+            }
+            .information .logo {
+                margin: 5px;
+            }
+            .information table {
+                padding: 10px;
+            }
+
+            #sig{
+                background-color: #60A7A6;
+                color: #FFF;
+                font-weight: bold;
+                margin-top:100px ;
+                text-align: center;
+                top: 50%;
+            }
+
+            #sig2{
+
+                padding-top:50px;
+                display: inline-block;
+                padding-right: 15px;
+                margin-left: 15px
+            }
+
+        </style>
+
+        <!-- Bootstrap CSS File -->
+
+        <!-- =======================================================
+          Theme Name: eBusiness
+          Theme URL: https://bootstrapmade.com/ebusiness-bootstrap-corporate-template/
+          Author: BootstrapMade.com
+          License: https://bootstrapmade.com/license/
+        ======================================================= -->
+
+    </head>
+    <body>
+        <div>
+            <img src="/Applications/Apps/Senso/senso/public/img/Logo_Senso_3.png" alt="Logo"  width="100" height="100" class="logo"/>
+        </div>
+        <div class="information">
+            <table width="100%">
+                <tr>
+                    <td align="left" style="width: 40%;">
+                        <h3>{{ name }}</h3>
+                    </td>
+                    <td align="right" style="width: 40%;">
+
+                        <h3>SENSO SARL</h3>
+                        <pre>
+                            http://www.senso.lu
+                            3, rue Sangels
+                            L-5425 Gostingen
+                        </pre>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br/>
+        <div class="invoice">
+            <h3>Invoice {{ invoice.date|date('d-m-Y') }} <em>number : {{ invoice.invoicenumber }}</em> </h3>
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <th>Consulting services</th>
+                        <th>Units</th>
+                        <th>Rate</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Business day
+                        </td>
+                        {% for data in timesheetdata %}
+                        <td>
+                            {{ data.nbreDaysWorked }}
+                        </td>
+                        <td>
+                            {{data.contract.rate}} EUR
+                        </td>
+                        {% endfor %}
+                        <td>
+                            {{ invoice.businessdaysamount }} EUR
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Bank holiday
+                        </td>
+                        {% for data in timesheetdata %}
+                            <td>
+                                {{ data.nbrOfBankHolidays }}
+                            </td>
+                            {% if data.nbrOfBankHolidays is not null %}
+                                <td>
+                                    {{data.contract.rate * data.contract.extrapercentbankholidays}} EUR
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>
+                            {{ invoice.bankholidayamount }} EUR
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Saturday
+                        </td>
+                        {% for data in timesheetdata %}
+                            <td>
+                                {{ data.nbreOfSaturdays }}
+                            </td>
+                            {% if data.nbreOfSaturdays is not null %}
+                                <td>
+                                    {{data.contract.rate * data.contract.extrapercentsatyrday}} EUR
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>
+                            {{ invoice.saturdyamount }} EUR
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Sunday
+                        </td>
+                        {% for data in timesheetdata %}
+                            <td>
+                                {{ data.nbreOfSundays }}
+                            </td>
+                            {% if data.nbreOfSundays is not null %}
+                                <td>
+                                    {{data.contract.rate * data.contract.extrapercentsunday}} EUR
+                                </td>
+                            {% endif %}
+                        {% endfor %}
+                        <td>
+                            {{ invoice.sundayamount }} EUR
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Gross amount
+                        </th>
+                        <th>
+                            VAT rate
+                        </th>
+                        <th>
+                            VAT
+                        </th>
+                        <th>
+
+                        </th>
+                        <th>
+                            Total
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {{ invoice.totalamount }} EUR
+                        </td>
+                        {%  set vatpercentage =   invoice.vat * 100  %}
+                        <td>
+                            {{ vatpercentage }}%
+                        </td>
+
+                        <td>
+                            {{invoice.vatamount}} EUR
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            {{ invoice.amountttc }} EUR
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div style="padding-top: 100px;">
+            </div>
+        </div>
+        <div class="information" style="position: absolute; bottom: 0;">
+            <table width="100%">
+                <tr>
+                    <td align="left" style="width: 50%;">
+                    </td>
+                    <td align="right" style="width: 50%;">
+                        For Consultants By Consultants
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>
