@@ -24,22 +24,21 @@ class SimulationController extends AbstractController
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route(path="/simulation", name="simulation")
+     * @Route(path="/user/simulation", name="simulation")
      */
     public function createSimulation(Request $request)
     {
+        $simulation = null;
+
         if($request->request->count() > 0){
 
             $simulation = $this->simulationCalculator->calculationSimulation($request);
-
-            return $this->render('simulation/simulation.html.twig', [
-
-                'simulation' => $simulation
-            ]);
-
         }
 
-        return $this->render('simulation/simulation.html.twig');
+        return $this->render('simulation/simulation.html.twig', [
+
+            'simulation' => $simulation
+        ]);
     }
 
 }

@@ -14,6 +14,232 @@
             </div>
             <br>
             <br>
+            {% if simulation %}
+                <div class="row">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col-md-3">
+                        <table class="table table-responsive table-bordered">
+                            <tr>
+                                <th class="bg-primary">Daily Rate</th>
+                                <td>
+                                    {{ simulation.dailyrate }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Days</th>
+                                <td>
+                                    {{ simulation.numberofdays }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Gross salary</th>
+                                <td>
+                                    {{ simulation.grosssalary }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Car Leasing</th>
+                                <td>
+                                    -
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Lunch Vouchers</th>
+                                <td>
+                                    {{ simulation.lunchvouchers }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Taxes rate</th>
+                                <td>
+                                    {{ simulation.taxeclass }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Specific taxe rate</th>
+                                <td>
+                                    -
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Payroll package</th>
+                                <td>
+                                    {{ simulation.managementfees }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Travel fees</th>
+                                <td>
+                                    0.00 EUR
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-6">
+                        <table class="table table-responsive table-bordered">
+                            <tr>
+                                <th class="bg-info">Currency</th>
+                                <td>
+                                    EUR
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Invoice</th>
+                                <td>
+                                    {{ simulation.invoiceamount }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Management Fees</th>
+                                <td>
+                                    {{ simulation.managementfees }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Lunch vouchers</th>
+                                <td>
+                                    {{ simulation.lunchvouchers }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Gross Salary</th>
+                                <td>
+                                    {{ simulation.grosssalary }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Benefit in kind</th>
+                                <td>
+                                    -
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Gross monthly benefit in kind</th>
+                                <td>
+                                    {{ simulation.grosssalary }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Employer's cost</th>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Caisse maladie</th>
+                                <td>
+                                    {{ simulation.caissemaladie }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Caisse de maladie espece</th>
+                                <td>
+                                    {{ simulation.caissemaladieespece }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Caisse de pension</th>
+                                <td>
+                                    {{ simulation.caissepension }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Assurance dependance</th>
+                                <td>
+                                    {{ simulation.assurancedependance }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Soin de santé</th>
+                                <td>
+                                    {{ simulation.soinsante }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">CMU</th>
+                                <td>
+                                    {{ simulation.cmu }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Total Employer Cost</th>
+                                <td>
+                                    {{ simulation.totalemployerscosts }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">Employee deduction</th>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Travel fees</th>
+                                <td>
+                                    0.00 €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Caisse maladie</th>
+                                <td>
+                                    {{ simulation.caissemaladie }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Caisse de maladie espece</th>
+                                <td>
+                                    {{ simulation.caissemaladieespece }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Caisse de pension</th>
+                                <td>
+                                    {{ simulation.caissepension }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Taxable income</th>
+                                <td>
+                                    {{ simulation.taxableincome }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Tax amount</th>
+                                <td>
+                                    {{ simulation.finaltaxamount }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Assurance dépendance</th>
+                                <td>
+                                    {{ simulation.assurancedependanceemployee }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Benefit in kind car leasing</th>
+                                <td>
+                                    0.00 €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Net Salary</th>
+                                <td>
+                                    {{ simulation.netamount }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Remainder</th>
+                                <td>
+                                    {{ simulation.remainder }} €
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
             <div class="row">
                 <br>
                 <br>
@@ -52,33 +278,33 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th class="bg-primary">Residency</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control residency" name="residency" id="package">
+                                        <option value="">Luxembourg resident?</option>
+                                        <option value="residency-yes">Yes</option>
+                                        <option value="residency-no">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th class="bg-primary">Taxe class</th>
                                 <td>
                                     <label for="taxe-class"></label>
-                                    <select required class="form-control" name="taxe-class" id="package">
+                                    <select required class="form-control specifictaxrateoption" name="taxe-class" id="package">
                                         <option value="">Select your taxe class</option>
                                         <option value="class1">Class 1</option>
                                         <option value="class1a">Class 1a</option>
                                         <option value="class2">Class 2</option>
-                                        <option value="specific-tax-rate">Specific taxe rate</option>
+                                        <option id="ratespecific" value="specific-tax-rate">Specific taxe rate</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <th class="bg-primary">Specific taxes rate</th>
                                 <td>
-                                    <input name="specific-rate" class="form-control" type="number" placeholder="Enter a rate in decimal e.g. 0.20 for 20%">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-primary">Residency</th>
-                                <td>
-                                    <label for="taxe-class"></label>
-                                    <select required class="form-control" name="residency" id="package">
-                                        <option value="">Luxembourg resident?</option>
-                                        <option value="residency-yes">Yes</option>
-                                        <option value="residency-no">No</option>
-                                    </select>
+                                    <input id="inputtaxerate" name="specificrate" class="form-control" type="text" placeholder="Enter a rate in decimal e.g. 0.20 for 20%">
                                 </td>
                             </tr>
                             <tr>
@@ -102,5 +328,48 @@
     <br>
     <br>
     {% include 'footer.html.twig' %}
+
+        <script type="text/javascript">
+            $(function () {
+
+                //Remove the option of inputting specific taxe rate when the residency is Luxembourg
+                $('.residency').change( function () {
+
+                    var residencyselection = $('.residency option:selected').text();
+
+                    if(residencyselection === 'Yes' ) {
+
+                        $('#ratespecific').prop("disabled", true);
+                        $('#inputtaxerate').prop("disabled", true);
+
+                    } else if ($('.specifictaxrateoption option').attr('disabled', true) ){
+
+                        $('.specifictaxrateoption option').removeAttr("disabled");
+                        $('#inputtaxerate').removeAttr("disabled");
+
+                    }
+
+                });
+
+                //Event to make sure that the field Specific taxe rate input field will be field out by making it required if selected else remove required
+                $('.specifictaxrateoption').change( function () {
+
+                    var specifictaxerate = $('.specifictaxrateoption option:selected').text();
+
+                    if(specifictaxerate === 'Specific taxe rate' ) {
+
+                        $('#inputtaxerate').attr("required", true);
+
+                        console.log($('#inputtaxerate'));
+
+                    } else {
+
+                        $('#inputtaxerate').removeAttr("required");
+
+                    }
+
+                })
+            });
+        </script>
     </body>
 {% endblock %}

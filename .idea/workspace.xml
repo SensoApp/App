@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Entity/SimulationCalculationDetails.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/60a7d9ce-c9a0-4f81-b6fd-e1150c855641.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/SimulationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SimulationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TaxeClassesRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TaxeClassesRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -326,6 +324,8 @@
       <workItem from="1571601402012" duration="29744000" />
       <workItem from="1571862152739" duration="1316000" />
       <workItem from="1571888411746" duration="45733000" />
+      <workItem from="1573103592973" duration="119000" />
+      <workItem from="1573103779879" duration="23465000" />
     </task>
     <servers />
   </component>

@@ -33,30 +33,18 @@ class TaxeClassesRepository extends ServiceEntityRepository
 
         $em = $this->getEntityManager();
 
-        if($salary >= 9035){
+        $query  = 'SELECT '.$taxeclass.' as Taxe_rate
+                   FROM taxe_classes
+                   WHERE fromsalarytranche < :salary
+                   ORDER BY fromsalarytranche DESC 
+                   LIMIT 0,1';
 
-            $query = 'SELECT round('.$taxeclass.'/fromsalarytranche, 2) as Taxe_rate,' .$taxeclass.' as Taxe_amount 
-                      FROM taxe_classes
-                      WHERE fromsalarytranche  = 9035';
+        $stmt = $this->em->getConnection()->prepare($query);
 
-            $stmt = $em->getConnection()->prepare($query);
+        $param = ['salary' => $salary];
 
-            $stmt->execute();
+        $stmt->execute($param);
 
-        } else {
-
-            $query  = 'SELECT '.$taxeclass.' as Taxe_rate
-                       FROM taxe_classes
-                       WHERE fromsalarytranche < :salary
-                       ORDER BY fromsalarytranche DESC 
-                       LIMIT 0,1';
-
-            $stmt = $this->em->getConnection()->prepare($query);
-
-            $param = ['salary' => $salary];
-
-            $stmt->execute($param);
-        }
 
        return $stmt->fetchAll();
 
