@@ -66,7 +66,7 @@
                     <h3 class="mb-0">Contact Details</h3>
                 </div>
                 <br>
-                <div class="form-group row">
+                <div class="form-group row test">
                     <div class="col-lg-9">
                         {{ form_row(form.mail.vars.prototype) }}
                     </div>
@@ -120,6 +120,16 @@
                 {{ form_end(form) }}
             </div>
         </div>
+    <script>
+        $(function () {
+
+            $(window).load(function () {
+
+                console.log('hello');
+            })
+        });
+
+    </script>
     </body>
 {% endblock %}
 

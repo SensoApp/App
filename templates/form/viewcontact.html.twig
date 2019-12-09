@@ -113,8 +113,14 @@
                     <div class="form-group row">
                         <label class="col-lg-3 col-form-label form-control-label">Bank Details {{ banknum }}</label>
                         <div class="col-lg-9">
+                            <label for="iban-view">IBAN</label>
                             <input class="form-control" type="url" value="{{ lists.iban }}" readonly>
+                            <br>
+                            <label for="BIcode-view"> BIC Code</label>
                             <input class="form-control" type="url" value="{{ lists.biccode }}" readonly>
+                            <br>
+                            <label for="IBAN-Senso">Internal Senso IBAN</label>
+                            <input class="form-control" type="url" value="{{ lists.ibanstatement }}" readonly>
                         </div>
                     </div>
                     <br>

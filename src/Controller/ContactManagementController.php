@@ -231,7 +231,6 @@ class ContactManagementController extends AbstractController
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->zoomInContact($id);
 
-
         return $this->render('form/viewcontact.html.twig', [
 
             'list' => $list

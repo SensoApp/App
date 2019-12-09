@@ -43,9 +43,6 @@
                             <th>Lastname</th>
                             <th>Date of Birth</th>
                             <th>Social security number</th>
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <th>Delete contact</th>
-                            {% endif %}
                             </thead>
                             <tbody>
                             {% if personaldetails != null %}

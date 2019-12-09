@@ -15,11 +15,11 @@
             <br>
             <div class="row">
                 <div class="col-md-4">
-                    <h4 class="text-center">Select a client</h4>
+                    <h4 class="text-center">Select a contract</h4>
                     <select class="col-md-4 md-textarea form-control clientcontract" required>
                         <option value=""></option>
                             {% for contractdetail in contractdetails %}
-                                <option value="{{ contractdetail.clientname }}"> {{ contractdetail.id }}-{{ contractdetail.clientname }}</option>
+                                <option value="{{ contractdetail.clientname }}"> Start Date : {{ contractdetail.startDate|date('d-m-Y') }} | Client name : {{ contractdetail.clientname }}</option>
                             {% endfor %}
                     </select>
                 </div>

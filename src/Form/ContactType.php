@@ -56,7 +56,9 @@ class ContactType extends AbstractType
                         'Prospect' => 'Prospect',
                     ]
                 ])
-                ->add('socialesecunumber')
+                ->add('socialesecunumber', TextType::class, [
+                    'label' => 'Social Security Number'
+                ])
                 ->add('mail', CollectionType::class, [
                         'entry_type' => MailType::class,
                         'allow_add' => true,

@@ -38,8 +38,8 @@ class ClientContractType extends AbstractType
             ->add('endDate')
             ->add('vat', NumberType::class, [
 
-                'label' => 'VAT Number',
-                'attr' => ['placeholder' => 'Expecting numbers e.g. 1,5 for 150%'],
+                'label' => 'VAT rate',
+                'attr' => ['placeholder' => 'Expecting numbers e.g. 0,17 for 17%'],
                 'required' => true
 
             ])

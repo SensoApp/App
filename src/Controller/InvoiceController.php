@@ -55,7 +55,7 @@ class InvoiceController extends AbstractController
 
         // for all that create messengers and queues so that it can be done async
 
-        $this->addFlash('success', 'the invoice has been successfully to the client');
+        $this->addFlash('success', 'the invoice has been successfully sent to the client');
 
         return $this->redirectToRoute('user_dashboard');
     }

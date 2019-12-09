@@ -58,7 +58,8 @@ class ContactRepository extends ServiceEntityRepository
                     ->leftJoin('u.bankdetails', 'b')
                     ->addSelect(
                                 'b.iban',
-                                       'b.biccode'
+                                        'b.biccode',
+                                        'b.ibanstatement'
                                 )
                     ->leftJoin('u.citizenshipdetails', 'c')
                     ->addSelect(

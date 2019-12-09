@@ -32,7 +32,9 @@ class CityzenshipDetailsType extends AbstractType
         ])
                 ->add('documentId', TextType::class)
                 ->add('deliveryDate', DateType::class)
-                ->add('expireDate', DateType::class);
+                ->add('expireDate', DateType::class, [
+                    'label' => 'Expiry date'
+                ]);
 
     }
 
