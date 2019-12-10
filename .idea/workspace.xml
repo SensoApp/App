@@ -1,21 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/senso.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/senso.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TimesheetController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TimesheetController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form/clientcontractmanagement.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/clientcontractmanagement.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form/contact-end-client.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/contact-end-client.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" afterDir="false" />
-    </list>
+    <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -299,7 +285,7 @@
       <workItem from="1575918241230" duration="54000" />
       <workItem from="1575918369543" duration="10232000" />
       <workItem from="1575956637578" duration="1943000" />
-      <workItem from="1575958854670" duration="3491000" />
+      <workItem from="1575958854670" duration="3765000" />
     </task>
     <servers />
   </component>
