@@ -154,6 +154,9 @@
     "phenx/php-svg-lib": {
         "version": "v0.3.2"
     },
+    "php": {
+        "version": "7.2"
+    },
     "php-amqplib/php-amqplib": {
         "version": "v2.10.1"
     },

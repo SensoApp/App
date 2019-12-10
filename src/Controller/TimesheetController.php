@@ -68,6 +68,7 @@ class TimesheetController extends AbstractController
     public function saveTimesheet(Request $request, MessageBusInterface $messageBus, Security $security)
     {
         $message = new SendDocument($request, $security);
+
         $messageBus->dispatch($message);
 
         return new JsonResponse([

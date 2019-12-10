@@ -19,7 +19,7 @@
                     <select class="col-md-4 md-textarea form-control clientcontract" required>
                         <option value=""></option>
                             {% for contractdetail in contractdetails %}
-                                <option value="{{ contractdetail.clientname }}"> Start Date : {{ contractdetail.startDate|date('d-m-Y') }} | Client name : {{ contractdetail.clientname }}</option>
+                                <option value="{{ contractdetail.id }}"> Start Date : {{ contractdetail.startDate|date('d-m-Y') }} | Client name : <span class="cliname">{{ contractdetail.clientname }}</span></option>
                             {% endfor %}
                     </select>
                 </div>
@@ -124,9 +124,10 @@
 
                 $('.clientcontract').blur(function () {
 
-                     clientname = $(this).find(':selected').text();
+                     clientname = $(this).find(':selected').attr('value');
+                     //clientname = $(this).find(':selected').text();
 
-                    console.log(clientname);
+                    console.log($(this).find(':selected').attr('value'));
                 });
 
                $('#count').on('click', function () {
@@ -193,8 +194,6 @@
                     let otherd = $(this).find(':selected').text();
                     let otherdays = $(this).parent().siblings('tr .wdays').text();
 
-                   console.log(otherd);
-
                     if (otherd === "Bank holidays" && !( otherdays === "Sat" || otherdays === "Sun")) {
 
                         nbrOfBankHolidays.push(1);
@@ -228,6 +227,8 @@
                     finalBankHolidays;
 
                     clientname;
+
+                    console.log(clientname);
 
                     let confirmation = confirm(
                           "Can you confirm that you worked "+ nbreOfDays+" days \n"+

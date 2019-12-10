@@ -1,26 +1,27 @@
+{% extends 'base.html.twig' %}
 {% block body %}
-
-    {% include 'header.html.twig' %}
-
-    <div class="container-fluid">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <h2 class="title text-center">Client Contact</h2>
-        <div class="row">
-            <div class="col-md-6">
-                {{ form_start(form) }}
-                {{ form_row(form.clientname) }}
-                {{ form_row(form.type) }}
-                {{ form_row(form.contactperson) }}
-                {{ form_row(form.phone.vars.prototype) }}
-                {{ form_row(form.mail.vars.prototype) }}
-                {{ form_row(form.Submit) }}
-                {{ form_end(form) }}
+    <body>
+        {% include 'header.html.twig' %}
+        <div class="container-fluid">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2 class="title text-center">Client Contact</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_start(form) }}
+                    {{ form_row(form.clientname) }}
+                    {{ form_row(form.type) }}
+                    {{ form_row(form.contactperson) }}
+                    {{ form_row(form.phone.vars.prototype) }}
+                    {{ form_row(form.mail.vars.prototype) }}
+                    {{ form_row(form.Submit) }}
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
-    </div>
+    </body>
 {% endblock %}
