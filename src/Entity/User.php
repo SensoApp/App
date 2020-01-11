@@ -46,7 +46,6 @@ class User implements UserInterface
 
     /**
      *
-     * @ORM\Column(nullable=true)
      * @ORM\OneToOne(targetEntity="App\Entity\Contact", inversedBy="user")
      */
     private $contact;
@@ -74,19 +73,23 @@ class User implements UserInterface
      */
     private $statementFiles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\InvoiceCreationData", mappedBy="user")
+     */
+    private $createdAt;
+
 
     public function __construct()
     {
         $this->clientContracts = new ArrayCollection();
         $this->statementFiles = new ArrayCollection();
+        $this->createdAt = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     /**
      * A visual identifier that represents this user.
@@ -190,10 +193,12 @@ class User implements UserInterface
     /**
      * @param mixed $contact
      */
-    public function setContact($contact): void
+    public function setContact($contact)
     {
         $this->contact = $contact;
     }
+
+
 
     public function getInvoice(): ?string
     {
@@ -275,6 +280,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($statementFile->getUser() === $this) {
                 $statementFile->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|InvoiceCreationData[]
+     */
+    public function getCreatedAt(): Collection
+    {
+        return $this->createdAt;
+    }
+
+    public function addCreatedAt(InvoiceCreationData $createdAt): self
+    {
+        if (!$this->createdAt->contains($createdAt)) {
+            $this->createdAt[] = $createdAt;
+            $createdAt->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedAt(InvoiceCreationData $createdAt): self
+    {
+        if ($this->createdAt->contains($createdAt)) {
+            $this->createdAt->removeElement($createdAt);
+            // set the owning side to null (unless already changed)
+            if ($createdAt->getUser() === $this) {
+                $createdAt->setUser(null);
             }
         }
 

@@ -11,8 +11,10 @@ namespace App\Events;
 
 use App\Controller\InvoiceController;
 use App\Controller\UserController;
+use App\Entity\Invoice;
 use App\Invoice\InvoiceGenerator;
 use App\Invoice\InvoiceDispatcher;
+use App\Repository\InvoiceCreationDataRepository;
 use App\Repository\InvoiceRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -28,16 +30,22 @@ class AppSubscriber implements EventSubscriberInterface
     private $invoiceGenerator;
     private $invoiceValidator;
     private $filpathafterdownloadexcel;
+    /**
+     * @var InvoiceCreationDataRepository
+     */
+    private $creationDataRepository;
 
     public function __construct(
                                 InvoiceRepository $invoiceRepository,
                                 InvoiceGenerator $invoiceGenerator,
-                                InvoiceDispatcher $invoiceValidator
+                                InvoiceDispatcher $invoiceValidator,
+                                InvoiceCreationDataRepository $creationDataRepository
                                 )
     {
         $this->invoiceRepository = $invoiceRepository;
         $this->invoiceGenerator = $invoiceGenerator;
         $this->invoiceValidator = $invoiceValidator;
+        $this->creationDataRepository = $creationDataRepository;
     }
 
     /**
@@ -64,6 +72,7 @@ class AppSubscriber implements EventSubscriberInterface
 
         return [
 
+            InvoiceManualCreationEvent::NAME => 'onInvoiceManualCreation',
             TimeSheetValidationEvent::NAME => 'onTimesheetValidated',
             InvoiceValidationEvent::NAME => 'onInvoiceValidated',
             KernelEvents::RESPONSE => 'onKernelResponse',
@@ -77,6 +86,14 @@ class AppSubscriber implements EventSubscriberInterface
 
         $this->invoiceGenerator->retrieveDataForInvoice($items);
 
+
+    }
+
+    public function onInvoiceManualCreation(InvoiceManualCreationEvent $event)
+    {
+        $items = $this->creationDataRepository->findDataManualInvoice($event->getInvoiceCreationDataId());
+
+        $this->invoiceGenerator->retrieveDataForInvoice($items, true);
 
     }
 

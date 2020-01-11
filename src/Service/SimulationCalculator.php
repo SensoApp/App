@@ -42,6 +42,7 @@ class SimulationCalculator
         $specifictaxebool = $this->request->get('taxe-class') === 'specific-tax-rate' ? true : false;
         $taxeclass = $this->request->get('taxe-class') === 'specific-tax-rate' ? $this->request->get('specificrate') : $this->request->get('taxe-class');
         $lunchvouchers = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS : 0.00;
+        //Car leasing a rajouter au taxable amount
 
         //Taxe amount retrieved from the database
         $finaltaxmount = $this->calculTaxAmount($taxeclass, $salary, $specifictaxebool);
@@ -64,12 +65,18 @@ class SimulationCalculator
 
         //Taxable income for the employees after deduction of the social taxes and fees
         $taxableincome = (float)$salary - ($caissemaladie + $caissemaladieespece + $caissepension);
+        // if yes add + Lunch vouchers amount percentage du montant 50,40 if no null
+        // + add amount of car leasing (percentage of the total car price e.g. 1,8 etc...)
+        // - frais de deplacement (rajouter champ)
 
         //Employee dependance insurance amount calculation
         $assurancedependanceemployee = ((float)$salary - self::FIXE_DEDUCTION_DEPENDANCE)  * self::ASSURANCE_DEPENDANCE;
 
         //Net salary calculation
         $netamount = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee);
+        // - benefice in kind
+        // - 50,40 lunch vouchers
+        // + Frais de deplacement
 
 
         //Remainder on the bank account for the consultant

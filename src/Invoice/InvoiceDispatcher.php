@@ -29,7 +29,11 @@ class InvoiceDispatcher
         foreach ($invocedata as $inv){
 
            $this->filepath['invoicepath'] = $inv->getPath();
-           $this->filepath['timesheetpath'] = $inv->getTimesheet()->getPath();
+
+            /**
+             * TODO : Change this in order to keep that part for Invoice triggered by generated Timesheet
+             */
+           //$this->filepath['timesheetpath'] = $inv->getTimesheet()->getPath();
 
            $req = $this->entityManager
                        ->getRepository(Mail::class)

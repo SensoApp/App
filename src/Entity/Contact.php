@@ -88,6 +88,13 @@ class Contact
      */
     private $contract;
 
+
+    /**
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="contact")
+     */
+    private $user;
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -507,8 +514,7 @@ class Contact
 
     public function __toString()
     {
-
-        return (string) $this->getMail();
+        return $this->getMail();
     }
 
 
@@ -534,4 +540,23 @@ class Contact
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
+
+
+
 }

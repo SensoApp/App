@@ -10,14 +10,18 @@ namespace App\Controller;
 
 
 use App\Entity\Invoice;
+use App\Entity\InvoiceCreationData;
+use App\Events\InvoiceManualCreationEvent;
 use App\Events\InvoiceValidationEvent;
+use App\Form\InvoiceManualCreationType;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class InvoiceController extends AbstractController
 {
@@ -30,13 +34,15 @@ class InvoiceController extends AbstractController
     const PAYMENT_PENDING = 'Unpaid';
     const PAYMENT_PAID = 'Paid';
     const INVOICE_CLOSED = 'Closed';
+    private $eventDispatcher;
 
-    public function __construct(Security $security, EntityManagerInterface $entityManager)
+    public function __construct(Security $security, EntityManagerInterface $entityManager,  EventDispatcherInterface $eventDispatcher)
     {
 
         $this->security = $security;
         $this->invoice = new Invoice();
         $this->entitymanager = $entityManager;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -57,7 +63,7 @@ class InvoiceController extends AbstractController
 
         $this->addFlash('success', 'the invoice has been successfully sent to the client');
 
-        return $this->redirectToRoute('user_dashboard');
+        return $this->redirectToRoute('listofinvoice');
     }
 
     /**
@@ -76,9 +82,13 @@ class InvoiceController extends AbstractController
             $this->entitymanager->remove($invoicetodelete);
             $this->entitymanager->flush();
 
-            $this->forward('App\Controller\TimesheetController::deleteTimesheet', [
+            /**
+             * TODO : re-activate when Timeheet will be re-activated
+             * TODO : Delete invoiceCreationData
+             */
+            /*$this->forward('App\Controller\TimesheetController::deleteTimesheet', [
                 'id' => $invoicetodelete->getTimesheet()->getId()
-            ]);
+            ]);*/
 
         } catch (\Exception $exception){
 
@@ -172,8 +182,77 @@ class InvoiceController extends AbstractController
 
     }
 
-    public function generateManualInvoice()
+    /**
+     * @param Request $request
+     * @Route(path="/user/invoice/save-manual-invoice", name="saveManualInvoice")
+     */
+    public function createManualInvoice(Request $request)
     {
+        $month = $request->request->get('month');
+
+        $form = $this->createForm(InvoiceManualCreationType::class)
+                     ->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            try {
+
+                $invoicePersist = $form->getData();
+                $invoicePersist->setMonth($month);
+                $entry = $this->checkEntryInvoice($invoicePersist->getMonth(), $invoicePersist->getUser()->getId());
+
+                if(!$entry){
+
+                    $this->addFlash('error',
+                        'an Invoice has already been created for this user '. $invoicePersist->getUser()->getFirstname().' '.$invoicePersist->getUser()->getLastname()
+                    );
+
+                    return $this->redirectToRoute('saveManualInvoice');
+                };
+
+
+                $em =$this->getDoctrine()->getManager();
+                $em->persist($invoicePersist);
+                $em->flush();
+
+                $this->dispatchEventInvoice($invoicePersist);
+
+                $this->addFlash('success', 'Invoice data entered the invoice will be created shortly...');
+
+                return $this->redirectToRoute('saveManualInvoice');
+
+            } catch(DBALException $e){
+                echo 'DBAL '.$e->getMessage(); die;
+            }
+            catch(\Exception $e){
+               echo $e->getMessage();
+               die;
+            }
+        }
+        return $this->render('invoice/createinvoice.html.twig', [
+
+           'createInvoice' => $form->createView()
+        ]);
+
+    }
+
+    protected function checkEntryInvoice ($date, $id) : bool
+    {
+        $query = $this->entitymanager
+                      ->getRepository(InvoiceCreationData::class)
+                      ->findBy([
+                                'user' => $id,
+                                'month' => $date
+                              ]);
+
+        return empty($query);
+
+    }
+
+    protected function dispatchEventInvoice($invoiceObject)
+    {
+        $event = new InvoiceManualCreationEvent($invoiceObject);
+        $this->eventDispatcher->dispatch($event, InvoiceManualCreationEvent::NAME);
 
     }
 

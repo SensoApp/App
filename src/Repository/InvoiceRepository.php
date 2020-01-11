@@ -28,11 +28,13 @@ class InvoiceRepository extends ServiceEntityRepository
                        ->createQuery('select u
                                             from App\Entity\Timesheet u 
                                             inner join App\Entity\ClientContract c
-                                            where u.id='.$id);
+           
+                                           where u.id='.$id);
 
        return $email->getResult();
 
     }
+
 
     public function retrieveLastInvoiceId()
     {

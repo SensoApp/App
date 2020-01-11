@@ -1,0 +1,539 @@
+{% extends 'base.html.twig' %}
+    {% block body %}
+    <body>
+        {% include 'header.html.twig' %}
+        <div class="container-fluid">
+            <div class="row">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div class="row">
+                    {% for message in app.session.flashBag.get('success') %}
+                        <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                            <i class="fa fa-window-close text-right" aria-hidden="true">
+                                {{ message }}
+                            </i>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    {% for message in app.session.flashBag.get('error') %}
+                        <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
+                            <i class="fa fa-window-close text-right" aria-hidden="true">
+                                {{ message }}
+                            </i>
+                        </div>
+                    {% endfor %}
+                </div>
+                <h2 class="h2 text-center">Welcome {{ firsname }} {{ lastname }}</h2>
+                <!-- I need a section own details (addresse, IBAN, secu details, phone number, current contract, current rate, contract expiration date-->
+                <br/>
+                <br/>
+                <br/>
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Personal details</h3>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th>Firstname</th>
+                            <th>Lastname</th>
+                            <th>Date of Birth</th>
+                            <th>Social security number</th>
+                            </thead>
+                            <tbody>
+                            {% if personaldetails != null %}
+                                {%  for listing in personaldetails %}
+                                    <tr>
+                                        <td>{{ listing.firstname }}</td>
+                                        <td>{{ listing.lastname }}</td>
+                                        <td>{{ listing.dateofbirth|date('m/d/Y') }}</td>
+                                        <td>{{ listing.socialesecunumber }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <td>
+                                    <i>No personal details recorded</i>
+                                </td>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                </section>
+                <!-- I need a section statements (tbd)-->
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Contracts</h3>
+                    {% include 'form/clientcontractview.html.twig' %}
+                </section>
+            </div>
+            <!-- I need a section timesheet (list timesheet with status and option to view, edit, and delete "only for admin")-->
+            <br>
+            <br>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Timesheet</h3>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                                <th>Month</th>
+                                <th>Date of Submission</th>
+                                <th>Status</th>
+                                <th>Number of days worked</th>
+                                <th>Bank holidays</th>
+                                <th>Number of Saturdays</th>
+                                <th>Number of Sundays</th>
+                                <th>View timesheet</th>
+                                <th>Download timesheet</th>
+                                {% for tsheet in timesheet if tsheet.status != 'Validated' %}
+                                    {% if loop.index < 2 %}
+                                        <th>Edit timesheet</th>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <th>Delete timesheet</th>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </thead>
+                            <tbody>
+                                {% if timesheet != null %}
+                                    {%  for tsheet in timesheet %}
+                                        <tr class="text-center">
+                                            <td>{{ tsheet.month }}</td>
+                                            <td>{{ tsheet.date|date('m/d/Y') }}</td>
+                                            <td>{{ tsheet.status }}</td>
+                                            <td>{{ tsheet.nbreDaysWorked }}</td>
+                                            <td>{{ tsheet.nbrOfBankHolidays }}</td>
+                                            <td>{{ tsheet.nbreOfSaturdays }}</td>
+                                            <td>{{ tsheet.nbreOfSundays }}</td>
+                                            {% if tsheet.path != null %}
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="View">
+                                                        <a href="{{ path('viewtimesheetpdf', {id:  tsheet.id}) }}">
+                                                            <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
+                                                            </button>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="download">
+                                                        <a href="{{ path('downloadtimesheet', {id: tsheet.id}) }}">
+                                                            <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
+                                                            </button>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                        {% if tsheet.status != 'Validated' %}
+                                                        <a href="{{ path('modify_timesheet', {id: tsheet.id}) }}">
+                                                            <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
+                                                            </button>
+                                                        </a>
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                                {% if is_granted('ROLE_ADMIN') and tsheet.status != 'Validated'%}
+                                                    <td>
+                                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                            <a href="{{ path('deletetimesheet', {id:  tsheet.id}) }}">
+                                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                                </button>
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                {% endif %}
+                                            {% else %}
+                                                <td>
+                                                    <i>No valid entries recorded</i>
+                                                </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <td>
+                                    <i>No timesheet recorded</i>
+                                </td>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                    <form method="post" action="{{ path('upload_timesheet') }}" enctype="multipart/form-data" class="col-md-4">
+                        <h4 class="custom-file-label" for="customfile">Timesheet Upload</h4>
+                        <br/>
+                        <br/>
+                        <label for="selectmonth">Select a month</label>
+                        <select name="month" class="form-control col-md-4" id="selectmonth">
+                            <option selected></option>
+                            {% for tsheet in timesheet %}
+                                {%if tsheet.status == 'Sent' %}
+                                    <option>
+                                        {{ tsheet.month }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="custom-file">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            <input type="file" class="custom-file-input" id="customFile" name="file">
+                        </div>
+                        <br/>
+                        <br/>
+                        <input type="submit" class="btn btn-success" value="Validate">
+                    </form>
+                </section>
+                <!-- I need a section statements (tbd)-->
+            </div><div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Timesheet</h3>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                                <th>Month</th>
+                                <th>Date of Submission</th>
+                                <th>Status</th>
+                                <th>Number of days worked</th>
+                                <th>Bank holidays</th>
+                                <th>Number of Saturdays</th>
+                                <th>Number of Sundays</th>
+                                <th>View timesheet</th>
+                                <th>Download timesheet</th>
+                                {% for tsheet in timesheet if tsheet.status != 'Validated' %}
+                                    {% if loop.index < 2 %}
+                                        <th>Edit timesheet</th>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            <th>Delete timesheet</th>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </thead>
+                            <tbody>
+                                {% if timesheet != null %}
+                                    {%  for tsheet in timesheet %}
+                                        <tr class="text-center">
+                                            <td>{{ tsheet.month }}</td>
+                                            <td>{{ tsheet.date|date('m/d/Y') }}</td>
+                                            <td>{{ tsheet.status }}</td>
+                                            <td>{{ tsheet.nbreDaysWorked }}</td>
+                                            <td>{{ tsheet.nbrOfBankHolidays }}</td>
+                                            <td>{{ tsheet.nbreOfSaturdays }}</td>
+                                            <td>{{ tsheet.nbreOfSundays }}</td>
+                                            {% if tsheet.path != null %}
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="View">
+                                                        <a href="{{ path('viewtimesheetpdf', {id:  tsheet.id}) }}">
+                                                            <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
+                                                            </button>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="download">
+                                                        <a href="{{ path('downloadtimesheet', {id: tsheet.id}) }}">
+                                                            <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
+                                                            </button>
+                                                        </a>
+                                                    </p>
+                                                </td>
+                                                <td>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
+                                                        {% if tsheet.status != 'Validated' %}
+                                                        <a href="{{ path('modify_timesheet', {id: tsheet.id}) }}">
+                                                            <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
+                                                            </button>
+                                                        </a>
+                                                        {% endif %}
+                                                    </p>
+                                                </td>
+                                                {% if is_granted('ROLE_ADMIN') and tsheet.status != 'Validated'%}
+                                                    <td>
+                                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                            <a href="{{ path('deletetimesheet', {id:  tsheet.id}) }}">
+                                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                                </button>
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                {% endif %}
+                                            {% else %}
+                                                <td>
+                                                    <i>No valid entries recorded</i>
+                                                </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <td>
+                                    <i>No timesheet recorded</i>
+                                </td>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <br/>
+                    <br/>
+                    <form method="post" action="{{ path('upload_timesheet') }}" enctype="multipart/form-data" class="col-md-4">
+                        <h4 class="custom-file-label" for="customfile">Timesheet Upload</h4>
+                        <br/>
+                        <br/>
+                        <label for="selectmonth">Select a month</label>
+                        <select name="month" class="form-control col-md-4" id="selectmonth">
+                            <option selected></option>
+                            {% for tsheet in timesheet %}
+                                {%if tsheet.status == 'Sent' %}
+                                    <option>
+                                        {{ tsheet.month }}
+                                    </option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="custom-file">
+                            <label class="custom-file-label" for="customFile">Choose file</label>
+                            <input type="file" class="custom-file-input" id="customFile" name="file">
+                        </div>
+                        <br/>
+                        <br/>
+                        <input type="submit" class="btn btn-success" value="Validate">
+                    </form>
+                </section>
+                <!-- I need a section statements (tbd)-->
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Invoice</h3>
+                    <br/>
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead>
+                            <th>Month</th>
+                            <th>Date of Submission</th>
+                            <th>Status</th>
+                            {% if invoice != null %}
+                                {% if invoice[0].status != 'Validated - sent to client' %}
+                                    <th>Validate invoice</th>
+                                {% else %}
+                                    <th>Payment status</th>
+                                {% endif %}
+                                <th>Bank holidays</th>
+                                <th>Saturdays</th>
+                                <th>Sundays</th>
+                                <th>Normal Business days</th>
+                                <th>Total Amount</th>
+                                <th>View invoice</th>
+                                <th>Download invoice</th>
+                            {% endif %}
+                            </thead>
+                            <tbody>
+                            {% if invoice != null %}
+                                {%  for list in invoice %}
+                                    <tr>
+                                        <td>{{ list.month }}</td>
+                                        <td>{{ list.date|date('m/d/Y') }}</td>
+                                        <td>{{ list.status }}</td>
+                                        <td>{{ list.paymentstatus }}</td>
+                                        <td>{{ list.bankholidayamount }} €</td>
+                                        <td>{{ list.saturdyamount }} € </td>
+                                        <td>{{ list.sundayamount}} € </td>
+                                        <td>{{ list.businessdaysamount }} €</td>
+                                        <td>{{ list.totalAmount }} € </td>
+                                    {% if list.path != null %}
+                                        <td>
+                                            <p data-placement="top" data-toggle="tooltip" title="View">
+                                                <a href="{{ path('viewinvoicepdf', {id: list.id}) }}">
+                                                    <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
+                                                    </button>
+                                                </a>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p data-placement="top" data-toggle="tooltip" title="download">
+                                                <a href="{{ path('downloadinvoice', {id: list.id}) }}">
+                                                    <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
+                                                    </button>
+                                                </a>
+                                            </p>
+                                        </td>
+                                    {% endif %}
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <td>
+                                    <i>No invoice recorded</i>
+                                </td>
+                        {% endif %}
+                        </table>
+                    </div>
+                </section>
+                <!-- I need a section statements (tbd)-->
+            </div>
+            <div class="row">
+                <section class="col-md-12">
+                    <h3 class="h3 text-center" style="font-weight: bold">Statement</h3>
+                    <br/>
+                    <br/>
+                    <div class="table table-responsive">
+                        <table class="col-md-3">
+                            {% if statementsum is not empty %}
+                            <tr class="table-bordered">
+                                <th>Account</th>
+                                <td>{{ statementsum[0].account }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Consultant</th>
+                                <td>{{ statementsum[0].firstname }}  {{ statementsum[0].lastname }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Current Balance</th>
+                                <td>{{ statementsum[0].Current_Balance }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Currency</th>
+                                <td>EUR</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Date</th>
+                                <td>{{ "now"|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr class="table-bordered">
+                                <th>Estimated Balance</th>
+                                <td>{{ statementsum[0].Estimated + statementsum[0].Current_Balance }}</td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td>
+                                    Nothing to report
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </section>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <form method="post" class="col-md-12">
+                    <div class="col-md-3 text-center">
+                        <label for="search">Amount between</label>
+                        <br>
+                        <div class="col-md-6">
+                            <input class="form-control" type="number" placeholder="Min amount" name="Min-amount">
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="number" placeholder="Max amount" name="Max-amount">
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <label for="search" class="text-center">Dates between</label>
+                        <br>
+                        <div class="col-md-6">
+                            <input class="form-control" type="date" placeholder="Min date" name="Min-date">
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="date" placeholder="Max date" name="Max-date">
+                        </div>
+                        <input type="hidden" name="specialrequest" value="1">
+                    </div>
+                    <br>
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+                <br>
+                <br>
+                <br>
+                <section class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-bordred table-striped">
+                            <thead class="label-primary" style="color: whitesmoke">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Reference</th>
+                                    <th>Operation</th>
+                                    <th>Communication</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% if pagination != null %}
+                                {% set id = null %}
+                                {% set idline = 0 %}
+                                {% for list in pagination %}
+                                    {% set idline = idline +1 %}
+                                    <tr>
+                                        <td>{{ idline }}</td>
+                                        <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
+                                        <td>{{ list.operations }}</td>
+                                        <td>{{ list.communication }}</td>
+                                        <td>{{ list.operationdate|date('m-d-Y')}}</td>
+                                        <td>{{ list.amount }}</td>
+                                        <td>EUR</td>
+                                    </tr>
+                                    {% set id = list.referencemovement %}
+                                {% endfor %}
+                                <form method="post" action="{{ path('downloadstatement') }}">
+                                    {% for items in pagination %}
+                                        {% set itemnumber = (itemnumber|default(0) + 1) %}
+                                            <input type="hidden" value="{{ items.referencemovement}}" name="ref{{ itemnumber}}">
+                                    {% endfor %}
+                                    <div class="col-md-offset-10">
+                                        <div class="col-md-">
+                                            Export to Excel
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button>
+                                                <i class="fa fa-file-excel-o fa-3x exportToExcel" style="color: #4cae4c"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        <i>No statement recorded</i>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                            <div class="navigation">
+                                {{ knp_pagination_render(pagination) }}
+                            </div>
+                        </table>
+                    </div>
+                </section>
+            </div>
+                <!-- I need a section statements (tbd)-->
+            </div>
+        </div>
+        {% include 'footer.html.twig' %}
+        <script>
+            $(function () {
+
+                $('i').on('click', function () {
+                    setTimeout(
+                        20000,
+                        $('.alert').remove(),
+                        location.reload()
+                    );
+                });
+
+            });
+        </script>
+    </body>
+    {% endblock %}

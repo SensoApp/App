@@ -120,7 +120,11 @@ class UserController extends AbstractController
 
             $task = $form->getData();
 
-            $task->setUpdatedAt(new \DateTime('now'));
+            //$task->setUpdatedAt(new \DateTime('now'));
+
+            $this->entitymanager->persist($task);
+
+            //dd($this->entitymanager);
 
             $this->entitymanager->flush();
 

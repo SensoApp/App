@@ -77,126 +77,6 @@
             <br>
             <div class="row">
                 <section class="col-md-12">
-                    <h3 class="h3 text-center" style="font-weight: bold">Timesheet</h3>
-                    <br/>
-                    <div class="table-responsive">
-                        <table id="mytable" class="table table-bordred table-striped">
-                            <thead>
-                                <th>Month</th>
-                                <th>Date of Submission</th>
-                                <th>Status</th>
-                                <th>Number of days worked</th>
-                                <th>Bank holidays</th>
-                                <th>Number of Saturdays</th>
-                                <th>Number of Sundays</th>
-                                <th>View timesheet</th>
-                                <th>Download timesheet</th>
-                                {% for tsheet in timesheet if tsheet.status != 'Validated' %}
-                                    {% if loop.index < 2 %}
-                                        <th>Edit timesheet</th>
-                                        {% if is_granted('ROLE_ADMIN') %}
-                                            <th>Delete timesheet</th>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endfor %}
-                            </thead>
-                            <tbody>
-                                {% if timesheet != null %}
-                                    {%  for tsheet in timesheet %}
-                                        <tr class="text-center">
-                                            <td>{{ tsheet.month }}</td>
-                                            <td>{{ tsheet.date|date('m/d/Y') }}</td>
-                                            <td>{{ tsheet.status }}</td>
-                                            <td>{{ tsheet.nbreDaysWorked }}</td>
-                                            <td>{{ tsheet.nbrOfBankHolidays }}</td>
-                                            <td>{{ tsheet.nbreOfSaturdays }}</td>
-                                            <td>{{ tsheet.nbreOfSundays }}</td>
-                                            {% if tsheet.path != null %}
-                                                <td>
-                                                    <p data-placement="top" data-toggle="tooltip" title="View">
-                                                        <a href="{{ path('viewtimesheetpdf', {id:  tsheet.id}) }}">
-                                                            <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
-                                                            </button>
-                                                        </a>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p data-placement="top" data-toggle="tooltip" title="download">
-                                                        <a href="{{ path('downloadtimesheet', {id: tsheet.id}) }}">
-                                                            <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
-                                                            </button>
-                                                        </a>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <p data-placement="top" data-toggle="tooltip" title="Edit">
-                                                        {% if tsheet.status != 'Validated' %}
-                                                        <a href="{{ path('modify_timesheet', {id: tsheet.id}) }}">
-                                                            <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-pencil"></span>
-                                                            </button>
-                                                        </a>
-                                                        {% endif %}
-                                                    </p>
-                                                </td>
-                                                {% if is_granted('ROLE_ADMIN') and tsheet.status != 'Validated'%}
-                                                    <td>
-                                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                            <a href="{{ path('deletetimesheet', {id:  tsheet.id}) }}">
-                                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
-                                                                </button>
-                                                            </a>
-                                                        </p>
-                                                    </td>
-                                                {% endif %}
-                                            {% else %}
-                                                <td>
-                                                    <i>No valid entries recorded</i>
-                                                </td>
-                                            {% endif %}
-                                        </tr>
-                                    {% endfor %}
-                                {% else %}
-                                <td>
-                                    <i>No timesheet recorded</i>
-                                </td>
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                    <br/>
-                    <br/>
-                    <form method="post" action="{{ path('upload_timesheet') }}" enctype="multipart/form-data" class="col-md-4">
-                        <h4 class="custom-file-label" for="customfile">Timesheet Upload</h4>
-                        <br/>
-                        <br/>
-                        <label for="selectmonth">Select a month</label>
-                        <select name="month" class="form-control col-md-4" id="selectmonth">
-                            <option selected></option>
-                            {% for tsheet in timesheet %}
-                                {%if tsheet.status == 'Sent' %}
-                                    <option>
-                                        {{ tsheet.month }}
-                                    </option>
-                                {% endif %}
-                            {% endfor %}
-                        </select>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <div class="custom-file">
-                            <label class="custom-file-label" for="customFile">Choose file</label>
-                            <input type="file" class="custom-file-input" id="customFile" name="file">
-                        </div>
-                        <br/>
-                        <br/>
-                        <input type="submit" class="btn btn-success" value="Validate">
-                    </form>
-                </section>
-                <!-- I need a section statements (tbd)-->
-            </div>
-            <div class="row">
-                <section class="col-md-12">
                     <h3 class="h3 text-center" style="font-weight: bold">Invoice</h3>
                     <br/>
                     <div class="table-responsive">
@@ -211,16 +91,13 @@
                                 {% else %}
                                     <th>Payment status</th>
                                 {% endif %}
-                            <th>Bank holidays</th>
-                            <th>Saturdays</th>
-                            <th>Sundays</th>
-                            <th>Normal Business days</th>
-                            <th>Total Amount</th>
-                            <th>View invoice</th>
-                            <th>Download invoice</th>
-                                {% if is_granted('ROLE_ADMIN') and invoice[0].status != 'Validated - sent to client'%}
-                                    <th>Delete invoice</th>
-                                {% endif %}
+                                <th>Bank holidays</th>
+                                <th>Saturdays</th>
+                                <th>Sundays</th>
+                                <th>Normal Business days</th>
+                                <th>Total Amount</th>
+                                <th>View invoice</th>
+                                <th>Download invoice</th>
                             {% endif %}
                             </thead>
                             <tbody>
@@ -230,20 +107,7 @@
                                         <td>{{ list.month }}</td>
                                         <td>{{ list.date|date('m/d/Y') }}</td>
                                         <td>{{ list.status }}</td>
-                                        {% if list.status == 'Sent for validation'  %}
-                                            <td>
-                                                <p data-placement="top" data-toggle="tooltip" title="Validate">
-                                                    <a href="{{ path('validateinvoice', {id:  list.id}) }}">
-                                                        <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
-                                                        </button>
-                                                    </a>
-                                                </p>
-                                            </td>
-                                        {% else %}
-                                            <td>
-                                                {{ list.paymentstatus }}
-                                            </td>
-                                        {% endif %}
+                                        <td>{{ list.paymentstatus }}</td>
                                         <td>{{ list.bankholidayamount }} €</td>
                                         <td>{{ list.saturdyamount }} € </td>
                                         <td>{{ list.sundayamount}} € </td>
@@ -266,16 +130,6 @@
                                                 </a>
                                             </p>
                                         </td>
-                                        {% if is_granted('ROLE_ADMIN') and list.status == 'Sent for validation'%}
-                                            <td>
-                                                <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                                    <a href="{{ path('deleteinvoice', {id:  list.id}) }}">
-                                                        <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
-                                                        </button>
-                                                    </a>
-                                                </p>
-                                            </td>
-                                        {% endif %}
                                     {% endif %}
                                     </tr>
                                 {% endfor %}

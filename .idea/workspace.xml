@@ -1,7 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="" />
+    <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Events/InvoiceManualCreationEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Form/InvoiceManualCreationType.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/invoice/createinvoice.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user/dashboard_notInUse.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Contact.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contact.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Events/AppSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Events/AppSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Invoice/InvoiceDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Invoice/InvoiceDispatcher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/StatementFileRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/timesheet/timesheetview.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,7 +44,30 @@
     <option name="HIDDEN_KINDS">
       <set />
     </option>
-    <expand />
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="sensoapp@localhost" type="feb32156:DbDataSourceImpl" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="sensoapp@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="sensoapp@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="sensoapp: schema" type="76f4a085:MysqlImplModel$Schema" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="sensoapp@localhost" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="sensoapp: schema" type="76f4a085:MysqlImplModel$Schema" />
+        <item name="mail: table" type="285a2a93:MysqlImplModel$Table" />
+      </path>
+    </expand>
     <select />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -159,6 +202,10 @@
       <path value="$PROJECT_DIR$/vendor/markbaker/complex" />
       <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
       <path value="$PROJECT_DIR$/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/vendor/symfony/phpunit-bridge" />
+      <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/doctrine-fixtures-bundle" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/data-fixtures" />
     </include_path>
   </component>
   <component name="ProjectId" id="1RarbTOdsDCdhOQ59sQq78AzId6" />
@@ -172,6 +219,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
@@ -182,7 +230,7 @@
     <property name="add_unversioned_files" value="$PROJECT_DIR$/var/log/dev.log&#10;/Applications/Apps/Senso/senso/vendor/doctrine/orm/lib/Doctrine/ORM/EntityRepository.php&#10;/Applications/Apps/Senso/senso/vendor/symfony/http-foundation/Request.php" />
     <property name="database.console.AUTO_SCROLL_FROM_SOURCE" value="false" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/user" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -197,18 +245,19 @@
     <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/templates" />
-      <recent name="$PROJECT_DIR$/web/lib" />
-      <recent name="$PROJECT_DIR$/web/img" />
-      <recent name="$PROJECT_DIR$/web" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates/statement" />
       <recent name="$PROJECT_DIR$/templates/form" />
       <recent name="$PROJECT_DIR$/public/css" />
       <recent name="$PROJECT_DIR$/report" />
       <recent name="$PROJECT_DIR$/templates" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/user" />
+      <recent name="$PROJECT_DIR$/templates/invoice" />
+      <recent name="$PROJECT_DIR$/templates" />
+      <recent name="$PROJECT_DIR$/web/lib" />
+      <recent name="$PROJECT_DIR$/web/img" />
     </key>
   </component>
   <component name="RunManager">
@@ -286,6 +335,10 @@
       <workItem from="1575918369543" duration="10232000" />
       <workItem from="1575956637578" duration="1943000" />
       <workItem from="1575958854670" duration="3765000" />
+      <workItem from="1576011117430" duration="218000" />
+      <workItem from="1576011449421" duration="4483000" />
+      <workItem from="1578371902630" duration="77000" />
+      <workItem from="1578372030384" duration="37192000" />
     </task>
     <servers />
   </component>
@@ -295,6 +348,24 @@
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
+        <entry key="1">
+          <value>
+            <State>
+              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
+              <option name="FILTERS">
+                <map>
+                  <entry key="structure">
+                    <value>
+                      <list>
+                        <option value="dir:/Applications/Apps/Senso/senso/src/Form" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -303,6 +374,11 @@
           </value>
         </entry>
       </map>
+    </option>
+    <option name="OPEN_TABS">
+      <set>
+        <option value="1" />
+      </set>
     </option>
     <option name="RECENT_FILTERS">
       <map>
@@ -336,39 +412,64 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="413" y="260" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1575955280322" />
-    <state x="100" y="100" width="1240" height="700" key="DiffContextDialog" timestamp="1576009265942">
-      <screen x="38" y="23" width="1402" height="877" />
+    <state x="526" y="192" key="#com.intellij.ide.util.MemberChooser" timestamp="1578689966712">
+      <screen x="37" y="23" width="1403" height="877" />
     </state>
-    <state x="100" y="100" width="1240" height="700" key="DiffContextDialog/38.23.1402.877@38.23.1402.877" timestamp="1576009265942" />
+    <state x="502" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1578675020435" />
+    <state x="526" y="192" key="#com.intellij.ide.util.MemberChooser/37.23.1403.877@37.23.1403.877" timestamp="1578689966712" />
+    <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1578371970477">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900@0.0.1440.900" timestamp="1578371970477" />
+    <state x="483" y="230" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1578688473337">
+      <screen x="37" y="23" width="1403" height="877" />
+    </state>
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1578668226012" />
+    <state x="483" y="230" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/37.23.1403.877@37.23.1403.877" timestamp="1578688473337" />
+    <state x="64" y="79" width="1274" height="719" key="DiffContextDialog" timestamp="1578373408128">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="64" y="79" width="1274" height="719" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1578373408128" />
+    <state x="64" y="79" width="1274" height="719" key="DiffContextDialog/38.23.1402.877@38.23.1402.877" timestamp="1576010518762" />
     <state x="65" y="79" width="1273" height="719" key="DirDiffDialog" timestamp="1575959053536">
       <screen x="38" y="23" width="1402" height="877" />
     </state>
     <state x="100" y="100" width="1240" height="700" key="DirDiffDialog/37.23.1403.877@37.23.1403.877" timestamp="1575927572027" />
     <state x="65" y="79" width="1273" height="719" key="DirDiffDialog/38.23.1402.877@38.23.1402.877" timestamp="1575959053536" />
+    <state x="465" y="273" key="NewPhpClassDialog" timestamp="1578665864197">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="465" y="273" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1578665864197" />
     <state x="0" y="97" key="SettingsEditor" timestamp="1575956654456">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="0" y="97" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1575956654456" />
-    <state x="408" y="294" key="com.intellij.ide.util.TipDialog" timestamp="1575918372429">
-      <screen x="36" y="23" width="1404" height="877" />
+    <state width="516" height="445" key="SwitcherDM" timestamp="1578665154835">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="516" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1578665154835" />
+    <state x="382" y="278" key="com.intellij.ide.util.TipDialog" timestamp="1578372056267">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="382" y="278" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1578372056267" />
     <state x="408" y="294" key="com.intellij.ide.util.TipDialog/36.23.1404.877@36.23.1404.877" timestamp="1575918372429" />
     <state x="404" y="195" key="ftp.server.browser" timestamp="1575927348400">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="404" y="195" key="ftp.server.browser/0.0.1440.900@0.0.1440.900" timestamp="1575927348400" />
-    <state x="591" y="350" key="publish.login" timestamp="1575926981928">
+    <state x="591" y="350" key="publish.login" timestamp="1578373324092">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="591" y="350" key="publish.login/0.0.1440.900@0.0.1440.900" timestamp="1575926981928" />
+    <state x="591" y="350" key="publish.login/0.0.1440.900@0.0.1440.900" timestamp="1578373324092" />
     <state x="385" y="210" key="run.anything.popup" timestamp="1575926742960">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="210" key="run.anything.popup/0.0.1440.900@0.0.1440.900" timestamp="1575926742960" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1575954843885">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="412" y="214" width="670" height="659" key="search.everywhere.popup" timestamp="1578694592866">
+      <screen x="37" y="23" width="1403" height="877" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1575954843885" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1578675001572" />
+    <state x="412" y="214" width="670" height="659" key="search.everywhere.popup/37.23.1403.877@37.23.1403.877" timestamp="1578694592866" />
   </component>
   <component name="masterDetails">
     <states>

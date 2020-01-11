@@ -124,7 +124,7 @@ class StatementFileRepository extends ServiceEntityRepository
                                       select count(paymentstatus)
                                       from invoice
                                       where paymentstatus = :unpaid
-                                      and i.user = (select mail from user where id = s.user_id)
+                                      and invoice.user = (select mail from user where id = s.user_id)
                                  )  > 1 then (
                                                select sum(invoice.totalamount) from invoice
                                                where invoice.user = (select mail from user where id = s.user_id)

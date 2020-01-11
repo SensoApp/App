@@ -102,7 +102,7 @@
 
             $(function () {
 
-                var nbreOfDays;
+                var nbreOfDays = [];
 
                 var totalValue;
 
@@ -130,9 +130,21 @@
                     console.log($(this).find(':selected').attr('value'));
                 });
 
-               $('#count').on('click', function () {
+               let on = $('#count').on('click', function () {
 
-                   nbreOfDays = $('.nbreDays').text();
+                   nbreOfDays =  Number($('.nbreDays').text());
+
+                   console.log(nbreOfDays);
+
+                  /* let itemtest = [];
+
+                   for(let i = 0; i < nbreOfDays.length; i++){
+
+                       ;
+
+                   }*/
+
+                   console.log(nbreOfDays);
 
                    totalValue = $('#total');
 
@@ -142,6 +154,7 @@
 
                        totalValue.append(nbreOfDays.length);
 
+                       console.log(nbreOfDays.reduce((total, arg) => total + arg));
                        nbreOfDays = nbreOfDays.length;
 
                    } else {
@@ -161,7 +174,7 @@
 
                        $(this).removeClass('nbreDays');
 
-                   } else if ( valueUpdate === "1") {
+                   } else if ( valueUpdate > 0 ) {
 
                        $(this).addClass('nbreDays');
 
@@ -171,17 +184,21 @@
 
                            case otherdays === 'Sat' :
 
-                               nbreOfSaturdays.push(1);
+                              console.log('Hello ' + Number($(this).closest('tr').find('textarea').val()));
 
-                               finalSaturdays = nbreOfSaturdays.length;
+                               nbreOfSaturdays.push(Number($(this).closest('tr').find('textarea').val()));
+
+                               console.log(nbreOfSaturdays.reduce((total, arg) => total + arg));
+
+                               finalSaturdays = nbreOfSaturdays.reduce((total, arg) => total + arg);
 
                                break;
 
                            case otherdays === 'Sun':
 
-                               nbreOfSundays.push(1);
+                               nbreOfSundays.push(Number($(this).closest('tr').find('textarea').val()));
 
-                               finalSundays = nbreOfSundays.length;
+                               finalSundays = nbreOfSundays.reduce((total, arg) => total + arg);
 
                                break;
                        }
@@ -196,9 +213,9 @@
 
                     if (otherd === "Bank holidays" && !( otherdays === "Sat" || otherdays === "Sun")) {
 
-                        nbrOfBankHolidays.push(1);
+                        nbrOfBankHolidays.push(Number($(this).closest('tr').find('textarea').val()));
 
-                        finalBankHolidays = nbrOfBankHolidays.length;
+                        finalBankHolidays = nbrOfBankHolidays.reduce((total, arg) => total + arg);
 
                         console.log(finalBankHolidays);
 
