@@ -19,32 +19,44 @@ class InvoiceRandomRepository extends ServiceEntityRepository
         parent::__construct($registry, InvoiceRandom::class);
     }
 
-    // /**
-    //  * @return InvoiceRandom[] Returns an array of InvoiceRandom objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findDataRandomInvoice($id) : array
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $em = $this->getEntityManager();
 
-    /*
-    public function findOneBySomeField($value): ?InvoiceRandom
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $contract = 'SELECT i.id as invoiceid, i.*, u.*
+                     FROM invoice_random i
+                     INNER JOIN user u ON i.user_id = u.id
+                     WHERE i.id = :id
+                    ';
+        $stmt = $em->getConnection()->prepare($contract);
+        $param = ['id' => $id];
+        $stmt->execute($param);
+
+        return $stmt->fetchAll();
     }
-    */
+
+    public function updateStatus($status, $id, $filepath = null)
+    {
+        $query = $this->getEntityManager()
+            ->createQuery(
+                'update 
+                          App\Entity\InvoiceRandom t 
+                      set t.status = :status, 
+                          t.path= :path,
+                          t.updatedAt = :updatdate
+                      where 
+                          t.id = :id'
+            );
+
+        $query->setParameters([
+            'status' =>$status,
+            'id' => $id,
+            'path' => $filepath,
+            'updatdate' => new \DateTime('now')
+
+        ]);
+
+        $query->execute();
+    }
+
 }

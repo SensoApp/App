@@ -18,6 +18,7 @@ class InvoiceRandomType extends AbstractType
             ->add('amount')
             ->add('rate')
             ->add('vat')
+            ->add('user')
             ->add('Create', SubmitType::class);
         ;
     }

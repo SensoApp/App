@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\Invoice;
 use App\Entity\InvoiceCreationData;
 use App\Events\InvoiceManualCreationEvent;
+use App\Events\InvoiceRandomEvent;
 use App\Events\InvoiceValidationEvent;
 use App\Form\InvoiceManualCreationType;
 use App\Form\InvoiceRandomType;
@@ -32,6 +33,7 @@ class InvoiceController extends AbstractController
     private $entitymanager;
 
     const INVOICE_VALIDATED = 'Validated - sent to client';
+    const INVOICE_CREATED = 'Created';
     const PAYMENT_PENDING = 'Unpaid';
     const PAYMENT_PAID = 'Paid';
     const INVOICE_CLOSED = 'Closed';
@@ -47,7 +49,7 @@ class InvoiceController extends AbstractController
     }
 
     /**
-     * @Route(path="/user/validateinvoice/{id}", name="validateinvoice")
+     * @Route(path="/newadmin/validateinvoice/{id}", name="validateinvoice")
      */
     public function validateInvoice($id, EventDispatcherInterface $eventDispatcher)
     {
@@ -109,7 +111,7 @@ class InvoiceController extends AbstractController
      *
      * @param $id
      *
-     * @Route(path="/user/invoice/pdf/{id}", name="viewinvoicepdf")
+     * @Route(path="/newadmin/invoice/pdf/{id}", name="viewinvoicepdf")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -128,7 +130,7 @@ class InvoiceController extends AbstractController
      *
      * @param $id
      *
-     * @Route(path="/user/invoice/downloadpdf/{id}", name="downloadinvoice")
+     * @Route(path="/newadmin/invoice/downloadpdf/{id}", name="downloadinvoice")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -144,7 +146,7 @@ class InvoiceController extends AbstractController
 
     /**
      * Show all the invoices per users/ employees with their status
-     * @Route(path="/user/invoice/list", name="listofinvoice")
+     * @Route(path="/newadmin/invoice/list", name="listofinvoice")
      */
     public function listOfInvoices()
     {
@@ -158,7 +160,7 @@ class InvoiceController extends AbstractController
 
     /**
      * Validates that the payment has been received at the bank and update the status of related invoice
-     * @Route(path="/user/invoice/paymentreceived/{id}", name="paymentreceived")
+     * @Route(path="/newadmin/invoice/paymentreceived/{id}", name="paymentreceived")
      */
     public function paymentReceivedValidation($id)
     {
@@ -185,7 +187,7 @@ class InvoiceController extends AbstractController
     /**
      * controller to create a manual invoice
      * @param Request $request
-     * @Route(path="/user/invoice/save-manual-invoice", name="saveManualInvoice")
+     * @Route(path="/newadmin/invoice/save-manual-invoice", name="saveManualInvoice")
      */
     public function createManualInvoice(Request $request)
     {
@@ -235,19 +237,12 @@ class InvoiceController extends AbstractController
 
     }
 
-    protected function checkEntryInvoice ($date, $id) : bool
-    {
-        $query = $this->entitymanager
-                      ->getRepository(InvoiceCreationData::class)
-                      ->findBy([
-                                'user' => $id,
-                                'month' => $date
-                              ]);
+    //internal methods
 
-        return empty($query);
-
-    }
-
+    /**
+     * @param $invoiceObject
+     * Method to dispatch the event for manual invoices
+     */
     protected function dispatchEventInvoice($invoiceObject)
     {
         $event = new InvoiceManualCreationEvent($invoiceObject);
@@ -255,51 +250,19 @@ class InvoiceController extends AbstractController
 
     }
 
-    /**
-     * @param Request $request
-     * @Route(path="/user/invoice/save-random-invoice", name="randomInvoice")
-     */
-    public function createRandomInvoice(Request $request)
+
+    protected function checkEntryInvoice ($date, $id) : bool
     {
-        //dd($request);
-        $form = $this->createForm(InvoiceRandomType::class)
-                     ->handleRequest($request);
+        $query = $this->entitymanager
+            ->getRepository(InvoiceCreationData::class)
+            ->findBy([
+                'user' => $id,
+                'month' => $date
+            ]);
 
-        if($form->isSubmitted() && $form->isValid()){
-
-            try {
-
-                $invoiceRandomPersist = $form->getData();
-
-                $em =$this->getDoctrine()->getManager();
-                $em->persist($invoiceRandomPersist);
-                $em->flush();
-
-                $this->dispatchEventInvoice($invoiceRandomPersist);
-                $this->addFlash('success', 'Invoice data entered can be found in the following link: ');
-
-                return $this->redirectToRoute('randomInvoice');
-
-            } catch(DBALException $e){
-                echo 'DBAL '.$e->getMessage(); die;
-
-            } catch(\Exception $e){
-                echo $e->getMessage();
-                die;
-            }
-
-        }
-
-        /**
-         * TODO : finish method or add to the existing?
-         * TODO : If finish here then add event
-         */
-
-        return $this->render('invoice/createRandom-invoice.html.twig', [
-
-            'createRandomInvoice' => $form->createView()
-        ]);
+        return empty($query);
 
     }
+
 
 }

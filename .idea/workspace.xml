@@ -2,16 +2,51 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Events/InvoiceRandomEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/invoice/createRandom-invoice.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDFRandom.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/081119_5dc5871d0a647_SeanCooney.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/211019_5daddff0ec654_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/211019_5dade135badc8_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/211019_5dadf64963148_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/211019_5dadfc3e41321_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/211019_5dae1a5a5ac7b_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/281019_5db6c2de3353d_SeanCooney.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/281019_5db6cc3823c64_SeanCooney.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/invoice/311019_5dbb3fb5ea19c_FadouaBelaouchi.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/081119_5dc586e7c55fb_SeanCooney.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/101219_5deffdd662ed2_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/171019_5da8c6f95e7c3_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/181019_5da965e1b6e21_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/181019_5da96b7f6ca99_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/211019_5dad5c06c3e30_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/211019_5dade0d00ed2e_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/211019_5dadf5cfb6a56_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/211019_5dadfbedd93a0_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/211019_5dae18e78e434_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/281019_5db6bf8dca96f_SmaelMouheb.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/281019_5db6bfc4b678f_SeanCooney.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/281019_5db6cc1e70795_SeanCooney.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet/311019_5dbb3f9016787_FadouaBelaouchi.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/081119_5dc586e7c55fb_SeanCooney5dc5871cd4bc7.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/281019_5db6bfc4b678f_SeanCooney5db6c2dde8c6a.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/281019_5db6cc1e70795_SeanCooney5db6cc37eca76.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/311019_5dbb3f9016787_FadouaBelaouchi5dbb3fb5b79c9.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/Timesheet_oct_SmaelMouheb5dade13593f97.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/Timesheet_oct_SmaelMouheb5dadf64944efe.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/Timesheet_oct_SmaelMouheb5dadfc3e0cca8.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/Timesheet_oct_SmaelMouheb5dae1a5a1fd46.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report/timesheet_signed/invoice-253846725daddff0bbc10.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SimulationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SimulationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Invoice.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Invoice.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/InvoiceRandom.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/InvoiceRandom.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Events/AppSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Events/AppSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/InvoiceRandomType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/InvoiceRandomType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/createinvoice.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/createinvoice.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceCreationDataRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceCreationDataRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceRandomRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceRandomRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/invoice/createRandom-invoice.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/createRandom-invoice.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -330,7 +365,7 @@
       <workItem from="1576011117430" duration="218000" />
       <workItem from="1576011449421" duration="4483000" />
       <workItem from="1578371902630" duration="77000" />
-      <workItem from="1578372030384" duration="48941000" />
+      <workItem from="1578372030384" duration="63461000" />
     </task>
     <servers />
   </component>
@@ -413,12 +448,16 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900@0.0.1440.900" timestamp="1578371970477" />
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1578915793125">
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1578949237125">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1578915793125" />
+    <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1440.900@0.0.1440.900" timestamp="1578949237125" />
     <state x="483" y="230" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/37.23.1403.877@37.23.1403.877" timestamp="1578688473337" />
     <state x="484" y="230" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/38.23.1402.877@38.23.1402.877" timestamp="1578862376995" />
+    <state x="253" y="52" key="CommitChangelistDialog2" timestamp="1578930785980">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="253" y="52" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1578930785980" />
     <state x="64" y="79" width="1274" height="719" key="DiffContextDialog" timestamp="1578373408128">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -429,10 +468,10 @@
     </state>
     <state x="100" y="100" width="1240" height="700" key="DirDiffDialog/37.23.1403.877@37.23.1403.877" timestamp="1575927572027" />
     <state x="65" y="79" width="1273" height="719" key="DirDiffDialog/38.23.1402.877@38.23.1402.877" timestamp="1575959053536" />
-    <state x="465" y="273" key="NewPhpClassDialog" timestamp="1578915764290">
+    <state x="465" y="273" key="NewPhpClassDialog" timestamp="1578949033086">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="465" y="273" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1578915764290" />
+    <state x="465" y="273" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1578949033086" />
     <state x="0" y="97" key="SettingsEditor" timestamp="1575956654456">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

@@ -7,9 +7,11 @@ use App\Entity\ClientContract;
 use App\Entity\Invoice;
 use App\Entity\InvoiceCreationData;
 use App\Entity\Timesheet;
+use App\Entity\User;
 use App\Service\GeneratePdfReport;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Driver\DatabaseDriver;
 use Exception;
 
 class InvoiceGenerator
@@ -186,6 +188,10 @@ class InvoiceGenerator
             ->getRepository(Invoice::class)
             ->retrieveLastInvoiceId();
 
+        $userForNames  = $this->entityManager
+            ->getRepository(User::class)
+            ->findBy(['email' => $this->user]);
+
         $this->invoice->setStatus(self::STATUS);
         $this->invoice->setUser($this->user);
         array_key_exists('Bank holidays', $amount) ? $this->invoice->setBankholidayamount($amount['Bank holidays']) : $this->invoice->setBankholidayamount(0);
@@ -208,7 +214,7 @@ class InvoiceGenerator
             $this->entityManager->persist($invoice);
             $this->entityManager->flush();
 
-            $this->generatepdf->reportConstructInvoice($this->invoice, $invoice->getId(), $timesheetdata);
+            $this->generatepdf->reportConstructInvoice($userForNames[0]->getFirstname(), $userForNames[0]->getLastname(),$this->invoice,$invoice->getId(),false,  $timesheetdata);
 
         } catch (Exception $exception) {
 
@@ -218,70 +224,117 @@ class InvoiceGenerator
     }
 
 
-        /**
-         * It sets the invoice entity with the data retrieved after the Timehseet has been validated
-         */
-        public function hydrateInvoiceManual($amount, array $timesheetdata)
-        {
+    /**
+     * It sets the invoice entity with the data retrieved
+     */
+    public function hydrateInvoiceManual($amount, array $timesheetdata)
+    {
 
-            $month  = $this->formatDate($this->month);
+        $month  = $this->formatDate($this->month);
 
-            $this->contract = $this->entityManager
-                                   ->getRepository(ClientContract::class)
-                                   ->findBy(['id'=>$this->contractid]);
+        $this->contract = $this->entityManager
+                               ->getRepository(ClientContract::class)
+                               ->findBy(['id'=>$this->contractid]);
 
-            $invoicenumber = $this->entityManager
-                                  ->getRepository(Invoice::class)
-                                  ->retrieveLastInvoiceId();
+        $invoicenumber = $this->entityManager
+                              ->getRepository(Invoice::class)
+                              ->retrieveLastInvoiceId();
 
-            $invoiceCreationObject = $this->entityManager
-                                          ->getRepository(InvoiceCreationData::class)
-                                          ->find($this->invoiceCreationDataId);
+        $invoiceCreationObject = $this->entityManager
+                                      ->getRepository(InvoiceCreationData::class)
+                                      ->find($this->invoiceCreationDataId);
 
-            $this->invoice->setStatus(self::STATUS);
-            $this->invoice->setUser($this->user);
-            array_key_exists('Bank holidays', $amount ) ?  $this->invoice->setBankholidayamount($amount['Bank holidays']) : $this->invoice->setBankholidayamount(0);
-            array_key_exists('Work on Saturdays', $amount)  ? $this->invoice->setSaturdyamount($amount['Work on Saturdays']): $this->invoice->setSaturdyamount(0);
-            array_key_exists('Work on Sundays', $amount)  ? $this->invoice->setSundayamount($amount['Work on Sundays']) : $this->invoice->setSundayamount(0);
-            $this->invoice->setBusinessdaysamount($amount['Business days']);
-            $this->invoice->setTotalAmount($amount['TotalamountHT']);
-            $this->invoice->setAmountttc($amount['AmountTTC']);
-            $this->invoice->setVatamount($amount['VatAmount']);
-            $this->invoice->setContract($this->contract[0]);
-            $this->invoice->setInvoiceCreationData($invoiceCreationObject);
-            $this->invoice->setInvoicenumber($invoicenumber);
-            $this->invoice->setVat($this->vat);
-            $this->invoice->setMonth($month);
+        $userForNames  = $this->entityManager
+                      ->getRepository(User::class)
+                      ->findBy(['email' => $this->user]);
 
-            $invoice = $this->invoice;
+        $this->invoice->setStatus(self::STATUS);
+        $this->invoice->setUser($this->user);
+        array_key_exists('Bank holidays', $amount ) ?  $this->invoice->setBankholidayamount($amount['Bank holidays']) : $this->invoice->setBankholidayamount(0);
+        array_key_exists('Work on Saturdays', $amount)  ? $this->invoice->setSaturdyamount($amount['Work on Saturdays']): $this->invoice->setSaturdyamount(0);
+        array_key_exists('Work on Sundays', $amount)  ? $this->invoice->setSundayamount($amount['Work on Sundays']) : $this->invoice->setSundayamount(0);
+        $this->invoice->setBusinessdaysamount($amount['Business days']);
+        $this->invoice->setTotalAmount($amount['TotalamountHT']);
+        $this->invoice->setAmountttc($amount['AmountTTC']);
+        $this->invoice->setVatamount($amount['VatAmount']);
+        $this->invoice->setContract($this->contract[0]);
+        $this->invoice->setInvoiceCreationData($invoiceCreationObject);
+        $this->invoice->setInvoicenumber($invoicenumber);
+        $this->invoice->setVat($this->vat);
+        $this->invoice->setMonth($month);
 
-            try{
+        $invoice = $this->invoice;
 
-                $this->entityManager->persist($invoice);
-                $this->entityManager->flush();
+        try{
 
-                $this->generatepdf->reportConstructInvoice($this->invoice,$invoice->getId(), $timesheetdata);
+            $this->entityManager->persist($invoice);
+            $this->entityManager->flush();
 
-            } catch (Exception $exception){
+            $this->generatepdf->reportConstructInvoice($userForNames[0]->getFirstname(), $userForNames[0]->getLastname(),$this->invoice,$invoice->getId(),false,  $timesheetdata);
 
-                echo dd($exception->getMessage());
+        } catch (Exception $exception){
 
-            }
+            echo dd($exception->getMessage());
+
         }
-
-        protected function formatDate($month) : string
-        {
-            $explodemonth  = explode('-', $month);
-
-            $month = (int)$explodemonth[1];
-            $dateObj   = DateTime::createFromFormat('!m', $month);
-            $monthName = $dateObj->format('M');
-
-            return $monthName;
-        }
+    }
 
     /**
-     * TODO Retrieve rate from the contract of the related User and if there is a VAT to apply
+     * Calculates the amount and pass it to the pdf generator
      */
+    public function randomInvoiceCalculation(array $invoice)
+    {
+        foreach ($invoice as $invoices){
 
+            //When invoice entered in units
+            $amountForUnits  =  $invoices['units'] * $invoices['rate'];
+            $amountForUnitsVat = $amountForUnits * $invoices['vat'];
+            $amountForUnitsTtc = $amountForUnits + $amountForUnitsVat;
+
+            //When invoice entered in amount
+            $amount = $invoices['amount'] !== null ? $invoices['amount'] : 0.00;
+            $vatForAmount =  ($invoices['amount'] * $invoices['vat']);
+            $ttc = $vatForAmount + $invoices['amount'];
+
+            $amounttc =  $amountForUnits > 0  ? $amountForUnitsTtc : $ttc;
+            $vatamount = $amountForUnits > 0  ? $amountForUnitsVat : $vatForAmount;
+
+            //formatted with 2 decimal places
+            $vatamount = number_format((float)$vatamount, 2, ',', '');
+            $amounttc = number_format((float)$amounttc, 2, ',', '');
+
+            $invoiceData = [
+
+                'date' => $invoices['created_at'],
+                'vat' => $invoices['vat'],
+                'rate' =>  $amountForUnits > 0  ? $invoices['rate']  : 0,
+                'vatamount' => $vatamount,
+                'units' => $amountForUnits > 0  ? $invoices['units'] : 0,
+                'description' => $invoices['description'],
+                'amount' => $amount,
+                'amountForUnits' => $amountForUnits > 0 ? $amountForUnits : 0.00,
+                'amounttc' => $amounttc
+
+            ];
+        }
+
+       $this->generatepdf->reportConstructInvoice($invoices['firstname'], $invoices['lastname'],$invoiceData, $invoices['invoiceid'],true);
+
+    }
+
+    /**
+     * @param $month
+     * @return string
+     * Method to change the persisted date into an actual month in three letters e.g. 01 returns Jan
+     */
+    protected function formatDate($month) : string
+    {
+        $explodemonth  = explode('-', $month);
+
+        $month = (int)$explodemonth[1];
+        $dateObj   = DateTime::createFromFormat('!m', $month);
+        $monthName = $dateObj->format('M');
+
+        return $monthName;
+    }
 }

@@ -15,6 +15,7 @@ use App\Entity\Invoice;
 use App\Invoice\InvoiceGenerator;
 use App\Invoice\InvoiceDispatcher;
 use App\Repository\InvoiceCreationDataRepository;
+use App\Repository\InvoiceRandomRepository;
 use App\Repository\InvoiceRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -30,22 +31,22 @@ class AppSubscriber implements EventSubscriberInterface
     private $invoiceGenerator;
     private $invoiceValidator;
     private $filpathafterdownloadexcel;
-    /**
-     * @var InvoiceCreationDataRepository
-     */
     private $creationDataRepository;
+    private $invoiceRandomRepository;
 
     public function __construct(
                                 InvoiceRepository $invoiceRepository,
                                 InvoiceGenerator $invoiceGenerator,
                                 InvoiceDispatcher $invoiceValidator,
-                                InvoiceCreationDataRepository $creationDataRepository
+                                InvoiceCreationDataRepository $creationDataRepository,
+                                InvoiceRandomRepository $invoiceRandomRepository
                                 )
     {
         $this->invoiceRepository = $invoiceRepository;
         $this->invoiceGenerator = $invoiceGenerator;
         $this->invoiceValidator = $invoiceValidator;
         $this->creationDataRepository = $creationDataRepository;
+        $this->invoiceRandomRepository = $invoiceRandomRepository;
     }
 
     /**
@@ -100,10 +101,9 @@ class AppSubscriber implements EventSubscriberInterface
 
     public function onInvoiceRandomCreation(InvoiceRandomEvent $event)
     {
-        //Add repo method to get the data and to pass stuff to the generator
-        $items = $this->creationDataRepository->findDataManualInvoice($event->getInvoiceCreationDataId());
+        $invoiceData = $this->invoiceRandomRepository->findDataRandomInvoice($event->getInvoiceCreationDataId());
 
-        $this->invoiceGenerator->retrieveDataForInvoice($items, true);
+        $this->invoiceGenerator->randomInvoiceCalculation($invoiceData);
     }
 
     public function onInvoiceValidated(InvoiceValidationEvent $event)

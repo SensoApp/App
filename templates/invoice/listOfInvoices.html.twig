@@ -45,8 +45,10 @@
                                 <th>Status</th>
                                 <th>Payment received</th>
                                 <th>View invoice</th>
-                                {% if is_granted('ROLE_ADMIN') and invoice[0].status != 'Validated - sent to client'%}
-                                    <th>Delete invoice</th>
+                                {% if invoice != null %}
+                                    {% if is_granted('ROLE_ADMIN') and invoice[0].status != 'Validated - sent to client'%}
+                                        <th>Delete invoice</th>
+                                    {% endif %}
                                 {% endif %}
                             </tr>
                         </thead>
@@ -114,7 +116,7 @@
                         {% else %}
                             <tr>
                                 <td>
-                                    <i>No timesheet recorded</i>
+                                    <i>No invoice recorded</i>
                                 </td>
                             </tr>
                         {% endif %}

@@ -78,12 +78,18 @@ class User implements UserInterface
      */
     private $createdAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\InvoiceRandom", mappedBy="user")
+     */
+    private $invoiceRandoms;
+
 
     public function __construct()
     {
         $this->clientContracts = new ArrayCollection();
         $this->statementFiles = new ArrayCollection();
         $this->createdAt = new ArrayCollection();
+        $this->invoiceRandoms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -311,6 +317,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($createdAt->getUser() === $this) {
                 $createdAt->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|InvoiceRandom[]
+     */
+    public function getInvoiceRandoms(): Collection
+    {
+        return $this->invoiceRandoms;
+    }
+
+    public function addInvoiceRandom(InvoiceRandom $invoiceRandom): self
+    {
+        if (!$this->invoiceRandoms->contains($invoiceRandom)) {
+            $this->invoiceRandoms[] = $invoiceRandom;
+            $invoiceRandom->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoiceRandom(InvoiceRandom $invoiceRandom): self
+    {
+        if ($this->invoiceRandoms->contains($invoiceRandom)) {
+            $this->invoiceRandoms->removeElement($invoiceRandom);
+            // set the owning side to null (unless already changed)
+            if ($invoiceRandom->getUser() === $this) {
+                $invoiceRandom->setUser(null);
             }
         }
 

@@ -9,6 +9,7 @@
 namespace App\Service;
 
 use App\Entity\Invoice;
+use App\Entity\InvoiceRandom;
 use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
@@ -61,7 +62,7 @@ class GeneratePdfReport
 
     }
 
-    public function generatePdfReport($template, $filename, $id = null, $invoice = false)
+    public function generatePdfReport($template, $filename, $id = null, $invoice = false, $random = false)
     {
         $option1 = $this->options->setIsRemoteEnabled(true);
         $option2 = $this->options->set('defaultFont', 'titillium');
@@ -92,6 +93,24 @@ class GeneratePdfReport
                 return $e->getMessage();
             }
 
+        } elseif($invoice && $random) {
+
+            $filepath = $this->params->get('kernel.project_dir').'/report/invoice/'.$filename;
+
+            file_put_contents($filepath, $output);
+
+            try{
+
+                $this->mailerservice->sendMail('Hello Test','Random Invoice', $filepath);
+
+                $this->entity->getRepository(InvoiceRandom::class)
+                            ->updateStatus(self::INVOICE_SENT, $id, $filepath);
+
+            } catch (\Exception $e){
+
+                return $e->getMessage();
+            }
+
         } else {
 
             $filepath = $this->params->get('kernel.project_dir').'/report/invoice/'.$filename;
@@ -109,7 +128,6 @@ class GeneratePdfReport
 
                 return $e->getMessage();
             }
-
         }
 
     }
@@ -171,22 +189,34 @@ class GeneratePdfReport
      * @param $invoice
      * @param array $timesheetdata
      */
-    public function reportConstructInvoice($invoice, $invoiceid, array $timesheetdata)
+    public function reportConstructInvoice($firstname, $lastname, $invoice, $invoiceid, $random = false, array $timesheetdata = null)
     {
-        $firstname = $this->security->getToken()->getUser()->getFirstName();
-        $lastname = $this->security->getToken()->getUser()->getLastName();
-        $user = $this->security->getToken()->getUsername();
+        if($random){
 
-        $filename = date('dmy').'_'.uniqid().'_'.$firstname.$lastname.'.pdf';
+            $filename = date('dmy').'_'.uniqid().'_'.$invoice['description'].'-'.$firstname.$lastname.'.pdf';
 
-        $template =  $this->template->render('/invoice/invoiceTemplatePDF.html.twig' , [
+            $template = $this->template->render('invoice/invoiceTemplatePDFRandom.html.twig' , [
 
-            'name' => $firstname.' '.$lastname,
-            'invoice'=> $invoice,
-            'timesheetdata' => $timesheetdata
+                'name' => $firstname.' '.$lastname,
+                'invoice'=> $invoice
+            ]);
 
-        ]);
+            $this->generatePdfReport($template, $filename, $invoiceid, $invoice=true, $random=true);
 
-        $this->generatePdfReport($template, $filename, $invoiceid, $invoice=true);
+        } else {
+
+            $filename = date('dmy').'_'.uniqid().'_'.$firstname.$lastname.'.pdf';
+
+            $template =  $this->template->render('/invoice/invoiceTemplatePDF.html.twig' , [
+
+                'name' => $firstname.' '.$lastname,
+                'invoice'=> $invoice,
+                'timesheetdata' => $timesheetdata
+
+            ]);
+
+            $this->generatePdfReport($template, $filename, $invoiceid, $invoice=true);
+        }
     }
+
 }
