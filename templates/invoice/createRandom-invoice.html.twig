@@ -1,0 +1,104 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<body>
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+    <div class="container-fluid">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        {% include 'header.html.twig' %}
+        <div class="row">
+            {% for message in app.session.flashBag.get('success') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+
+            {% for message in app.session.flashBag.get('error') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <h2 class="text-center"> Welcome to My Senso Invoice ✅</h2>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-offset-4 col-lg-4">
+                <div>
+                    <h3>Create your random invoice</h3>
+                </div>
+                <br>
+                <table class="table table-responsive">
+                    <tr>
+                        <th class="bg-primary">Type of Invoice</th>
+                        <td>
+                            <label for="randomInvoice"></label>
+                            <select required class="form-control invoiceType" name="invoice_type" id="typeRandomInvoice">
+                                <option value="">Select your taxe class</option>
+                                <option value="Units" id="units">Units</option>
+                                <option value="Amount" id="amt">Amount</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <br>
+            {{ form_start(createRandomInvoice) }}
+                {{ form_row(createRandomInvoice.description) }}
+                {{ form_row(createRandomInvoice.units) }}
+                {{ form_help(createRandomInvoice.amount, {'help' : 'Enter an amount such as 100,00'}) }}
+                {{ form_row(createRandomInvoice.amount) }}
+                {{ form_row(createRandomInvoice.rate) }}
+                {{ form_row(createRandomInvoice.vat) }}
+            {{ form_end(createRandomInvoice) }}
+            </div>
+        </div>
+    </div>
+    <script>
+
+        $(function () {
+
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove(),
+
+                );
+            });
+            $('.invoiceType').change( function () {
+
+                var residencyselection = $('.invoiceType option:selected').text();
+
+                if(residencyselection === 'Units' ) {
+
+                    $('#invoice_random_amount').prop("disabled", true);
+                    $('#invoice_random_units').removeAttr("disabled");
+                    $('#invoice_random_rate').removeAttr("disabled");
+
+                } else if (residencyselection === 'Amount') {
+
+                    $('#invoice_random_units').prop("disabled", true);
+                    $('#invoice_random_rate').prop("disabled", true);
+                    $('#invoice_random_amount').removeAttr("disabled");
+                }
+            });
+        });
+    </script>
+</body>
+{% endblock %}

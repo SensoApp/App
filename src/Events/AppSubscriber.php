@@ -73,6 +73,7 @@ class AppSubscriber implements EventSubscriberInterface
         return [
 
             InvoiceManualCreationEvent::NAME => 'onInvoiceManualCreation',
+            InvoiceRandomEvent::NAME => 'onInvoiceRandomCreation',
             TimeSheetValidationEvent::NAME => 'onTimesheetValidated',
             InvoiceValidationEvent::NAME => 'onInvoiceValidated',
             KernelEvents::RESPONSE => 'onKernelResponse',
@@ -95,6 +96,14 @@ class AppSubscriber implements EventSubscriberInterface
 
         $this->invoiceGenerator->retrieveDataForInvoice($items, true);
 
+    }
+
+    public function onInvoiceRandomCreation(InvoiceRandomEvent $event)
+    {
+        //Add repo method to get the data and to pass stuff to the generator
+        $items = $this->creationDataRepository->findDataManualInvoice($event->getInvoiceCreationDataId());
+
+        $this->invoiceGenerator->retrieveDataForInvoice($items, true);
     }
 
     public function onInvoiceValidated(InvoiceValidationEvent $event)

@@ -24,7 +24,7 @@ class SimulationController extends AbstractController
     /**
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
-     * @Route(path="/user/simulation", name="simulation")
+     * @Route(path="/simulation", name="simulation")
      */
     public function createSimulation(Request $request)
     {

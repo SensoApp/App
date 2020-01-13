@@ -65,11 +65,11 @@
                                                         <li class="men btn "><a class="men" href="{{ path('saveManualInvoice') }}">Create Invoices</a></li>
                                                         <li class="men btn "><a class="men" href="{{ path('uploadstatement') }}">Statements</a></li>
                                                         <li class="nav-header text-center btn btn-success">User section</li>
-                                                        <li class="men btn "><a class="men" href="{{ path('timesheet') }}">Create new Timesheet</a></li>
+                                                       <!-- <li class="men btn "><a class="men" href="{{ path('timesheet') }}" >Create new Timesheet</a></li> -->
                                                         <li class="men btn "><a class="men" href="{{ path('user_dashboard') }}">Dashboard</a></li>
                                                     {% else %}
                                                         <li class="nav-header text-center btn btn-success">User section</li>
-                                                        <li class="men btn "><a class="men" href="{{ path('timesheet') }}">Create new Timesheet</a></li>
+                                                      <!--  <li class="men btn "><a class="men" href="{{ path('timesheet') }}" hidden>Create new Timesheet</a></li> -->
                                                         <li class="men btn "><a class="men" href="{{ path('user_dashboard') }}">Dashboard</a></li>
                                                     {% endif %}
                                                 </ul>

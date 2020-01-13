@@ -14,6 +14,7 @@ use App\Entity\InvoiceCreationData;
 use App\Events\InvoiceManualCreationEvent;
 use App\Events\InvoiceValidationEvent;
 use App\Form\InvoiceManualCreationType;
+use App\Form\InvoiceRandomType;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -78,7 +79,6 @@ class InvoiceController extends AbstractController
         $filetodelete = $invoicetodelete->getPath();
 
         try{
-
             $this->entitymanager->remove($invoicetodelete);
             $this->entitymanager->flush();
 
@@ -100,7 +100,7 @@ class InvoiceController extends AbstractController
 
         $this->addFlash('success', 'Invoice with id: '.$id.' has been deleted successfully');
 
-        return $this->redirectToRoute('user_dashboard');
+        return $this->redirectToRoute('listofinvoice');
     }
 
     /**
@@ -113,7 +113,7 @@ class InvoiceController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewTimeSheetPdfInBrowser($id)
+    public function viewInvoicePdfInBrowser($id)
     {
         $path = $this->entitymanager
             ->getRepository(Invoice::class)
@@ -132,7 +132,7 @@ class InvoiceController extends AbstractController
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function downloadTimeSheet($id)
+    public function downloadInvoice($id)
     {
         $path = $this->entitymanager
             ->getRepository(Invoice::class)
@@ -176,13 +176,14 @@ class InvoiceController extends AbstractController
 
         }
 
-        $this->addFlash('success', 'the invoice has been updated');
+        $this->addFlash('success', 'the status has been updated');
 
         return $this->redirectToRoute('listofinvoice');
 
     }
 
     /**
+     * controller to create a manual invoice
      * @param Request $request
      * @Route(path="/user/invoice/save-manual-invoice", name="saveManualInvoice")
      */
@@ -210,21 +211,19 @@ class InvoiceController extends AbstractController
                     return $this->redirectToRoute('saveManualInvoice');
                 };
 
-
                 $em =$this->getDoctrine()->getManager();
                 $em->persist($invoicePersist);
                 $em->flush();
 
                 $this->dispatchEventInvoice($invoicePersist);
-
-                $this->addFlash('success', 'Invoice data entered the invoice will be created shortly...');
+                $this->addFlash('success', 'Invoice data entered can be found in the following link: ');
 
                 return $this->redirectToRoute('saveManualInvoice');
 
             } catch(DBALException $e){
                 echo 'DBAL '.$e->getMessage(); die;
-            }
-            catch(\Exception $e){
+                
+            } catch(\Exception $e){
                echo $e->getMessage();
                die;
             }
@@ -253,6 +252,53 @@ class InvoiceController extends AbstractController
     {
         $event = new InvoiceManualCreationEvent($invoiceObject);
         $this->eventDispatcher->dispatch($event, InvoiceManualCreationEvent::NAME);
+
+    }
+
+    /**
+     * @param Request $request
+     * @Route(path="/user/invoice/save-random-invoice", name="randomInvoice")
+     */
+    public function createRandomInvoice(Request $request)
+    {
+        //dd($request);
+        $form = $this->createForm(InvoiceRandomType::class)
+                     ->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            try {
+
+                $invoiceRandomPersist = $form->getData();
+
+                $em =$this->getDoctrine()->getManager();
+                $em->persist($invoiceRandomPersist);
+                $em->flush();
+
+                $this->dispatchEventInvoice($invoiceRandomPersist);
+                $this->addFlash('success', 'Invoice data entered can be found in the following link: ');
+
+                return $this->redirectToRoute('randomInvoice');
+
+            } catch(DBALException $e){
+                echo 'DBAL '.$e->getMessage(); die;
+
+            } catch(\Exception $e){
+                echo $e->getMessage();
+                die;
+            }
+
+        }
+
+        /**
+         * TODO : finish method or add to the existing?
+         * TODO : If finish here then add event
+         */
+
+        return $this->render('invoice/createRandom-invoice.html.twig', [
+
+            'createRandomInvoice' => $form->createView()
+        ]);
 
     }
 

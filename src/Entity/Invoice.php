@@ -112,6 +112,12 @@ class Invoice
      */
     private $vatamount;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\InvoiceCreationData", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $invoiceCreationData;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -362,6 +368,18 @@ class Invoice
     public function setVatamount(?float $vatamount): self
     {
         $this->vatamount = $vatamount;
+
+        return $this;
+    }
+
+    public function getInvoiceCreationData(): ?InvoiceCreationData
+    {
+        return $this->invoiceCreationData;
+    }
+
+    public function setInvoiceCreationData(InvoiceCreationData $invoiceCreationData): self
+    {
+        $this->invoiceCreationData = $invoiceCreationData;
 
         return $this;
     }

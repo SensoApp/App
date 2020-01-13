@@ -5,6 +5,7 @@ namespace App\Invoice;
 
 use App\Entity\ClientContract;
 use App\Entity\Invoice;
+use App\Entity\InvoiceCreationData;
 use App\Entity\Timesheet;
 use App\Service\GeneratePdfReport;
 use DateTime;
@@ -22,6 +23,7 @@ class InvoiceGenerator
     private $user;
     private $month;
     private $rate;
+    private $invoiceCreationDataId;
     private $timesheetid;
     private $contractid;
     private $extrapercentsatyrday;
@@ -67,6 +69,7 @@ class InvoiceGenerator
                 $this->user = $item['mail'];
                 $this->month = $item['month'];
                 $this->rate = $item['rate'];
+                $this->invoiceCreationDataId = $item['id'];
                 //$this->timesheetid = $item->getId();
                 $this->contractid = $item['clientcontractid'];
                 $this->extrapercentsatyrday = $item['extrapercentsatyrday'];
@@ -224,12 +227,16 @@ class InvoiceGenerator
             $month  = $this->formatDate($this->month);
 
             $this->contract = $this->entityManager
-                ->getRepository(ClientContract::class)
-                ->findBy(['id'=>$this->contractid]);
+                                   ->getRepository(ClientContract::class)
+                                   ->findBy(['id'=>$this->contractid]);
 
             $invoicenumber = $this->entityManager
-                ->getRepository(Invoice::class)
-                ->retrieveLastInvoiceId();
+                                  ->getRepository(Invoice::class)
+                                  ->retrieveLastInvoiceId();
+
+            $invoiceCreationObject = $this->entityManager
+                                          ->getRepository(InvoiceCreationData::class)
+                                          ->find($this->invoiceCreationDataId);
 
             $this->invoice->setStatus(self::STATUS);
             $this->invoice->setUser($this->user);
@@ -241,6 +248,7 @@ class InvoiceGenerator
             $this->invoice->setAmountttc($amount['AmountTTC']);
             $this->invoice->setVatamount($amount['VatAmount']);
             $this->invoice->setContract($this->contract[0]);
+            $this->invoice->setInvoiceCreationData($invoiceCreationObject);
             $this->invoice->setInvoicenumber($invoicenumber);
             $this->invoice->setVat($this->vat);
             $this->invoice->setMonth($month);
