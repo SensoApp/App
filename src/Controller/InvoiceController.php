@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Entity\Invoice;
 use App\Entity\InvoiceCreationData;
+use App\Entity\InvoiceRandom;
 use App\Events\InvoiceManualCreationEvent;
 use App\Events\InvoiceRandomEvent;
 use App\Events\InvoiceValidationEvent;
@@ -146,14 +147,18 @@ class InvoiceController extends AbstractController
 
     /**
      * Show all the invoices per users/ employees with their status
+     * Add invoice from random table as well
      * @Route(path="/newadmin/invoice/list", name="listofinvoice")
      */
     public function listOfInvoices()
     {
         $listofinvoices = $this->entitymanager->getRepository(Invoice::class)->selectInvoiceAndUserData();
+        $listofRandominvoices = $this->entitymanager->getRepository(InvoiceRandom::class)->selectRandomInvoiceAndUserData();
+
 
         return $this->render('invoice/listOfInvoices.html.twig', [
-            'invoice' => $listofinvoices
+            'invoice' => $listofinvoices,
+            'randominvoice' => $listofRandominvoices
         ]);
 
     }

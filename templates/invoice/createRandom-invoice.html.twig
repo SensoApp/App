@@ -19,7 +19,7 @@
             {% for message in app.session.flashBag.get('success') %}
                 <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
                     <i class="fa fa-window-close text-right" aria-hidden="true">
-                        {{ message }}
+                        {{ message }} <a href="{{ path('listofinvoice') }}">List of invoice</a>
                     </i>
                 </div>
             {% endfor %}

@@ -62,7 +62,7 @@ class GeneratePdfReport
 
     }
 
-    public function generatePdfReport($template, $filename, $id = null, $invoice = false, $random = false)
+    public function generatePdfReport($template, $filename, $id = null, $invoice = false, $random = false, $amountForUnit = null)
     {
         $option1 = $this->options->setIsRemoteEnabled(true);
         $option2 = $this->options->set('defaultFont', 'titillium');
@@ -104,7 +104,7 @@ class GeneratePdfReport
                 $this->mailerservice->sendMail('Hello Test','Random Invoice', $filepath);
 
                 $this->entity->getRepository(InvoiceRandom::class)
-                            ->updateStatus(self::INVOICE_SENT, $id, $filepath);
+                            ->updateStatus(self::INVOICE_SENT, $id, $filepath, $amountForUnit);
 
             } catch (\Exception $e){
 
@@ -201,7 +201,8 @@ class GeneratePdfReport
                 'invoice'=> $invoice
             ]);
 
-            $this->generatePdfReport($template, $filename, $invoiceid, $invoice=true, $random=true);
+            $amountForUnit = $invoice['amountForUnits'] > 0 ? $invoice['amountForUnits'] : null;
+            $this->generatePdfReport($template, $filename, $invoiceid, $invoice=true, $random=true, $amountForUnit);
 
         } else {
 

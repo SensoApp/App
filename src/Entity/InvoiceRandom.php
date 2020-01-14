@@ -66,6 +66,11 @@ class InvoiceRandom
      */
     private $path;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentstatus;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -192,6 +197,18 @@ class InvoiceRandom
     public function setPath(?string $path): self
     {
         $this->path = $path;
+
+        return $this;
+    }
+
+    public function getPaymentstatus(): ?string
+    {
+        return $this->paymentstatus;
+    }
+
+    public function setPaymentstatus(?string $paymentstatus): self
+    {
+        $this->paymentstatus = $paymentstatus;
 
         return $this;
     }

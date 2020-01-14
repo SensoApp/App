@@ -10,8 +10,6 @@ namespace App\Events;
 
 
 use App\Controller\InvoiceController;
-use App\Controller\UserController;
-use App\Entity\Invoice;
 use App\Invoice\InvoiceGenerator;
 use App\Invoice\InvoiceDispatcher;
 use App\Repository\InvoiceCreationDataRepository;
@@ -19,14 +17,11 @@ use App\Repository\InvoiceRandomRepository;
 use App\Repository\InvoiceRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class AppSubscriber implements EventSubscriberInterface
 {
-
-
     private $invoiceRepository;
     private $invoiceGenerator;
     private $invoiceValidator;
@@ -77,6 +72,7 @@ class AppSubscriber implements EventSubscriberInterface
             InvoiceRandomEvent::NAME => 'onInvoiceRandomCreation',
             TimeSheetValidationEvent::NAME => 'onTimesheetValidated',
             InvoiceValidationEvent::NAME => 'onInvoiceValidated',
+            InvoiceRandomValidationEvent::NAME => 'onInvoiceRandomValidation',
             KernelEvents::RESPONSE => 'onKernelResponse',
         ];
     }
@@ -113,6 +109,18 @@ class AppSubscriber implements EventSubscriberInterface
        $invocedata =  $this->invoiceRepository->multipleSelectionInvoiceClientTimesheet($event->getInvoiceId());
 
        $this->invoiceValidator->retrieveDataForFinalInvoice($invocedata);
+    }
+
+    public function onInvoiceRandomValidation(InvoiceRandomValidationEvent $event)
+    {
+       $this->invoiceRandomRepository->updateStatusAfterValidation(InvoiceController::INVOICE_VALIDATED, $event->getInvoiceId(), InvoiceController::PAYMENT_PENDING);
+
+       /**
+        * TODO: add data and method + email Invoicedisptacher method to propagate invoices to related clients
+        */
+       //$invocedata =  $this->invoiceRepository->multipleSelectionInvoiceClientTimesheet($event->getInvoiceId());
+
+       //$this->invoiceValidator->retrieveDataForFinalInvoice($invocedata);
     }
 
     public function onKernelResponse(ResponseEvent $responseEvent)

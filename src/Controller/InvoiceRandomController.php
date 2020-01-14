@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Entity\Invoice;
 use App\Entity\InvoiceRandom;
 use App\Events\InvoiceRandomEvent;
-use App\Events\InvoiceValidationEvent;
+use App\Events\InvoiceRandomValidationEvent;
 use App\Form\InvoiceRandomType;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -62,7 +62,7 @@ class InvoiceRandomController extends AbstractController
                 $em->flush();
 
                 $this->dispatchEventRandomInvoice($invoiceRandomPersist);
-                $this->addFlash('success', 'Invoice data entered can be found in the following link: ');
+                $this->addFlash('success', 'Invoice can be found in the following page: ');
 
                 return $this->redirectToRoute('randomInvoice');
 
@@ -89,11 +89,11 @@ class InvoiceRandomController extends AbstractController
     {
 
         $invoiceobject = $this->entitymanager
-            ->getRepository(Invoice::class)
+            ->getRepository(InvoiceRandom::class)
             ->find(['id' => $id]);
 
-        $event = new InvoiceValidationEvent($invoiceobject);
-        $eventDispatcher->dispatch(InvoiceValidationEvent::NAME, $event);
+        $event = new InvoiceRandomValidationEvent($invoiceobject);
+        $eventDispatcher->dispatch($event, InvoiceRandomValidationEvent::NAME );
 
         $this->addFlash('success', 'the invoice has been successfully sent to the client');
 
@@ -167,19 +167,6 @@ class InvoiceRandomController extends AbstractController
 
     }
 
-    /**
-     * Show all the invoices per users/ employees with their status
-     * @Route(path="/newadmin/invoice/list", name="listofinvoice")
-     */
-    public function listOfInvoices()
-    {
-        $listofinvoices = $this->entitymanager->getRepository(Invoice::class)->selectInvoiceAndUserData();
-
-        return $this->render('invoice/listOfInvoices.html.twig', [
-            'invoice' => $listofinvoices
-        ]);
-
-    }
 
     /**
      * Validates that the payment has been received at the bank and update the status of related invoice
@@ -189,8 +176,8 @@ class InvoiceRandomController extends AbstractController
     {
         try{
             $this->entitymanager
-                ->getRepository('App:Invoice')
-                ->updateStatusAfterValidation(self::INVOICE_CLOSED, $id, self::PAYMENT_PAID);
+                ->getRepository('App:InvoiceRandom')
+                ->updateStatusAfterValidationRandomInvoice(self::INVOICE_CLOSED, $id, self::PAYMENT_PAID);
 
 
         } catch (\Exception $exception){
@@ -204,7 +191,6 @@ class InvoiceRandomController extends AbstractController
         $this->addFlash('success', 'the status has been updated');
 
         return $this->redirectToRoute('listofinvoice');
-
     }
 
     /**

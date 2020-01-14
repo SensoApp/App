@@ -225,7 +225,7 @@ class InvoiceGenerator
 
 
     /**
-     * It sets the invoice entity with the data retrieved
+     * It sets the invoice entity with the data retrieved by the manual creation (from the form)
      */
     public function hydrateInvoiceManual($amount, array $timesheetdata)
     {
@@ -280,7 +280,7 @@ class InvoiceGenerator
     }
 
     /**
-     * Calculates the amount and pass it to the pdf generator
+     * Calculates the amount and pass it to the pdf generator for Random invoices
      */
     public function randomInvoiceCalculation(array $invoice)
     {

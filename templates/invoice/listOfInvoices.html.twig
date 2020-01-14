@@ -34,94 +34,214 @@
             <br>
             <div class="row">
                 <div class="table-responsive">
-                    <table id="mytable" class="table table-bordred table-striped">
-                        <thead>
-                            <tr class="text-center">
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>Month</th>
-                                <th>Date sent</th>
-                                <th>Total amount</th>
-                                <th>Status</th>
-                                <th>Payment received</th>
-                                <th>View invoice</th>
-                                {% if invoice != null %}
-                                    {% if is_granted('ROLE_ADMIN') and invoice[0].status != 'Validated - sent to client'%}
-                                        <th>Delete invoice</th>
-                                    {% endif %}
-                                {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% if invoice != null %}
-                            {% for inv in invoice %}
-                            <tr>
-                                <td>{{ inv.firstname }}</td>
-                                <td>{{ inv.lastname }}</td>
-                                <td>{{ inv.date|date('M') }}</td>
-                                <td>{{ inv.date|date('Y-m-d') }}</td>
-                                <td>{{ inv.totalamount }}</td>
-                                {% if inv.status == 'Sent for validation'  %}
-                                    <td>
-                                        <p data-placement="top" data-toggle="tooltip" title="Validate">
-                                            <label for="validate">Validate</label>
-                                            <a href="{{ path('validateinvoice', {id:  inv.id}) }}">
-                                                <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
-                                                </button>
-                                            </a>
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <i>N/A</i>
-                                    </td>
-                                {% else %}
-                                    {% if inv.paymentstatus != null %}
-                                        <td>{{ inv.paymentstatus }}</td>
-                                    {% else %}
-                                        <td>Invoice not sent</td>
-                                    {% endif %}
-                                    {% if inv.paymentstatus == 'Unpaid' %}
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="Validate">
-                                                <a href="{{ path('paymentreceived', {id:  inv.id}) }}">
-                                                    <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
-                                                    </button>
-                                                </a>
-                                            </p>
-                                        </td>
-                                    {% else %}
-                                        <td>{{ inv.status }}</td>
-                                    {% endif %}
-                                {% endif %}
-                                <td>
-                                    <p data-placement="top" data-toggle="tooltip" title="View">
-                                        <a href="{{ path('viewinvoicepdf', {id: inv.id}) }}">
-                                            <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
-                                            </button>
-                                        </a>
-                                    </p>
-                                </td>
-                                {% if is_granted('ROLE_ADMIN') and inv.status == 'Sent for validation'%}
-                                    <td>
-                                        <p data-placement="top" data-toggle="tooltip" title="Delete">
-                                            <a href="{{ path('deleteinvoice', {id:  inv.id}) }}">
-                                                <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </a>
-                                        </p>
-                                    </td>
-                                {% endif %}
-                            </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td>
-                                    <i>No invoice recorded</i>
-                                </td>
-                            </tr>
-                        {% endif %}
-                        </tbody>
-                    </table>
+                    <div class="accordion" id="accordionRandom">
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-primary btn-lg btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseThrees" aria-expanded="false" aria-controls="collapseThree">
+                                        Consulting Invoice
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThrees" class="collapse" aria-labelledby="headingThree" data-parent="#accordionRandom">
+                                <div class="card-body">
+                                    <table id="mytable" class="table table-bordred table-striped">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Firstname</th>
+                                            <th>Lastname</th>
+                                            <th>Month</th>
+                                            <th>Date sent</th>
+                                            <th>Total amount</th>
+                                            <th>Status</th>
+                                            <th>Payment received</th>
+                                            <th>View invoice</th>
+                                            {% if invoice != null %}
+                                                {% if is_granted('ROLE_ADMIN') and invoice[0].status != 'Validated - sent to client'%}
+                                                    <th>Delete invoice</th>
+                                                {% endif %}
+                                            {% endif %}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if invoice != null %}
+                                            {% for inv in invoice %}
+                                                <tr>
+                                                    <td>{{ inv.firstname }}</td>
+                                                    <td>{{ inv.lastname }}</td>
+                                                    <td>{{ inv.date|date('M') }}</td>
+                                                    <td>{{ inv.date|date('Y-m-d') }}</td>
+                                                    <td>{{ inv.totalamount }} EUR</td>
+                                                    {% if inv.status == 'Sent for validation'  %}
+                                                        <td>
+                                                            <p data-placement="top" data-toggle="tooltip" title="Validate">
+                                                                <label for="validate">Validate</label>
+                                                                <a href="{{ path('validateinvoice', {id:  inv.id}) }}">
+                                                                    <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
+                                                                    </button>
+                                                                </a>
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <i>N/A</i>
+                                                        </td>
+                                                    {% else %}
+                                                        {% if inv.paymentstatus != null %}
+                                                            <td>{{ inv.paymentstatus }}</td>
+                                                        {% else %}
+                                                            <td>Invoice not sent</td>
+                                                        {% endif %}
+                                                        {% if inv.paymentstatus == 'Unpaid' %}
+                                                            <td>
+                                                                <p data-placement="top" data-toggle="tooltip" title="Validate">
+                                                                    <a href="{{ path('paymentreceived', {id:  inv.id}) }}">
+                                                                        <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
+                                                                        </button>
+                                                                    </a>
+                                                                </p>
+                                                            </td>
+                                                        {% else %}
+                                                            <td>{{ inv.status }}</td>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <td>
+                                                        <p data-placement="top" data-toggle="tooltip" title="View">
+                                                            <a href="{{ path('viewinvoicepdf', {id: inv.id}) }}">
+                                                                <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
+                                                                </button>
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    {% if is_granted('ROLE_ADMIN') and inv.status == 'Sent for validation'%}
+                                                        <td>
+                                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                                <a href="{{ path('deleteinvoice', {id:  inv.id}) }}">
+                                                                    <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                                    </button>
+                                                                </a>
+                                                            </p>
+                                                        </td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td>
+                                                    <i>No invoice recorded</i>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-primary btn-lg btn-block collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Random Invoice
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <table id="mytable" class="table table-bordred table-striped">
+                                        <thead>
+                                        <tr class="text-center">
+                                            <th>Firstname</th>
+                                            <th>Lastname</th>
+                                            <th>Description</th>
+                                            <th>Month</th>
+                                            <th>Date sent</th>
+                                            <th>Total amount</th>
+                                            <th>Status</th>
+                                            <th>Payment received</th>
+                                            <th>View invoice</th>
+                                            {% if invoice != null %}
+                                                {% if is_granted('ROLE_ADMIN') and randominvoice[0].status != 'Validated - sent to client'%}
+                                                    <th>Delete invoice</th>
+                                                {% endif %}
+                                            {% endif %}
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% if randominvoice != null %}
+                                            {% for inv in randominvoice %}
+                                                <tr>
+                                                    <td>{{ inv.firstname }}</td>
+                                                    <td>{{ inv.lastname }}</td>
+                                                    <td>{{ inv.description }}</td>
+                                                    <td>{{ inv.createdAt|date('M') }}</td>
+                                                    <td>{{ inv.createdAt|date('Y-m-d') }}</td>
+                                                    <td>{{ inv.amount }} EUR</td>
+                                                    {% if inv.status == 'Sent for validation'  %}
+                                                        <td>
+                                                            <p data-placement="top" data-toggle="tooltip" title="Validate">
+                                                                <label for="validate">Validate</label>
+                                                                <a href="{{ path('validateRandomInvoice', {id:  inv.id}) }}">
+                                                                    <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
+                                                                    </button>
+                                                                </a>
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <i>N/A</i>
+                                                        </td>
+                                                    {% else %}
+                                                        {% if inv.paymentstatus != null %}
+                                                            <td>{{ inv.paymentstatus }}</td>
+                                                        {% else %}
+                                                            <td>Invoice not sent</td>
+                                                        {% endif %}
+                                                        {% if inv.paymentstatus == 'Unpaid' %}
+                                                            <td>
+                                                                <p data-placement="top" data-toggle="tooltip" title="Validate">
+                                                                    <a href="{{ path('paymentreceived', {id:  inv.id}) }}">
+                                                                        <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
+                                                                        </button>
+                                                                    </a>
+                                                                </p>
+                                                            </td>
+                                                        {% else %}
+                                                            <td>{{ inv.status }}</td>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <td>
+                                                        <p data-placement="top" data-toggle="tooltip" title="View">
+                                                            <a href="{{ path('viewrandominvoicepdf', {id: inv.id}) }}">
+                                                                <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
+                                                                </button>
+                                                            </a>
+                                                        </p>
+                                                    </td>
+                                                    {% if is_granted('ROLE_ADMIN') and inv.status == 'Sent for validation'%}
+                                                        <td>
+                                                            <p data-placement="top" data-toggle="tooltip" title="Delete">
+                                                                <a href="{{ path('deleteRandomInvoice', {id:  inv.id}) }}">
+                                                                    <button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-trash"></span>
+                                                                    </button>
+                                                                </a>
+                                                            </p>
+                                                        </td>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        {% else %}
+                                            <tr>
+                                                <td>
+                                                    <i>No invoice recorded</i>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
