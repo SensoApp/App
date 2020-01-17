@@ -6,6 +6,7 @@
  * Time: 18:37
  */
 
+
 namespace App\Service;
 
 use App\Entity\Invoice;
@@ -83,7 +84,7 @@ class GeneratePdfReport
 
             try{
 
-                $this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
+                //$this->mailerservice->sendMail('Hello Test','Timesheet', $filepath);
 
                 $this->entity->getRepository(Timesheet::class)
                     ->updateStatus(self::TIMESHEET_SENT, $id, $filepath);
@@ -101,7 +102,7 @@ class GeneratePdfReport
 
             try{
 
-                $this->mailerservice->sendMail('Hello Test','Random Invoice', $filepath);
+                //$this->mailerservice->sendMail('Hello Test','Random Invoice', $filepath);
 
                 $this->entity->getRepository(InvoiceRandom::class)
                             ->updateStatus(self::INVOICE_SENT, $id, $filepath, $amountForUnit);
@@ -113,18 +114,19 @@ class GeneratePdfReport
 
         } else {
 
-            $filepath = $this->params->get('kernel.project_dir').'/report/invoice/'.$filename;
+            $filepath = $this->params->get('kernel.project_dir') . '/report/invoice/' . $filename;
 
             file_put_contents($filepath, $output);
 
-            try{
+            try {
 
-                $this->mailerservice->sendMail('Hello Test','Invoice', $filepath);
+                //$this->mailerservice->sendMail('Hello Test', 'Invoice', $filepath);
 
                 $this->entity->getRepository(Invoice::class)
                     ->updateStatus(self::INVOICE_SENT, $id, $filepath);
 
-            } catch (\Exception $e){
+
+            } catch (\Exception $e) {
 
                 return $e->getMessage();
             }
@@ -191,6 +193,7 @@ class GeneratePdfReport
      */
     public function reportConstructInvoice($firstname, $lastname, $invoice, $invoiceid, $random = false, array $timesheetdata = null)
     {
+        //dd($firstname, $lastname, $invoice, $invoiceid, $random);
         if($random){
 
             $filename = date('dmy').'_'.uniqid().'_'.$invoice['description'].'-'.$firstname.$lastname.'.pdf';

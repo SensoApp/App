@@ -89,9 +89,18 @@ class AppSubscriber implements EventSubscriberInterface
 
     public function onInvoiceManualCreation(InvoiceManualCreationEvent $event)
     {
-        $items = $this->creationDataRepository->findDataManualInvoice($event->getInvoiceCreationDataId());
+        try {
 
-        $this->invoiceGenerator->retrieveDataForInvoice($items, true);
+            $items = $this->creationDataRepository->findDataManualInvoice($event->getInvoiceCreationDataId());
+
+            $this->invoiceGenerator->retrieveDataForInvoice($items, true);
+
+        } catch (\Exception $e){
+
+            dd($e->getMessage());
+        }
+
+
 
     }
 

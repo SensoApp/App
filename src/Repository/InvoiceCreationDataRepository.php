@@ -22,19 +22,26 @@ class InvoiceCreationDataRepository extends ServiceEntityRepository
     //Pass user id to retrieve its contract details (rate etc...) and return the result to calculate the invoice
     public function findDataManualInvoice($id) : array
     {
-        $em = $this->getEntityManager();
+        try {
+            $em = $this->getEntityManager();
 
-        $contract = 'SELECT u.*, c.id as clientcontractid, c.*, i.*
+            $contract = 'SELECT u.*, c.id as clientcontractid, c.*, i.*
                      FROM client_contract c
                      INNER JOIN invoice_creation_data i ON i.user_id = c.user_id
                      INNER JOIN user u ON c.user_id = u.id
                      WHERE i.id = :id
                     ';
 
-        $stmt = $em->getConnection()->prepare($contract);
-        $param = ['id' => $id];
-        $stmt->execute($param);
+            $stmt = $em->getConnection()->prepare($contract);
+            $param = ['id' => $id];
 
-        return $stmt->fetchAll();
+            $stmt->execute($param);
+
+            return $stmt->fetchAll();
+
+        } catch (\Exception $e){
+
+            $e->getMessage();
+        }
     }
 }

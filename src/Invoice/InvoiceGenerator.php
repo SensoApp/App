@@ -248,6 +248,7 @@ class InvoiceGenerator
                       ->getRepository(User::class)
                       ->findBy(['email' => $this->user]);
 
+
         $this->invoice->setStatus(self::STATUS);
         $this->invoice->setUser($this->user);
         array_key_exists('Bank holidays', $amount ) ?  $this->invoice->setBankholidayamount($amount['Bank holidays']) : $this->invoice->setBankholidayamount(0);

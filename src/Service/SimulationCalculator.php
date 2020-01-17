@@ -20,6 +20,7 @@ class SimulationCalculator
     const CMU = 0.0107;
     const LUNCH_VOUCHERS = 194.40;
     const FIXE_DEDUCTION_DEPENDANCE = 522.44;
+    const LUNCH_VOUCHERS_EMPLOYEE = 50.40;
 
     private $request;
 
@@ -42,7 +43,10 @@ class SimulationCalculator
         $specifictaxebool = $this->request->get('taxe-class') === 'specific-tax-rate' ? true : false;
         $taxeclass = $this->request->get('taxe-class') === 'specific-tax-rate' ? $this->request->get('specificrate') : $this->request->get('taxe-class');
         $lunchvouchers = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS : 0.00;
+        $lunchVouchersEmployee = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS_EMPLOYEE : 0.00;
         //Car leasing a rajouter au taxable amount
+        $carleasing = $this->request->get('carLeasingAmount') === '' ?  0.00 : $this->request->get('carLeasingAmount');
+        $travelExpenses = $this->request->get('travelExpenses') === '' ?  0.00 : $this->request->get('travelExpenses');
 
         //Taxe amount retrieved from the database
         $finaltaxmount = $this->calculTaxAmount($taxeclass, $salary, $specifictaxebool);
@@ -64,20 +68,22 @@ class SimulationCalculator
         $invoice  = $numberofdays * $rate;
 
         //Taxable income for the employees after deduction of the social taxes and fees
-        $taxableincome = (float)$salary - ($caissemaladie + $caissemaladieespece + $caissepension);
-        // if yes add + Lunch vouchers amount percentage du montant 50,40 if no null
-        // + add amount of car leasing (percentage of the total car price e.g. 1,8 etc...)
-        // - frais de deplacement (rajouter champ)
+        $taxesToAdd = $caissemaladie + $caissemaladieespece + $caissepension + $lunchVouchersEmployee + $carleasing;
+        $taxesMinusTravelExpenses = (float)$salary - $travelExpenses;
+        $taxableincome = $taxesMinusTravelExpenses - $taxesToAdd ;
+        // if yes add + Lunch vouchers amount percentage du montant 50,40 if no null => done
+        // + add amount of car leasing (percentage of the total car price e.g. 1,8 etc...) => done
+        // - frais de deplacement (rajouter champ) => done
 
         //Employee dependance insurance amount calculation
         $assurancedependanceemployee = ((float)$salary - self::FIXE_DEDUCTION_DEPENDANCE)  * self::ASSURANCE_DEPENDANCE;
 
         //Net salary calculation
-        $netamount = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee);
-        // - benefice in kind
-        // - 50,40 lunch vouchers
-        // + Frais de deplacement
-
+        $amountWithoutTravelFees = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee  + $lunchVouchersEmployee + $carleasing /*???*/);
+        $netamount = $amountWithoutTravelFees + $travelExpenses;
+        // - benefice in kind ?? => added car leasing in case
+        // - 50,40 lunch vouchers => done
+        // + Frais de deplacement => done
 
         //Remainder on the bank account for the consultant
         $remainder = (float)$invoice - ($totalemployerscosts + $managementfees + $lunchvouchers);
@@ -102,7 +108,10 @@ class SimulationCalculator
                                 'grosssalary' =>  number_format($salary, 2, '.', ','),
                                 'netamount' =>  number_format($netamount, 2, '.', ','),
                                 'remainder' =>  number_format($remainder, 2, '.', ','),
-                                'assurancedependanceemployee' =>  number_format($assurancedependanceemployee, 2, '.', ',')
+                                'assurancedependanceemployee' =>  number_format($assurancedependanceemployee, 2, '.', ','),
+                                'lunchvouchersemployee' => number_format($lunchVouchersEmployee, 2, '.', ','),
+                                'carleasing' => number_format($carleasing, 2, '.', ','),
+                                'benefitinkind' => number_format($carleasing, 2, '.', ',')
                             ];
 
     }

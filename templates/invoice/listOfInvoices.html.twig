@@ -160,7 +160,7 @@
                                             <th>Status</th>
                                             <th>Payment received</th>
                                             <th>View invoice</th>
-                                            {% if invoice != null %}
+                                            {% if randominvoice != null %}
                                                 {% if is_granted('ROLE_ADMIN') and randominvoice[0].status != 'Validated - sent to client'%}
                                                     <th>Delete invoice</th>
                                                 {% endif %}

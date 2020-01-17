@@ -43,7 +43,7 @@
                             <tr>
                                 <th class="bg-primary">Car Leasing</th>
                                 <td>
-                                    -
+                                    {{ simulation.carleasing }} €
                                 </td>
                             </tr>
                             <tr>
@@ -116,7 +116,7 @@
                             <tr>
                                 <th class="bg-info">Benefit in kind</th>
                                 <td>
-                                    -
+                                    {{ simulation.benefitinkind }} €
                                 </td>
                             </tr>
                             <tr>
@@ -195,6 +195,18 @@
                                 <th class="bg-info">Caisse de pension</th>
                                 <td>
                                     {{ simulation.caissepension }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Lunch vouchers</th>
+                                <td>
+                                    {{ simulation.lunchvouchersemployee }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-info">Car leasing</th>
+                                <td>
+                                    {{ simulation.carleasing }} €
                                 </td>
                             </tr>
                             <tr>
@@ -316,6 +328,18 @@
                                         <option value="basic">Basic</option>
                                         <option value="premium">Premium</option>
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Car leasing amount</th>
+                                <td>
+                                    <input id="carLeasingAmount" name="carLeasingAmount" class="form-control" type="text" placeholder="Total car amount by the related percentage">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Travel expenses</th>
+                                <td>
+                                    <input id="travelExpenses" name="travelExpenses" class="form-control" type="text" placeholder="Enter the amount e.g 100.00">
                                 </td>
                             </tr>
                         </table>

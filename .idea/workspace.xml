@@ -2,18 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Events/InvoiceRandomValidationEvent.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/InvoiceRandom.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/InvoiceRandom.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Events/AppSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Events/AppSubscriber.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Invoice/InvoiceGenerator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceRandomRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceRandomRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/GeneratePdfReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/header.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/header.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/createRandom-invoice.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/createRandom-invoice.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/InvoiceCreationDataRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/InvoiceCreationDataRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/invoiceTemplatePDF.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,7 +232,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="reference.webide.settings.project.settings.php" />
+    <property name="settings.editor.selected.configurable" value="web.server" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -331,7 +328,9 @@
       <workItem from="1576011117430" duration="218000" />
       <workItem from="1576011449421" duration="4483000" />
       <workItem from="1578371902630" duration="77000" />
-      <workItem from="1578372030384" duration="71069000" />
+      <workItem from="1578372030384" duration="72371000" />
+      <workItem from="1579022624609" duration="10483000" />
+      <workItem from="1579204922718" duration="8660000" />
     </task>
     <servers />
   </component>
@@ -393,10 +392,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="86" y="120" key="#CLI_Interpreters/0.0.1440.900@0.0.1440.900" timestamp="1575956581243" />
-    <state x="320" y="115" key="#Deployment" timestamp="1575927006482">
+    <state x="320" y="115" key="#Deployment" timestamp="1579204989034">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="320" y="115" key="#Deployment/0.0.1440.900@0.0.1440.900" timestamp="1575927006482" />
+    <state x="320" y="115" key="#Deployment/0.0.1440.900@0.0.1440.900" timestamp="1579204989034" />
     <state x="320" y="115" key="#Options" timestamp="1575927033159">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -410,9 +409,10 @@
     </state>
     <state x="502" y="173" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1578675020435" />
     <state x="526" y="192" key="#com.intellij.ide.util.MemberChooser/37.23.1403.877@37.23.1403.877" timestamp="1578689966712" />
-    <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1578371970477">
+    <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1579022589758">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/-118.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1579022589758" />
     <state x="408" y="193" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900@0.0.1440.900" timestamp="1578371970477" />
     <state x="458" y="212" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1579005508885">
       <screen x="0" y="0" width="1440" height="900" />
@@ -429,36 +429,40 @@
     </state>
     <state x="64" y="79" width="1274" height="719" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1578373408128" />
     <state x="64" y="79" width="1274" height="719" key="DiffContextDialog/38.23.1402.877@38.23.1402.877" timestamp="1576010518762" />
-    <state x="65" y="79" width="1273" height="719" key="DirDiffDialog" timestamp="1575959053536">
-      <screen x="38" y="23" width="1402" height="877" />
+    <state x="0" y="0" width="1440" height="900" key="DirDiffDialog" timestamp="1579269901307">
+      <screen x="36" y="23" width="1404" height="877" />
     </state>
+    <state x="28" y="57" width="1308" height="738" key="DirDiffDialog/0.0.1440.900@0.0.1440.900" timestamp="1579252910671" />
+    <state x="28" y="57" width="1308" height="738" key="DirDiffDialog/35.23.1405.877@35.23.1405.877" timestamp="1579119347610" />
+    <state x="0" y="0" width="1440" height="900" key="DirDiffDialog/36.23.1404.877@36.23.1404.877" timestamp="1579269901307" />
     <state x="100" y="100" width="1240" height="700" key="DirDiffDialog/37.23.1403.877@37.23.1403.877" timestamp="1575927572027" />
     <state x="65" y="79" width="1273" height="719" key="DirDiffDialog/38.23.1402.877@38.23.1402.877" timestamp="1575959053536" />
     <state x="465" y="273" key="NewPhpClassDialog" timestamp="1578950194446">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="465" y="273" key="NewPhpClassDialog/0.0.1440.900@0.0.1440.900" timestamp="1578950194446" />
-    <state x="0" y="97" key="SettingsEditor" timestamp="1575956654456">
+    <state x="0" y="97" key="SettingsEditor" timestamp="1579117822963">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="0" y="97" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1575956654456" />
+    <state x="0" y="97" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1579117822963" />
     <state width="516" height="445" key="SwitcherDM" timestamp="1578665154835">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="516" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1578665154835" />
-    <state x="382" y="278" key="com.intellij.ide.util.TipDialog" timestamp="1578372056267">
+    <state x="382" y="278" key="com.intellij.ide.util.TipDialog" timestamp="1579204938937">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="382" y="278" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1578372056267" />
+    <state x="382" y="278" key="com.intellij.ide.util.TipDialog/-118.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1579022647801" />
+    <state x="382" y="278" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1579204938937" />
     <state x="408" y="294" key="com.intellij.ide.util.TipDialog/36.23.1404.877@36.23.1404.877" timestamp="1575918372429" />
     <state x="404" y="195" key="ftp.server.browser" timestamp="1575927348400">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="404" y="195" key="ftp.server.browser/0.0.1440.900@0.0.1440.900" timestamp="1575927348400" />
-    <state x="591" y="350" key="publish.login" timestamp="1578373324092">
+    <state x="591" y="350" key="publish.login" timestamp="1579117717572">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="591" y="350" key="publish.login/0.0.1440.900@0.0.1440.900" timestamp="1578373324092" />
+    <state x="591" y="350" key="publish.login/0.0.1440.900@0.0.1440.900" timestamp="1579117717572" />
     <state x="385" y="210" key="run.anything.popup" timestamp="1575926742960">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

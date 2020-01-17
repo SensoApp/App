@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 
+use App\Entity\ClientContract;
 use App\Entity\Invoice;
 use App\Entity\InvoiceCreationData;
 use App\Entity\InvoiceRandom;
@@ -61,7 +62,7 @@ class InvoiceController extends AbstractController
 
 
             $event = new InvoiceValidationEvent($invoiceobject);
-            $eventDispatcher->dispatch(InvoiceValidationEvent::NAME, $event);
+            $eventDispatcher->dispatch($event, InvoiceValidationEvent::NAME );
 
         // for all that create messengers and queues so that it can be done async
 
@@ -255,17 +256,35 @@ class InvoiceController extends AbstractController
 
     }
 
-
-    protected function checkEntryInvoice ($date, $id) : bool
+    /**
+     * Checks first whether a client contract has been created then whether an invoice has been created for the same period and same user
+     * @param $date
+     * @param $id
+     */
+    protected function checkEntryInvoice ($date, $id)
     {
-        $query = $this->entitymanager
-            ->getRepository(InvoiceCreationData::class)
-            ->findBy([
-                'user' => $id,
-                'month' => $date
-            ]);
+        $contractId = $this->entitymanager
+                           ->getRepository(ClientContract::class)
+                           ->findBy(['user' => $id]);
 
-        return empty($query);
+        if(!empty($contractId)){
+
+            $query = $this->entitymanager
+                ->getRepository(InvoiceCreationData::class)
+                ->findBy([
+                    'user' => $id,
+                    'month' => $date
+                ]);
+
+            return empty($query);
+
+        }
+
+        $this->addFlash('error',
+            'No client contract has been created for this user'
+        );
+
+        return $this->redirectToRoute('saveManualInvoice');
 
     }
 
