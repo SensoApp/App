@@ -199,7 +199,7 @@
                                                         {% if inv.paymentstatus == 'Unpaid' %}
                                                             <td>
                                                                 <p data-placement="top" data-toggle="tooltip" title="Validate">
-                                                                    <a href="{{ path('paymentreceived', {id:  inv.id}) }}">
+                                                                    <a href="{{ path('paymentreceivedRandom', {id:  inv.id}) }}">
                                                                         <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-check"></span>
                                                                         </button>
                                                                     </a>

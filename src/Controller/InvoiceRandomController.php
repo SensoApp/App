@@ -170,7 +170,7 @@ class InvoiceRandomController extends AbstractController
 
     /**
      * Validates that the payment has been received at the bank and update the status of related invoice
-     * @Route(path="/newadmin/random-invoice/paymentreceived/{id}", name="paymentreceived")
+     * @Route(path="/newadmin/random-invoice/paymentreceived/{id}", name="paymentreceivedRandom")
      */
     public function paymentReceivedValidation($id)
     {

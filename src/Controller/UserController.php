@@ -12,6 +12,7 @@ namespace App\Controller;
 use App\Entity\ClientContract;
 use App\Entity\Contact;
 use App\Entity\Invoice;
+use App\Entity\InvoiceRandom;
 use App\Entity\StatementFile;
 use App\Entity\Timesheet;
 use App\Entity\User;
@@ -35,9 +36,6 @@ class UserController extends AbstractController
     private $userid;
     private $usercontact;
     private $statement;
-    /**
-     * @var ExcelGeneratorReport
-     */
     private $excelGeneratorReport;
 
 
@@ -74,6 +72,7 @@ class UserController extends AbstractController
             'lastname' => $this->lastname,
             'clientcontract' => $this->selectClientContract(),
             'invoice' => $this->selectInvoice(),
+            'randominvoice' => $this->selectRandomInvoice(),
             'personaldetails' => $this->selectPersonalDetails(),
             'pagination' => $pagination,
             'statementsum' => $statementsum
@@ -228,6 +227,13 @@ class UserController extends AbstractController
         return $this->entitymanager
             ->getRepository(Invoice::class)
             ->findBy(['user' => $this->user]);
+    }
+
+    protected function selectRandomInvoice()
+    {
+        return $this->entitymanager
+            ->getRepository(InvoiceRandom::class)
+            ->findBy(['user' => $this->userid]);
     }
 
 
