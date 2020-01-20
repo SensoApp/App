@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/invoice/listOfInvoices.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/simulation/simulation.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -51,6 +51,9 @@ class SimulationCalculator
         //Taxe amount retrieved from the database
         $finaltaxmount = $this->calculTaxAmount($taxeclass, $salary, $specifictaxebool);
 
+        //gross Salary  +  benefit in kind
+        $grossSalaryPluBenefInKind = $salary + $carleasing;
+
         //social fees
         //formatted with 2 decimals only
         $caissemaladie = $salary * self::CAISSE_MALADIE;
@@ -93,6 +96,7 @@ class SimulationCalculator
                                 'numberofdays' => $numberofdays,
                                 'taxeclass' => $taxeclass,
                                 'sumcharges' => number_format($sumcharges, 2, '.', ','),
+                                'travelExpenses' => number_format($travelExpenses, 2, '.', ','),
                                 'totalemployerscosts' =>  number_format($totalemployerscosts, 2, '.', ','),
                                 'taxableincome' =>  number_format($taxableincome, 2, '.', ','),
                                 'finaltaxamount' =>  number_format($finaltaxmount, 2, '.', ','),
@@ -106,6 +110,7 @@ class SimulationCalculator
                                 'soinsante' =>  number_format($soinsante, 2, '.', ','),
                                 'cmu' =>  number_format($cmu, 2, '.', ','),
                                 'grosssalary' =>  number_format($salary, 2, '.', ','),
+                                'grossSalaryPluBenefInKind' => number_format($grossSalaryPluBenefInKind, 2, '.', ','),
                                 'netamount' =>  number_format($netamount, 2, '.', ','),
                                 'remainder' =>  number_format($remainder, 2, '.', ','),
                                 'assurancedependanceemployee' =>  number_format($assurancedependanceemployee, 2, '.', ','),
