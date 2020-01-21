@@ -45,33 +45,33 @@ class SimulationCalculator
         $lunchvouchers = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS : 0.00;
         $lunchVouchersEmployee = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS_EMPLOYEE : 0.00;
         //Car leasing a rajouter au taxable amount
-        $carleasing = $this->request->get('carLeasingAmount') === '' ?  0.00 : $this->request->get('carLeasingAmount');
+        $benefitinkind = $this->request->get('carLeasingAmount') === '' ?  0.00 : $this->request->get('carLeasingAmount');
         $travelExpenses = $this->request->get('travelExpenses') === '' ?  0.00 : $this->request->get('travelExpenses');
 
         //Taxe amount retrieved from the database
         $finaltaxmount = $this->calculTaxAmount($taxeclass, $salary, $specifictaxebool);
 
         //gross Salary  +  benefit in kind
-        $grossSalaryPluBenefInKind = $salary + $carleasing;
+        $grossSalaryPluBenefInKind = $salary + $benefitinkind;
 
         //social fees
         //formatted with 2 decimals only
-        $caissemaladie = $salary * self::CAISSE_MALADIE;
+        $caissemaladie = $grossSalaryPluBenefInKind * self::CAISSE_MALADIE;
         $caissemaladieespece = $salary * self::CAISSE_MALADIE_ESPECE;
-        $caissepension = $salary * self::CAISSE_PENSION;
-        $assurancedependance = $salary * self::ASSURANCE_DEPENDANCE;
-        $soinsante = $salary * self::SOINS_SANTE;
+        $caissepension = $grossSalaryPluBenefInKind * self::CAISSE_PENSION;
+        $assurancedependance = $grossSalaryPluBenefInKind * self::ASSURANCE_DEPENDANCE;
+        $soinsante = $grossSalaryPluBenefInKind * self::SOINS_SANTE;
         $cmu = $salary * self::CMU;
 
         //Employer charges/cost
         $sumcharges = $caissemaladie + $caissemaladieespece + $caissepension + $assurancedependance + $soinsante + $cmu;
-        $totalemployerscosts = (float)$sumcharges + $salary;
+        $totalemployerscosts = (float)$sumcharges + $grossSalaryPluBenefInKind;
 
         //Invoice calculation
         $invoice  = $numberofdays * $rate;
 
         //Taxable income for the employees after deduction of the social taxes and fees
-        $taxesToAdd = $caissemaladie + $caissemaladieespece + $caissepension + $lunchVouchersEmployee + $carleasing;
+        $taxesToAdd = $lunchVouchersEmployee + $benefitinkind;
         $taxesMinusTravelExpenses = (float)$salary - $travelExpenses;
         $taxableincome = $taxesMinusTravelExpenses - $taxesToAdd ;
         // if yes add + Lunch vouchers amount percentage du montant 50,40 if no null => done
@@ -79,10 +79,10 @@ class SimulationCalculator
         // - frais de deplacement (rajouter champ) => done
 
         //Employee dependance insurance amount calculation
-        $assurancedependanceemployee = ((float)$salary - self::FIXE_DEDUCTION_DEPENDANCE)  * self::ASSURANCE_DEPENDANCE;
+        $assurancedependanceemployee = ((float)$grossSalaryPluBenefInKind - self::FIXE_DEDUCTION_DEPENDANCE)  * self::ASSURANCE_DEPENDANCE;
 
         //Net salary calculation
-        $amountWithoutTravelFees = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee  + $lunchVouchersEmployee + $carleasing /*???*/);
+        $amountWithoutTravelFees = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee  + $lunchVouchersEmployee + $benefitinkind /*???*/);
         $netamount = $amountWithoutTravelFees + $travelExpenses;
         // - benefice in kind ?? => added car leasing in case
         // - 50,40 lunch vouchers => done
@@ -115,8 +115,8 @@ class SimulationCalculator
                                 'remainder' =>  number_format($remainder, 2, '.', ','),
                                 'assurancedependanceemployee' =>  number_format($assurancedependanceemployee, 2, '.', ','),
                                 'lunchvouchersemployee' => number_format($lunchVouchersEmployee, 2, '.', ','),
-                                'carleasing' => number_format($carleasing, 2, '.', ','),
-                                'benefitinkind' => number_format($carleasing, 2, '.', ',')
+                                'carleasing' => number_format($benefitinkind, 2, '.', ','),
+                                'benefitinkind' => number_format($benefitinkind, 2, '.', ',')
                             ];
 
     }
