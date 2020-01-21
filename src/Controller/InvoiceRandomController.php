@@ -48,6 +48,10 @@ class InvoiceRandomController extends AbstractController
      */
     public function createRandomInvoice(Request $request)
     {
+        /**
+         * TODO: Add the random invoice amount in the estimate/statement
+         */
+
         $form = $this->createForm(InvoiceRandomType::class)
             ->handleRequest($request);
 

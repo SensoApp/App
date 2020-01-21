@@ -166,29 +166,25 @@ class UserController extends AbstractController
      */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserInterface $user)
     {
-        /**
-         * TODO: Add reset into the user's dashboard
-         * TODO: Add updatedAt into the model and the code (edituser and reset password)
-         * TODO: Add the random invoice amount in the estimate/statement
-         */
         $form = $this->createForm(ResetPasswordType::class, $this->usersession);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $oldPassword = $request->request->get('reset_password')['OldPassword'];
+            $newPassword = $request->request->get('reset_password')['plainPassword']['first'];
 
             try{
-               // dd($form->getData());
                 if($passwordEncoder->isPasswordValid($user,$oldPassword)){
-                    $newPasswordEncoder = $passwordEncoder->encodePassword($user, $this->usersession->getPassword());
+                    $newPasswordEncoder = $passwordEncoder->encodePassword($user, $newPassword);
                     $this->usersession->setPassword($newPasswordEncoder);
                     //$task->setUpdatedAt(new \DateTime('now'));
+
                     $this->entitymanager->persist($user);
                     $this->entitymanager->flush();
 
                     $this->addFlash('success', 'password has been successfully updated');
 
-                    return $this->redirectToRoute('adminsenso');
+                    return $this->redirectToRoute('user_dashboard');
                 }
 
                 $this->addFlash('error', 'password is not valid');
@@ -196,11 +192,11 @@ class UserController extends AbstractController
 
             } catch (\Exception $e){
 
-                dd($e->getMessage());
+                $this->addFlash('error', $e->getMessage());
+                return $this->redirectToRoute('resetPassword');
+
             }
-
         }
-
         return $this->render('registration/register.resetPassword.html.twig', [
 
             'resetpassword' => $form->createView()
