@@ -16,7 +16,8 @@ use App\Entity\InvoiceRandom;
 use App\Entity\StatementFile;
 use App\Entity\Timesheet;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\EditRegistrationType;
+use App\Form\ResetPasswordType;
 use App\Service\ExcelGeneratorReport;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,7 +25,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 class UserController extends AbstractController
@@ -37,12 +41,26 @@ class UserController extends AbstractController
     private $usercontact;
     private $statement;
     private $excelGeneratorReport;
+    private $usersession;
 
 
-    public function __construct(EntityManagerInterface $entityManager, Security $security, ExcelGeneratorReport $excelGeneratorReport)
+    public function __construct(EntityManagerInterface $entityManager, Security $security, ExcelGeneratorReport $excelGeneratorReport, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entitymanager = $entityManager;
+       /*$u=  $this->entitymanager->getRepository(User::class)->find(2);
+        $newPasswordEncoder = $passwordEncoder->encodePassword($u, 123456);
+        $u->setPassword($newPasswordEncoder);
+
+        //$task->setUpdatedAt(new \DateTime('now'));
+
+        $this->entitymanager->persist($u);
+        $this->entitymanager->flush();*/
+
+
         $this->user = $security->getToken()->getUser()->getEmail();
+        $this->usersession = $security->getToken()->getUser();
+
+        //dd($this->usersession);
         $this->usercontact = $security->getToken()->getUser()->getContact();
         $this->userid = $security->getToken()->getUser()->getId();
         $this->firstname = $security->getToken()->getUser()->getFirstName();
@@ -75,7 +93,8 @@ class UserController extends AbstractController
             'randominvoice' => $this->selectRandomInvoice(),
             'personaldetails' => $this->selectPersonalDetails(),
             'pagination' => $pagination,
-            'statementsum' => $statementsum
+            'statementsum' => $statementsum,
+            'users' => $this->usersession
         ]);
     }
 
@@ -111,7 +130,7 @@ class UserController extends AbstractController
          * TODO add modification of users
          */
 
-        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form = $this->createForm(EditRegistrationType::class, $user);
 
         $form->handleRequest($request);
 
@@ -136,6 +155,55 @@ class UserController extends AbstractController
         return $this->render('registration/register.edit.html.twig', [
 
             'registrationForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @throws \Exception
+     * @Route(path="/newadmin/password-reset/{id}", name="resetPassword")
+     */
+    public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserInterface $user)
+    {
+        /**
+         * TODO: Add reset into the user's dashboard
+         * TODO: Add updatedAt into the model and the code (edituser and reset password)
+         * TODO: Add the random invoice amount in the estimate/statement
+         */
+        $form = $this->createForm(ResetPasswordType::class, $this->usersession);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $oldPassword = $request->request->get('reset_password')['OldPassword'];
+
+            try{
+               // dd($form->getData());
+                if($passwordEncoder->isPasswordValid($user,$oldPassword)){
+                    $newPasswordEncoder = $passwordEncoder->encodePassword($user, $this->usersession->getPassword());
+                    $this->usersession->setPassword($newPasswordEncoder);
+                    //$task->setUpdatedAt(new \DateTime('now'));
+                    $this->entitymanager->persist($user);
+                    $this->entitymanager->flush();
+
+                    $this->addFlash('success', 'password has been successfully updated');
+
+                    return $this->redirectToRoute('adminsenso');
+                }
+
+                $this->addFlash('error', 'password is not valid');
+                return $this->redirectToRoute('resetPassword');
+
+            } catch (\Exception $e){
+
+                dd($e->getMessage());
+            }
+
+        }
+
+        return $this->render('registration/register.resetPassword.html.twig', [
+
+            'resetpassword' => $form->createView()
         ]);
     }
 
