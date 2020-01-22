@@ -162,7 +162,7 @@ class UserController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      * @throws \Exception
-     * @Route(path="/newadmin/password-reset/{id}", name="resetPassword")
+     * @Route(path="/user/password-reset/{id}", name="resetPassword")
      */
     public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder, UserInterface $user)
     {
@@ -182,7 +182,7 @@ class UserController extends AbstractController
                     $this->entitymanager->persist($user);
                     $this->entitymanager->flush();
 
-                    $this->addFlash('success', 'password has been successfully updated');
+                    $this->addFlash('success', 'Your password has been successfully updated');
 
                     return $this->redirectToRoute('user_dashboard');
                 }

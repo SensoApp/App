@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="07d70480-8243-49a7-93dc-797a1d1936cf" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceRandomController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/InvoiceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/InvoiceController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SimulationCalculator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/form/admin.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/form/admin.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/dashboard.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/dashboard.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -336,6 +334,7 @@
       <workItem from="1579204922718" duration="8660000" />
       <workItem from="1579596883812" duration="5408000" />
       <workItem from="1579637060830" duration="1669000" />
+      <workItem from="1579669709347" duration="316000" />
     </task>
     <servers />
   </component>
@@ -434,14 +433,14 @@
     </state>
     <state x="64" y="79" width="1274" height="719" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1578373408128" />
     <state x="64" y="79" width="1274" height="719" key="DiffContextDialog/38.23.1402.877@38.23.1402.877" timestamp="1576010518762" />
-    <state x="0" y="0" width="1440" height="900" key="DirDiffDialog" timestamp="1579269901307">
-      <screen x="36" y="23" width="1404" height="877" />
+    <state x="65" y="79" width="1273" height="719" key="DirDiffDialog" timestamp="1579641006984">
+      <screen x="38" y="23" width="1402" height="877" />
     </state>
     <state x="28" y="57" width="1308" height="738" key="DirDiffDialog/0.0.1440.900@0.0.1440.900" timestamp="1579252910671" />
     <state x="28" y="57" width="1308" height="738" key="DirDiffDialog/35.23.1405.877@35.23.1405.877" timestamp="1579119347610" />
     <state x="0" y="0" width="1440" height="900" key="DirDiffDialog/36.23.1404.877@36.23.1404.877" timestamp="1579269901307" />
     <state x="100" y="100" width="1240" height="700" key="DirDiffDialog/37.23.1403.877@37.23.1403.877" timestamp="1575927572027" />
-    <state x="65" y="79" width="1273" height="719" key="DirDiffDialog/38.23.1402.877@38.23.1402.877" timestamp="1575959053536" />
+    <state x="65" y="79" width="1273" height="719" key="DirDiffDialog/38.23.1402.877@38.23.1402.877" timestamp="1579641006984" />
     <state x="465" y="273" key="NewPhpClassDialog" timestamp="1578950194446">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -454,12 +453,13 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="516" height="445" key="SwitcherDM/0.0.1440.900@0.0.1440.900" timestamp="1578665154835" />
-    <state x="382" y="278" key="com.intellij.ide.util.TipDialog" timestamp="1579204938937">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="411" y="294" key="com.intellij.ide.util.TipDialog" timestamp="1579669729949">
+      <screen x="39" y="23" width="1401" height="877" />
     </state>
     <state x="382" y="278" key="com.intellij.ide.util.TipDialog/-118.-1080.1920.1080/0.0.1440.900@0.0.1440.900" timestamp="1579022647801" />
     <state x="382" y="278" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1579204938937" />
     <state x="408" y="294" key="com.intellij.ide.util.TipDialog/36.23.1404.877@36.23.1404.877" timestamp="1575918372429" />
+    <state x="411" y="294" key="com.intellij.ide.util.TipDialog/39.23.1401.877@39.23.1401.877" timestamp="1579669729949" />
     <state x="404" y="195" key="ftp.server.browser" timestamp="1575927348400">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

@@ -178,9 +178,7 @@ class InvoiceController extends AbstractController
 
         } catch (\Exception $exception){
 
-             echo $exception->getMessage();
-
-            $this->addFlash('error', 'the invoice has not been updated - please check');
+            $this->addFlash('error', 'the invoice has not been updated - '.$exception->getMessage());
 
         }
 
@@ -229,11 +227,12 @@ class InvoiceController extends AbstractController
                 return $this->redirectToRoute('saveManualInvoice');
 
             } catch(DBALException $e){
-                echo 'DBAL '.$e->getMessage(); die;
-                
+
+                $this->addFlash('error', 'DBAL: '.$e->getMessage());
+
             } catch(\Exception $e){
-               echo $e->getMessage();
-               die;
+
+                $this->addFlash('error', $e->getMessage());
             }
         }
         return $this->render('invoice/createinvoice.html.twig', [
@@ -279,7 +278,6 @@ class InvoiceController extends AbstractController
             return empty($query);
 
         }
-
         $this->addFlash('error',
             'No client contract has been created for this user'
         );
