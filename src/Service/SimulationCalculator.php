@@ -48,9 +48,6 @@ class SimulationCalculator
         $benefitinkind = $this->request->get('carLeasingAmount') === '' ?  0.00 : $this->request->get('carLeasingAmount');
         $travelExpenses = $this->request->get('travelExpenses') === '' ?  0.00 : $this->request->get('travelExpenses');
 
-        //Taxe amount retrieved from the database
-        $finaltaxmount = $this->calculTaxAmount($taxeclass, $salary, $specifictaxebool);
-
         //gross Salary  +  benefit in kind
         $grossSalaryPluBenefInKind = $salary + $benefitinkind;
 
@@ -65,7 +62,8 @@ class SimulationCalculator
 
         //Employer charges/cost
         $sumcharges = $caissemaladie + $caissemaladieespece + $caissepension + $assurancedependance + $soinsante + $cmu;
-        $totalemployerscosts = (float)$sumcharges + $grossSalaryPluBenefInKind;
+        $sumchargesEmployees = $caissemaladie + $caissemaladieespece + $caissepension;
+        $totalemployerscosts = (float)$sumcharges + $salary;
 
         //Invoice calculation
         $invoice  = $numberofdays * $rate;
@@ -73,16 +71,19 @@ class SimulationCalculator
         //Taxable income for the employees after deduction of the social taxes and fees
         $taxesToAdd = $lunchVouchersEmployee + $benefitinkind;
         $taxesMinusTravelExpenses = (float)$salary - $travelExpenses;
-        $taxableincome = $taxesMinusTravelExpenses - $taxesToAdd ;
+        $taxableincome = $taxesMinusTravelExpenses + $taxesToAdd -  ($sumchargesEmployees);
         // if yes add + Lunch vouchers amount percentage du montant 50,40 if no null => done
         // + add amount of car leasing (percentage of the total car price e.g. 1,8 etc...) => done
         // - frais de deplacement (rajouter champ) => done
+
+        //Taxe amount retrieved from the database
+        $finaltaxmount = $this->calculTaxAmount($taxeclass, $taxableincome, $specifictaxebool);
 
         //Employee dependance insurance amount calculation
         $assurancedependanceemployee = ((float)$grossSalaryPluBenefInKind - self::FIXE_DEDUCTION_DEPENDANCE)  * self::ASSURANCE_DEPENDANCE;
 
         //Net salary calculation
-        $amountWithoutTravelFees = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee  + $lunchVouchersEmployee + $benefitinkind /*???*/);
+        $amountWithoutTravelFees = (float)$taxableincome - ($finaltaxmount + $assurancedependanceemployee   + $taxesToAdd /*???*/);
         $netamount = $amountWithoutTravelFees + $travelExpenses;
         // - benefice in kind ?? => added car leasing in case
         // - 50,40 lunch vouchers => done

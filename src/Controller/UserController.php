@@ -17,6 +17,8 @@ use App\Entity\StatementFile;
 use App\Entity\Timesheet;
 use App\Entity\User;
 use App\Form\EditRegistrationType;
+use App\Form\EmailForPasswordForgottenType;
+use App\Form\PasswordForgottenType;
 use App\Form\ResetPasswordType;
 use App\Service\ExcelGeneratorReport;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,10 +27,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 
 class UserController extends AbstractController
@@ -47,20 +49,8 @@ class UserController extends AbstractController
     public function __construct(EntityManagerInterface $entityManager, Security $security, ExcelGeneratorReport $excelGeneratorReport, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->entitymanager = $entityManager;
-       /*$u=  $this->entitymanager->getRepository(User::class)->find(2);
-        $newPasswordEncoder = $passwordEncoder->encodePassword($u, 123456);
-        $u->setPassword($newPasswordEncoder);
-
-        //$task->setUpdatedAt(new \DateTime('now'));
-
-        $this->entitymanager->persist($u);
-        $this->entitymanager->flush();*/
-
-
         $this->user = $security->getToken()->getUser()->getEmail();
         $this->usersession = $security->getToken()->getUser();
-
-        //dd($this->usersession);
         $this->usercontact = $security->getToken()->getUser()->getContact();
         $this->userid = $security->getToken()->getUser()->getId();
         $this->firstname = $security->getToken()->getUser()->getFirstName();
@@ -138,20 +128,14 @@ class UserController extends AbstractController
 
             $task = $form->getData();
 
-            //$task->setUpdatedAt(new \DateTime('now'));
-
+            $task->setUpdatedAt(new \DateTime('now'));
             $this->entitymanager->persist($task);
-
-            //dd($this->entitymanager);
-
             $this->entitymanager->flush();
 
             $this->addFlash('success', 'Contact with id: ' . $id . ' has been successfully updated');
 
             return $this->redirectToRoute('adminsenso');
-
         }
-
         return $this->render('registration/register.edit.html.twig', [
 
             'registrationForm' => $form->createView()
@@ -176,14 +160,13 @@ class UserController extends AbstractController
             try{
                 if($passwordEncoder->isPasswordValid($user,$oldPassword)){
                     $newPasswordEncoder = $passwordEncoder->encodePassword($user, $newPassword);
-                    $this->usersession->setPassword($newPasswordEncoder);
-                    //$task->setUpdatedAt(new \DateTime('now'));
 
+                    $this->usersession->setPassword($newPasswordEncoder);
+                    $this->usersession->setUpdatedAt(new \DateTime('now'));
                     $this->entitymanager->persist($user);
                     $this->entitymanager->flush();
 
                     $this->addFlash('success', 'Your password has been successfully updated');
-
                     return $this->redirectToRoute('user_dashboard');
                 }
 
@@ -198,7 +181,6 @@ class UserController extends AbstractController
             }
         }
         return $this->render('registration/register.resetPassword.html.twig', [
-
             'resetpassword' => $form->createView()
         ]);
     }
@@ -220,12 +202,12 @@ class UserController extends AbstractController
 
         } catch (\Exception $exception){
 
-            echo $exception->getMessage();
+            $this->addFlash('error',$exception->getMessage() );
+            return $this->redirectToRoute('adminsenso');
+
         }
 
-
         $this->addFlash('success', 'User deleted successfully');
-
         return $this->redirectToRoute('adminsenso');
     }
 

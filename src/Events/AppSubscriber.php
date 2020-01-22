@@ -101,7 +101,6 @@ class AppSubscriber implements EventSubscriberInterface
         }
 
 
-
     }
 
     public function onInvoiceRandomCreation(InvoiceRandomEvent $event)
@@ -115,9 +114,9 @@ class AppSubscriber implements EventSubscriberInterface
     {
        $this->invoiceRepository->updateStatusAfterValidation(InvoiceController::INVOICE_VALIDATED, $event->getInvoiceId(), InvoiceController::PAYMENT_PENDING);
 
-       $invocedata =  $this->invoiceRepository->multipleSelectionInvoiceClientTimesheet($event->getInvoiceId());
+       //$invocedata =  $this->invoiceRepository->multipleSelectionInvoiceClientTimesheet($event->getInvoiceId());
 
-       $this->invoiceValidator->retrieveDataForFinalInvoice($invocedata);
+       //$this->invoiceValidator->retrieveDataForFinalInvoice($invocedata);
     }
 
     public function onInvoiceRandomValidation(InvoiceRandomValidationEvent $event)
