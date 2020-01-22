@@ -121,10 +121,10 @@ class StatementFileRepository extends ServiceEntityRepository
                        sum(s.amount) as Current_Balance,
                         case
                             when (
-                                      select count(paymentstatus)
-                                      from invoice
-                                      where paymentstatus = :unpaid
-                                      and invoice.user = (select mail from user where id = s.user_id)
+                                  select count(paymentstatus)
+                                  from invoice
+                                  where paymentstatus = :unpaid
+                                  and invoice.user = (select mail from user where id = s.user_id)
                                  )  > 1 then (
                                                select sum(invoice.totalamount) from invoice
                                                where invoice.user = (select mail from user where id = s.user_id)
@@ -132,14 +132,12 @@ class StatementFileRepository extends ServiceEntityRepository
                                                and status = :validated
                                             )
                             else i.totalamount
-                            end as Estimated, 
-                            i.totalamount
+                        end as Estimated, 
+                        i.totalamount
                     FROM statement_file s
                     INNER JOIN user u on s.user_id = u.id
                     INNER JOIN invoice i on i.user = u.mail
                     WHERE s.user_id = :userid
-                    AND i.paymentstatus = :unpaid
-                    AND i.status = :validated
                     GROUP BY u.firstname, u.lastname, s.account, i.totalamount';
 
         $stmt = $em->getConnection()->prepare($query);
