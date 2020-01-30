@@ -126,6 +126,9 @@ class UploadHelper
              */
             $uploadedfile =  $request->files->get('csv_file');
 
+            $dataForAccount = explode('_',$uploadedfile->getClientOriginalName());
+            $account = $dataForAccount[1];
+
             if(!is_null($uploadedfile)){
 
                 $feedback = $this->validCsvFile($uploadedfile);
@@ -155,9 +158,9 @@ class UploadHelper
 
                                 switch ($title){
 
-                                case $title === 'BeneficiaryAccount' :
+                                /*case $title === 'BeneficiaryAccount' :
                                     $statement->setAccount($fileparser);
-                                break;
+                                break;*/
 
                                 case $title === 'Code' :
                                     $statement->setReferencemovement($fileparser);
@@ -189,7 +192,7 @@ class UploadHelper
 
                             }
 
-
+                                $statement->setAccount($account);
                                 $this->entityManager->persist($statement);
 
                             } catch (\Exception $exception){
