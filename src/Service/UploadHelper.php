@@ -231,10 +231,9 @@ class UploadHelper
 
             if($exception){
 
-                echo $exception->getMessage();die;
                 return $this->uploadfeedback = [
                     'status'=>'error',
-                    'message' => 'Oups Exception thrown check your file'
+                    'message' => $exception->getMessage()
                     ];
             }
         }
