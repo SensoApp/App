@@ -41,8 +41,8 @@
                             {% for client in clientcontract %}
                                 <tr>
                                     <td>{{ client.clientname }}</td>
-                                    <td>{{ client.startDate|date('d-m-Y') }}</td>
-                                    <td>{{ client.endDate|date('d-m-Y') }}</td>
+                                    <td>{{ client.startDate|date('d-M-Y')  }}</td>
+                                    <td>{{ client.endDate|date('d-M-Y') }}</td>
                                     <td>{{ client.rate }}</td>
                                     <td>{{ client.extrapercentsatyrday }}</td>
                                     <td>{{ client.extrapercentsunday }}</td>

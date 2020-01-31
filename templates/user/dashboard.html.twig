@@ -50,7 +50,7 @@
                                     <tr>
                                         <td>{{ listing.firstname }}</td>
                                         <td>{{ listing.lastname }}</td>
-                                        <td>{{ listing.dateofbirth|date('m/d/Y') }}</td>
+                                        <td>{{ listing.dateofbirth|date('d-M-Y') }}</td>
                                         <td>{{ listing.socialesecunumber }}</td>
                                     </tr>
                                 {% endfor %}
@@ -142,14 +142,14 @@
                                 {%  for list in invoice %}
                                     <tr>
                                         <td>{{ list.month }}</td>
-                                        <td>{{ list.date|date('m/d/Y') }}</td>
+                                        <td>{{ list.date|date('d-M-Y') }}</td>
                                         <td>{{ list.status }}</td>
                                         <td>{{ list.paymentstatus }}</td>
-                                        <td>{{ list.bankholidayamount }} €</td>
-                                        <td>{{ list.saturdyamount }} € </td>
-                                        <td>{{ list.sundayamount}} € </td>
-                                        <td>{{ list.businessdaysamount }} €</td>
-                                        <td>{{ list.totalAmount }} € </td>
+                                        <td>{{ list.bankholidayamount|number_format(2, '.', ',') }} €</td>
+                                        <td>{{ list.saturdyamount|number_format(2, '.', ',') }} € </td>
+                                        <td>{{ list.sundayamount|number_format(2, '.', ',')}} € </td>
+                                        <td>{{ list.businessdaysamount|number_format(2, '.', ',') }} €</td>
+                                        <td>{{ list.totalAmount|number_format(2, '.', ',') }} € </td>
                                     {% if list.path != null %}
                                         <td>
                                             <p data-placement="top" data-toggle="tooltip" title="View">
@@ -198,8 +198,8 @@
                                     <tr>
                                         <td>{{ inv.description }}</td>
                                         <td>{{ inv.createdAt|date('M') }}</td>
-                                        <td>{{ inv.createdAt|date('Y-m-d') }}</td>
-                                        <td>{{ inv.amount }} EUR</td>
+                                        <td>{{ inv.createdAt|date('d-M-Y') }}</td>
+                                        <td>{{ inv.amount|number_format(2, '.', ',') }} €</td>
                                         <td>{{ inv.status }}</td>
                                         {% if inv.paymentstatus != null %}
                                             <td>{{ inv.paymentstatus }}</td>
@@ -247,7 +247,7 @@
                             </tr>
                             <tr class="table-bordered">
                                 <th>Current Balance</th>
-                                <td>{{ statementsum[0].Current_Balance|number_format(2, '.', ',') }}</td>
+                                <td>{{ statementsum[0].Current_Balance|number_format(2, '.', ',') }} €</td>
                             </tr>
                             <tr class="table-bordered">
                                 <th>Currency</th>
@@ -255,11 +255,11 @@
                             </tr>
                             <tr class="table-bordered">
                                 <th>Date</th>
-                                <td>{{ "now"|date('d/m/Y') }}</td>
+                                <td>{{ "now"|date('d-M-Y') }}</td>
                             </tr>
                             <tr class="table-bordered">
                                 <th>Estimated Balance</th>
-                                <td>{{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }}</td>
+                                <td>{{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }} €</td>
                             </tr>
                             {% else %}
                             <tr>
@@ -329,7 +329,7 @@
                                         <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
                                         <td>{{ list.operations }}</td>
                                         <td>{{ list.communication }}</td>
-                                        <td>{{ list.operationdate|date('d-m-Y')}}</td>
+                                        <td>{{ list.operationdate|date('d-M-Y')}}</td>
                                         <td>{{ list.amount|number_format(2, '.', ',') }}</td>
                                         <td>EUR</td>
                                     </tr>

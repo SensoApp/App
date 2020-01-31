@@ -16,13 +16,13 @@
                     {%  for list in clientcontract %}
                         <tr>
                             <td>{{ list.clientname }}</td>
-                            <td>{{ list.startDate|date('m/d/Y') }}</td>
+                            <td>{{ list.startDate|date('d-M-Y') }}</td>
                         {% if list.endDate != null %}
-                            <td>{{ list.endDate|date('m/d/Y') }}</td>
+                            <td>{{ list.endDate|date('d-M-Y') }}</td>
                         {% else %}
                             <td>no end date</td>
                         {% endif %}
-                            <td>{{ list.rate }}</td>
+                            <td>{{ list.rate|number_format(2, '.', ',') }} €</td>
                             <td>{{ list.extrapercentbankholidays }}</td>
                             <td>{{ list.extrapercentsatyrday }}</td>
                             <td>{{ list.extrapercentsunday }}</td>

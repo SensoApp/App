@@ -50,7 +50,7 @@
                                                     Menu
                                                     <span class="caret"></span>
                                                 </button>
-                                                <ul class="dropdown-menu men" style="background-color: whitesmoke !important;">
+                                                <ul class="dropdown-menu men" style="background-color: whitesmoke !important; max-height: 400px; overflow: auto" id="topNav">
                                                     {% if is_granted('ROLE_ADMIN') %}
                                                         <li class="nav-header text-center btn btn-success">Admin section</li>
                                                         <li class="men btn "><a class="men" href="{{ path('adminsenso') }}">Admin</a></li>
