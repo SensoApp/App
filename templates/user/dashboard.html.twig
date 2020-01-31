@@ -247,7 +247,7 @@
                             </tr>
                             <tr class="table-bordered">
                                 <th>Current Balance</th>
-                                <td>{{ statementsum[0].Current_Balance }}</td>
+                                <td>{{ statementsum[0].Current_Balance|number_format(2, '.', ',') }}</td>
                             </tr>
                             <tr class="table-bordered">
                                 <th>Currency</th>
@@ -259,7 +259,7 @@
                             </tr>
                             <tr class="table-bordered">
                                 <th>Estimated Balance</th>
-                                <td>{{ statementsum[0].Estimated + statementsum[0].Current_Balance }}</td>
+                                <td>{{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }}</td>
                             </tr>
                             {% else %}
                             <tr>
@@ -329,8 +329,8 @@
                                         <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
                                         <td>{{ list.operations }}</td>
                                         <td>{{ list.communication }}</td>
-                                        <td>{{ list.operationdate|date('m-d-Y')}}</td>
-                                        <td>{{ list.amount }}</td>
+                                        <td>{{ list.operationdate|date('d-m-Y')}}</td>
+                                        <td>{{ list.amount|number_format(2, '.', ',') }}</td>
                                         <td>EUR</td>
                                     </tr>
                                     {% set id = list.referencemovement %}

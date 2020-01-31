@@ -17,20 +17,20 @@ use App\Entity\StatementFile;
 use App\Entity\Timesheet;
 use App\Entity\User;
 use App\Form\EditRegistrationType;
-use App\Form\EmailForPasswordForgottenType;
-use App\Form\PasswordForgottenType;
 use App\Form\ResetPasswordType;
 use App\Service\ExcelGeneratorReport;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use PhpOffice\PhpSpreadsheet\Shared\File;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 
 class UserController extends AbstractController
@@ -44,6 +44,7 @@ class UserController extends AbstractController
     private $statement;
     private $excelGeneratorReport;
     private $usersession;
+    private $cache;
 
 
     public function __construct(EntityManagerInterface $entityManager, Security $security, ExcelGeneratorReport $excelGeneratorReport, UserPasswordEncoderInterface $passwordEncoder)
@@ -55,6 +56,9 @@ class UserController extends AbstractController
         $this->userid = $security->getToken()->getUser()->getId();
         $this->firstname = $security->getToken()->getUser()->getFirstName();
         $this->lastname = $security->getToken()->getUser()->getLastName();
+        $this->cache = new FilesystemAdapter();
+
+
 
         $this->excelGeneratorReport = $excelGeneratorReport;
     }
@@ -65,9 +69,29 @@ class UserController extends AbstractController
      */
     public function viewDashboard(Request $request, PaginatorInterface $paginator)
     {
-        $this->statement = $this->selectStatementWithConditions($request);
+        if($request->request->count() > 0 || is_null($request->query->get('page'))){
 
-        $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10 );
+            $this->cache->delete('query.sma');
+
+            $this->statement = $this->selectStatementWithConditions($request);
+            try {
+                $val = $this->cache->getItem('query.sma');
+                $val->set($this->statement);
+                $this->cache->save($val);
+
+            } catch (InvalidArgumentException $e) {
+
+                return new Response($e->getMessage());
+            }
+
+            $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10 );
+
+        } else {
+
+            $pr = $this->cache->getItem('query.sma');
+
+            $pagination = $paginator->paginate($pr->get(), $request->query->getInt('page', 1), 10 );
+        }
 
         $statementsum = $this->entitymanager
                              ->getRepository(StatementFile::class)
@@ -93,15 +117,15 @@ class UserController extends AbstractController
      */
     public function downloadExcelReport(Request $request)
     {
-        $stmt = $this->entitymanager
-             ->getRepository(StatementFile::class)
-             ->selectPerOpertionsRef($request->request);
+        $pr = $this->cache->getItem('query.sma');
 
-        $writer = $this->excelGeneratorReport->generateStatementInExcel($stmt);
+        $writer = $this->excelGeneratorReport->generateStatementInExcel($pr->get());
 
         $response = $this->file($writer);
 
         $response->deleteFileAfterSend(true);
+
+        $this->cache->delete('query.sma');
 
         return $response;
     }
@@ -228,6 +252,7 @@ class UserController extends AbstractController
 
     protected function selectStatementWithConditions($request)
     {
+
         $minamount =  $request->request->get('Min-amount');
         $maxamount = $request->request->get('Max-amount');
         $mindate = $request->request->get('Min-date');
@@ -235,13 +260,13 @@ class UserController extends AbstractController
 
         if(!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) ){
 
-            return $this->entitymanager
+            return  $this->entitymanager
                         ->getRepository(StatementFile::class)
                         ->searchByCriterion($request, $this->userid );
-
         }
 
-        return $this->entitymanager
+
+        return  $this->entitymanager
                     ->getRepository(StatementFile::class)
                     ->selectAllForPagination($this->userid);
 

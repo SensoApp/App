@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\StatementFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\ResultSetMapping;
 
@@ -16,8 +18,13 @@ use Doctrine\ORM\Query\ResultSetMapping;
  */
 class StatementFileRepository extends ServiceEntityRepository
 {
+    private $config;
+
     public function __construct(ManagerRegistry $registry)
     {
+        $this->config = new Configuration();
+        $this->config->setResultCacheImpl(new ApcuCache());
+
         parent::__construct($registry, StatementFile::class);
     }
 
@@ -158,7 +165,8 @@ class StatementFileRepository extends ServiceEntityRepository
             'userid' => $userid
         ]);
 
-        return $em->getQuery()->getResult();
+       return $em->getQuery()
+                ->getResult();
     }
 
     public function searchByCriterion($datatosearch, $userid)
@@ -168,6 +176,7 @@ class StatementFileRepository extends ServiceEntityRepository
         $req = $datatosearch->request;
 
             if( !empty($req->get('Min-date')) && !empty($req->get('Max-date'))){
+
 
                 $em->andWhere('s.operationdate between :mindate and :maxdate');
                 $em->andWhere('s.user= :userid');
@@ -193,7 +202,8 @@ class StatementFileRepository extends ServiceEntityRepository
                 ]);
             }
 
-        return $em->getQuery()->getResult();
+             return   $em->getQuery()
+                     ->getResult();
 
     }
 
