@@ -1,3 +1,5 @@
+**/report
+*.idea/
 /.web-server-pid
 /app/config/parameters.yml
 /build/
@@ -33,3 +35,9 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+Supprimerait report/invoice/220120_5e28a899689dc_SmaelMouhebO.pdf
+Supprimerait report/invoice/220120_5e28a8c14070e_Dublin Business Trip-SmaelMouhebO.pdf
+Supprimerait report/invoice/220120_5e28b1cc0e3bf_SmaelMouhebO.pdf
+Supprimerait report/invoice/220120_5e28b4d19dfa3_SmaelMouhebO.pdf
+Supprimerait report/invoice/230120_5e294872c7fa2_Chicago Business Trip-SmaelMouhebO.pdf
+Supprimerait report/statement/
