@@ -1,0 +1,29 @@
+
+{% block body %}
+    <p>Dear <strong>{{ firstname }}  {{ lastname }}</strong>,</p>
+    <br>
+    <p>
+        Thank you for contacting us. <br><br>
+
+        Please find attached your detailed simulation. <br>
+
+        Don't hesitate to contact us, we will be pleased to walk you through our options and related details in this simualtion.<br><br>
+
+        Hope to hear from you soon,
+
+        <br>
+        Kind regards.
+    </p>
+    
+    <div style="float: left">
+        <img style="border-right:solid; margin-right: 0px;" src="{{ image }}" alt="Logo">
+    </div>
+    <div style="float: left; 
+         margin-left: 2%">
+        <h3>Senso SARL</h3>
+        <div style="color: #2e6da4">Mobile : +352 691 198 027</div>
+        <div style="color: #2e6da4">Mobile : +352 661 661 196</div>
+        <div style="color: #2e6da4">Website : http://www.senso.lu</div>
+        <div style="color: #2e6da4">Address : <span style="color: #3c3c3c">3 rue Sangels <br> L5425 Gostingen (Luxembourg)</span></div>
+    </div>
+{% endblock %}

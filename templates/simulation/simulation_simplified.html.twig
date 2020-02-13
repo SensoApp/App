@@ -1,0 +1,237 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <body>
+    {% include 'header.html.twig' %}
+        <div class="container-fluid">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <h2 class="text-center">Package Simulation Tool ✅</h2>
+            </div>
+            <div class="row">
+                {% for message in app.session.flashBag.get('success') %}
+                    <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                        <i class="fa fa-window-close text-right" aria-hidden="true">
+                            {{ message }}
+                        </i>
+                    </div>
+                {% endfor %}
+                {% for message in app.session.flashBag.get('error') %}
+                    <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
+                        <i class="fa fa-window-close text-right" aria-hidden="true">
+                            {{ message }}
+                        </i>
+                    </div>
+                {% endfor %}
+            </div>
+            <br>
+            <br>
+            {% if simulation %}
+                <div class="row">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col-md-offset-3 col-md-5 text-center">
+                        <table class="table table-responsive table-bordered text-center">
+                            <p class="text-justify">With the data you entered you can expect a net salary as per the below as well as a remainder (net) that you can save on a monthly basis and use  as you please e.g. legal expenses, bonus etc... </p>
+                            <tr>
+                                <th class="bg-primary col-md-3">Net Salary</th>
+                                <td>
+                                    {{ simulation.netamount }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Remainder</th>
+                                <td>
+                                    {{ simulation.remainder }} €
+                                </td>
+                            </tr>
+                            <br>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-5">
+                        <p class="text-justify" style="font-weight: bold">If you need more details such as taxes that are being deducted etc.. enter your data and press "Detailed" we'll send you the complete breakdown via email...</p>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="col-md-offset-2 col-md-6">
+                    <form action="{{ path('simulation') }}" method="post">
+                        <table class="table table-responsive">
+                            <tr>
+                                <th class="bg-primary">Daily Rate</th>
+                                <td>
+                                    <input required name="daily-rate" class="form-control" type="number"  step="0.01" placeholder="Expected daily rate e..g 650 for 650 EUR">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Days worked</th>
+                                <td>
+                                    <input required name="days-worked" class="form-control" type="number" step="0.01" placeholder="Enter a number e.g 21 for 21 days worked">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Gross salary</th>
+                                <td>
+                                    <input required name="gross-salary" class="form-control" type="number" step="0.01" placeholder="Enter an amount e.g. 7500 for 7500 EUR">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Lunch vouchers</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control" name="lunch-vouchers" id="package">
+                                        <option value="">Select Yes or No</option>
+                                        <option value="lunchv-yes">Yes</option>
+                                        <option value="lunchv-no">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Residency</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control residency" name="residency" id="package">
+                                        <option value="">Luxembourg resident?</option>
+                                        <option value="residency-yes">Yes</option>
+                                        <option value="residency-no">No</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Taxe class</th>
+                                <td>
+                                    <label for="taxe-class"></label>
+                                    <select required class="form-control specifictaxrateoption" name="taxe-class" id="package">
+                                        <option value="">Select your taxe class</option>
+                                        <option value="class1">Class 1</option>
+                                        <option value="class1a">Class 1a</option>
+                                        <option value="class2">Class 2</option>
+                                        <option id="ratespecific" value="specific-tax-rate">Specific taxe rate</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Specific taxes rate</th>
+                                <td>
+                                    <input id="inputtaxerate" name="specificrate" class="form-control" type="number" step="0.01" placeholder="Enter a rate in decimal e.g. 0.20 for 20%">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Payroll package</th>
+                                <td>
+                                    <label for="package"></label>
+                                    <select required class="form-control" name="Package" id="package">
+                                        <option value="">Select your package</option>
+                                        <option value="basic">Basic</option>
+                                        <option value="premium">Premium</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Car leasing amount</th>
+                                <td>
+                                    <input id="carLeasingAmount" name="carLeasingAmount" class="form-control" type="number" step="0.01" placeholder="Total car amount by the related percentage">
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Travel expenses</th>
+                                <td>
+                                    <input id="travelExpenses" name="travelExpenses" class="form-control" type="number" step="0.01" placeholder="Enter the amount e.g 100.00">
+                                </td>
+                            </tr>
+                        </table>
+                        <input class="btn btn-primary" type="submit" value="Simplified">
+                        <input class="btn btn-success" id="Detailed" value="Detailed">
+                        <div hidden id="blockdetails">
+                            <h3 style="padding-top: 30px">Enter your details to receive your detailed simulation</h3>
+                            <div class="form-group">
+                                <label for="email">Firstname:</label>
+                                <input type="text" class="form-control" id="email" placeholder="Enter your firstname" name="firstname">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Lastname:</label>
+                                <input type="text" class="form-control" id="pwd" placeholder="Enter your lastname" name="lastname">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                            </div>
+                            <input type="submit" class="btn btn-info" name="detailed" value="Send"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <br>
+    <br>
+    <br>
+    {% include 'footer.html.twig' %}
+
+        <script type="text/javascript">
+            $(function () {
+
+                //Remove the option of inputting specific taxe rate when the residency is Luxembourg
+                $('.residency').change( function () {
+
+                    var residencyselection = $('.residency option:selected').text();
+
+                    if(residencyselection === 'Yes' ) {
+
+                        $('#ratespecific').prop("disabled", true);
+                        $('#inputtaxerate').prop("disabled", true);
+
+                    } else if ($('.specifictaxrateoption option').attr('disabled', true) ){
+
+                        $('.specifictaxrateoption option').removeAttr("disabled");
+                        $('#inputtaxerate').removeAttr("disabled");
+
+                    }
+
+                });
+
+                //Event to make sure that the field Specific taxe rate input field will be field out by making it required if selected else remove required
+                $('.specifictaxrateoption').change( function () {
+
+                    var specifictaxerate = $('.specifictaxrateoption option:selected').text();
+
+                    if(specifictaxerate === 'Specific taxe rate' ) {
+
+                        $('#inputtaxerate').attr("required", true);
+
+                        console.log($('#inputtaxerate'));
+
+                    } else {
+
+                        $('#inputtaxerate').removeAttr("required");
+
+                    }
+
+                });
+
+                $('#Detailed').on('click', function () {
+                    $('#blockdetails').removeAttr("hidden");
+                })
+
+                $('i').on('click', function () {
+                    setTimeout(
+                        20000,
+                        $('.alert').remove()
+                    );
+                });
+            });
+        </script>
+    </body>
+{% endblock %}

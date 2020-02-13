@@ -50,7 +50,7 @@ class MailerService
 
     public function mailSender($mail, $messagebody, $messagesubject, $attach = null)
     {
-
+        //dd($mail, $messagebody, $messagesubject, $attach);
         $message = (new \Swift_Message('Info'))
             ->setFrom(['info@senso.lu' => 'Info Senso no-reply'])
             ->setTo($mail)
@@ -62,7 +62,13 @@ class MailerService
 
             $message->attach(Swift_Attachment::fromPath($attach));
 
-            $this->mailer->send($message);
+            try {
+
+                $this->mailer->send($message);
+
+            } catch(\Exception $exception) {
+                 dd($exception->getMessage());
+            }
         }
         $this->mailer->send($message);
     }
@@ -98,6 +104,38 @@ class MailerService
 
         $this->mailer->send($message);
 
+    }
+
+    public function sendSimulation($firstname, $lastname, $mail, $attach)
+    {
+
+        $message = (new \Swift_Message('Info'))
+            ->setFrom(['info@senso.lu' => 'Info Senso'])
+            ->setTo($mail)
+            ->setSubject('Simulation - SENSO SARL');
+
+        $image = $message->embed(\Swift_EmbeddedFile::fromPath($this->path));
+
+        $messagebody = $this->templating->render('mail_template/simulation.html.twig', [
+
+            'firstname'=>$firstname,
+            'lastname' =>$lastname,
+            'image' => $image
+        ]);
+
+        //pass the path
+        $message->attach(Swift_Attachment::fromPath($attach));
+
+            try {
+
+                $message->setBody($messagebody, 'text/html')
+                    ->setCharset('UTF-8');
+
+                $this->mailer->send($message);
+
+            } catch(\Exception $exception) {
+                dd($exception->getMessage());
+            }
     }
 
     /**

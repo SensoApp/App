@@ -77,7 +77,7 @@ class SimulationCalculator
         // - frais de deplacement (rajouter champ) => done
 
         //Taxe amount retrieved from the database
-        $finaltaxmount = $this->calculTaxAmount($taxeclass, $taxableincome, $specifictaxebool);
+        $finaltaxmount = $this->calculTaxAmount($taxeclass, (int)$taxableincome, $specifictaxebool);
 
         //Employee dependance insurance amount calculation
         $assurancedependanceemployee = ((float)$grossSalaryPluBenefInKind - self::FIXE_DEDUCTION_DEPENDANCE)  * self::ASSURANCE_DEPENDANCE;
@@ -126,7 +126,6 @@ class SimulationCalculator
     {
         switch ($salary){
 
-            //Specific taxe with rate indicated
             case $specifictaxe :
 
                 $taxeclasscalculated = ($taxeclass * $salary)/100;
@@ -135,6 +134,8 @@ class SimulationCalculator
 
             //Normal tranches rate/amount of taxe to deduct
             case $salary <= 9039.99 :
+
+                $s = $salary <= 9039.99 ? true : false;
 
                 $taxefromdb  = $this->entityManager->getTaxeAmount($salary, $taxeclass);
 
