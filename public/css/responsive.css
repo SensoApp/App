@@ -122,7 +122,7 @@
 
   .header-area {
     height: 90px !important;
-    background: white;
+    background: lightblue;
   }
   .navbar-header a.navbar-brand, .stick .navbar-header a.navbar-brand {
     display: inline-block;
@@ -139,14 +139,14 @@
   }
   .main-menu ul.navbar-nav li, .stick .main-menu ul.navbar-nav li {
     display: block;
-    background: white;
+    background: lightblue;
   }
   .main-menu ul.navbar-nav li a, .stick .main-menu ul.navbar-nav li a {
     padding: 10px 2px;
 
   }
   .main-menu ul.navbar-nav li.active a::after, .stick .main-menu ul.navbar-nav li.active a::after {
-    border: 0px solid #fff;
+    border: 0px solid lightblue;
 
   }
 

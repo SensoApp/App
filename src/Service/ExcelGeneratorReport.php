@@ -7,7 +7,6 @@ namespace App\Service;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -21,7 +20,7 @@ class ExcelGeneratorReport
 
     public function __construct(ParameterBagInterface $params)
     {
-        $this->pathTemplate =  __DIR__.'/../../report/template/Senso_package_simulation_standard.xlsx';
+        $this->pathTemplate = __DIR__ . '/../../report/template/Senso_package_simulation_standard_2.xls';
         $this->params = $params;
         $this->template = IOFactory::load($this->pathTemplate);
 
@@ -64,18 +63,16 @@ class ExcelGeneratorReport
     {
         $worksheet = $this->template->getActiveSheet();
 
-        $this->template->setActiveSheetIndex(1);
-
         $worksheet->getCell('B4')->setValue($simulationData['dailyrate'].' €');
-        $worksheet->getCell('B5')->setValue($simulationData['numberofdays'].' €');
+        $worksheet->getCell('B5')->setValue($simulationData['numberofdays']);
         $worksheet->getCell('B6')->setValue($simulationData['grosssalary'].' €');
         $worksheet->getCell('B7')->setValue($simulationData['carleasing'].' €');
         $worksheet->getCell('B8')->setValue($simulationData['lunchvouchersemployee'].' €');
         $worksheet->getCell('B9')->setValue($simulationData['taxeclass']);
-        $worksheet->getCell('B10')->setValue('0.00 €');
+        $worksheet->getCell('B10')->setValue('-');
         $worksheet->getCell('B11')->setValue($simulationData['managementfees'].' €');
-        $worksheet->getCell('B11')->setValue('0.00 €');
-        $worksheet->getCell('B16')->setValue($simulationData['invoiceamount'].' €');
+        $worksheet->getCell('B12')->setValue($simulationData['travelExpenses'].' €');
+        $worksheet->getCell('C16')->setValue($simulationData['invoiceamount'].' €');
         $worksheet->getCell('C17')->setValue($simulationData['managementfees'].' €');
         $worksheet->getCell('C18')->setValue($simulationData['lunchvouchers'].' €');
         $worksheet->getCell('C19')->setValue($simulationData['grosssalary'].' €');
@@ -102,7 +99,6 @@ class ExcelGeneratorReport
 
         try {
 
-            $this->template->removeSheetByIndex(1);
             $writer = IOFactory::createWriter($this->template, 'Xls');
             $filename = 'Simulation'.date('dmy').'_'.uniqid().'.'.'xls';
             $tempxls =  $this->params->get('kernel.project_dir').'/report/temp/'.$filename;

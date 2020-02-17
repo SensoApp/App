@@ -8,6 +8,7 @@
 
 namespace App\Service;
 
+use App\Entity\Contact;
 use App\Entity\Mail;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Attachment;
@@ -27,6 +28,8 @@ class MailerService
 
     private $path;
 
+    private $entityManager;
+
 
 
 
@@ -39,11 +42,13 @@ class MailerService
     {
         $this->emailtocheckrep = $entityManager->getRepository(Mail::class);
 
+        $this->entityManager = $entityManager;
+
         $this->mailer = $mailer;
 
         $this->templating = $container->get('twig');
 
-       $this->path = $params->get('kernel.project_dir').'/public/img/Logo_Senso_email.png';
+       $this->path = $params->get('kernel.project_dir').'/public/img/Logo_Senso_3.png';
 
     }
 
@@ -136,6 +141,29 @@ class MailerService
             } catch(\Exception $exception) {
                 dd($exception->getMessage());
             }
+    }
+
+    public function sendNewContactSimulation($firstname, $lastname, $email) : void
+    {
+        $message = (new \Swift_Message('Info'))
+            ->setFrom(['info@senso.lu' => 'Info Senso'])
+            ->setTo('info@senso.lu')
+            ->setSubject('[Sales] New contact from simulation tool');
+
+        $image = $message->embed(\Swift_EmbeddedFile::fromPath($this->path));
+
+        $messagebody = $this->templating->render('mail_template/contactFromSimulation.html.twig', [
+
+            'firstname'=>$firstname,
+            'lastname' =>$lastname,
+            'email' =>$email,
+            'image' => $image
+        ]);
+
+        $message->setBody($messagebody, 'text/html')
+            ->setCharset('UTF-8');
+
+        $this->mailer->send($message);
     }
 
     /**

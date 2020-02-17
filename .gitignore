@@ -41,3 +41,10 @@ Supprimerait report/invoice/220120_5e28b1cc0e3bf_SmaelMouhebO.pdf
 Supprimerait report/invoice/220120_5e28b4d19dfa3_SmaelMouhebO.pdf
 Supprimerait report/invoice/230120_5e294872c7fa2_Chicago Business Trip-SmaelMouhebO.pdf
 Supprimerait report/statement/
+
+###> symfony/webpack-encore-bundle ###
+/node_modules/
+/public/build/
+npm-debug.log
+yarn-error.log
+###< symfony/webpack-encore-bundle ###

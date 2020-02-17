@@ -11,12 +11,12 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
+        return $this->redirectToRoute('app_login');
 
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
+        /*return $this->render('security/login.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        ]);*/
     }
 }

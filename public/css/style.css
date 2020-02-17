@@ -264,7 +264,7 @@ div#preloader {
   left: 0;
   width: 100%;
   height: auto;
-  background: white;
+  background: lightblue;
   z-index: 9;
 }
 
@@ -299,15 +299,15 @@ div#preloader {
 
 .main-menu ul.navbar-nav li.active a:hover {
   background: none;
-  color: #fff;
+  color: lightblue;
 }
 
 .main-menu ul.navbar-nav li.active a:focus {
-  color: #fff;
+  color: lightblue;
 }
 
 .main-menu ul.navbar-nav li.active a {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   color: #fff;
   position: relative;
 }
@@ -331,23 +331,23 @@ div#preloader {
 }
 
 .navbar-default .navbar-toggle {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  background: blue none repeat scroll 0 0;
   border: medium none;
   border-radius: 0;
-  padding: 25px 0px;
+  padding: 35px 0px;
 }
 
 .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
-  background-color: white;
+  background-color: lightblue;
   color: #fff;
 }
 
 .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-  background: none;
+  background: dodgerblue;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
-  background-color: white;
+  background-color: dodgerblue;
   width: 30px;
   height: 2px;
 }
@@ -426,16 +426,16 @@ div#preloader {
 }
 
 .stick .main-menu ul.nav>li>a:hover {
-  color: #fff;
+  color: lightblue;
 }
 
 .stick .main-menu ul.navbar-nav li.active a {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   position: relative;
 }
 
 .stick .mainmenu ul#nav>li:hover>a, .stick .mainmenu ul#nav li .mega-menu, .stick .mainmenu ul#nav li ul.sub-menu {
-  background-color: #f5f5f5;
+  background-color: lightblue;
   outline: medium none;
 }
 
@@ -460,7 +460,7 @@ div#preloader {
 }
 
 .stick .navbar-default .navbar-toggle .icon-bar {
-  background-color: #fff;
+  background-color: lightblue;
   width: 30px;
   height: 2px;
 }
@@ -474,7 +474,7 @@ div#preloader {
 --------------------------------*/
 
 .about-area {
-  background-color: #f9f9f9;
+  background-color: lightblue;
 }
 
 .single-well>a {
@@ -551,7 +551,7 @@ div#preloader {
 }
 
 .our-skill-area {
-  background: rgba(248, 248, 248, 0.8) url("../img/background/bg1.jpg") no-repeat fixed center top / cover;
+  background: lightblue url("../img/background/bg1.jpg") no-repeat fixed center top / cover;
 }
 
 .test-overly {
@@ -724,7 +724,7 @@ div#preloader {
 ----------------------------------------*/
 
 .wellcome-area {
-  background: rgba(248, 248, 248, 0.8) url("../img/background/bg1.jpg");
+  background: lightblue url("../img/background/bg1.jpg");
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
@@ -792,7 +792,7 @@ div#preloader {
 }
 
 .suscribe-input button:hover {
-  background: #fff none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   color: #3ec1d5;
 }
 
@@ -858,7 +858,7 @@ div#preloader {
 }
 
 .email-news .email_button input {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   border: 1px solid #fff;
   color: #fff;
   float: left;
@@ -868,7 +868,7 @@ div#preloader {
 }
 
 .email-news .email_button>button {
-  background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   border: 1px solid #fff;
   color: #fff;
   float: left;
@@ -889,7 +889,7 @@ div#preloader {
 
 .team-left-icon ul li a:hover {
   color: #3EC1D5;
-  background: #fff;
+  background: lightblue;
   border: 2px solid #fff;
 }
 
@@ -1079,7 +1079,7 @@ div#preloader {
 }
 
 .project-menu li a {
-  background: #fff none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   border: 1px solid #444;
   border-radius: 20px;
   color: #444;
@@ -1225,14 +1225,14 @@ div#preloader {
 /*----------------------------------------*/
 
 .pricing-area {
-  background: rgba(0, 0, 0, 0.02) none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
 }
 
 .pri_table_list {
   border: 1px solid #ccc;
   text-align: center;
   transition: all 0.4s ease 0s;
-  background: #fff;
+  background: lightblue;
 }
 
 .pri_table_list h3 span {
@@ -1318,13 +1318,13 @@ div#preloader {
 }
 
 .pri_table_list>button:hover {
-  background-color: #fff;
+  background-color: lightblue;
   border: 1px solid #333;
   color: #333;
 }
 
 .active>h3 {
-  background: #f5f5f5 none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   color: #333;
   transition: all 0.4s ease 0s;
 }
@@ -1348,7 +1348,7 @@ div#preloader {
 ----------------------------------------*/
 
 .testimonials-area {
-  background: rgba(0, 0, 0, 0) url("../img/background/slider1.jpg") no-repeat fixed center top / cover;
+  background: lightblue url("../img/background/slider1.jpg") no-repeat fixed center top / cover;
   height: auto;
   width: 100%;
 }
@@ -1597,7 +1597,7 @@ div#preloader {
 }
 
 .sus-btn {
-  background: #fff none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   border: 2px solid #fff;
   color: #3EC1D5;
   display: inline-block;
@@ -1611,7 +1611,7 @@ div#preloader {
 }
 
 .sus-btn:hover {
-  background: #3EC1D5 none repeat scroll 0 0;
+  background: lightblue none repeat scroll 0 0;
   border: 2px solid #fff;
   color: #fff;
 }

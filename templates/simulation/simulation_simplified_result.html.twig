@@ -1,0 +1,171 @@
+{% extends 'base_old.html.twig' %}
+
+{% block body %}
+    <body>
+    {% include 'header.html.twig' %}
+        <div class="container-fluid">
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+                <h2 class="text-center">Simulation Tool</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-3 col-lg-9">
+                    <button class="btn btn-success" id="prev" value="New Simulation">
+                        <i class="fa fa-arrow-left" aria-hidden="true" style="font-weight: bold">Back</i>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <br>
+            {% if simulation %}
+                <div class="row">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col-md-offset-3 col-md-5 text-center">
+                        <table class="table table-responsive table-bordered text-center">
+                            <p class="text-justify">With the data you entered you can expect a net salary as per the below as well as a remainder (net) that you can save on a monthly basis and use  as you please e.g. legal expenses, bonus etc... </p>
+                            <tr>
+                                <th class="bg-primary">Average monthly invoice</th>
+                                <td>
+                                    {{ simulation.invoiceamount }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Gross monthly salary</th>
+                                <td>
+                                    {{ simulation.grosssalary }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Indicative net Salary</th>
+                                <td>
+                                    {{ simulation.netamount }} €
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="bg-primary">Monthly remainder</th>
+                                <td>
+                                    {{ simulation.remainder }} €
+                                </td>
+                            </tr>
+                            <br>
+                        </table>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-5">
+                        <p class="text-justify" style="font-weight: bold">If you need more details such as taxes that are being deducted etc.. enter your data and press "Detailed" we'll send you the complete breakdown via email...</p>
+                    </div>
+                </div>
+            {% endif %}
+            <div class="row">
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="col-md-offset-3 col-md-6">
+                        <input class="btn btn-success" id="Detailed" value="Detailed">
+                        <div hidden id="blockdetails">
+                            <h3 style="padding-top: 30px">Enter your details to receive your detailed simulation</h3>
+                            <div class="form-group">
+                                <label for="email">Firstname:</label>
+                                <input required type="text" class="form-control" id="firstname" placeholder="Enter your firstname" name="firstname">
+                            </div>
+                            <div class="form-group">
+                                <label for="pwd">Lastname:</label>
+                                <input required type="text" class="form-control" id="lastname" placeholder="Enter your lastname" name="lastname">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input required type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+                            </div>
+                            <input type="submit" class="btn btn-info" name="detailed" value="Send" id="send"/>
+                        </div>
+                </div>
+            </div>
+        </div>
+    <br>
+    <br>
+    <br>
+    {% include 'footer.html.twig' %}
+
+        <script type="text/javascript">
+            $(function () {
+                var firstObj = {
+                            'dailyrate' : "{{ simulation.dailyrate }}",
+                            'numberofdays' : "{{ simulation.numberofdays }}",
+                            'taxeclass' : "{{ simulation.taxeclass }}",
+                            'sumcharges' : "{{ simulation.numberofdays }}",
+                            'travelExpenses' :  "{{ simulation.travelExpenses }}",
+                            'totalemployerscosts' : "{{ simulation.totalemployerscosts }}",
+                            'taxableincome' : "{{ simulation.taxableincome }}",
+                            'finaltaxamount' : "{{ simulation.finaltaxamount }}",
+                            'lunchvouchers' : "{{ simulation.lunchvouchers }} ",
+                            'invoiceamount' : "{{ simulation.invoiceamount }}",
+                            'managementfees' : "{{ simulation.managementfees }}",
+                            'caissemaladieespece' : "{{ simulation.caissemaladieespece }}",
+                            'caissemaladie' : "{{simulation.caissemaladie}}",
+                            'assurancedependance' : "{{ simulation.assurancedependance }}",
+                            'soinsante' : "{{ simulation.soinsante }}",
+                            'cmu' : "{{ simulation.cmu }}",
+                            'grosssalary' : "{{ simulation.grosssalary }}",
+                            'grossSalaryPluBenefInKind' : "{{ simulation.grossSalaryPluBenefInKind }}",
+                            'netamount' : "{{ simulation.netamount }}",
+                            'remainder' : "{{ simulation.remainder }}",
+                            'assurancedependanceemployee' : "{{ simulation.assurancedependanceemployee }}",
+                            'lunchvouchersemployee' : "{{ simulation.lunchvouchersemployee }}",
+                            'carleasing' : "{{ simulation.carleasing }}",
+                            'benefitinkind' : "{{ simulation.benefitinkind }}",
+                            'caissepension' : "{{ simulation.caissepension }}"
+                            };
+
+
+                //show form when the user clicks
+                $('#Detailed').on('click', function () {
+                    $('#blockdetails').removeAttr("hidden");
+                });
+
+                //post the data when the user press send and merge the object with the name, email etc...
+                $('#send').on('click', function () {
+
+                    let firstname = $('#firstname').val();
+                    let lastname = $('#lastname').val();
+                    let email = $('#email').val();
+
+                    var secondObj = {'firstname': firstname, 'lastname' : lastname, 'email' : email};
+
+                    final = Object.assign(firstObj, secondObj);
+
+                    $.ajax({
+                    type: "POST",
+                    url: "{{ path('sendSimulation') }}",
+                    data: final,
+                    success: function (msg) {
+
+                        window.location.href = "{{ path('simulation') }}";
+                    }
+                });
+            });
+
+            $('#prev').on('click', function () {
+                window.history.back();
+            });
+
+                $('i').on('click', function () {
+                    setTimeout(
+                        20000,
+                        $('.alert').remove()
+                    );
+                });
+
+            });
+        </script>
+    </body>
+{% endblock %}

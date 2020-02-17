@@ -1,21 +1,14 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_old.html.twig' %}
 
 {% block body %}
-    <body data-spy="scroll" data-target="#navbar-example">
-
+    <body>
     <div id="preloader"></div>
-
     <br>
     <br>
     <br>
     <br>
     <br>
-
     {% include 'header.html.twig' %}
-
-    <!-- header end -->
-
-    <!-- Start Slider Area -->
     <div id="home" class="slider-area">
         <div class="bend niceties preview-2">
             <div id="ensign-nivoslider" class="slides">
@@ -391,9 +384,6 @@
     {% endblock %}
     </body>
 {% endblock %}
-
-
-    {% block stylesheets %}
-
-    {% endblock %}
+{% block stylesheets %}
+{% endblock %}
 

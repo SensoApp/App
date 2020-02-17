@@ -21,6 +21,7 @@ class SimulationCalculator
     const LUNCH_VOUCHERS = 194.40;
     const FIXE_DEDUCTION_DEPENDANCE = 522.44;
     const LUNCH_VOUCHERS_EMPLOYEE = 50.40;
+    const DAYS_WORKED = 18;
 
     private $request;
 
@@ -38,8 +39,8 @@ class SimulationCalculator
         //data posted from the form
         $salary = $this->request->get('gross-salary');
         $rate = $this->request->get('daily-rate');
-        $numberofdays = $this->request->get('days-worked');
-        $managementfees = $this->request->get('Package')  === 'basic' ? self::PACKAGE_BASIC  : self::PACKAGE_PREMIUM;
+        $numberofdays = self::DAYS_WORKED;
+        $managementfees = self::PACKAGE_BASIC;
         $specifictaxebool = $this->request->get('taxe-class') === 'specific-tax-rate' ? true : false;
         $taxeclass = $this->request->get('taxe-class') === 'specific-tax-rate' ? $this->request->get('specificrate') : $this->request->get('taxe-class');
         $lunchvouchers = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS : 0.00;

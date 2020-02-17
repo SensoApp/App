@@ -4,10 +4,13 @@
 namespace App\Controller;
 
 
+use App\Entity\Contact;
+use App\Entity\Mail;
 use App\Service\ExcelGeneratorReport;
 use App\Service\MailerService;
 use App\Service\SimulationCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -34,47 +37,86 @@ class SimulationController extends AbstractController
      */
     public function createSimulation(Request $request)
     {
-        /**
-         * TODO: Save email and contact details in DB
-         */
         $simulation = null;
 
         if($request->request->count() > 0) {
 
             $simulation = $this->simulationCalculator->calculationSimulation($request);
 
-            if(!empty($request->request->get('detailed'))){
+            return $this->render('simulation/simulation_simplified_result.html.twig', [
 
-                try {
-                    $firsname = $request->request->get('firstname');
-                    $lastname = $request->request->get('lastname');
-                    $email = $request->request->get('email');
-
-                    $pathAfterSaving = $this->excelReportInstance->writeToExcelTemplate($simulation);
-                    $this->mailerService->sendSimulation($firsname, $lastname, $email, $pathAfterSaving);
-
-                    register_shutdown_function(function () use ($pathAfterSaving){
-                        if(file_exists($pathAfterSaving)){
-                            unlink($pathAfterSaving);
-                        }
-                    });
-
-                } catch (\Exception $exception) {
-
-                    $this->addFlash('error', 'Ouups the follwoing error occured '. $exception->getMessage());
-
-                    return $this->redirectToRoute('simulation');
-
-                }
-                $this->addFlash('success', 'Thank you '.$firsname.' '.$lastname.'! An email is being sent to you...');
-
-                return $this->redirectToRoute('simulation');
-            }
+                'simulation' => $simulation
+            ]);
         }
-        return $this->render('simulation/simulation_simplified.html.twig', [
+        return $this->render('simulation/simulation_simplified.html.twig');
+    }
 
-            'simulation' => $simulation
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @Route(path="/simulation/send", name="sendSimulation")
+     */
+    public function sendSimulation(Request $request)
+    {
+        /**
+         * TODO: Save email and contact details in DB
+         */
+        try {
+            $firsname = $request->request->get('firstname');
+            $lastname = $request->request->get('lastname');
+            $email = $request->request->get('email');
+            $dataRequest = $request->request->getIterator()->getArrayCopy();
+            $pathAfterSaving = $this->excelReportInstance->writeToExcelTemplate($dataRequest);
+            $this->mailerService->sendSimulation($firsname, $lastname, $email, $pathAfterSaving);
+
+            register_shutdown_function(function () use ($pathAfterSaving){
+                if(file_exists($pathAfterSaving)){
+                    unlink($pathAfterSaving);
+                }
+            });
+
+            $this->saveContactFromSimulation($firsname, $lastname, $email);
+
+        } catch (\Exception $exception) {
+
+            $this->addFlash('error', 'Ouups an error occured: '.$exception->getMessage());
+
+            return new JsonResponse([
+                                      'error' => 'Ouups an error occured...'
+                                    ]);
+        }
+
+        $this->addFlash('success', 'Thank you '.$firsname.' '.$lastname.'! An email is being sent to you...');
+
+        return new JsonResponse([
+            'success' => 'Thank you '.$firsname.' '.$lastname.'! An email is being sent to you...'
         ]);
+
+    }
+
+    private function saveContactFromSimulation($firstname, $lastname, $email)
+    {
+        //Persists Contact that requests the detailled simulation
+        //Add GDPR stuff as well
+        $contact = new Contact();
+        $contact->setFirstname($firstname);
+        $contact->setLastname($lastname);
+        $contact->setContacttype('Prospect');
+
+        $mail = new Mail();
+        $mail->setMail($email);
+        $mail->setContact($contact);
+
+        if($this->mailerService->checkMail($mail->getMail()) == false){
+
+            $entitymanager = $this->getDoctrine()->getManager();
+            $entitymanager->persist($contact);
+            $entitymanager->persist($mail);
+            $entitymanager->flush();
+        }
+
+        $this->mailerService->sendNewContactSimulation($firstname, $lastname, $email);
+
     }
 
 }
