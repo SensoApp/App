@@ -145,32 +145,32 @@
         <script type="text/javascript">
             $(function () {
                 var firstObj = {
-                            'dailyrate' : "{{ simulation.dailyrate }}",
-                            'numberofdays' : "{{ simulation.numberofdays }}",
-                            'taxeclass' : "{{ simulation.taxeclass }}",
-                            'sumcharges' : "{{ simulation.numberofdays }}",
-                            'travelExpenses' :  "{{ simulation.travelExpenses }}",
-                            'totalemployerscosts' : "{{ simulation.totalemployerscosts }}",
-                            'taxableincome' : "{{ simulation.taxableincome }}",
-                            'finaltaxamount' : "{{ simulation.finaltaxamount }}",
-                            'lunchvouchers' : "{{ simulation.lunchvouchers }} ",
-                            'invoiceamount' : "{{ simulation.invoiceamount }}",
-                            'managementfees' : "{{ simulation.managementfees }}",
-                            'caissemaladieespece' : "{{ simulation.caissemaladieespece }}",
-                            'caissemaladie' : "{{simulation.caissemaladie}}",
-                            'assurancedependance' : "{{ simulation.assurancedependance }}",
-                            'soinsante' : "{{ simulation.soinsante }}",
-                            'cmu' : "{{ simulation.cmu }}",
-                            'grosssalary' : "{{ simulation.grosssalary }}",
-                            'grossSalaryPluBenefInKind' : "{{ simulation.grossSalaryPluBenefInKind }}",
-                            'netamount' : "{{ simulation.netamount }}",
-                            'remainder' : "{{ simulation.remainder }}",
-                            'assurancedependanceemployee' : "{{ simulation.assurancedependanceemployee }}",
-                            'lunchvouchersemployee' : "{{ simulation.lunchvouchersemployee }}",
-                            'carleasing' : "{{ simulation.carleasing }}",
-                            'benefitinkind' : "{{ simulation.benefitinkind }}",
-                            'caissepension' : "{{ simulation.caissepension }}"
-                            };
+                    'dailyrate': "{{ simulation.dailyrate }}",
+                    'numberofdays': "{{ simulation.numberofdays }}",
+                    'taxeclass': "{{ simulation.taxeclass }}",
+                    'sumcharges': "{{ simulation.numberofdays }}",
+                    'travelExpenses': "{{ simulation.travelExpenses }}",
+                    'totalemployerscosts': "{{ simulation.totalemployerscosts }}",
+                    'taxableincome': "{{ simulation.taxableincome }}",
+                    'finaltaxamount': "{{ simulation.finaltaxamount }}",
+                    'lunchvouchers': "{{ simulation.lunchvouchers }} ",
+                    'invoiceamount': "{{ simulation.invoiceamount }}",
+                    'managementfees': "{{ simulation.managementfees }}",
+                    'caissemaladieespece': "{{ simulation.caissemaladieespece }}",
+                    'caissemaladie': "{{ simulation.caissemaladie }}",
+                    'assurancedependance': "{{ simulation.assurancedependance }}",
+                    'soinsante': "{{ simulation.soinsante }}",
+                    'cmu': "{{ simulation.cmu }}",
+                    'grosssalary': "{{ simulation.grosssalary }}",
+                    'grossSalaryPluBenefInKind': "{{ simulation.grossSalaryPluBenefInKind }}",
+                    'netamount': "{{ simulation.netamount }}",
+                    'remainder': "{{ simulation.remainder }}",
+                    'assurancedependanceemployee': "{{ simulation.assurancedependanceemployee }}",
+                    'lunchvouchersemployee': "{{ simulation.lunchvouchersemployee }}",
+                    'carleasing': "{{ simulation.carleasing }}",
+                    'benefitinkind': "{{ simulation.benefitinkind }}",
+                    'caissepension': "{{ simulation.caissepension }}"
+                };
 
 
                 //show form when the user clicks
@@ -179,7 +179,6 @@
                 });
 
                 //post the data when the user press send and merge the object with the name, email etc...
-
 
                     $(document).ajaxSend(function() {
                         $("#overlay").fadeIn(300);
@@ -191,17 +190,18 @@
                     let lastname = $('#lastname').val();
                     let email = $('#email').val();
 
-                    var secondObj = {'firstname': firstname, 'lastname' : lastname, 'email' : email};
-
-                    final = Object.assign(firstObj, secondObj);
+                    //Add data from the form field by the user to the existing object to pass to the POST request
+                    firstObj.firstname = firstname;
+                    firstObj.lastname = lastname;
+                    firstObj.email = email;
 
                     $.ajax({
                     type: "POST",
-                    url: "{{ path('sendSimulation') }}",
-                    data: final,
+                    url: "{{ path('sendSimul') }}",
+                    data: firstObj,
                     success: function (msg) {
 
-                        window.location.href = "{{ path('simulation') }}";
+                       window.location.href = "{{ path('simulation') }}";
                     }
 
                     }).done(function() {
