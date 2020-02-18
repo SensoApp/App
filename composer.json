@@ -17,6 +17,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-zip": "*",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "doctrine/orm": "^2.6",
@@ -100,6 +101,10 @@
         "symfony": {
             "allow-contrib": true,
             "require": "4.3.*"
+        },
+        "thanks": {
+            "name": "symfony/webpack-encore",
+            "url": "https://github.com/symfony/webpack-encore"
         }
     }
 }

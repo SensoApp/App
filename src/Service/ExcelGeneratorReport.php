@@ -8,6 +8,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ExcelGeneratorReport
@@ -20,7 +21,7 @@ class ExcelGeneratorReport
 
     public function __construct(ParameterBagInterface $params)
     {
-        $this->pathTemplate = __DIR__ . '/../../report/template/Senso_package_simulation_standard_2.xls';
+        $this->pathTemplate = __DIR__ . '/../../report/template/Senso_package_simulation_standard_3.xlsx';
         $this->params = $params;
         $this->template = IOFactory::load($this->pathTemplate);
 
@@ -48,9 +49,9 @@ class ExcelGeneratorReport
             $spreadsheet->getActiveSheet()->setCellValue('F'.$linenum, 'EUR');
         }
 
-        $this->writer = new Xls($spreadsheet);
+        $this->writer = new Xlsx($spreadsheet);
 
-        $filename = 'Statement'.date('dmy').'_'.uniqid().'.'.'xls';
+        $filename = 'Statement'.date('dmy').'_'.uniqid().'.'.'xlsx';
 
         $temp =  $this->params->get('kernel.project_dir').'/report/temp/'.$filename;
 
@@ -99,10 +100,12 @@ class ExcelGeneratorReport
 
         try {
 
-            $writer = IOFactory::createWriter($this->template, 'Xls');
-            $filename = 'Simulation'.date('dmy').'_'.uniqid().'.'.'xls';
+            $writer = IOFactory::createWriter($this->template, 'Xlsx');
+            $filename = 'Simulation'.date('dmy').'_'.uniqid().'.'.'xlsx';
+
             $tempxls =  $this->params->get('kernel.project_dir').'/report/temp/'.$filename;
             $writer->save($tempxls);
+
 
         } catch (Exception $e) {
 
@@ -111,6 +114,32 @@ class ExcelGeneratorReport
 
         return $tempxls;
     }
+
+    /*public function zipFileCreated($filename) : string
+    {
+        $fileZipped = 'Simulation.zip';
+
+        try{
+
+            $zip  = new \ZipArchive();
+           if( $zip->open($fileZipped, \ZipArchive::CREATE===TRUE))
+           {
+               $zip->addFile($filename);
+               $zip->close();
+
+               return 'ok';
+
+           } else {
+
+               return 'did not work';
+           }
+
+        } catch (\Exception $e ){
+
+            return $e->getMessage();
+        }
+
+    }*/
 
     /*public function convertToPDf($templateToConvert) : void
     {

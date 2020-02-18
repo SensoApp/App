@@ -58,15 +58,18 @@ class SimulationController extends AbstractController
      */
     public function sendSimulation(Request $request)
     {
-        /**
-         * TODO: Save email and contact details in DB
-         */
         try {
             $firsname = $request->request->get('firstname');
             $lastname = $request->request->get('lastname');
             $email = $request->request->get('email');
             $dataRequest = $request->request->getIterator()->getArrayCopy();
             $pathAfterSaving = $this->excelReportInstance->writeToExcelTemplate($dataRequest);
+
+            /**
+             * TODO: Add archiving
+             */
+            //$x =$this->excelReportInstance->zipfileCreated($pathAfterSaving);
+
             $this->mailerService->sendSimulation($firsname, $lastname, $email, $pathAfterSaving);
 
             register_shutdown_function(function () use ($pathAfterSaving){
