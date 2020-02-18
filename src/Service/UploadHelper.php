@@ -126,7 +126,10 @@ class UploadHelper
              */
             $uploadedfile =  $request->files->get('csv_file');
 
-            $dataForAccount = explode('-',$uploadedfile->getClientOriginalName());
+            $parsingFileName = preg_match('[_]',$uploadedfile->getClientOriginalName()) ? '_' : '-';
+
+            $dataForAccount = explode($parsingFileName,$uploadedfile->getClientOriginalName());
+
             $account = $dataForAccount[1];
 
             if(!is_null($uploadedfile)){
