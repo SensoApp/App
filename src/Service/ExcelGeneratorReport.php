@@ -4,11 +4,14 @@
 namespace App\Service;
 
 
+use Cache\Adapter\Apcu\ApcuCachePool;
+use Cache\Bridge\SimpleCache\SimpleCacheBridge;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
-use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ExcelGeneratorReport
@@ -18,13 +21,12 @@ class ExcelGeneratorReport
     private $template;
     private $pathTemplate;
     private $writer;
+    private $pool;
 
     public function __construct(ParameterBagInterface $params)
     {
-        $this->pathTemplate = __DIR__ . '/../../report/template/Senso_package_simulation_standard_3.xlsx';
+        $this->pathTemplate = __DIR__ . '/../../report/template/Senso_package_simulation_standard_4_1.xlsx';
         $this->params = $params;
-        $this->template = IOFactory::load($this->pathTemplate);
-
     }
 
     public function generateStatementInExcel($statement)

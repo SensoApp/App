@@ -128,11 +128,9 @@
                                 {% else %}
                                     <th>Payment status</th>
                                 {% endif %}
-                                <th>Bank holidays</th>
-                                <th>Saturdays</th>
-                                <th>Sundays</th>
-                                <th>Normal Business days</th>
-                                <th>Total Amount</th>
+                                <th>Amount HT</th>
+                                <th>VAT</th>
+                                <th>Amount TTC</th>
                                 <th>View invoice</th>
                                 <th>Download invoice</th>
                             {% endif %}
@@ -145,11 +143,9 @@
                                         <td>{{ list.date|date('d-M-Y') }}</td>
                                         <td>{{ list.status }}</td>
                                         <td>{{ list.paymentstatus }}</td>
-                                        <td>{{ list.bankholidayamount|number_format(2, '.', ',') }} €</td>
-                                        <td>{{ list.saturdyamount|number_format(2, '.', ',') }} € </td>
-                                        <td>{{ list.sundayamount|number_format(2, '.', ',')}} € </td>
-                                        <td>{{ list.businessdaysamount|number_format(2, '.', ',') }} €</td>
-                                        <td>{{ list.totalAmount|number_format(2, '.', ',') }} € </td>
+                                        <td>{{ list.totalamount|number_format(2, '.', ',') }} €</td>
+                                        <td>{{ list.vatamount|number_format(2, '.', ',') }} € </td>
+                                        <td>{{ list.amountttc|number_format(2, '.', ',')}} € </td>
                                     {% if list.path != null %}
                                         <td>
                                             <p data-placement="top" data-toggle="tooltip" title="View">
@@ -330,7 +326,7 @@
                                         <td>{{ list.operations }}</td>
                                         <td>{{ list.communication }}</td>
                                         <td>{{ list.operationdate|date('d-M-Y')}}</td>
-                                        <td>{{ list.amount|number_format(2, '.', ',') }}</td>
+                                        <td class="text-right">{{ list.amount|number_format(2, '.', ',') }}</td>
                                         <td>EUR</td>
                                     </tr>
                                     {% set id = list.referencemovement %}

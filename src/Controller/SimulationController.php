@@ -37,6 +37,7 @@ class SimulationController extends AbstractController
      */
     public function createSimulation(Request $request)
     {
+
         $simulation = null;
 
         if($request->request->count() > 0) {
@@ -54,7 +55,7 @@ class SimulationController extends AbstractController
     /**
      * @param Request $request
      * @return JsonResponse
-     * @Route(path="/simulation/send", name="sendSimulation")
+     * @Route(path="/simulSend", name="sendSimul")
      */
     public function sendSimulation(Request $request)
     {
