@@ -43,8 +43,8 @@ class SimulationCalculator
         $managementfees = self::PACKAGE_BASIC;
         $specifictaxebool = $this->request->get('taxe-class') === 'specific-tax-rate' ? true : false;
         $taxeclass = $this->request->get('taxe-class') === 'specific-tax-rate' ? $this->request->get('specificrate') : $this->request->get('taxe-class');
-        $lunchvouchers = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS : 0.00;
-        $lunchVouchersEmployee = $this->request->get('lunch-vouchers') === 'lunchv-yes' ? self::LUNCH_VOUCHERS_EMPLOYEE : 0.00;
+        $lunchvouchers =  self::LUNCH_VOUCHERS;
+        $lunchVouchersEmployee = self::LUNCH_VOUCHERS_EMPLOYEE;
         //Car leasing a rajouter au taxable amount
         $benefitinkind = $this->request->get('carLeasingAmount') === '' ?  0.00 : $this->request->get('carLeasingAmount');
         $travelExpenses = $this->request->get('travelExpenses') === '' ?  0.00 : $this->request->get('travelExpenses');
