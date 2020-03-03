@@ -6,8 +6,10 @@ namespace App\Invoice;
 use App\Entity\ClientContract;
 use App\Entity\Invoice;
 use App\Entity\InvoiceCreationData;
+use App\Entity\InvoiceRandom;
 use App\Entity\Timesheet;
 use App\Entity\User;
+use App\Service\ExcelGeneratorReport;
 use App\Service\GeneratePdfReport;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,6 +20,7 @@ class InvoiceGenerator
 {
 
     public const STATUS = 'To Be Validated';
+    public const INVOICE_SENT = 'Sent for validation';
     private $nbreDaysWorked;
     private $nbrOfBankHolidays;
     private $nbreOfSaturdays;
@@ -46,12 +49,14 @@ class InvoiceGenerator
     private $generatepdf;
     private $vat;
     private $vatamount;
+    private $excelGeneratorReport;
 
-    public function __construct(EntityManagerInterface $entityManager, GeneratePdfReport $generatePdfReport)
+    public function __construct(EntityManagerInterface $entityManager, GeneratePdfReport $generatePdfReport, ExcelGeneratorReport $excelGeneratorReport)
     {
         $this->invoice = new Invoice();
         $this->entityManager = $entityManager;
         $this->generatepdf = $generatePdfReport;
+        $this->excelGeneratorReport = $excelGeneratorReport;
     }
 
     /**
@@ -271,7 +276,12 @@ class InvoiceGenerator
             $this->entityManager->persist($invoice);
             $this->entityManager->flush();
 
-            $this->generatepdf->reportConstructInvoice($userForNames[0]->getFirstname(), $userForNames[0]->getLastname(),$this->invoice,$invoice->getId(),false,  $timesheetdata);
+            $filepath = $this->excelGeneratorReport->writeExcelTemplateInvoice($this->invoice,$userForNames[0]);
+
+            $this->entityManager->getRepository(Invoice::class)
+                ->updateStatus(self::INVOICE_SENT, $this->invoice->getId(), $filepath);
+
+            //$this->generatepdf->reportConstructInvoice($userForNames[0]->getFirstname(), $userForNames[0]->getLastname(),$this->invoice,$invoice->getId(),false,  $timesheetdata);
 
         } catch (Exception $exception){
 
@@ -304,6 +314,28 @@ class InvoiceGenerator
             $vatamount = number_format((float)$vatamount, 2, ',', '');
             $amounttc = number_format((float)$amounttc, 2, ',', '');
 
+            //Get User object
+            $userForNames  = $this->entityManager
+                ->getRepository(User::class)
+                ->findBy(['id' => $invoices['user_id']]);
+
+            //Get related client
+            $clientName = $userForNames[0]->getClientContracts()
+                                        ->getValues()[0]
+                                        ->getClientName()
+                                        ->getClientName();
+
+            //Get client Id
+            $clientId = $userForNames[0]->getClientContracts()
+                ->getValues()[0]
+                ->getClientName()
+                ->getId();
+
+            $vatNumber = $userForNames[0]->getClientContracts()
+                                        ->getValues()[0]
+                                        ->getClientName()
+                                        ->getVatNumber();
+
             $invoiceData = [
 
                 'date' => $invoices['created_at'],
@@ -314,12 +346,31 @@ class InvoiceGenerator
                 'description' => $invoices['description'],
                 'amount' => $amount,
                 'amountForUnits' => $amountForUnits > 0 ? $amountForUnits : 0.00,
-                'amounttc' => $amounttc
+                'amounttc' => $amounttc,
+                'clientName' => $clientName,
+                'clientId' => $clientId,
+                'vatNumber' => $vatNumber,
+                'invoiceId' => $invoices['invoiceid'],
+                'firstname' => $invoices['firstname'],
+                'lastname'  => $invoices['lastname']
 
             ];
         }
 
-       $this->generatepdf->reportConstructInvoice($invoices['firstname'], $invoices['lastname'],$invoiceData, $invoices['invoiceid'],true);
+        try{
+
+            $filepath = $this->excelGeneratorReport->writeExcelTemplateInvoiceRandom($invoiceData);
+
+            $amountForUnit = $invoiceData['amountForUnits'] > 0 ? $invoiceData['amountForUnits'] : null;
+            $this->entityManager->getRepository(InvoiceRandom::class)
+                ->updateStatus(self::INVOICE_SENT, $invoices['invoiceid'], $filepath, $amountForUnit);
+
+            //$this->generatepdf->reportConstructInvoice($invoices['firstname'], $invoices['lastname'],$invoiceData, $invoices['invoiceid'],true);
+
+        } catch (\Exception $exception){
+
+            dd($exception->getMessage().'hello '.$exception->getLine().' '.$exception->getTrace());
+        }
 
     }
 

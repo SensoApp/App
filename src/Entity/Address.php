@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -65,9 +67,16 @@ class Address
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\ContactEndClient", mappedBy="address")
+     */
+    private $contactEndClients;
+
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
+        $this->contactEndClients = new ArrayCollection();
     }
 
     /**
@@ -214,12 +223,32 @@ class Address
         $this->updatedAt = $updatedAt;
     }
 
-
-    /*public function __toString()
+    /**
+     * @return Collection|ContactEndClient[]
+     */
+    public function getContactEndClients(): Collection
     {
-        // TODO: Implement __toString() method.
+        return $this->contactEndClients;
+    }
 
-        return (string) $this->getContact();
-    }*/
+    public function addContactEndClient(ContactEndClient $contactEndClient): self
+    {
+        if (!$this->contactEndClients->contains($contactEndClient)) {
+            $this->contactEndClients[] = $contactEndClient;
+            $contactEndClient->addAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactEndClient(ContactEndClient $contactEndClient): self
+    {
+        if ($this->contactEndClients->contains($contactEndClient)) {
+            $this->contactEndClients->removeElement($contactEndClient);
+            $contactEndClient->removeAddress($this);
+        }
+
+        return $this;
+    }
 
 }

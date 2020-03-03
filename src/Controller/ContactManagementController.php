@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\ContactType;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Form\ClientContractType;
 use App\Entity\ClientContract;
@@ -38,23 +39,33 @@ class ContactManagementController extends AbstractController
      */
     public function createContact(Request $request)
     {
+        try{
 
-        $form = $this->createForm(ContactType::class)
+            $form = $this->createForm(ContactType::class)
                      ->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
 
-            $task = $form->getData();
+            if($form->isSubmitted() && $form->isValid()){
 
-            $name = $task->getFirstName();
+                $task = $form->getData();
 
-            $this->em->persist($task);
-            $this->em->flush();
+                ///dd($task);
 
-            $this->addFlash('success', 'Contact '.$name.' created successfully');
+                $name = $task->getFirstName();
 
-            return $this->redirectToRoute('adminsenso');
+                $this->em->persist($task);
+                $this->em->flush();
+
+                $this->addFlash('success', 'Contact '.$name.' created successfully');
+
+                return $this->redirectToRoute('adminsenso');
+            }
+
+        } catch(\Exception $e) {
+
+            return $e->getMessage();
         }
+
 
 
         return $this->render('form/newcontact.html.twig', [
@@ -153,7 +164,7 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/edit-client/{id}", name="edit_client")
      */
-    public function editClient(Request $request, $id, ContactEndClient $contact)
+    public function editClientContact(Request $request, $id, ContactEndClient $contact)
     {
         $form = $this->createForm(ContactEndClientType::class, $contact);
 
@@ -172,6 +183,8 @@ class ContactManagementController extends AbstractController
             return $this->redirectToRoute('adminsenso');
 
         }
+
+        //dd($form);
         return $this->render('form/edit-client.html.twig', [
 
             'form' => $form->createView()

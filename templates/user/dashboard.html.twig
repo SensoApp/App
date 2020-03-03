@@ -114,25 +114,22 @@
             <br>
             <div class="row">
                 <section class="col-md-12">
-                    <h3 class="h3 text-center" style="font-weight: bold">Invoice</h3>
+                    <h3 class="h3 text-center" style="font-weight: bold">Invoices</h3>
                     <br/>
                     <div class="table-responsive">
                         <table id="mytable" class="table table-bordred table-striped">
                             <thead>
+
                             <th>Month</th>
                             <th>Date of Submission</th>
                             <th>Status</th>
                             {% if invoice != null %}
-                                {% if invoice[0].status != 'Validated - sent to client' %}
-                                    <th>Validate invoice</th>
-                                {% else %}
-                                    <th>Payment status</th>
-                                {% endif %}
+                                <th>Payment status</th>
                                 <th>Amount HT</th>
                                 <th>VAT</th>
                                 <th>Amount TTC</th>
+                                <th>Type of Invoice</th>
                                 <th>View invoice</th>
-                                <th>Download invoice</th>
                             {% endif %}
                             </thead>
                             <tbody>
@@ -146,19 +143,21 @@
                                         <td>{{ list.totalamount|number_format(2, '.', ',') }} €</td>
                                         <td>{{ list.vatamount|number_format(2, '.', ',') }} € </td>
                                         <td>{{ list.amountttc|number_format(2, '.', ',')}} € </td>
-                                    {% if list.path != null %}
+                                        <td>{{ list.type}} </td>
+                                    {% if list.path != null  and list.type == 'Random Invoice'%}
                                         <td>
                                             <p data-placement="top" data-toggle="tooltip" title="View">
-                                                <a href="{{ path('viewinvoicepdf', {id: list.id}) }}">
+                                                <a href="{{ path('viewrandominvoicepdf', {id: list.id}) }}">
                                                     <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
                                                     </button>
                                                 </a>
                                             </p>
                                         </td>
+                                    {% else %}
                                         <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="download">
-                                                <a href="{{ path('downloadinvoice', {id: list.id}) }}">
-                                                    <button class="btn btn-info btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-download"></span>
+                                            <p data-placement="top" data-toggle="tooltip" title="View">
+                                                <a href="{{ path('viewinvoicepdf', {id: list.id}) }}">
+                                                    <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
                                                     </button>
                                                 </a>
                                             </p>
@@ -171,55 +170,6 @@
                                     <i>No invoice recorded</i>
                                 </td>
                         {% endif %}
-                        </table>
-                    </div>
-                    <h3 class="h3 text-center" style="font-weight: bold">Other types of Invoices (expenses etc...)</h3>
-                    <br>
-                    <div class="card-body">
-                        <table id="mytable" class="table table-bordred table-striped">
-                            <thead>
-                            <tr class="text-center">
-                                <th>Description</th>
-                                <th>Month</th>
-                                <th>Date sent</th>
-                                <th>Total amount</th>
-                                <th>Status</th>
-                                <th>Payment received</th>
-                                <th>View invoice</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% if randominvoice != null %}
-                                {% for inv in randominvoice %}
-                                    <tr>
-                                        <td>{{ inv.description }}</td>
-                                        <td>{{ inv.createdAt|date('M') }}</td>
-                                        <td>{{ inv.createdAt|date('d-M-Y') }}</td>
-                                        <td>{{ inv.amount|number_format(2, '.', ',') }} €</td>
-                                        <td>{{ inv.status }}</td>
-                                        {% if inv.paymentstatus != null %}
-                                            <td>{{ inv.paymentstatus }}</td>
-                                        {% else %}
-                                            <td>Invoice not sent</td>
-                                        {% endif %}
-                                        <td>
-                                            <p data-placement="top" data-toggle="tooltip" title="View">
-                                                <a href="{{ path('viewrandominvoicepdf', {id: inv.id}) }}">
-                                                    <button class="btn btn-success btn-xs" data-title="View" data-toggle="modal" data-target="" ><span class="glyphicon glyphicon-zoom-in"></span>
-                                                    </button>
-                                                </a>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td>
-                                        <i>No invoice recorded</i>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            </tbody>
                         </table>
                     </div>
                 </section>

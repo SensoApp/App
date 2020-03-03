@@ -23,6 +23,7 @@
                     {{ form_row(form.clientname) }}
                     {{ form_row(form.type) }}
                     {{ form_row(form.contactperson) }}
+                    {{ form_row(form.vatNumber) }}
                     {% if form.children.phone.children|length > 0 %}
                         {{ form_row(form.phone) }}
                     {% else %}
@@ -32,6 +33,11 @@
                         {{ form_row(form.mail) }}
                     {% else %}
                         {{ form_row(form.mail.vars.prototype) }}
+                    {% endif %}
+                    {% if form.children.address.children | length > 0 %}
+                        {{ form_row(form.address) }}
+                    {% else %}
+                        {{ form_row(form.address.vars.prototype) }}
                     {% endif %}
                     {{ form_row(form.Submit) }}
                     {{ form_end(form) }}

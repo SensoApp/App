@@ -16,8 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SimulationController extends AbstractController
 {
-
-
+    const SIMULATION_REPORT = 'simulation';
     private $simulationCalculator;
     private $excelReportInstance;
     private $mailerService;
@@ -64,14 +63,10 @@ class SimulationController extends AbstractController
             $lastname = $request->request->get('lastname');
             $email = $request->request->get('email');
             $dataRequest = $request->request->getIterator()->getArrayCopy();
-            $pathAfterSaving = $this->excelReportInstance->writeToExcelTemplate($dataRequest);
-
-            /**
-             * TODO: Add archiving
-             */
-            //$x =$this->excelReportInstance->zipfileCreated($pathAfterSaving);
+            $pathAfterSaving = $this->excelReportInstance->writeToExcelTemplateSimulation($dataRequest);
 
             $this->mailerService->sendSimulation($firsname, $lastname, $email, $pathAfterSaving);
+            $this->saveContactFromSimulationCreation($firsname, $lastname, $email, $pathAfterSaving);
 
             register_shutdown_function(function () use ($pathAfterSaving){
                 if(file_exists($pathAfterSaving)){
@@ -79,7 +74,6 @@ class SimulationController extends AbstractController
                 }
             });
 
-            $this->saveContactFromSimulation($firsname, $lastname, $email);
 
         } catch (\Exception $exception) {
 
@@ -98,10 +92,19 @@ class SimulationController extends AbstractController
 
     }
 
-    private function saveContactFromSimulation($firstname, $lastname, $email)
+    /**
+     * @param $firstname
+     * @param $lastname
+     * @param $email
+     * Save the contact entered in the database from the form to get the detailed simulation
+     */
+    private function saveContactFromSimulationCreation($firstname, $lastname, $email, $attach)
     {
-        //Persists Contact that requests the detailled simulation
-        //Add GDPR stuff as well
+        /**
+         *
+         * TODO: Add GDPR stuff as well
+         */
+
         $contact = new Contact();
         $contact->setFirstname($firstname);
         $contact->setLastname($lastname);
@@ -119,7 +122,7 @@ class SimulationController extends AbstractController
             $entitymanager->flush();
         }
 
-        $this->mailerService->sendNewContactSimulation($firstname, $lastname, $email);
+        $this->mailerService->sendNewContactSimulation($firstname, $lastname, $email, $attach);
 
     }
 

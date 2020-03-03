@@ -43,6 +43,17 @@ class ContactEndClientType extends AbstractType
                     'label' => false
                 ]
             ])
+            ->add('vatNumber')
+            ->add('address', CollectionType::class,[
+                'entry_type'=> AddressType::class,
+                'allow_add' =>true,
+                'prototype' => true,
+                'label' => false,
+                'by_reference' => false,
+                'entry_options' =>[
+                    'label' => false
+                ]
+            ])
             ->add('Submit', SubmitType::class)
         ;
     }

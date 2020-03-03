@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ContactEndClientRepository")
@@ -43,15 +44,10 @@ class ContactEndClient
      */
     private $mail;
 
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ClientContract", mappedBy="clientname")
      */
     private $contract;
-
-    /**
-     * TODO Add VAT stuff for the invoicing
-     */
 
     /**
      * @ORM\Column(type="datetime")
@@ -63,13 +59,32 @@ class ContactEndClient
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $vatNumber;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Address", inversedBy="contactEndClients" , cascade={"persist", "remove"})
+     */
+    private $address;
+
     public function __construct()
     {
         $this->phone = new ArrayCollection();
         $this->mail = new ArrayCollection();
-        $this->address = new ArrayCollection();
         $this->contract = new ArrayCollection();
         $this->createdAt = new \DateTime('now');
+        $this->address = new ArrayCollection();
+
+    }
+
+    public function __toString()
+    {
+        $this === $this->address ? $var = $this->address : $var = $this->clientname;
+
+        return (string) $var;
+
     }
 
     public function getId(): ?int
@@ -144,9 +159,6 @@ class ContactEndClient
     {
         $this->updatedAt = $updatedAt;
     }
-
-
-
 
     /**
      * @return Collection|Phone[]
@@ -228,11 +240,6 @@ class ContactEndClient
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->clientname;
-    }
-
     public function getContract(): ?ClientContract
     {
         return $this->contract;
@@ -274,5 +281,42 @@ class ContactEndClient
         return $this;
     }
 
+    public function getVatNumber(): ?string
+    {
+        return $this->vatNumber;
+    }
+
+    public function setVatNumber(?string $vatNumber): self
+    {
+        $this->vatNumber = $vatNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Address[]
+     */
+    public function getAddress(): Collection
+    {
+        return $this->address;
+    }
+
+    public function addAddres(Address $address): self
+    {
+        if (!$this->address->contains($address->getStreet())) {
+            $this->address[] = $address;
+        }
+
+        return $this;
+    }
+
+    public function removeAddres(Address $address): self
+    {
+        if ($this->address->contains($address)) {
+            $this->address->removeElement($address);
+        }
+
+        return $this;
+    }
 
 }

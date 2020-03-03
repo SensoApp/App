@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 class SimulationCalculator
 {
     const PACKAGE_BASIC = 350;
-    const PACKAGE_PREMIUM = 425;
 
     const CAISSE_MALADIE = 0.028;
     const CAISSE_MALADIE_ESPECE = 0.0025;
@@ -19,7 +18,7 @@ class SimulationCalculator
     const SOINS_SANTE = 0.0011;
     const CMU = 0.0107;
     const LUNCH_VOUCHERS = 194.40;
-    const FIXE_DEDUCTION_DEPENDANCE = 522.44;
+    const FIXE_DEDUCTION_DEPENDANCE = 535.50;
     const LUNCH_VOUCHERS_EMPLOYEE = 50.40;
     const DAYS_WORKED = 18;
 

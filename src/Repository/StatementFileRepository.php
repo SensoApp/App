@@ -8,7 +8,6 @@ use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * @method StatementFile|null find($id, $lockMode = null, $lockVersion = null)

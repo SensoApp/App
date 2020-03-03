@@ -19,9 +19,9 @@ use App\Entity\User;
 use App\Form\EditRegistrationType;
 use App\Form\ResetPasswordType;
 use App\Service\ExcelGeneratorReport;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use PhpOffice\PhpSpreadsheet\Shared\File;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -104,7 +104,6 @@ class UserController extends AbstractController
             'lastname' => $this->lastname,
             'clientcontract' => $this->selectClientContract(),
             'invoice' => $this->selectInvoice(),
-            'randominvoice' => $this->selectRandomInvoice(),
             'personaldetails' => $this->selectPersonalDetails(),
             'pagination' => $pagination,
             'statementsum' => $statementsum,
@@ -295,17 +294,63 @@ class UserController extends AbstractController
 
     protected function selectInvoice()
     {
-        return $this->entitymanager
-            ->getRepository(Invoice::class)
-            ->findBy(['user' => $this->user]);
+        $bigArr = ['Invoice' => $this->entitymanager
+                                    ->getRepository(Invoice::class)
+                                    ->findBy(['user' => $this->user]),
+                    'Random' => $this->entitymanager
+                                     ->getRepository(InvoiceRandom::class)
+                                     ->findBy(['user' => $this->userid])
+                    ];
+
+        $collection = new ArrayCollection();
+
+        foreach ($bigArr as $key => $bigA){
+
+            foreach ($bigA as $arr){
+
+                if ($key === 'Invoice'){
+
+                    $collection->add( [
+                                        'month'             =>$arr->getMonth(),
+                                        'date'              => $arr->getDate(),
+                                        'status'            => $arr->getStatus(),
+                                        'paymentstatus'     => $arr->getPaymentstatus(),
+                                        'totalamount'       => $arr->getTotalAmount(),
+                                        'vatamount'         => $arr->getVat(),
+                                        'amountttc'         => $arr->getAmountttc(),
+                                        'id'                => $arr->getId(),
+                                        'path'              => $arr->getPath(),
+                                        'type'              => 'Invoice Consulting'
+
+                                ]
+                            );
+                } else {
+
+                    $vatamount = $arr->getVat() * $arr->getAmount();
+                    $ttcAmount = $arr->getAmount() + $vatamount;
+                    $dateMonth = $arr->getCreatedAt()->format('M');
+
+                    $collection->add([
+
+                                        'paymentstatus' => $arr->getPaymentStatus(),
+                                        'totalamount'   => $arr->getAmount(),
+                                        'vatamount'     => $vatamount,
+                                        'amountttc'     => $ttcAmount,
+                                        'status'        => $arr->getStatus(),
+                                        'id'            => $arr->getId(),
+                                        'month'         => $dateMonth,
+                                        'date'          => $arr->getCreatedAt(),
+                                        'path'          => $arr->getPath(),
+                                        'type'          => 'Random Invoice'
+                                ]
+                    );
+
+                }
+
+            }
+
+        }
+
+        return $collection->getValues();
     }
-
-    protected function selectRandomInvoice()
-    {
-        return $this->entitymanager
-            ->getRepository(InvoiceRandom::class)
-            ->findBy(['user' => $this->userid]);
-    }
-
-
 }

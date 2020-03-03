@@ -143,7 +143,7 @@ class MailerService
             }
     }
 
-    public function sendNewContactSimulation($firstname, $lastname, $email) : void
+    public function sendNewContactSimulation($firstname, $lastname, $email, $attach) : void
     {
         $message = (new \Swift_Message('Info'))
             ->setFrom(['info@senso.lu' => 'Info Senso'])
@@ -151,6 +151,8 @@ class MailerService
             ->setSubject('[Sales] New contact from simulation tool');
 
         $image = $message->embed(\Swift_EmbeddedFile::fromPath($this->path));
+
+        $message->attach(Swift_Attachment::fromPath($attach));
 
         $messagebody = $this->templating->render('mail_template/contactFromSimulation.html.twig', [
 
