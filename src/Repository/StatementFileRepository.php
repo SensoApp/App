@@ -161,6 +161,8 @@ class StatementFileRepository extends ServiceEntityRepository
 
         $em->andWhere('s.user=:userid');
 
+        $em->orderBy('s.operationdate', 'DESC');
+
         $em->setParameters([
 
             'userid' => $userid
