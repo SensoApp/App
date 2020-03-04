@@ -91,12 +91,14 @@ class StatementFileRepository extends ServiceEntityRepository
 
                 foreach ($query->getResult() as $res){
 
-                    if($res['referencemovement'] === $datatocheck->getReferencemovement()){
+                    if($res['referencemovement'] === $datatocheck->getReferencemovement() ){
 
                         $this->getEntityManager()->remove($datatocheck);
+
                     }
                 };
             }
+
         } catch (ORMException $ORMException){
 
             return $ORMException->getMessage();

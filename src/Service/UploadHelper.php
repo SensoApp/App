@@ -161,16 +161,22 @@ class UploadHelper
 
                                 switch ($title){
 
-                                /*case $title === 'BeneficiaryAccount' :
-                                    $statement->setAccount($fileparser);
-                                break;*/
-
                                 case $title === 'Code' :
                                     $statement->setReferencemovement($fileparser);
                                 break;
 
                                 case $title === 'Text' :
-                                    $statement->setOperations($fileparser);
+
+                                    if($fileparser === "FRAIS SUR OPERATION"){
+
+                                        $statement->setOperations($fileparser);
+                                        $statement->setReferencemovement($statement->getReferencemovement().'F');
+
+                                    } else {
+
+                                        $statement->setOperations($fileparser);
+                                    }
+
                                 break;
 
                                 case $title === 'Communication' :
@@ -207,6 +213,7 @@ class UploadHelper
 
                     $this->entityManager->getRepository(StatementFile::class)
                                         ->removeDuplicates($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
+
 
                     $linesinstered = count( $this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
 
