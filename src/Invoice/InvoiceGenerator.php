@@ -126,9 +126,9 @@ class InvoiceGenerator
 
             if($this->nbrOfBankHolidays > 0 || $this->nbreOfSaturdays > 0 || $this->nbreOfSundays > 0){
 
-                $this->businessdays =  $this->nbreDaysWorked - ($this->nbrOfBankHolidays + $this->nbreOfSaturdays + $this->nbreOfSundays) ;
+                //$this->businessdays =  $this->nbreDaysWorked - ($this->nbrOfBankHolidays + $this->nbreOfSaturdays + $this->nbreOfSundays) ;
 
-                $this->invoicenormaldays = $this->rate * $this->businessdays;
+                $this->invoicenormaldays = $this->rate * $this->nbreDaysWorked;
 
                 $this->pricebankholidays = $this->nbrOfBankHolidays * ($this->rate * $this->extrapercentbankholidays);
 

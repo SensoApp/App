@@ -170,6 +170,7 @@ class ExcelGeneratorReport
 
     public function writeExcelTemplateInvoice(Invoice $invoice, UserInterface $user) : string
     {
+
         $clientId =  $invoice->getContract()->getClientName()->getId();
 
         //retrieve address with custom query (many to many so through the joint table)

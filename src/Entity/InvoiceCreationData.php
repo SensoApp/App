@@ -22,22 +22,22 @@ class InvoiceCreationData
     private $month;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      */
     private $daysWorked;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $bankHolidays;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $workSaturdays;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $workSundays;
 
@@ -86,48 +86,49 @@ class InvoiceCreationData
 
 
 
-    public function getDaysWorked(): ?int
+    public function getDaysWorked(): ?float
     {
         return $this->daysWorked;
     }
 
-    public function setDaysWorked(int $daysWorked): self
+    public function setDaysWorked(float $daysWorked): self
     {
         $this->daysWorked = $daysWorked;
 
         return $this;
     }
 
-    public function getBankHolidays(): ?int
+    public function getBankHolidays(): ?float
     {
         return $this->bankHolidays;
     }
 
-    public function setBankHolidays(?int $bankHolidays): self
+    public function setBankHolidays(?float $bankHolidays): self
     {
         $this->bankHolidays = $bankHolidays;
 
         return $this;
     }
 
-    public function getWorkSaturdays(): ?int
+    public function getWorkSaturdays(): ?float
     {
         return $this->workSaturdays;
     }
 
-    public function setWorkSaturdays(?int $workSaturdays): self
+    public function setWorkSaturdays(?float $workSaturdays): self
     {
         $this->workSaturdays = $workSaturdays;
 
         return $this;
     }
 
-    public function getWorkSundays(): ?int
+    public function getWorkSundays(): ?float
+
     {
         return $this->workSundays;
     }
 
-    public function setWorkSundays(?int $workSundays): self
+    public function setWorkSundays(?float $workSundays): self
     {
         $this->workSundays = $workSundays;
 

@@ -113,7 +113,7 @@ class InvoiceController extends AbstractController
      *
      * @param $id
      *
-     * @Route(path="/newadmin/invoice/pdf/{id}", name="viewinvoicepdf")
+     * @Route(path="/invoice/pdf/{id}", name="viewinvoicepdf")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -195,6 +195,7 @@ class InvoiceController extends AbstractController
      */
     public function createManualInvoice(Request $request)
     {
+
         $month = $request->request->get('month');
 
         $form = $this->createForm(InvoiceManualCreationType::class)

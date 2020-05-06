@@ -32,7 +32,8 @@ class RegistrationController extends AbstractController
 
             if($form->get('contact')->getData() !==null){
 
-                $id = (int) $form->get('contact')->getData()->getId();
+                //$id = (int) $form->get('contact')->getData()->getId();
+                $id = $form->get('contact')->getData();
                 $user->setContact($id);
             }
             $entityManager = $this->getDoctrine()->getManager();

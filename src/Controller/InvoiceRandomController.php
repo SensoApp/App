@@ -138,7 +138,7 @@ class InvoiceRandomController extends AbstractController
      *
      * @param $id
      *
-     * @Route(path="/newadmin/random-invoice/pdf/{id}", name="viewrandominvoicepdf")
+     * @Route(path="/random-invoice/pdf/{id}", name="viewrandominvoicepdf")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

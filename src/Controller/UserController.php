@@ -316,7 +316,7 @@ class UserController extends AbstractController
                                         'status'            => $arr->getStatus(),
                                         'paymentstatus'     => $arr->getPaymentstatus(),
                                         'totalamount'       => $arr->getTotalAmount(),
-                                        'vatamount'         => $arr->getVat(),
+                                        'vatamount'         => $arr->getVatamount(),
                                         'amountttc'         => $arr->getAmountttc(),
                                         'id'                => $arr->getId(),
                                         'path'              => $arr->getPath(),
