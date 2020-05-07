@@ -219,36 +219,36 @@ class ClientContract
         $this->updatedAt = $updatedAt;
     }
 
-    public function getExtrapercentsatyrday(): ?int
+    public function getExtrapercentsatyrday(): ?float
     {
         return $this->extrapercentsatyrday;
     }
 
-    public function setExtrapercentsatyrday(int $extrapercentsatyrday): self
+    public function setExtrapercentsatyrday(float $extrapercentsatyrday): self
     {
         $this->extrapercentsatyrday = $extrapercentsatyrday;
 
         return $this;
     }
 
-    public function getExtrapercentsunday(): ?int
+    public function getExtrapercentsunday(): ?float
     {
         return $this->extrapercentsunday;
     }
 
-    public function setExtrapercentsunday(int $extrapercentsunday): self
+    public function setExtrapercentsunday(float $extrapercentsunday): self
     {
         $this->extrapercentsunday = $extrapercentsunday;
 
         return $this;
     }
 
-    public function getExtrapercentbankholidays(): ?int
+    public function getExtrapercentbankholidays(): ?float
     {
         return $this->extrapercentbankholidays;
     }
 
-    public function setExtrapercentbankholidays(int $extrapercentbankholidays): self
+    public function setExtrapercentbankholidays(float $extrapercentbankholidays): self
     {
         $this->extrapercentbankholidays = $extrapercentbankholidays;
 
