@@ -122,6 +122,11 @@ class InvoiceGenerator
     {
         //test if there is a special percentage for special days, if yes then the below
 
+        //Here we define the actual rate when it is different than the business rate
+        $rateSunday = $this->rate * $this->extrapercentsunday;
+        $rateSaturday = $this->rate * $this->extrapercentsatyrday;
+        $rateBankHolidays = $this->rate * $this->extrapercentbankholidays;
+
         if( $this->extrapercentsatyrday > 0 || $this->extrapercentsunday > 0 || $this->extrapercentbankholidays > 0){
 
             if($this->nbrOfBankHolidays > 0 || $this->nbreOfSaturdays > 0 || $this->nbreOfSundays > 0){
@@ -130,11 +135,11 @@ class InvoiceGenerator
 
                 $this->invoicenormaldays = $this->rate * $this->nbreDaysWorked;
 
-                $this->pricebankholidays = $this->nbrOfBankHolidays * ($this->rate * $this->extrapercentbankholidays);
+                $this->pricebankholidays = $this->nbrOfBankHolidays * $rateBankHolidays;
 
-                $this->pricesaturday = $this->nbreOfSaturdays * ($this->rate * $this->extrapercentsatyrday);
+                $this->pricesaturday = $this->nbreOfSaturdays * $rateSaturday;
 
-                $this->pricesunday = $this->nbreOfSundays * ($this->rate * $this->extrapercentsunday);
+                $this->pricesunday = $this->nbreOfSundays * $rateSunday;
 
                 $this->finalamountwithspecialdays = $this->invoicenormaldays + $this->pricebankholidays + $this->pricesaturday + $this->pricesunday;
 
@@ -149,6 +154,9 @@ class InvoiceGenerator
                         'Work on Sundays' => $this->pricesunday,
                         'Business days' => $this->invoicenormaldays,
                         'TotalamountHT' => $this->finalamountwithspecialdays,
+                        'rate_Sunday' => $rateSunday,
+                        'rate_Saturday' => $rateSaturday,
+                        'rate_Bank_holidays' => $rateBankHolidays,
                         'AmountTTC' => $this->amounttc,
                         'VatAmount' => $this->vatamount
                 ];
@@ -259,6 +267,9 @@ class InvoiceGenerator
         array_key_exists('Bank holidays', $amount ) ?  $this->invoice->setBankholidayamount($amount['Bank holidays']) : $this->invoice->setBankholidayamount(0);
         array_key_exists('Work on Saturdays', $amount)  ? $this->invoice->setSaturdyamount($amount['Work on Saturdays']): $this->invoice->setSaturdyamount(0);
         array_key_exists('Work on Sundays', $amount)  ? $this->invoice->setSundayamount($amount['Work on Sundays']) : $this->invoice->setSundayamount(0);
+        array_key_exists('rate_Sunday', $amount) ? $this->invoice->setSundayRate($amount['rate_Sunday']) : $this->invoice->setSundayRate(0);
+        array_key_exists('rate_Saturday', $amount) ? $this->invoice->setSaturdayRate($amount['rate_Saturday']) : $this->invoice->setSaturdayRate(0);
+        array_key_exists('rate_Bank_holidays', $amount) ? $this->invoice->setBankHolidayRate($amount['rate_Bank_holidays']) : $this->invoice->setBankHolidayRate(0);
         $this->invoice->setBusinessdaysamount($amount['Business days']);
         $this->invoice->setTotalAmount($amount['TotalamountHT']);
         $this->invoice->setAmountttc($amount['AmountTTC']);
@@ -275,6 +286,8 @@ class InvoiceGenerator
 
             $this->entityManager->persist($invoice);
             $this->entityManager->flush();
+
+            //dd($this->invoice);
 
             $filepath = $this->excelGeneratorReport->writeExcelTemplateInvoice($this->invoice,$userForNames[0]);
 

@@ -170,7 +170,6 @@ class ExcelGeneratorReport
 
     public function writeExcelTemplateInvoice(Invoice $invoice, UserInterface $user) : string
     {
-
         $clientId =  $invoice->getContract()->getClientName()->getId();
 
         //retrieve address with custom query (many to many so through the joint table)
@@ -212,13 +211,13 @@ class ExcelGeneratorReport
 
         if($invoice->getBankholidayamount() > 0){
 
-            $bankHolidaysRate = $invoice->getContract()->getRate() * $invoice->getContract()->getExtrapercentbankholidays();
+            //$bankHolidaysRate = $invoice->getContract()->getRate() * $invoice->getContract()->getExtrapercentbankholidays();
             //Description
             $worksheet->getCell('A17')->setValue('Bank Holidays');
             //units
             $worksheet->getCell('F17')->setValue($invoice->getInvoiceCreationData()->getBankHolidays());
             //rate
-            $worksheet->getCell('G17')->setValue($bankHolidaysRate);
+            $worksheet->getCell('G17')->setValue($invoice->getBankHolidayRate());
             //Grossamount
             $worksheet->getCell('H17')->setValue($invoice->getBankholidayamount());
 
@@ -226,13 +225,13 @@ class ExcelGeneratorReport
 
         if($invoice->getSaturdyamount() > 0){
 
-            $bankHolidaysRate = $invoice->getContract()->getRate() * $invoice->getContract()->getExtrapercentsatyrday();
+            //$bankHolidaysRate = $invoice->getContract()->getRate() * $invoice->getContract()->getExtrapercentsatyrday();
             //Description
             $worksheet->getCell('A18')->setValue('Saturday work');
             //units
             $worksheet->getCell('F18')->setValue($invoice->getInvoiceCreationData()->getWorkSaturdays());
             //rate
-            $worksheet->getCell('G18')->setValue($bankHolidaysRate);
+            $worksheet->getCell('G18')->setValue($invoice->getSaturdayRate());
             //Grossamount
             $worksheet->getCell('H18')->setValue($invoice->getSaturdyamount());
 
@@ -240,13 +239,13 @@ class ExcelGeneratorReport
 
         if($invoice->getSundayamount() > 0){
 
-            $bankHolidaysRate = $invoice->getContract()->getRate() * $invoice->getContract()->getExtrapercentsunday();
+            //$bankHolidaysRate = $invoice->getContract()->getRate() * $invoice->getContract()->getExtrapercentsunday();
             //Description
             $worksheet->getCell('A19')->setValue('Sunday work');
             //units
             $worksheet->getCell('F19')->setValue($invoice->getInvoiceCreationData()->getWorkSundays());
             //rate
-            $worksheet->getCell('G19')->setValue($bankHolidaysRate);
+            $worksheet->getCell('G19')->setValue($invoice->getSundayRate());
             //Grossamount
             $worksheet->getCell('H19')->setValue($invoice->getSundayamount());
 
@@ -263,6 +262,7 @@ class ExcelGeneratorReport
             $filename = 'Invoice'.'_'.$invoice->getMonth().'_'.$user->getFirstname().'_'.$user->getFirstname().uniqid().'.'.'xlsx';
 
             $tempxls =  $this->params->get('kernel.project_dir').'/report/temp/'.$filename;
+
             $writer->save($tempxls);
 
 

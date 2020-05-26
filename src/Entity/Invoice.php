@@ -118,6 +118,21 @@ class Invoice
      */
     private $invoiceCreationData;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $bankHolidayRate;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $saturdayRate;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $sundayRate;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -380,6 +395,42 @@ class Invoice
     public function setInvoiceCreationData(InvoiceCreationData $invoiceCreationData): self
     {
         $this->invoiceCreationData = $invoiceCreationData;
+
+        return $this;
+    }
+
+    public function getBankHolidayRate(): ?float
+    {
+        return $this->bankHolidayRate;
+    }
+
+    public function setBankHolidayRate(?float $bankHolidayRate): self
+    {
+        $this->bankHolidayRate = $bankHolidayRate;
+
+        return $this;
+    }
+
+    public function getSaturdayRate(): ?float
+    {
+        return $this->saturdayRate;
+    }
+
+    public function setSaturdayRate(?float $saturdayRate): self
+    {
+        $this->saturdayRate = $saturdayRate;
+
+        return $this;
+    }
+
+    public function getSundayRate(): ?float
+    {
+        return $this->sundayRate;
+    }
+
+    public function setSundayRate(?float $sundayRate): self
+    {
+        $this->sundayRate = $sundayRate;
 
         return $this;
     }
