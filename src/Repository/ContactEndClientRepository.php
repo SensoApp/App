@@ -56,30 +56,21 @@ class ContactEndClientRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
 
-        $query ='SELECT  a.*
+        $query ='SELECT  a.street, a.postcode, a.city
                   FROM contact_end_client c
                   INNER JOIN contact_end_client_address cl on c.id = cl.contact_end_client_id
                   INNER JOIN address a on cl.address_id = a.id
                   WHERE c.id = :id';
 
         $stmt = $em->getConnection()->prepare($query);
-        $param =['id' => $clientId];
+        $param = ['id' => $clientId];
 
         $stmt->execute($param);
+        $address = $stmt->fetch();
 
-        if(!$stmt->fetchAll() === null){
-
-            foreach ($stmt->fetchAll() as $address){
-
-                return $address;
-            }
-
-        } else {
-
-            return [];
-        }
-
+        return !empty($address) ? $address : [];
     }
+
     // /**
     //  * @return ContactEndClient[] Returns an array of ContactEndClient objects
     //  */

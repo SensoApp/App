@@ -33,6 +33,136 @@
                 <br/>
             </div>
             <div class="row">
+                <div class="jumbotron bg-success ">
+                    <div class="container">
+                        <br>
+                        {% if statementsum is not empty %}
+                        <h3>Current Balance:</h3>
+                        <h4 class="display-4">
+                            {{ statementsum[0].Current_Balance|number_format(2, '.', ',') }} €
+                        </h4>
+                        <br>
+                        <h3>Estimated Balance:</h3>
+                        <h4 class="display-4">
+                            {{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }} €
+                        </h4>
+                        <br>
+                        <table class="col-md-2 table table-responsive">
+                            <tr>
+                                <th>Account</th>
+                                <td>{{ statementsum[0].account }}</td>
+                            </tr>
+                            <tr>
+                                <th>Currency</th>
+                                <td>EUR</td>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{ "now"|date('d-M-Y') }}</td>
+                            </tr>
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        Nothing balance to report yet...
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <form method="post" class="col-md-12">
+                        <div class="col-md-3 text-center">
+                            <label for="search">Amount between</label>
+                            <br>
+                            <div class="col-md-6">
+                                <input class="form-control" type="number" placeholder="Min amount" name="Min-amount">
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" type="number" placeholder="Max amount" name="Max-amount">
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <label for="search" class="text-center">Dates between</label>
+                            <br>
+                            <div class="col-md-6">
+                                <input class="form-control" type="date" placeholder="Min date" name="Min-date">
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" type="date" placeholder="Max date" name="Max-date">
+                            </div>
+                            <input type="hidden" name="specialrequest" value="1">
+                        </div>
+                        <br>
+                        <button class="btn btn-primary">Submit</button>
+                    </form>
+                    <br>
+                    <br>
+                    <br>
+                    <section class="col-md-12">
+                        <div class="table-responsive">
+                            <table id="mytable" class="table table-bordred table-striped">
+                                <thead class="label-primary" style="color: whitesmoke">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Reference</th>
+                                    <th>Operation</th>
+                                    <th>Communication</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Currency</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% if pagination != null %}
+                                    {% set id = null %}
+                                    {% set idline = 0 %}
+                                    {% for list in pagination %}
+                                        {% set idline = idline +1 %}
+                                        <tr>
+                                            <td>{{ idline }}</td>
+                                            <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
+                                            <td>{{ list.operations }}</td>
+                                            <td>{{ list.communication }}</td>
+                                            <td>{{ list.operationdate|date('d-M-Y')}}</td>
+                                            <td class="text-right">{{ list.amount|number_format(2, '.', ',') }}</td>
+                                            <td>EUR</td>
+                                        </tr>
+                                        {% set id = list.referencemovement %}
+                                    {% endfor %}
+                                    <form method="post" action="{{ path('downloadstatement') }}">
+                                        {% for items in pagination %}
+                                            {% set itemnumber = (itemnumber|default(0) + 1) %}
+                                            <input type="hidden" value="{{ items.referencemovement}}" name="ref{{ itemnumber}}">
+                                        {% endfor %}
+                                        <div class="col-md-offset-10">
+                                            <div class="col-md-">
+                                                Export to Excel
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button>
+                                                    <i class="fa fa-file-excel-o fa-3x exportToExcel" style="color: #4cae4c"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                {% else %}
+                                    <tr>
+                                        <td>
+                                            <i>No statement recorded</i>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                <div class="navigation">
+                                    {{ knp_pagination_render(pagination) }}
+                                </div>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+            <div class="row">
                 <section class="col-md-12">
                     <h3 class="h3 text-center" style="font-weight: bold">Personal details</h3>
                     <br/>
@@ -175,142 +305,9 @@
                 </section>
                 <!-- I need a section statements (tbd)-->
             </div>
-            <div class="row">
-                <section class="col-md-12">
-                    <h3 class="h3 text-center" style="font-weight: bold">Statement</h3>
-                    <br/>
-                    <br/>
-                    <div class="table table-responsive">
-                        <table class="col-md-3">
-                            {% if statementsum is not empty %}
-                            <tr class="table-bordered">
-                                <th>Account</th>
-                                <td>{{ statementsum[0].account }}</td>
-                            </tr>
-                            <tr class="table-bordered">
-                                <th>Consultant</th>
-                                <td>{{ statementsum[0].firstname }}  {{ statementsum[0].lastname }}</td>
-                            </tr>
-                            <tr class="table-bordered">
-                                <th>Current Balance</th>
-                                <td>{{ statementsum[0].Current_Balance|number_format(2, '.', ',') }} €</td>
-                            </tr>
-                            <tr class="table-bordered">
-                                <th>Currency</th>
-                                <td>EUR</td>
-                            </tr>
-                            <tr class="table-bordered">
-                                <th>Date</th>
-                                <td>{{ "now"|date('d-M-Y') }}</td>
-                            </tr>
-                            <tr class="table-bordered">
-                                <th>Estimated Balance</th>
-                                <td>{{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }} €</td>
-                            </tr>
-                            {% else %}
-                            <tr>
-                                <td>
-                                    Nothing to report
-                                </td>
-                            </tr>
-                            {% endif %}
-                        </table>
-                    </div>
-                </section>
-            </div>
             <br>
             <br>
             <br>
-            <div class="row">
-                <form method="post" class="col-md-12">
-                    <div class="col-md-3 text-center">
-                        <label for="search">Amount between</label>
-                        <br>
-                        <div class="col-md-6">
-                            <input class="form-control" type="number" placeholder="Min amount" name="Min-amount">
-                        </div>
-                        <div class="col-md-6">
-                            <input class="form-control" type="number" placeholder="Max amount" name="Max-amount">
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <label for="search" class="text-center">Dates between</label>
-                        <br>
-                        <div class="col-md-6">
-                            <input class="form-control" type="date" placeholder="Min date" name="Min-date">
-                        </div>
-                        <div class="col-md-6">
-                            <input class="form-control" type="date" placeholder="Max date" name="Max-date">
-                        </div>
-                        <input type="hidden" name="specialrequest" value="1">
-                    </div>
-                    <br>
-                    <button class="btn btn-primary">Submit</button>
-                </form>
-                <br>
-                <br>
-                <br>
-                <section class="col-md-12">
-                    <div class="table-responsive">
-                        <table id="mytable" class="table table-bordred table-striped">
-                            <thead class="label-primary" style="color: whitesmoke">
-                                <tr>
-                                    <th>#</th>
-                                    <th>Reference</th>
-                                    <th>Operation</th>
-                                    <th>Communication</th>
-                                    <th>Date</th>
-                                    <th>Amount</th>
-                                    <th>Currency</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {% if pagination != null %}
-                                {% set id = null %}
-                                {% set idline = 0 %}
-                                {% for list in pagination %}
-                                    {% set idline = idline +1 %}
-                                    <tr>
-                                        <td>{{ idline }}</td>
-                                        <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
-                                        <td>{{ list.operations }}</td>
-                                        <td>{{ list.communication }}</td>
-                                        <td>{{ list.operationdate|date('d-M-Y')}}</td>
-                                        <td class="text-right">{{ list.amount|number_format(2, '.', ',') }}</td>
-                                        <td>EUR</td>
-                                    </tr>
-                                    {% set id = list.referencemovement %}
-                                {% endfor %}
-                                <form method="post" action="{{ path('downloadstatement') }}">
-                                    {% for items in pagination %}
-                                        {% set itemnumber = (itemnumber|default(0) + 1) %}
-                                            <input type="hidden" value="{{ items.referencemovement}}" name="ref{{ itemnumber}}">
-                                    {% endfor %}
-                                    <div class="col-md-offset-10">
-                                        <div class="col-md-">
-                                            Export to Excel
-                                        </div>
-                                        <div class="col-md-1">
-                                            <button>
-                                                <i class="fa fa-file-excel-o fa-3x exportToExcel" style="color: #4cae4c"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            {% else %}
-                                <tr>
-                                    <td>
-                                        <i>No statement recorded</i>
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            <div class="navigation">
-                                {{ knp_pagination_render(pagination) }}
-                            </div>
-                        </table>
-                    </div>
-                </section>
-            </div>
                 <!-- I need a section statements (tbd)-->
             </div>
         </div>

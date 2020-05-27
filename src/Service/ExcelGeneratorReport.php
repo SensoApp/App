@@ -265,7 +265,6 @@ class ExcelGeneratorReport
 
             $writer->save($tempxls);
 
-
         } catch (Exception $e) {
 
             return $e->getMessage().'Excel...issue';
@@ -276,6 +275,7 @@ class ExcelGeneratorReport
 
     public function writeExcelTemplateInvoiceRandom(array $invoice) : string
     {
+
 
         //retrieve address with custom query (many to many so through the joint table)
         $clientAddress = $this->entityManager
