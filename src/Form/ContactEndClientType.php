@@ -18,7 +18,6 @@ class ContactEndClientType extends AbstractType
             ->add('clientname', TextType::class, [
                 'label' => 'Client name'
             ])
-            ->add('type')
             ->add('contactperson', TextType::class, [
 
                 'label' => 'Contact person'

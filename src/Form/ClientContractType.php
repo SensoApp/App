@@ -65,7 +65,10 @@ class ClientContractType extends AbstractType
 
             ->add('user', EntityType::class, [
                 'class' => User::class,
-                'placeholder' => 'Select an option'
+                'placeholder' => 'Select an option',
+                'choice_label' => function($choices){
+                    return $choices->getFirstname().' '.$choices->getLastname();
+                }
             ])
             ->add('Submit', SubmitType::class);
 

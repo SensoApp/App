@@ -25,7 +25,10 @@ class InvoiceManualCreationType extends AbstractType
                 ->add('workSundays')
                 ->add('user', EntityType::class, [
                     'class' => 'App\Entity\User',
-                    'placeholder' => 'Select related user'
+                    'placeholder' => 'Select related user',
+                    'choice_label' => function($choices){
+                        return $choices->getFirstname().' '.$choices->getLastname();
+                    }
                 ])
                 ->add('Create', SubmitType::class);
     }
