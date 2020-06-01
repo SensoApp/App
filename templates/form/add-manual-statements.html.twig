@@ -1,0 +1,53 @@
+{% extends 'base_old.html.twig' %}
+{% block body %}
+    <body>
+    {% include 'header.html.twig' %}
+    <br>
+        <br>
+        <br>
+        <div class="container-fluid">
+            {% for message in app.session.flashBag.get('success') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+            <br>
+            <br>
+            <br>
+            <section class="container-fluid">
+                <div class="row">
+                    <h2 class="title text-center">Add manual entry</h2>
+                </div>
+                <br>
+                <div class="row">
+                    {{ form_start(form) }}
+                        {{ form_row(form.operationdate) }}
+                        {{ form_row(form.operations) }}
+                        {{ form_row(form.communication) }}
+                        {{ form_row(form.account) }}
+                        {{ form_row(form.amount) }}
+                        {{ form_row(form.user) }}
+                    {{ form_end(form) }}
+                </div>
+            </section>
+            <br>
+            <br>
+            <br>
+            </div>
+            {% include 'footer.html.twig' %}
+            <script>
+                $(function () {
+                    $('i').on('click', function () {
+                    setTimeout(
+                        20000,
+                        $('.alert').remove(),
+                        location.reload()
+                        );
+                    });
+                });
+            </script>
+        </div>
+    </body>
+{% endblock %}

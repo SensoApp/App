@@ -249,6 +249,11 @@ class UserController extends AbstractController
         return null;
     }
 
+    /**
+     * @param $request
+     * @return mixed
+     * @todo to refactor and create a repository used by other classes such as admin statement
+     */
     protected function selectStatementWithConditions($request)
     {
 

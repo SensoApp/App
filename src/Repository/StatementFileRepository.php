@@ -224,4 +224,74 @@ class StatementFileRepository extends ServiceEntityRepository
 
         return $st->fetchAll();*/
     }
+
+    public function searchBalancePerConsultant()
+    {
+        $em = $this->getEntityManager();
+
+        $sql = 'select round(sum(s.amount), 2) balance, s.user_id consultants, u.firstname, u.lastname
+                from statement_file s 
+                inner join user u on u.id = s.user_id
+                group by user_id, u.firstname, u.lastname';
+
+        $query = $em->getConnection()->prepare($sql);
+
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
+    public function searchAllMovements()
+    {
+
+        $em = $this->getEntityManager();
+
+        $sql = 'SELECT  u.firstname, u.lastname, s.*
+                FROM statement_file s 
+                INNER JOIN user u ON u.id = s.user_id
+                ORDER BY s.operationdate desc';
+
+        $query = $em->getConnection()->prepare($sql);
+
+        $query->execute();
+
+        return $query->fetchAll();
+
+    }
+
+    public function searchByCriterionAdmin($datatosearch)
+    {
+        $em = $this->getEntityManager();
+
+        $req = $datatosearch->request;
+
+        if( !empty($req->get('Min-date')) && !empty($req->get('Max-date'))){
+
+            $sql = 'SELECT  u.firstname, u.lastname, s.*
+                FROM statement_file s 
+                INNER JOIN user u ON u.id = s.user_id
+                WHERE s.operationdate between :mindate and :maxdate
+                ORDER BY s.operationdate desc';
+
+            $param =['mindate' => $req->get('Min-date'), 'maxdate' => $req->get('Max-date')];
+
+
+        } elseif(!empty($req->get('Min-amount')) && !empty($req->get('Max-amount'))){
+
+            $sql = 'SELECT  u.firstname, u.lastname, s.*
+                FROM statement_file s 
+                INNER JOIN user u ON u.id = s.user_id
+                WHERE s.amount between :minamount and :maxamount
+                ORDER BY s.operationdate desc';
+
+            $param =['minamount' => $req->get('Min-amount'), 'maxamount' => $req->get('Max-amount')];
+        }
+
+        $query = $em->getConnection()->prepare($sql);
+
+        $query->execute($param);
+
+        return $query->fetchAll();
+
+    }
 }

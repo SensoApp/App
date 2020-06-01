@@ -102,6 +102,7 @@ class ClientContract
         $this->createdAt = new \DateTime('now');
         $this->invoice = new ArrayCollection();
         $this->timesheets = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
     }
 
     /**
@@ -256,37 +257,6 @@ class ClientContract
     }
 
 
-    /**
-     * @return Collection|Invoice[]
-     */
-    public function getInvoice(): Collection
-    {
-        return $this->invoice;
-    }
-
-    public function addInvoice(Invoice $invoice): self
-    {
-        if (!$this->invoice->contains($invoice)) {
-            $this->invoice[] = $invoice;
-            $invoice->setContract($this);
-        }
-
-        return $this;
-    }
-
-    public function removeInvoice(Invoice $invoice): self
-    {
-        if ($this->invoice->contains($invoice)) {
-            $this->invoice->removeElement($invoice);
-            // set the owning side to null (unless already changed)
-            if ($invoice->getContract() === $this) {
-                $invoice->setContract(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getClientname(): ?ContactEndClient
     {
         return $this->clientname;
@@ -352,6 +322,14 @@ class ClientContract
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Invoice[]
+     */
+    public function getInvoices(): Collection
+    {
+        return $this->invoices;
     }
 
 

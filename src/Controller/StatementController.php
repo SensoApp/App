@@ -5,20 +5,36 @@ namespace App\Controller;
 
 
 use App\Entity\StatementFile;
+use App\Form\StatementFileType;
 use App\Service\UploadHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Knp\Component\Pager\PaginatorInterface;
+use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StatementController extends AbstractController
 {
+    private $statement;
+    private $cache;
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->cache = new FilesystemAdapter();
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * @Route(path="/newadmin/uploadstatement", name="uploadstatement")
      */
     public function uploadCsvStatement(Request $request, UploadHelper $helper)
     {
+
             if(!is_null($request->files->get('csv_file'))){
 
                 try {
@@ -40,24 +56,117 @@ class StatementController extends AbstractController
                         ->lastUploadedPerUserAndAccount();
 
         return $this->render('statement/uploadstatement.html.twig', [
-            'data' => $data
+            'data' => $data,
+
         ]);
 
     }
 
-    public function viewStatement()
+    /**
+     * @Route(path="/newadmin/statements-summary", name="statementAdmin")
+     */
+    public function viewBalancePerConsultant(Request $request, PaginatorInterface $paginator)
     {
+        //liste des consultants  et leurs balances
 
+        $query = $this->getDoctrine()
+                      ->getRepository(StatementFile::class)
+                      ->searchBalancePerConsultant();
+
+
+        if($request->request->count() > 0 || is_null($request->query->get('page'))){
+
+            $this->cache->delete('query.sma');
+
+            $this->statement = $this->searchStatement($request);
+            try {
+                $val = $this->cache->getItem('query.sma');
+                $val->set($this->statement);
+                $this->cache->save($val);
+
+            } catch (InvalidArgumentException $e) {
+
+                return new Response($e->getMessage());
+            }
+
+            $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10 );
+
+        } else {
+
+            $pr = $this->cache->getItem('query.sma');
+
+            $pagination = $paginator->paginate($pr->get(), $request->query->getInt('page', 1), 10 );
+        }
+
+
+        return $this->render('form/admin-statements.html.twig', [
+
+            'Balance' => $query,
+            'pagination' => $pagination
+
+        ]);
+        //recherche sur les statements
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @Route(path="/newadmin/add-statement-entry", name="statementEntry")
+     */
+    public function addMovement(Request $request){
+
+        $form = $this->createForm(StatementFileType::class);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $data = $form->getData();
+
+            $refMovement = uniqid().'_mnaual-entry';
+
+            $data->setReferenceMovement($refMovement);
+
+            $this->entityManager->persist($data);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Movement added');
+
+            return $this->redirectToRoute('statementAdmin');
+        }
+
+        return $this->render('form/add-manual-statements.html.twig', [
+
+            'form' => $form->createView()
+
+        ]);
+    }
     public function downloadStatement()
     {
 
     }
 
-    public function searchStatement()
+    public function searchStatement($request)
     {
 
+        $minamount =  $request->request->get('Min-amount');
+        $maxamount = $request->request->get('Max-amount');
+        $mindate = $request->request->get('Min-date');
+        $maxdate = $request->request->get('Max-date');
+
+        if(!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) ){
+
+            return  $this->entityManager
+                ->getRepository(StatementFile::class)
+                ->searchByCriterionAdmin($request);
+        }
+
+
+        return  $this->entityManager
+            ->getRepository(StatementFile::class)
+            ->searchAllMovements();
+
     }
+
 
 }

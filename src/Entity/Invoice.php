@@ -133,6 +133,7 @@ class Invoice
      */
     private $sundayRate;
 
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -434,7 +435,4 @@ class Invoice
 
         return $this;
     }
-
-
-
 }
