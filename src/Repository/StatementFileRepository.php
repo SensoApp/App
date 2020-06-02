@@ -125,7 +125,9 @@ class StatementFileRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
 
-        $query ='SELECT  u.firstname, u.lastname, s.account,
+        $query ='SELECT * 
+                 FROM (
+                       SELECT  u.firstname, u.lastname,
                        sum(s.amount) as Current_Balance,
                        (  
                            select sum(invoice.totalamount) from invoice
@@ -137,7 +139,15 @@ class StatementFileRepository extends ServiceEntityRepository
                     FROM statement_file s
                     INNER JOIN user u on s.user_id = u.id
                     WHERE s.user_id = :userid
-                    GROUP BY u.firstname, u.lastname, s.account';
+                    GROUP BY u.firstname, u.lastname) firstQuery,
+                    (
+                        SELECT  s.account
+                        FROM statement_file s
+                        INNER JOIN user u on s.user_id = u.id
+                        WHERE s.user_id = :userid
+                        GROUP BY account
+                    ) secondQuery
+                    LIMIT 0,1';
 
         $stmt = $em->getConnection()->prepare($query);
         $param =['userid' => $userid, 'unpaid' => 'Unpaid', 'validated' => 'Validated - sent to client'];
