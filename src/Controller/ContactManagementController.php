@@ -13,6 +13,7 @@ use App\Entity\Contact;
 use App\Entity\ContactEndClient;
 use App\Entity\User;
 use App\Form\ContactEndClientType;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,19 +44,19 @@ class ContactManagementController extends AbstractController
             $form = $this->createForm(ContactType::class)
                      ->handleRequest($request);
 
-
             if($form->isSubmitted() && $form->isValid()){
 
                 $task = $form->getData();
-
-                ///dd($task);
-
                 $name = $task->getFirstName();
 
-                $this->em->persist($task);
-                $this->em->flush();
+                try{
 
-                $this->addFlash('success', 'Contact '.$name.' created successfully');
+                    $this->em->persist($task);
+                    $this->em->flush();
+                    $this->addFlash('success', 'Contact '.$name.' created successfully');
+                } catch (DBALException $DBALException) {
+                    $this->addFlash('error', 'This Iban is already in user for another user');
+                }
 
                 return $this->redirectToRoute('adminsenso');
             }
@@ -143,12 +144,18 @@ class ContactManagementController extends AbstractController
 
             $task = $form->getData();
 
-            $task->setUpdatedAt(new \DateTime('now'));
+            try{
 
-            $this->em->flush();
+                $task->setUpdatedAt(new \DateTime('now'));
 
-            $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
+                $this->em->flush();
 
+                $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
+
+            } catch (DBALException $DBALException) {
+
+                $this->addFlash('error', 'This Iban you entered is already in use for another user');
+    }
             return $this->redirectToRoute('adminsenso');
 
         }

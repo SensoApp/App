@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="bank_details")
  * @ORM\Entity(repositoryClass="App\Repository\BankDetailsRepository")
+ * @UniqueEntity("ibanstatement", message="This Iban is already in use for another user.")
  *
  */
 class BankDetails
@@ -59,8 +61,9 @@ class BankDetails
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, unique=true)
      * @Assert\Iban( message="This is not a valid Iban")
+     *
      */
     private $ibanstatement;
 
