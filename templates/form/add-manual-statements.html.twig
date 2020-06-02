@@ -28,7 +28,8 @@
                         {{ form_row(form.communication) }}
                         {{ form_row(form.account) }}
                         {{ form_row(form.amount) }}
-                        {{ form_row(form.user) }}
+                        {{ form_row(form.user, {'attr': {'class' : 'users'}} ) }}
+                        {{ form_row(form.Save,{'attr': {'class' : 'confirm-email btn-primary'}}) }}
                     {{ form_end(form) }}
                 </div>
             </section>
@@ -45,6 +46,14 @@
                         $('.alert').remove(),
                         location.reload()
                         );
+                    });
+
+                    $('.confirm-email').on('click', function () {
+
+                        if(confirm('Do you want to send a notification? ' )){
+
+                            $('.users').append("<input type='checkbox' name='send-email' checked/>");
+                        }
                     });
                 });
             </script>

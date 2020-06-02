@@ -294,4 +294,23 @@ class StatementFileRepository extends ServiceEntityRepository
         return $query->fetchAll();
 
     }
+
+    public function searchByIbanStatement($iban){
+
+        $em = $this->getEntityManager();
+
+        $sql = 'select u.mail, u.firstname, u.lastname 
+                from bank_details b
+                inner join contact c on b.contact_id = c.id
+                inner join user u on u.contact_id = c.id 
+                where b.ibanstatement = :iban';
+
+        $query = $em->getConnection()->prepare($sql);
+
+        $param = ['iban' => $iban];
+
+        $query->execute($param);
+
+        return $query->fetchAll();
+    }
 }

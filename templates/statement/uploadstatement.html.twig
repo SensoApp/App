@@ -41,9 +41,9 @@
             <form method="post" action="{{ path('uploadstatement') }}" enctype="multipart/form-data" class="col-md-4">
                 <label for="name" class="col-md-5 col-sm-5 col-xs-12 control-label">Upload your file here: </label>
                 <div class="form-group">
-                    <div class="col-md-12">
-                        <input type="file" name="csv_file" id="csv_file" required class="form-control">
-                        <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+                    <div class="col-md-12 ">
+                        <input type="file" name="csv_file" id="csv_file" required class="form-control users">
+                        <button class="btn btn-primary confirm-email"> <span class="glyphicon glyphicon-upload " style="margin-right:5px;"></span>Upload </button>
                     </div>
                 </div>
             </form>
@@ -93,6 +93,14 @@
                     $('.alert').remove(),
                     location.reload()
                 );
+            });
+
+            $('.confirm-email').on('click', function () {
+
+                if(confirm('Do you want to send a notification? ' )){
+
+                    $('.users').append("<input type='checkbox' name='send-email' checked/>");
+                }
             });
         });
     </script>

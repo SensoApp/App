@@ -222,6 +222,8 @@ class UploadHelper
                     $this->uploadfeedback = [
                         'status'=>'success',
                         'message' => 'the file is uploaded successfully, '.$linesinstered.' line(s) inserted',
+                        'info' => $statement->getAccount(),
+                        'insertedLines' => $linesinstered
                     ];
 
                     return $this->uploadfeedback;
