@@ -39,44 +39,44 @@ class StatementController extends AbstractController
      */
     public function uploadCsvStatement(Request $request, UploadHelper $helper)
     {
-            if(!is_null($request->files->get('csv_file'))){
+        if (!is_null($request->files->get('csv_file'))) {
 
-                try {
+            try {
 
-                    $file = $helper->uploadStatement($request);
+                $file = $helper->uploadStatement($request);
 
-                    $query = $this->entityManager->getRepository(StatementFile::class)->searchByIbanStatement($file['info']);
+                $query = $this->entityManager->getRepository(StatementFile::class)->searchByIbanStatement($file['info']);
 
-                    if($request->request->get('send-email') === 'on' && $file['insertedLines'] > 0){
+                if ($request->request->get('send-email') === 'on' && $file['insertedLines'] > 0) {
 
-                        $email = $query[0]['mail'];
-                        $firstName = $query[0]['firstname'];
-                        $lastName = $query[0]['lastname'];
+                    $email = $query[0]['mail'];
+                    $firstName = $query[0]['firstname'];
+                    $lastName = $query[0]['lastname'];
 
-                        $messageBody = 'Dear '.$firstName.' '.$lastName.
-                            '<br>'.'<br>'.
-                            '<p>This is to notify you that your statement has been updated</p>'.
-                            '<br>'.
-                            '<p>Thanks</p>'.
-                            '<br>'.
-                            'The Senso Team';
+                    $messageBody =
+                        'Dear ' . $firstName . ' ' . $lastName . ',' .
+                        '<br>' .
+                        '<p>Please note that we have posted new movement(s) to your Senso account.</p>' .
+                        '<p>You can access your account through the following link: <br> http://mysenso.senso.lu/login</p>' .
+                        '<p>Please do not hesitate to contact us if you have any questions.</p>' .
+                        '<p>Senso - administration team <br>info@senso.lu</p>';
 
-                        $this->mailerService->sendMail($email,$messageBody, '[Notification] Statement update' );
-                    }
-
-                    $file['status'] === 'success' ? $this->addFlash('success', $file['message']) : $this->addFlash('error', $file['message']);
-
-                    return $this->redirectToRoute('uploadstatement');
-
-                } catch (Exception $e){
-
-                    echo $e->getMessage();
+                    $this->mailerService->sendMail($email, $messageBody, '[Notification] Statement update');
                 }
-            }
 
-            $data = $this->getDoctrine()
-                        ->getRepository(StatementFile::class)
-                        ->lastUploadedPerUserAndAccount();
+                $file['status'] === 'success' ? $this->addFlash('success', $file['message']) : $this->addFlash('error', $file['message']);
+
+                return $this->redirectToRoute('uploadstatement');
+
+            } catch (Exception $e) {
+
+                echo $e->getMessage();
+            }
+        }
+
+        $data = $this->getDoctrine()
+            ->getRepository(StatementFile::class)
+            ->lastUploadedPerUserAndAccount();
 
         return $this->render('statement/uploadstatement.html.twig', [
             'data' => $data,
@@ -93,11 +93,11 @@ class StatementController extends AbstractController
         //liste des consultants  et leurs balances
 
         $query = $this->getDoctrine()
-                      ->getRepository(StatementFile::class)
-                      ->searchBalancePerConsultant();
+            ->getRepository(StatementFile::class)
+            ->searchBalancePerConsultant();
 
 
-        if($request->request->count() > 0 || is_null($request->query->get('page'))){
+        if ($request->request->count() > 0 || is_null($request->query->get('page'))) {
 
             $this->cache->delete('query.sma');
 
@@ -112,13 +112,13 @@ class StatementController extends AbstractController
                 return new Response($e->getMessage());
             }
 
-            $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10 );
+            $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10);
 
         } else {
 
             $pr = $this->cache->getItem('query.sma');
 
-            $pagination = $paginator->paginate($pr->get(), $request->query->getInt('page', 1), 10 );
+            $pagination = $paginator->paginate($pr->get(), $request->query->getInt('page', 1), 10);
         }
 
 
@@ -142,32 +142,32 @@ class StatementController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $data = $form->getData();
 
-            $refMovement = uniqid().'_mnaual-entry';
+            $refMovement = uniqid() . '_manual-entry';
 
             $data->setReferenceMovement($refMovement);
 
             $this->entityManager->persist($data);
             $this->entityManager->flush();
 
-            if($request->request->get('send-email') === 'on'){
+            if ($request->request->get('send-email') === 'on') {
 
                 $email = $data->getUser()->getEmail();
                 $firstName = $data->getUser()->getFirstname();
                 $lastName = $data->getUser()->getLastname();
 
-                $messageBody = 'Dear '.$firstName.' '.$lastName.
-                                '<br>'.'<br>'.
-                                '<p>This is to notify you that your statement has been updated</p>'.
-                                '<br>'.
-                                '<p>Thanks</p>'.
-                                '<br>'.
-                                'The Senso Team';
+                $messageBody =
+                    'Dear ' . $firstName . ' ' . $lastName . ',' .
+                    '<br>' .
+                    '<p>Please note that we have posted new movement(s) to your Senso account.</p>' .
+                    '<p>You can access your account through the following link: <br> http://mysenso.senso.lu/login</p>' .
+                    '<p>Please do not hesitate to contact us if you have any questions.</p>' .
+                    '<p>Senso - administration team <br>info@senso.lu</p>';
 
-                $this->mailerService->sendMail($email,$messageBody, '[Notification] Statement update' );
+                $this->mailerService->sendMail($email, $messageBody, '[Notification] Statement update');
             }
 
             $this->addFlash('success', 'Movement added');
@@ -184,18 +184,18 @@ class StatementController extends AbstractController
 
     public function searchStatement($request)
     {
-        $minamount =  $request->request->get('Min-amount');
+        $minamount = $request->request->get('Min-amount');
         $maxamount = $request->request->get('Max-amount');
         $mindate = $request->request->get('Min-date');
         $maxdate = $request->request->get('Max-date');
 
-        if(!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) ){
+        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate)) {
 
-            return  $this->entityManager
+            return $this->entityManager
                 ->getRepository(StatementFile::class)
                 ->searchByCriterionAdmin($request);
         }
-        return  $this->entityManager
+        return $this->entityManager
             ->getRepository(StatementFile::class)
             ->searchAllMovements();
     }
