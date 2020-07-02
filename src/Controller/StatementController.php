@@ -3,18 +3,18 @@
 
 namespace App\Controller;
 
-
-use App\Entity\Contact;
 use App\Entity\StatementFile;
-use App\Entity\User;
+use App\Form\ClientContractType;
 use App\Form\StatementFileType;
 use App\Service\MailerService;
 use App\Service\UploadHelper;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,7 +22,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StatementController extends AbstractController
 {
-    private $statement;
     private $cache;
     private $entityManager;
     private $mailerService;
@@ -36,6 +35,9 @@ class StatementController extends AbstractController
 
     /**
      * @Route(path="/newadmin/uploadstatement", name="uploadstatement")
+     * @param Request $request
+     * @param UploadHelper $helper
+     * @return RedirectResponse|Response
      */
     public function uploadCsvStatement(Request $request, UploadHelper $helper)
     {
@@ -87,6 +89,10 @@ class StatementController extends AbstractController
 
     /**
      * @Route(path="/newadmin/statements-summary", name="statementAdmin")
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     * @throws InvalidArgumentException
      */
     public function viewBalancePerConsultant(Request $request, PaginatorInterface $paginator)
     {
@@ -101,10 +107,10 @@ class StatementController extends AbstractController
 
             $this->cache->delete('query.sma');
 
-            $this->statement = $this->searchStatement($request);
+            $statement = $this->searchStatement($request);
             try {
                 $val = $this->cache->getItem('query.sma');
-                $val->set($this->statement);
+                $val->set($statement);
                 $this->cache->save($val);
 
             } catch (InvalidArgumentException $e) {
@@ -112,7 +118,7 @@ class StatementController extends AbstractController
                 return new Response($e->getMessage());
             }
 
-            $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10);
+            $pagination = $paginator->paginate($statement, $request->query->getInt('page', 1), 10);
 
         } else {
 
@@ -133,10 +139,11 @@ class StatementController extends AbstractController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      * @Route(path="/newadmin/add-statement-entry", name="statementEntry")
      */
-    public function addMovement(Request $request){
+    public function addMovement(Request $request)
+    {
 
         $form = $this->createForm(StatementFileType::class);
 
@@ -200,4 +207,24 @@ class StatementController extends AbstractController
             ->searchAllMovements();
     }
 
+    /**
+     * @Route(path="/newadmin/statements-summary/delete/{id}", name="delete_statements")
+     * @param StatementFile $statementFile
+     * @param $id
+     * @return RedirectResponse|void
+     */
+    public function deleteStatement($id)
+    {
+        try {
+            $statementToDelete = $this->getDoctrine()->getRepository(StatementFile::class)->findOneBy(["id" => $id]);
+            dump($id);
+            $this->entityManager->remove($statementToDelete);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'successfully deleted');
+        } catch (Exception $e) {
+            $this->addFlash('error', 'error : ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('statementAdmin');
+    }
 }
