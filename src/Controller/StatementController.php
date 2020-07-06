@@ -191,12 +191,13 @@ class StatementController extends AbstractController
 
     public function searchStatement($request)
     {
+        $user = $request->request->get('Username');
         $minamount = $request->request->get('Min-amount');
         $maxamount = $request->request->get('Max-amount');
         $mindate = $request->request->get('Min-date');
         $maxdate = $request->request->get('Max-date');
 
-        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate)) {
+        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) || !empty($user)) {
 
             return $this->entityManager
                 ->getRepository(StatementFile::class)
@@ -217,7 +218,6 @@ class StatementController extends AbstractController
     {
         try {
             $statementToDelete = $this->getDoctrine()->getRepository(StatementFile::class)->findOneBy(["id" => $id]);
-            dump($id);
             $this->entityManager->remove($statementToDelete);
             $this->entityManager->flush();
             $this->addFlash('success', 'successfully deleted');

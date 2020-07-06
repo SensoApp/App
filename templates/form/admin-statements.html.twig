@@ -51,9 +51,33 @@
             <h2 class="title text-center">Statements</h2>
         </div>
         <br>
+
         <div class="row">
             <form method="post" class="col-md-12">
+
                 <div class="col-md-3 text-center">
+                    <label for="search">Last Name</label>
+                    <br>
+                    <div class="col-md-12">
+                        <select>
+                            <option value="">--Please select an user--</option>
+                            <option class="form-control" type="text" placeholder="Username" name="Username">
+                                {% set idline = 0 %}
+                                {% for balance in Balance %}
+                                    {% set idline = idline +1 %}
+                                    <tr>
+                                        <td>{{ idline }}</td>
+                                        <td>{{ balance.firstname }}</td>
+                                        <td>{{ balance.lastname }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="col-md-4 text-center">
                     <label for="search">Amount between</label>
                     <br>
                     <div class="col-md-6">
@@ -63,6 +87,7 @@
                         <input class="form-control" type="number" placeholder="Max amount" name="Max-amount">
                     </div>
                 </div>
+
                 <div class="col-md-4 text-center">
                     <label for="search" class="text-center">Dates between</label>
                     <br>
@@ -74,9 +99,11 @@
                     </div>
                     <input type="hidden" name="specialrequest" value="1">
                 </div>
+
                 <br>
-                <button class="btn btn-primary">Submit</button>
+                <button class="btn btn-primary col-md-1">Submit</button>
             </form>
+            <br><br><br><br><br><br>
             <section class="col-md-12">
                 <div class="table-responsive">
                     <table id="mytable" class="table table-bordred table-striped">
@@ -91,6 +118,7 @@
                             <th>Date</th>
                             <th>Amount</th>
                             <th>Currency</th>
+                            <th>Last uploaded</th>
                             <th>Delete</th>
                         </tr>
                         </thead>
@@ -110,6 +138,7 @@
                                     <td>{{ list.operationdate|date('d-M-Y') }}</td>
                                     <td class="text-right">{{ list.amount|number_format(2, '.', ',') }}</td>
                                     <td>EUR</td>
+                                    <td>{{ list.updated_at }}</td>
                                     <td>
                                         <p data-placement="top" data-toggle="tooltip" title="Delete">
                                             <a href="{{ path('delete_statements', {id : list.id}) }}">

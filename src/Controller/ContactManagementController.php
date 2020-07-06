@@ -39,21 +39,21 @@ class ContactManagementController extends AbstractController
      */
     public function createContact(Request $request)
     {
-        try{
+        try {
 
             $form = $this->createForm(ContactType::class)
-                     ->handleRequest($request);
+                ->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()){
+            if ($form->isSubmitted() && $form->isValid()) {
 
                 $task = $form->getData();
                 $name = $task->getFirstName();
 
-                try{
+                try {
 
                     $this->em->persist($task);
                     $this->em->flush();
-                    $this->addFlash('success', 'Contact '.$name.' created successfully');
+                    $this->addFlash('success', 'Contact ' . $name . ' created successfully');
                 } catch (DBALException $DBALException) {
                     $this->addFlash('error', 'This Iban is already in user for another user');
                 }
@@ -61,11 +61,10 @@ class ContactManagementController extends AbstractController
                 return $this->redirectToRoute('adminsenso');
             }
 
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
 
             return $e->getMessage();
         }
-
 
 
         return $this->render('form/newcontact.html.twig', [
@@ -83,7 +82,7 @@ class ContactManagementController extends AbstractController
         $form = $this->createForm(ContactEndClientType::class)
             ->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $clientcontact = $form->getData();
 
@@ -108,7 +107,8 @@ class ContactManagementController extends AbstractController
     /**
      * @Route(path="/newadmin", name="adminsenso" )
      */
-    public function listContact(){
+    public function listContact()
+    {
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->listOfAllContacts();
 
@@ -123,7 +123,7 @@ class ContactManagementController extends AbstractController
         return $this->render('form/admin.html.twig', [
 
             'list' => $list,
-           'lists' => $listofclients,
+            'lists' => $listofclients,
             'users' => $listofusers,
             'clientcontract' => $listofcontracts
 
@@ -140,22 +140,22 @@ class ContactManagementController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $task = $form->getData();
 
-            try{
+            try {
 
                 $task->setUpdatedAt(new \DateTime('now'));
 
                 $this->em->flush();
 
-                $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
+                $this->addFlash('success', 'Contact with id: ' . $id . ' has been successfully updated');
 
             } catch (DBALException $DBALException) {
 
                 $this->addFlash('error', 'This Iban you entered is already in use for another user');
-    }
+            }
             return $this->redirectToRoute('adminsenso');
 
         }
@@ -176,7 +176,7 @@ class ContactManagementController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $task = $form->getData();
 
@@ -184,7 +184,7 @@ class ContactManagementController extends AbstractController
 
             $this->em->flush();
 
-            $this->addFlash('success','Contact with id: '.$id.' has been successfully updated');
+            $this->addFlash('success', 'Contact with id: ' . $id . ' has been successfully updated');
 
             return $this->redirectToRoute('adminsenso');
 
@@ -201,21 +201,22 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/delete/{id}", name="delete")
      */
-    public function deleteContact($id){
+    public function deleteContact($id)
+    {
 
         $contactToDelete = $this->getDoctrine()->getRepository(Contact::class)
-                        ->findOneBy(['id' => $id]);
+            ->findOneBy(['id' => $id]);
 
         if (!$contactToDelete) {
 
-            throw $this->createNotFoundException('No Contact found for id '.$id);
+            throw $this->createNotFoundException('No Contact found for id ' . $id);
 
         }
 
         $this->em->remove($contactToDelete);
         $this->em->flush();
 
-        $this->addFlash('success','Contact successfully deleted');
+        $this->addFlash('success', 'Contact successfully deleted');
 
         return $this->redirectToRoute('adminsenso');
     }
@@ -224,21 +225,22 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/delete-client/{id}", name="delete_client")
      */
-    public function deleteClient($id){
+    public function deleteClient($id)
+    {
 
         $contactToDelete = $this->getDoctrine()->getRepository(ContactEndClient::class)
             ->findOneBy(['id' => $id]);
 
         if (!$contactToDelete) {
 
-            throw $this->createNotFoundException('No Contact found for id '.$id);
+            throw $this->createNotFoundException('No Contact found for id ' . $id);
 
         }
 
         $this->em->remove($contactToDelete);
         $this->em->flush();
 
-        $this->addFlash('success','Contact successfully deleted');
+        $this->addFlash('success', 'Contact successfully deleted');
 
         return $this->redirectToRoute('adminsenso');
     }
@@ -246,7 +248,8 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/view/{id}", name="view")
      */
-    public function viewContact($id){
+    public function viewContact($id)
+    {
 
         $list = $this->getDoctrine()->getRepository(Contact::class)->zoomInContact($id);
 
@@ -260,7 +263,8 @@ class ContactManagementController extends AbstractController
     /**
      * @Route("/newadmin/view-client/{id}", name="view_client")
      */
-    public function viewClient($id){
+    public function viewClient($id)
+    {
 
         $list = $this->getDoctrine()->getRepository(ContactEndClient::class)->viewOneClient($id);
 
@@ -282,7 +286,7 @@ class ContactManagementController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $clientcontract = $form->getData();
 
@@ -316,7 +320,7 @@ class ContactManagementController extends AbstractController
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
 
             $clientcontract = $form->getData();
 
@@ -326,7 +330,7 @@ class ContactManagementController extends AbstractController
 
             $em->flush();
 
-            $this->addFlash('success', 'Contract '.$id.' has been edited successfully');
+            $this->addFlash('success', 'Contract ' . $id . ' has been edited successfully');
 
             //redirect to list of contract, add view and query to list thm all
             return $this->redirectToRoute('user_dashboard');
@@ -350,22 +354,19 @@ class ContactManagementController extends AbstractController
             ->getRepository(ClientContract::class)
             ->find($id);
 
-        try{
+        try {
 
             $this->em->remove($clientcontacttodelete);
             $this->em->flush();
 
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             echo $exception->getMessage();
         }
-
 
         $this->addFlash('success', 'User deleted successfully');
 
         return $this->redirectToRoute('adminsenso');
 
     }
-
-
 }
