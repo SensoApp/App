@@ -3,158 +3,166 @@
 {% block body %}
     <body>
     {% include 'header.html.twig' %}
-        <div class="container-fluid">
+    <div class="container-fluid">
+        <br>
+        <br>
+        <div class="row">
+            <h2 class="text-center">Simulation Tool</h2>
             <br>
             <br>
-            <div class="row">
-                <h2 class="text-center">Simulation Tool</h2>
-            </div>
-            <div class="row">
-                {% for message in app.session.flashBag.get('success') %}
-                    <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
-                        <i class="fa fa-window-close text-right" aria-hidden="true">
-                            {{ message }}
-                        </i>
-                    </div>
-                {% endfor %}
-                {% for message in app.session.flashBag.get('error') %}
-                    <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
-                        <i class="fa fa-window-close text-right" aria-hidden="true">
-                            {{ message }}
-                        </i>
-                    </div>
-                {% endfor %}
-            </div>
-            <br>
-            <br>
-            <div class="row">
-                <br>
-                <br>
-                <br>
-                <br>
-                <div class="col-md-offset-2 col-md-6">
-                    <p>
-                       <i>
-                           <strong>
-                               This simulator will calculate your expected net salary based on your desired gross salary, your daily rate and your fiscal situation.
-
-                               The detailed results will provide you with all the taxes and social contributions deducted from your salary along with the social contributions paid by the Employer.
-                               You will therefore have an idea of the total employer cost.
-
-                               The simulator will also give you the monthly remainder i.e the estimated monthly remaining amount left after deduction of the employer cost and our administrative charges.
-
-                               Please do not hesitate to contact us if you need any help.
-                           </strong>
-                       </i>
-                    </p>
-                    <br>
-                    <br>
-                    <form action="{{ path('simulation') }}" method="post">
-                        <table class="table table-responsive">
-                            <tr>
-                                <th class="bg-primary">Daily Rate</th>
-                                <td>
-                                    <input required name="daily-rate" class="form-control" type="number"  step="0.01" placeholder="Expected daily rate e..g 650 for 650 EUR">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-primary">Desired gross salary</th>
-                                <td>
-                                    <input required name="gross-salary" class="form-control" type="number" step="0.01" placeholder="Enter an amount e.g. 7500 for 7500 EUR">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-primary">Tax situation</th>
-                                <td>
-                                    <label for="taxe-class"></label>
-                                    <select required class="form-control specifictaxrateoption" name="taxe-class" id="package">
-                                        <option value="">Select your taxe class</option>
-                                        <option value="class1">(1) Célibataire / Pacsé</option>
-                                        <option value="class1a">(1a) Célibataire / Pacsé avec enfants</option>
-                                        <option value="class1">(1) Divorcé / séparé / veuf depuis plus de 3 ans sans enfants</option>
-                                        <option value="class1a">(1a) Divorcé / séparé / veuf depuis plus de 3 ans avec enfants</option>
-                                        <option value="class2">(2) Divorcé / séparé / veuf depuis moins de 3 ans</option>
-                                        <option value="class2">(2) Marié</option>
-                                        <option id="ratespecific" value="specific-tax-rate">Specific taxe rate</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-primary">Specific tax rate</th>
-                                <td>
-                                    <input id="inputtaxerate" name="specificrate" class="form-control" type="number" step="0.01" placeholder="Enter a rate e.g. 20%">
-                                </td>
-                            </tr>
-                            </tr>
-                            <tr>
-                                <th class="bg-primary">Benefit in kind</th>
-                                <td>
-                                    <input id="carLeasingAmount" name="carLeasingAmount" class="form-control" type="number" step="0.01" placeholder="e.g. car leasing benefit in kind">
-                                </td>
-                            </tr>
-                            <tr>
-                                <th class="bg-primary">Deduction for travelling expenses</th>
-                                <td>
-                                    <input id="travelExpenses" name="travelExpenses" class="form-control" type="number" step="0.01" placeholder="Enter the amount e.g 100.00">
-                                </td>
-                            </tr>
-                        </table>
-                        <input class="btn btn-primary" type="submit" value="Submit">
-                    </form>
-                </div>
-            </div>
         </div>
-    <br>
-    <br>
-    <br>
+        <div class="row">
+            {% for message in app.session.flashBag.get('success') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-success" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+            {% for message in app.session.flashBag.get('error') %}
+                <div class="col-lg-offset-3 col-md-4 text-center alert alert-danger" id="alerFlash">
+                    <i class="fa fa-window-close text-right" aria-hidden="true">
+                        {{ message }}
+                    </i>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="container mt-4">
+            <div class="row flex">
+                <p style="text-align: justify; line-height: 32px;">
+                    <i>
+                        <strong>
+
+                            This simulator will calculate your expected net salary based on your desired gross salary,
+                            your daily rate and your fiscal situation.<br>
+
+                            The detailed results will provide you with all the taxes and social contributions deducted
+                            from your salary along with the social contributions paid by the Employer.<br>
+                            You will therefore have an idea of the total employer cost.<br>
+
+                            The simulator will also give you the monthly remainder i.e the estimated monthly remaining
+                            amount left after deduction of the employer cost and our administrative charges.<br>
+
+                            Please do not hesitate to contact us if you need any help.
+                        </strong>
+                    </i>
+                </p>
+                <br>
+                <br>
+            </div>
+            <div class="row flex">
+            <form action="{{ path('simulation') }}" method="post">
+                <table class="table table-responsive">
+                    <tr>
+                        <th class="bg-primary">Daily Rate</th>
+                        <td>
+                            <input required name="daily-rate" class="form-control" type="number" step="0.01"
+                                   placeholder="Expected daily rate e..g 650 for 650 EUR">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary">Desired gross salary</th>
+                        <td>
+                            <input required name="gross-salary" class="form-control" type="number" step="0.01"
+                                   placeholder="Enter an amount e.g. 7500 for 7500 EUR">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary">Tax situation</th>
+                        <td>
+                            <label for="taxe-class"></label>
+                            <select required class="form-control specifictaxrateoption" name="taxe-class"
+                                    id="package">
+                                <option value="">Select your taxe class</option>
+                                <option value="class1">(1) Célibataire / Pacsé</option>
+                                <option value="class1a">(1a) Célibataire / Pacsé avec enfants</option>
+                                <option value="class1">(1) Divorcé / séparé / veuf depuis plus de 3 ans sans
+                                    enfants
+                                </option>
+                                <option value="class1a">(1a) Divorcé / séparé / veuf depuis plus de 3 ans avec
+                                    enfants
+                                </option>
+                                <option value="class2">(2) Divorcé / séparé / veuf depuis moins de 3 ans</option>
+                                <option value="class2">(2) Marié</option>
+                                <option id="ratespecific" value="specific-tax-rate">Specific taxe rate</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary">Specific tax rate</th>
+                        <td>
+                            <input id="inputtaxerate" name="specificrate" class="form-control" type="number"
+                                   step="0.01" placeholder="Enter a rate e.g. 20%">
+                        </td>
+                    </tr>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary">Benefit in kind</th>
+                        <td>
+                            <input id="carLeasingAmount" name="carLeasingAmount" class="form-control" type="number"
+                                   step="0.01" placeholder="e.g. car leasing benefit in kind">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="bg-primary">Deduction for travelling expenses</th>
+                        <td>
+                            <input id="travelExpenses" name="travelExpenses" class="form-control" type="number"
+                                   step="0.01" placeholder="Enter the amount e.g 100.00">
+                        </td>
+                    </tr>
+                </table>
+                <input class="btn btn-primary" type="submit" value="Submit">
+            </form>
+        </div>
+    </div>
     {% include 'footer.html.twig' %}
-        <script type="text/javascript">
-            $(function () {
+    <script type="text/javascript">
+        $(function () {
 
-                //Remove the option of inputting specific taxe rate when the residency is Luxembourg
-                $('.specifictaxrateoption').change( function () {
+            //Remove the option of inputting specific taxe rate when the residency is Luxembourg
+            $('.specifictaxrateoption').change(function () {
 
-                    var specificRate = $('.specifictaxrateoption option:selected').text();
+                var specificRate = $('.specifictaxrateoption option:selected').text();
 
-                    if(specificRate !== 'Specific taxe rate' ) {
+                if (specificRate !== 'Specific taxe rate') {
 
-                        $('#inputtaxerate').prop("disabled", true);
+                    $('#inputtaxerate').prop("disabled", true);
 
-                    } else if ($('.specifictaxrateoption option').attr('disabled', true) ){
+                } else if ($('.specifictaxrateoption option').attr('disabled', true)) {
 
-                        $('.specifictaxrateoption option').removeAttr("disabled");
-                        $('#inputtaxerate').removeAttr("disabled");
-                    }
-                });
-
-                //Event to make sure that the field Specific taxe rate input field will be field out by making it required if selected else remove required
-                $('.specifictaxrateoption').change( function () {
-
-                    var specifictaxerate = $('.specifictaxrateoption option:selected').text();
-
-                    if(specifictaxerate === 'Specific taxe rate' ) {
-
-                        $('#inputtaxerate').attr("required", true);
-
-                        console.log($('#inputtaxerate'));
-
-                    } else {
-
-                        $('#inputtaxerate').removeAttr("required");
-                    }
-                });
-
-                $('#Detailed').on('click', function () {
-                    $('#blockdetails').removeAttr("hidden");
-                });
-
-                $('i').on('click', function () {
-                    setTimeout(
-                        20000,
-                        $('.alert').remove()
-                    );
-                });
+                    $('.specifictaxrateoption option').removeAttr("disabled");
+                    $('#inputtaxerate').removeAttr("disabled");
+                }
             });
-        </script>
+
+            //Event to make sure that the field Specific taxe rate input field will be field out by making it required if selected else remove required
+            $('.specifictaxrateoption').change(function () {
+
+                var specifictaxerate = $('.specifictaxrateoption option:selected').text();
+
+                if (specifictaxerate === 'Specific taxe rate') {
+
+                    $('#inputtaxerate').attr("required", true);
+
+                    console.log($('#inputtaxerate'));
+
+                } else {
+
+                    $('#inputtaxerate').removeAttr("required");
+                }
+            });
+
+            $('#Detailed').on('click', function () {
+                $('#blockdetails').removeAttr("hidden");
+            });
+
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove()
+                );
+            });
+        });
+    </script>
     </body>
 {% endblock %}
