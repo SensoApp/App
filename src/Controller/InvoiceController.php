@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by PhpStorm.
+* Created by PhpStorm.
  * User: MacBookAir
- * Date: 2019-09-26
- * Time: 11:28
- */
+* Date: 2019-09-26
+* Time: 11:28
+*/
 
 namespace App\Controller;
 
@@ -20,8 +20,6 @@ use App\Form\InvoiceManualCreationType;
 use App\Form\InvoiceRandomType;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +41,7 @@ class InvoiceController extends AbstractController
     const INVOICE_CLOSED = 'Closed';
     private $eventDispatcher;
 
-    public function __construct(Security $security, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher)
+    public function __construct(Security $security, EntityManagerInterface $entityManager,  EventDispatcherInterface $eventDispatcher)
     {
 
         $this->security = $security;
@@ -59,12 +57,12 @@ class InvoiceController extends AbstractController
     {
 
         $invoiceobject = $this->entitymanager
-            ->getRepository(Invoice::class)
-            ->find(['id' => $id]);
+                              ->getRepository(Invoice::class)
+                              ->find(['id' => $id]);
 
 
-        $event = new InvoiceValidationEvent($invoiceobject);
-        $eventDispatcher->dispatch($event, InvoiceValidationEvent::NAME);
+            $event = new InvoiceValidationEvent($invoiceobject);
+            $eventDispatcher->dispatch($event, InvoiceValidationEvent::NAME );
 
         // for all that create messengers and queues so that it can be done async
 
@@ -84,7 +82,7 @@ class InvoiceController extends AbstractController
 
         $filetodelete = $invoicetodelete->getPath();
 
-        try {
+        try{
             $this->entitymanager->remove($invoicetodelete);
             $this->entitymanager->flush();
 
@@ -96,7 +94,7 @@ class InvoiceController extends AbstractController
                 'id' => $invoicetodelete->getTimesheet()->getId()
             ]);*/
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $exception){
 
             echo $exception->getMessage();
         }
@@ -104,18 +102,20 @@ class InvoiceController extends AbstractController
         unlink($filetodelete);
 
 
-        $this->addFlash('success', 'Invoice with id: ' . $id . ' has been deleted successfully');
+        $this->addFlash('success', 'Invoice with id: '.$id.' has been deleted successfully');
 
         return $this->redirectToRoute('listofinvoice');
     }
 
     /**
      *
+     * @param Request $request
+     *
      * @param $id
      *
-     * @return Response
      * @Route(path="/invoice/pdf/{id}", name="viewinvoicepdf")
      *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewInvoicePdfInBrowser($id)
     {
@@ -134,7 +134,7 @@ class InvoiceController extends AbstractController
      *
      * @Route(path="/newadmin/invoice/downloadpdf/{id}", name="downloadinvoice")
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function downloadInvoice($id)
     {
@@ -167,20 +167,18 @@ class InvoiceController extends AbstractController
     /**
      * Validates that the payment has been received at the bank and update the status of related invoice
      * @Route(path="/newadmin/invoice/paymentreceived/{id}", name="paymentreceived")
-     * @param $id
-     * @return RedirectResponse
      */
     public function paymentReceivedValidation($id)
     {
-        try {
+        try{
             $this->entitymanager
                 ->getRepository('App:Invoice')
                 ->updateStatusAfterValidation(self::INVOICE_CLOSED, $id, self::PAYMENT_PAID);
 
 
-        } catch (\Exception $exception) {
+        } catch (\Exception $exception){
 
-            $this->addFlash('error', 'the invoice has not been updated - ' . $exception->getMessage());
+            $this->addFlash('error', 'the invoice has not been updated - '.$exception->getMessage());
 
         }
 
@@ -194,7 +192,6 @@ class InvoiceController extends AbstractController
      * controller to create a manual invoice
      * @param Request $request
      * @Route(path="/newadmin/invoice/save-manual-invoice", name="saveManualInvoice")
-     * @return RedirectResponse|Response
      */
     public function createManualInvoice(Request $request)
     {
@@ -202,25 +199,26 @@ class InvoiceController extends AbstractController
         $month = $request->request->get('month');
 
         $form = $this->createForm(InvoiceManualCreationType::class)
-            ->handleRequest($request);
+                     ->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if($form->isSubmitted() && $form->isValid())
+        {
             try {
 
                 $invoicePersist = $form->getData();
                 $invoicePersist->setMonth($month);
                 $entry = $this->checkEntryInvoice($invoicePersist->getMonth(), $invoicePersist->getUser()->getId());
 
-                if (!$entry) {
+                if(!$entry){
 
                     $this->addFlash('error',
-                        'an Invoice has already been created for this user ' . $invoicePersist->getUser()->getFirstname() . ' ' . $invoicePersist->getUser()->getLastname()
+                        'an Invoice has already been created for this user '. $invoicePersist->getUser()->getFirstname().' '.$invoicePersist->getUser()->getLastname()
                     );
 
                     return $this->redirectToRoute('saveManualInvoice');
-                }
+                };
 
-                $em = $this->getDoctrine()->getManager();
+                $em =$this->getDoctrine()->getManager();
                 $em->persist($invoicePersist);
                 $em->flush();
 
@@ -229,17 +227,18 @@ class InvoiceController extends AbstractController
 
                 return $this->redirectToRoute('saveManualInvoice');
 
-            } catch (DBALException $e) {
+            } catch(DBALException $e){
 
-                $this->addFlash('error', 'DBAL: ' . $e->getMessage());
+                $this->addFlash('error', 'DBAL: '.$e->getMessage());
 
-            } catch (\Exception $e) {
+            } catch(\Exception $e){
 
                 $this->addFlash('error', $e->getMessage());
             }
         }
         return $this->render('invoice/createinvoice.html.twig', [
-            'createInvoice' => $form->createView()
+
+           'createInvoice' => $form->createView()
         ]);
 
     }
@@ -262,13 +261,13 @@ class InvoiceController extends AbstractController
      * @param $date
      * @param $id
      */
-    protected function checkEntryInvoice($date, $id)
+    protected function checkEntryInvoice ($date, $id)
     {
         $contractId = $this->entitymanager
-            ->getRepository(ClientContract::class)
-            ->findBy(['user' => $id]);
+                           ->getRepository(ClientContract::class)
+                           ->findBy(['user' => $id]);
 
-        if (!empty($contractId)) {
+        if(!empty($contractId)){
 
             $query = $this->entitymanager
                 ->getRepository(InvoiceCreationData::class)

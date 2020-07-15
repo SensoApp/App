@@ -3,19 +3,10 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <body>
+<body>
     <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
-
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     </style>
     <div class="container-fluid">
         <br>
@@ -53,24 +44,24 @@
                     <h3>Create your invoice</h3>
                 </div>
                 <br>
-                {{ form_start(createInvoice) }}
+        {{ form_start(createInvoice) }}
                 <div class="form-group row">
                     <label for="example-month-input" class="col-2 col-form-label">Month</label>
                     <div class="col-10">
                         <input class="form-control" type="month" value="2020-01" name="month">
                     </div>
                 </div>
-                {{ form_row(createInvoice.daysWorked) }}
-                {{ form_row(createInvoice.bankHolidays) }}
-                {{ form_row(createInvoice.workSaturdays) }}
-                {{ form_row(createInvoice.workSundays) }}
-                {{ form_row(createInvoice.user) }}
-                {{ form_row(createInvoice.contract) }}
-                {{ form_end(createInvoice) }}
+            {{ form_row(createInvoice.daysWorked) }}
+            {{ form_row(createInvoice.bankHolidays) }}
+            {{ form_row(createInvoice.workSaturdays) }}
+            {{ form_row(createInvoice.workSundays) }}
+            {{ form_row(createInvoice.user) }}
+        {{ form_end(createInvoice) }}
             </div>
         </div>
     </div>
     <script>
+
         $(function () {
             $('i').on('click', function () {
                 setTimeout(
@@ -81,5 +72,5 @@
             });
         });
     </script>
-    </body>
+</body>
 {% endblock %}
