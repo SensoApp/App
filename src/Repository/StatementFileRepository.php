@@ -30,9 +30,9 @@ class StatementFileRepository extends ServiceEntityRepository
     protected function selectUserPerIban()
     {
         $query = $this->getEntityManager()
-            ->createQuery(
+                      ->createQuery(
 
-                'SELECT u.id, b.ibanstatement
+                      'SELECT u.id, b.ibanstatement
                             FROM App\Entity\StatementFile s
                             INNER join App\Entity\BankDetails b
                             INNER join App\Entity\Contact co
@@ -40,7 +40,7 @@ class StatementFileRepository extends ServiceEntityRepository
                             WHERE b.ibanstatement = s.account
                             AND b.contact = co.id
                             AND co.id = u.contact'
-            );
+                      );
 
         return $query->getResult();
     }
@@ -50,7 +50,7 @@ class StatementFileRepository extends ServiceEntityRepository
         $values = $this->selectUserPerIban();
 
         foreach ($values as $value) {
-            try {
+            try{
 
                 $upd = $this->getEntityManager()
                     ->createQuery(
@@ -71,10 +71,9 @@ class StatementFileRepository extends ServiceEntityRepository
 
                 $upd->execute();
 
-            } catch (ORMException $e) {
+            } catch (ORMException $e){
 
-                echo $e->getMessage();
-                die;
+                echo $e->getMessage(); die;
             }
 
         }
@@ -83,16 +82,16 @@ class StatementFileRepository extends ServiceEntityRepository
 
     public function removeDuplicates(array $data)
     {
-        try {
+        try{
 
-            foreach ($data as $datatocheck) {
+            foreach ($data as $datatocheck){
 
                 $query = $this->getEntityManager()
                     ->createQuery('select distinct s.referencemovement from App\Entity\StatementFile s');
 
-                foreach ($query->getResult() as $res) {
+                foreach ($query->getResult() as $res){
 
-                    if ($res['referencemovement'] === $datatocheck->getReferencemovement()) {
+                    if($res['referencemovement'] === $datatocheck->getReferencemovement() ){
 
                         $this->getEntityManager()->remove($datatocheck);
 
@@ -100,7 +99,7 @@ class StatementFileRepository extends ServiceEntityRepository
                 };
             }
 
-        } catch (ORMException $ORMException) {
+        } catch (ORMException $ORMException){
 
             return $ORMException->getMessage();
         }
@@ -110,7 +109,7 @@ class StatementFileRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
 
-        $query = 'SELECT  u.firstname, u.lastname, s.account, max(s.updated_at) as last_updated
+        $query ='SELECT  u.firstname, u.lastname, s.account, max(s.updated_at) as last_updated
                   FROM statement_file s
                   INNER JOIN user u on s.user_id = u.id
                   WHERE s.user_id IS NOT NULL
@@ -126,7 +125,7 @@ class StatementFileRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
 
-        $query = 'SELECT  u.firstname, u.lastname,
+        $query ='SELECT  u.firstname, u.lastname,
                    sum(s.amount) as Current_Balance,
                    (  
                        select sum(invoice.totalamount) from invoice
@@ -141,7 +140,7 @@ class StatementFileRepository extends ServiceEntityRepository
                     GROUP BY u.firstname, u.lastname';
 
         $stmt = $em->getConnection()->prepare($query);
-        $param = ['userid' => $userid, 'unpaid' => 'Unpaid', 'validated' => 'Validated - sent to client'];
+        $param =['userid' => $userid, 'unpaid' => 'Unpaid', 'validated' => 'Validated - sent to client'];
         $stmt->execute($param);
 
         return $stmt->fetchAll();
@@ -149,7 +148,7 @@ class StatementFileRepository extends ServiceEntityRepository
 
     public function selectAllForPagination($userid)
     {
-        $em = $this->getEntityManager()->createQueryBuilder()->select('s')->from('App:StatementFile', 's');
+        $em = $this->getEntityManager()->createQueryBuilder()->select( 's')->from('App:StatementFile', 's');
 
         $em->andWhere('s.user=:userid');
 
@@ -160,45 +159,45 @@ class StatementFileRepository extends ServiceEntityRepository
             'userid' => $userid
         ]);
 
-        return $em->getQuery()
-            ->getResult();
+       return $em->getQuery()
+                ->getResult();
     }
 
     public function searchByCriterion($datatosearch, $userid)
     {
-        $em = $this->getEntityManager()->createQueryBuilder()->select('s')->from('App:StatementFile', 's');
+        $em = $this->getEntityManager()->createQueryBuilder()->select( 's')->from('App:StatementFile', 's');
 
         $req = $datatosearch->request;
 
-        if (!empty($req->get('Min-date')) && !empty($req->get('Max-date'))) {
+            if( !empty($req->get('Min-date')) && !empty($req->get('Max-date'))){
 
 
-            $em->andWhere('s.operationdate between :mindate and :maxdate');
-            $em->andWhere('s.user= :userid');
+                $em->andWhere('s.operationdate between :mindate and :maxdate');
+                $em->andWhere('s.user= :userid');
 
-            $em->setParameters([
+                $em->setParameters([
 
-                'mindate' => $req->get('Min-date'),
-                'maxdate' => $req->get('Max-date'),
-                'userid' => $userid
-            ]);
+                    'mindate' => $req->get('Min-date'),
+                    'maxdate' => $req->get('Max-date'),
+                    'userid'  => $userid
+                ]);
 
-        } elseif (!empty($req->get('Min-amount')) && !empty($req->get('Max-amount'))) {
+            } elseif(!empty($req->get('Min-amount')) && !empty($req->get('Max-amount'))){
 
-            $em->andWhere('s.amount between :minamount and :maxamount');
-            $em->andWhere('s.user= :userid');
+                $em->andWhere('s.amount between :minamount and :maxamount');
+                $em->andWhere('s.user= :userid');
 
-            $em->setParameters([
+                $em->setParameters([
 
-                'minamount' => $req->get('Min-amount'),
-                'maxamount' => $req->get('Max-amount'),
-                'userid' => $userid
+                    'minamount' => $req->get('Min-amount'),
+                    'maxamount' => $req->get('Max-amount'),
+                    'userid'    => $userid
 
-            ]);
-        }
+                ]);
+            }
 
-        return $em->getQuery()
-            ->getResult();
+             return   $em->getQuery()
+                     ->getResult();
 
     }
 
@@ -206,7 +205,7 @@ class StatementFileRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
 
-        foreach ($refs as $ref) {
+        foreach ($refs as $ref){
 
             $new[] = $ref;
         }
@@ -219,11 +218,11 @@ class StatementFileRepository extends ServiceEntityRepository
 
         return $con->getResult();
 
-        /* $quer = 'select * from statement_file s where s.referencemovement in (?)';
+           /* $quer = 'select * from statement_file s where s.referencemovement in (?)';
 
-         $st = $em->getConnection()->executeQuery($quer,[$new], [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY]);
+            $st = $em->getConnection()->executeQuery($quer,[$new], [\Doctrine\DBAL\Connection::PARAM_STR_ARRAY]);
 
-     return $st->fetchAll();*/
+        return $st->fetchAll();*/
     }
 
     public function searchBalancePerConsultant()
@@ -266,7 +265,7 @@ class StatementFileRepository extends ServiceEntityRepository
 
         $req = $datatosearch->request;
 
-        if (!empty($req->get('Min-date')) && !empty($req->get('Max-date'))) {
+        if( !empty($req->get('Min-date')) && !empty($req->get('Max-date'))){
 
             $sql = 'SELECT  u.firstname, u.lastname, s.*
                 FROM statement_file s 
@@ -274,9 +273,10 @@ class StatementFileRepository extends ServiceEntityRepository
                 WHERE s.operationdate between :mindate and :maxdate
                 ORDER BY s.operationdate desc';
 
-            $param = ['mindate' => $req->get('Min-date'), 'maxdate' => $req->get('Max-date')];
+            $param =['mindate' => $req->get('Min-date'), 'maxdate' => $req->get('Max-date')];
 
-        } elseif (!empty($req->get('Min-amount')) && !empty($req->get('Max-amount'))) {
+
+        } elseif(!empty($req->get('Min-amount')) && !empty($req->get('Max-amount'))){
 
             $sql = 'SELECT  u.firstname, u.lastname, s.*
                 FROM statement_file s 
@@ -284,17 +284,7 @@ class StatementFileRepository extends ServiceEntityRepository
                 WHERE s.amount between :minamount and :maxamount
                 ORDER BY s.operationdate desc';
 
-            $param = ['minamount' => $req->get('Min-amount'), 'maxamount' => $req->get('Max-amount')];
-
-        } elseif (!empty($req->get('Last-name'))) {
-
-            $sql = 'SELECT  u.firstname, u.lastname, s.*
-                FROM statement_file s 
-                INNER JOIN user u ON u.id = s.user_id
-                ORDER BY s.operationdate desc';
-
-            $param = ['lastname' => $req->get('Last-name')];
-
+            $param =['minamount' => $req->get('Min-amount'), 'maxamount' => $req->get('Max-amount')];
         }
 
         $query = $em->getConnection()->prepare($sql);
@@ -305,8 +295,7 @@ class StatementFileRepository extends ServiceEntityRepository
 
     }
 
-    public function searchByIbanStatement($iban)
-    {
+    public function searchByIbanStatement($iban){
 
         $em = $this->getEntityManager();
 

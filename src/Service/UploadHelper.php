@@ -40,6 +40,7 @@ class UploadHelper
     const NO_ERROR = 'no error';
 
 
+
     public function __construct(ParameterBagInterface $params, EntityManagerInterface $entityManager, Security $security, DateGeneratorService $dateGenerator)
     {
         $this->params = $params;
@@ -49,37 +50,37 @@ class UploadHelper
         $this->dateGenerator = $dateGenerator;
     }
 
-    public function uploadTimesheet($request): array
+    public function uploadTimesheet($request) : array
     {
-        try {
+        try{
 
-            $filepath = $this->params->get('kernel.project_dir') . '/report/timesheet_signed';
+            $filepath  = $this->params->get('kernel.project_dir').'/report/timesheet_signed';
 
             /**
              * @var UploadedFile $uploadedfile
              */
-            $uploadedfile = $request->files->get('file');
+            $uploadedfile =  $request->files->get('file');
 
             $month = $request->request->get('month');
 
-            if (!empty($month) && !is_null($uploadedfile)) {
+            if(!empty($month) && !is_null($uploadedfile)){
 
                 $feedback = $this->validFileUpload($uploadedfile);
 
-                if ($feedback !== self::NO_ERROR) {
+                if($feedback !== self::NO_ERROR){
 
                     $this->uploadfeedback = [
-                        'status' => 'error',
-                        'message' => $feedback
-                    ];
+                                                'status'=>'error',
+                                                'message' => $feedback
+                                            ];
 
                     return $this->uploadfeedback;
 
                 } else {
 
                     $originalfilename = pathinfo($uploadedfile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newfilename = $originalfilename . uniqid() . '.' . $uploadedfile->guessExtension();
-                    $finalpath = $filepath . '/' . $newfilename;
+                    $newfilename = $originalfilename.uniqid().'.'.$uploadedfile->guessExtension();
+                    $finalpath = $filepath.'/'.$newfilename;
 
                     $uploadedfile->move($filepath, $newfilename);
 
@@ -92,22 +93,22 @@ class UploadHelper
                     $entity->updateStatus(self::TIMESHEET_VALIDATED, $id, $finalpath);
 
                     $this->uploadfeedback = [
-                        'status' => 'success',
-                        'message' => 'the invoice process has started',
-                        'id' => $id
-                    ];
+                                                'status'=>'success',
+                                                'message' => 'the invoice process has started',
+                                                'id' => $id
+                                            ];
                     return $this->uploadfeedback;
                 }
             } else {
 
                 $this->uploadfeedback = [
-                    'status' => 'error',
-                    'message' => 'Some data are expecting, null submitted'
-                ];
+                                            'status'=>'error',
+                                            'message' => 'Some data are expecting, null submitted'
+                                        ];
 
                 return $this->uploadfeedback;
             }
-        } catch (\Exception $exception) {
+        } catch (\Exception $exception){
 
             echo $exception->getMessage();
 
@@ -116,29 +117,29 @@ class UploadHelper
 
     public function uploadStatement($request)
     {
-        try {
+        try{
 
-            $filepath = $this->params->get('kernel.project_dir') . '/report/statement';
+            $filepath  = $this->params->get('kernel.project_dir').'/report/statement';
 
             /**
              * @var UploadedFile $uploadedfile
              */
-            $uploadedfile = $request->files->get('csv_file');
+            $uploadedfile =  $request->files->get('csv_file');
 
-            $parsingFileName = preg_match('[_]', $uploadedfile->getClientOriginalName()) ? '_' : '-';
+            $parsingFileName = preg_match('[_]',$uploadedfile->getClientOriginalName()) ? '_' : '-';
 
-            $dataForAccount = explode($parsingFileName, $uploadedfile->getClientOriginalName());
+            $dataForAccount = explode($parsingFileName,$uploadedfile->getClientOriginalName());
 
             $account = $dataForAccount[1];
 
-            if (!is_null($uploadedfile)) {
+            if(!is_null($uploadedfile)){
 
                 $feedback = $this->validCsvFile($uploadedfile);
 
-                if ($feedback !== self::NO_ERROR) {
+                if($feedback !== self::NO_ERROR){
 
                     $this->uploadfeedback = [
-                        'status' => 'error',
+                        'status'=>'error',
                         'message' => $feedback
                     ];
 
@@ -150,77 +151,77 @@ class UploadHelper
 
                     $csv->auto($uploadedfile);
 
-                    foreach ($csv->data as $first) {
+                    foreach ($csv->data as $first){
 
                         $statement = new StatementFile();
 
-                        foreach ($first as $title => $fileparser) {
+                        foreach ($first as $title => $fileparser){
 
-                            try {
+                            try{
 
-                                switch ($title) {
+                                switch ($title){
 
-                                    case $title === 'Code' :
-                                        $statement->setReferencemovement($fileparser);
-                                        break;
+                                case $title === 'Code' :
+                                    $statement->setReferencemovement($fileparser);
+                                break;
 
-                                    case $title === 'Text' :
+                                case $title === 'Text' :
 
-                                        if ($fileparser === "FRAIS SUR OPERATION") {
+                                    if($fileparser === "FRAIS SUR OPERATION"){
 
-                                            $statement->setOperations($fileparser);
-                                            $statement->setReferencemovement($statement->getReferencemovement() . 'F');
+                                        $statement->setOperations($fileparser);
+                                        $statement->setReferencemovement($statement->getReferencemovement().'F');
 
-                                        } else {
+                                    } else {
 
-                                            $statement->setOperations($fileparser);
-                                        }
+                                        $statement->setOperations($fileparser);
+                                    }
 
-                                        break;
+                                break;
 
-                                    case $title === 'Communication' :
-                                        $statement->setCommunication($fileparser);
-                                        break;
+                                case $title === 'Communication' :
+                                    $statement->setCommunication($fileparser);
+                                break;
 
-                                    case $title === 'OperationDate' :
-                                        $dateformatmin = explode('/', $fileparser);
-                                        $day = $dateformatmin[0];
-                                        $month = $dateformatmin[1];
-                                        $year = $dateformatmin[2];
-                                        $newarr = [$year, $month, $day];
-                                        $newformat = implode('-', $newarr);
-                                        $date = new \DateTime($newformat, new DateTimeZone('Europe/Luxembourg'));
-                                        $statement->setOperationdate($date);
-                                        break;
+                                case $title === 'OperationDate' :
+                                    $dateformatmin = explode('/',$fileparser);
+                                    $day = $dateformatmin[0];
+                                    $month = $dateformatmin[1];
+                                    $year =  $dateformatmin[2];
+                                    $newarr = [$year, $month, $day];
+                                    $newformat = implode('-', $newarr);
+                                    $date = new \DateTime( $newformat, new DateTimeZone('Europe/Luxembourg'));
+                                    $statement->setOperationdate($date);
+                                break;
 
-                                    case $title === 'Amount' :
-                                        $amount = (float)$fileparser;
-                                        $statement->setAmount($amount);
-                                        break;
+                                case $title === 'Amount' :
+                                    $amount = (float)$fileparser;
+                                    $statement->setAmount($amount);
+                                break;
 
-                                }
+                            }
+
                                 $statement->setAccount($account);
                                 $this->entityManager->persist($statement);
 
-                            } catch (\Exception $exception) {
+                            } catch (\Exception $exception){
 
-                                echo $exception->getMessage();
-                                die;
+                                echo $exception->getMessage();die;
                             }
                         }
                     }
 
                     $this->entityManager->getRepository(StatementFile::class)
-                        ->removeDuplicates($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
+                                        ->removeDuplicates($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
 
 
-                    $linesinstered = count($this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
+                    $linesinstered = count( $this->entityManager->getUnitOfWork()->getScheduledEntityInsertions());
 
                     $this->entityManager->flush();
 
                     $this->uploadfeedback = [
-                        'status' => 'success',
-                        'message' => 'the file is uploaded successfully, ' . $linesinstered . ' line(s) inserted',
+                        'status'=>'success',
+                        'message' => 'the file is uploaded successfully, '.$linesinstered.' line(s) inserted',
                         'info' => $statement->getAccount(),
                         'insertedLines' => $linesinstered
                     ];
@@ -231,57 +232,57 @@ class UploadHelper
             } else {
 
                 $this->uploadfeedback = [
-                    'status' => 'error',
+                    'status'=>'error',
                     'message' => 'Some data are expecting, null submitted'
                 ];
 
                 return $this->uploadfeedback;
             }
 
-        } catch (DBALExceptionAlias $exception) {
+        } catch (DBALExceptionAlias $exception){
 
-            if ($exception) {
+            if($exception){
 
                 return $this->uploadfeedback = [
-                    'status' => 'error',
+                    'status'=>'error',
                     'message' => $exception->getMessage()
-                ];
+                    ];
             }
         }
     }
 
-    public function validFileUpload($files): ?string
+    public function validFileUpload($files) :? string
     {
-        $violations = $this->validator->validate($files, [
+       $violations =  $this->validator->validate($files, [
             new Image([
-                'maxSize' => '1M',
-                'mimeTypes' => 'application/pdf'
-            ])
-        ]);
+                        'maxSize' => '1M',
+                        'mimeTypes' => 'application/pdf'
+                    ])
+             ]);
 
-        if (count($violations) > 0) {
+       if(count($violations) > 0) {
 
-            foreach ($violations as $item) {
+           foreach ($violations as $item) {
 
-                $response = $item->getMessage();
-            }
+               $response = $item->getMessage();
+           }
 
-            return $response;
-        }
+           return $response;
+       }
 
-        return self::NO_ERROR;
+       return self::NO_ERROR ;
     }
 
     public function validCsvFile($file)
     {
-        $violations = $this->validator->validate($file, [
+        $violations = $this->validator->validate($file,[
             new File([
 
                 'mimeTypes' => 'text/plain'
-            ])
-        ]);
+                ])
+            ]);
 
-        if (count($violations) > 0) {
+        if(count($violations) > 0) {
 
             foreach ($violations as $item) {
 
@@ -291,7 +292,7 @@ class UploadHelper
             return $response;
         }
 
-        return self::NO_ERROR;
+        return self::NO_ERROR ;
     }
 
 }

@@ -17,28 +17,20 @@ class InvoiceManualCreationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('daysWorked', NumberType::class, [
-                'scale' => 1
-            ])
-            ->add('bankHolidays')
-            ->add('workSaturdays')
-            ->add('workSundays')
-            ->add('user', EntityType::class, [
-                'class' => 'App\Entity\User',
-                'placeholder' => 'Select related user',
-                'choice_label' => function ($choices) {
-                    return $choices->getFirstname() . ' ' . $choices->getLastname();
-                }
-            ])
-            ->add('contract', EntityType::class,[
-                'class' => 'App\Entity\ClientContract',
-                'placeholder' => 'Select related contract',
-                'choice_label' => function ($choices){
-
-                return 'contract : ' . $choices->getId() . ' ' . $choices->getClientName();
-                }
-            ])
-            ->add('Create', SubmitType::class);
+                ->add('daysWorked', NumberType::class, [
+                    'scale' => 1
+                ])
+                ->add('bankHolidays')
+                ->add('workSaturdays')
+                ->add('workSundays')
+                ->add('user', EntityType::class, [
+                    'class' => 'App\Entity\User',
+                    'placeholder' => 'Select related user',
+                    'choice_label' => function($choices){
+                        return $choices->getFirstname().' '.$choices->getLastname();
+                    }
+                ])
+                ->add('Create', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)
