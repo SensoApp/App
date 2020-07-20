@@ -71,13 +71,18 @@
         </div>
     </div>
     <script>
-        $(function () {
-            $('i').on('click', function () {
-                setTimeout(
-                    20000,
-                    $('.alert').remove(),
-                    //location.reload()
-                );
+        $(document).ready(function () {
+            $('#invoice_manual_creation_user').change(function (message) {
+                $('#hidden').show();
+
+                let userName = $('#invoice_manual_creation_user option:selected').text();
+                console.log(userName)
+
+                $.get("{{ path('showAllContract') }}", {'user': userName})
+
+                    .done(function (data) {
+                        alert('data : ' + data);
+                    });
             });
         });
     </script>

@@ -10,6 +10,8 @@ namespace App\Controller;
 
 
 use App\Entity\ClientContract;
+use App\Entity\ContactEndClient;
+use App\Entity\Contract;
 use App\Entity\Invoice;
 use App\Entity\InvoiceCreationData;
 use App\Entity\InvoiceRandom;
@@ -18,8 +20,10 @@ use App\Events\InvoiceRandomEvent;
 use App\Events\InvoiceValidationEvent;
 use App\Form\InvoiceManualCreationType;
 use App\Form\InvoiceRandomType;
+use App\Repository\ClientContractRepository;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +32,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 class InvoiceController extends AbstractController
 {
@@ -128,13 +134,9 @@ class InvoiceController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     *
      * @param $id
-     *
-     * @Route(path="/newadmin/invoice/downloadpdf/{id}", name="downloadinvoice")
-     *
      * @return Response
+     * @Route(path="/newadmin/invoice/downloadpdf/{id}", name="downloadinvoice")
      */
     public function downloadInvoice($id)
     {
@@ -261,6 +263,7 @@ class InvoiceController extends AbstractController
      * Checks first whether a client contract has been created then whether an invoice has been created for the same period and same user
      * @param $date
      * @param $id
+     * @return bool|RedirectResponse
      */
     protected function checkEntryInvoice($date, $id)
     {
@@ -288,5 +291,21 @@ class InvoiceController extends AbstractController
 
     }
 
+    /**
+     * @Route(path="/newadmin/invoice/showAllContract", name="showAllContract")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function viewContract(Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $template_id = $request->get('user');
+        $getName = explode(" ", $template_id);
+        $firstname = $getName[0];
+        $lastname = $getName[1];
+        $templateRepository = $entityManager->getRepository(ClientContract::class)->getListPerUser($firstname, $lastname);
+
+        return new JsonResponse(json_encode($templateRepository));
+    }
 
 }

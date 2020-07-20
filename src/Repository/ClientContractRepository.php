@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\ClientContract;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
-
 
 
 /**
@@ -23,12 +23,12 @@ class ClientContractRepository extends ServiceEntityRepository
 
 
     /**
-     *
+     * @param $userid
      */
     public function listPerUserAndClient($userid)
     {
         $query = $this->getEntityManager()
-                      ->createQuery('
+            ->createQuery('
                             
                             select c, cc
                             from App\Entity\ClientContract c
@@ -41,4 +41,27 @@ class ClientContractRepository extends ServiceEntityRepository
         $query->getResult();
     }
 
+    /**
+     * @param $firstname
+     * @param $lastname
+     * @return mixed
+     * @throws DBALException
+     */
+    public function getListPerUser($firstname, $lastname)
+    {
+            $em = $this->getEntityManager();
+
+            $query = '
+            SELECT clientname 
+            FROM contact_end_client c
+            INNER JOIN client_contract cli ON cli.clientname_id = c.id 
+            INNER JOIN user u ON u.id = cli.user_id
+            WHERE u.firstname = :firstname AND u.lastname = :lastname
+            ';
+
+            $stmt = $em->getConnection()->prepare($query);
+            $param = ['firstname'=> $firstname, 'lastname' => $lastname];
+            $stmt->execute($param);
+            return $stmt->fetchAll();
+    }
 }
