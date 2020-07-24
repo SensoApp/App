@@ -1,0 +1,46 @@
+{
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.30.0",
+    "concurrently": "^5.2.0",
+    "core-js": "^3.0.0",
+    "node-sass": "^4.14.1",
+    "regenerator-runtime": "^0.13.2",
+    "sass-loader": "^8.0.0",
+    "webpack-notifier": "^1.6.0"
+  },
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "encore dev",
+    "build": "encore production --progress",
+    "start:watch": "encore dev --watch",
+    "start:dev-server": "encore dev-server",
+    "start:symfony": "symfony serve",
+    "start": "concurrently npm:start:*"
+  },
+  "dependencies": {
+    "@babel/preset-react": "^7.10.4",
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-material-ui-carousel": "^1.7.1",
+    "react-router-dom": "^5.2.0"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
