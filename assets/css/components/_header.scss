@@ -1,0 +1,36 @@
+nav.navbar {
+  box-shadow: 0 0.2rem 1rem rgba(#000, 0.1);
+}
+
+@media (max-width: 766px) {
+  nav.navbar div .container {
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
+
+  .navbar-nav li {
+    padding-left: 0;
+
+    &:first-of-type {
+      margin-top: 1rem;
+    }
+    &:last-of-type {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+.nav-link,
+.dropdown-item {
+  color: $text-primary;
+
+  &:hover {
+    color: $text-primary-dark;
+  }
+}
+
+.navbar-toggler,
+.navbar-toggler-icon {
+  background-color: transparent;
+  border: none;
+}

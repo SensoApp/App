@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider } from '@material-ui/core';
-
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import App from './components/App';
-import theme from './muiTheme';
+import '../css/index.scss';
 
-ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <App />
-  </ThemeProvider>,
-  document.querySelector('#root')
-);
+ReactDOM.render(<App />, document.querySelector('#root'));
