@@ -2,29 +2,41 @@
   padding: 0 0.5rem;
 }
 
-.round-btn {
-  &,
-  &:link,
-  &:visited {
-    border-radius: 10rem;
+.btn {
+  &-round {
+    &,
+    &:link,
+    &:visited {
+      border-radius: 10rem;
+
+      padding: 0.5rem 1rem;
+      outline: none;
+      border-style: none;
+      transition: all 0.2s;
+    }
+
+    &:hover {
+      box-shadow: 0 0.5rem 0.5rem rgba($color-black, 0.2);
+      outline: none;
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+      border-style: none;
+      transform: translateY(1px);
+      box-shadow: 0 0.5rem 0.5rem rgba($color-black, 0.2);
+    }
+  }
+
+  &-primary {
+    box-shadow: 0 0.5rem 0.5rem rgba($primary-dark, 0.2);
     margin-right: 0.5rem;
-    padding: 0.5rem 1rem;
-    outline: none;
-    border-style: none;
-    transition: all 0.2s;
-    box-shadow: 0 0.5rem 0.5rem rgba($primary-dark, 0.2);
   }
 
-  &:hover {
-    box-shadow: 0 0.5rem 0.5rem rgba($color-black, 0.2);
-    outline: none;
-  }
-
-  &:active,
-  &:focus {
-    outline: none;
-    border-style: none;
-    transform: translateY(1px);
-    box-shadow: 0 0.5rem 0.5rem rgba($primary-dark, 0.2);
+  &-secondary {
+    &:hover {
+      background-color: $secondary-dark;
+    }
   }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FrontendController extends AbstractController
 {
     /**
-     * @Route("/frontend", name="frontend")
+     * @Route("/frontend/{reactRouting}", name="frontend", defaults={"reactRouting": null})
      */
     public function index()
     {

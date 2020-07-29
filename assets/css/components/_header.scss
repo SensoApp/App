@@ -1,8 +1,9 @@
 nav.navbar {
   box-shadow: 0 0.2rem 1rem rgba(#000, 0.1);
+  background-color: #fff;
 }
 
-@media (max-width: 766px) {
+@media (max-width: 992px) {
   nav.navbar div .container {
     flex-direction: column;
     margin-bottom: 1rem;
@@ -33,4 +34,19 @@ nav.navbar {
 .navbar-toggler-icon {
   background-color: transparent;
   border: none;
+}
+
+.dropdown-item {
+  &.hover,
+  &:hover {
+    background-color: $primary-light;
+    color: $text-secondary;
+  }
+  &.active,
+  &:active {
+    color: $text-secondary;
+    background-color: $primary;
+    text-decoration: none;
+    @include gradient-bg($dropdown-link-active-bg);
+  }
 }

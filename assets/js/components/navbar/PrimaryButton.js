@@ -2,7 +2,7 @@ import React from 'react';
 
 const PrimaryButton = (props) => {
   return (
-    <button className="btn btn-primary round-btn">
+    <button className="btn btn-primary btn-round">
       <span className="mr-2">
         <svg
           width="1em"

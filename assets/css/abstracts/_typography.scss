@@ -1,0 +1,10 @@
+.header-huge {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: 2rem;
+
+  @media (min-width: 768px) {
+    font-weight: 500;
+    font-size: 3rem;
+  }
+}

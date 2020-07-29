@@ -1,14 +1,19 @@
 import React from 'react';
+import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
 
 import PrimaryButton from './PrimaryButton';
 import logo from '../../../../public/img/Logo_Senso_3.png';
 
 const Header = () => {
+  function collapse() {
+    $('.navbar-collapse').collapse('hide');
+  }
+
   return (
-    <nav className="navbar navbar-expand-md navbar-light">
+    <nav className="navbar fixed-top navbar-expand-lg navbar-light">
       <div className="flex-grow-1">
-        <Link to="/">
+        <Link to="/frontend/">
           <img src={logo} className="navbar-brand" />
         </Link>
       </div>
@@ -25,10 +30,10 @@ const Header = () => {
       <div
         className="collapse navbar-collapse flex-grow-0"
         id="navbarNavAltMarkup">
-        <div class="container">
+        <div className="container">
           <ul className="navbar-nav">
-            <li className="nav-item nav-btn">
-              <a className="nav-link" href="#">
+            <li className="nav-item nav-btn" onClick={collapse}>
+              <HashLink to="/frontend/#about" className="nav-link" href="#">
                 <span className="mr-2">
                   <svg
                     width="1em"
@@ -46,7 +51,7 @@ const Header = () => {
                   </svg>
                 </span>
                 About Us
-              </a>
+              </HashLink>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -80,15 +85,15 @@ const Header = () => {
               <div
                 className="dropdown-menu"
                 aria-labelledby="navbarDropdownMenuLink">
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="#" onClick={collapse}>
                   Consulting Services
                 </a>
-                <a className="dropdown-item" href="#">
+                <a className="dropdown-item" href="#" onClick={collapse}>
                   Payroll Services
                 </a>
               </div>
             </li>
-            <li className="nav-item nav-btn">
+            <li className="nav-item nav-btn" onClick={collapse}>
               <a className="nav-link" href="#">
                 <span className="mr-2">
                   <svg
@@ -107,7 +112,7 @@ const Header = () => {
                 Contact Us
               </a>
             </li>
-            <li className="nav-item nav-btn">
+            <li className="nav-item nav-btn" onClick={collapse}>
               <a className="nav-link" href="#">
                 <span className="mr-2">
                   <svg

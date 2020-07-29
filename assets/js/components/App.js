@@ -1,19 +1,23 @@
 import React from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Homepage from './homepage/Homepage';
 import Header from './navbar/Header';
-import history from '../history';
+import Footer from './footer/Footer';
+//import history from '../history';
 
 const App = () => {
+  // urlPrefix for development purposes; routes to be defined
+  const urlPrefix = '/frontend';
   return (
     <React.Fragment>
-      <HashRouter history={history}>
+      <Router>
         <div>
           <Header />
-          <Route path="/" exact component={Homepage} />
+          <Route path={`${urlPrefix}/`} exact component={Homepage} />
+          <Footer />
         </div>
-      </HashRouter>
+      </Router>
     </React.Fragment>
   );
 };
