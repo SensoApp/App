@@ -8,13 +8,13 @@ import FollowBanner from '../FollowBanner';
 
 const Homepage = () => {
   return (
-    <div>
+    <main className="grid-container">
       <Carousel />
       <AboutUs />
       <OurServices />
       <ContactUs />
       <FollowBanner />
-    </div>
+    </main>
   );
 };
 

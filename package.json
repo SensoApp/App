@@ -11,9 +11,9 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "dev": "encore dev",
     "build": "encore production --progress",
-    "start:watch": "encore dev --watch",
+    "watch": "encore dev --watch --watch-poll=300",
+    "start:dev": "encore dev",
     "start:dev-server": "encore dev-server",
     "start:symfony": "symfony serve",
     "start": "concurrently npm:start:*"

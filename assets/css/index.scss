@@ -2,12 +2,11 @@
 
 @import '~bootstrap';
 
+@import './abstracts/layout';
+@import './abstracts/typography';
+
 @import './components/aboutUs';
 @import './components/button';
 @import './components/carousel';
 @import './components/header';
-@import './abstracts/typography';
-
-body {
-  padding-top: 0;
-}
+@import './components/services';

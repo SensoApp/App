@@ -46,11 +46,11 @@ const Carousel = () => {
             className="d-block w-100 carousel-item_img"
             alt="Luxembourg City"
           />
-          <div className="carousel-caption">
-            <h1 className="header-huge">{items[0].name}</h1>
-            <p>{items[0].description}</p>
+          <hgroup className="carousel-caption">
+            <h1 className="heading-huge">{items[0].name}</h1>
+            <h2 className="heading-small mb-5">{items[0].description}</h2>
             <GreenButton text="Our Services" />
-          </div>
+          </hgroup>
         </div>
         <div className="carousel-item">
           <img
@@ -58,11 +58,11 @@ const Carousel = () => {
             className="d-block w-100 carousel-item_img"
             alt="Luxembourg City"
           />
-          <div className="carousel-caption">
-            <h1 className="header-huge">{items[1].name}</h1>
-            <p>{items[1].description}</p>
+          <hgroup className="carousel-caption">
+            <h1 className="heading-huge">{items[1].name}</h1>
+            <h2 className="heading-small mb-5">{items[1].description}</h2>
             <GreenButton text="Our Services" />
-          </div>
+          </hgroup>
         </div>
         <div className="carousel-item">
           <img
@@ -70,11 +70,11 @@ const Carousel = () => {
             className="d-block w-100 carousel-item_img"
             alt="Luxembourg City"
           />
-          <div className="carousel-caption">
-            <h1 className="header-huge">{items[2].name}</h1>
-            <p>{items[2].description}</p>
+          <hgroup className="carousel-caption">
+            <h1 className="heading-huge">{items[2].name}</h1>
+            <h2 className="heading-small mb-5">{items[2].description}</h2>
             <GreenButton text="Our Services" />
-          </div>
+          </hgroup>
         </div>
       </div>
       <a
