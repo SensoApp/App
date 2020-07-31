@@ -24,9 +24,17 @@
     &:focus {
       outline: none;
       border-style: none;
+      border: none;
       transform: translateY(1px);
       box-shadow: 0 0.5rem 0.5rem rgba($color-black, 0.2);
     }
+  }
+
+  &-square {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0;
+    position: absolute;
+    top: 11.1rem;
   }
 
   &-primary {

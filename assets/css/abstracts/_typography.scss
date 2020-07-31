@@ -14,14 +14,13 @@
 .heading-large {
   color: $primary;
   font-family: $font-display;
-  font-weight: 500;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
+  font-weight: 300;
+  font-size: 2rem;
+  margin-bottom: 3.125rem;
 
   @media (min-width: $md-bp) {
     font-weight: 500;
     font-size: 2rem;
-    margin-bottom: 3rem;
   }
 
   &--white {
@@ -34,15 +33,19 @@
   font-weight: 500;
   font-size: 1.2rem;
   margin-bottom: 1rem;
+
+  &--blue {
+    color: $primary-light;
+  }
 }
 
 .text {
-  &-display {
+  &--display {
     color: $text-primary;
     font-family: $font-display;
   }
 
-  &-basic {
+  &--basic {
     color: $text-primary;
     font-family: $font-family-sans-serif;
     font-weight: 300;
