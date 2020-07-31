@@ -65,7 +65,7 @@
                 {{ form_row(createInvoice.workSaturdays) }}
                 {{ form_row(createInvoice.workSundays) }}
                 {{ form_row(createInvoice.user) }}
-                {{ form_row(createInvoice.contract) }}
+                <div id="hidden" style="display: none">{{ form_row(createInvoice.contract) }}</div>
                 {{ form_end(createInvoice) }}
             </div>
         </div>
@@ -88,3 +88,6 @@
     </script>
     </body>
 {% endblock %}
+
+
+

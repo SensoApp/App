@@ -23,24 +23,24 @@ class ContactEndClientRepository extends ServiceEntityRepository
     public function listOfAllClients(): array
     {
         $qr = $this->createQueryBuilder('u')
-            ->select('u.id','u.clientname', 'u.type', 'u.contactperson')
+            ->select('u.id', 'u.clientname', 'u.type', 'u.contactperson')
             ->leftJoin('u.mail', 'm')
-            ->addSelect( 'm.mail')
+            ->addSelect('m.mail')
             ->leftJoin('u.phone', 'p')
             ->addSelect('p.phonenumber');
 
 
         return $qr->getQuery()
-                  ->execute();
+            ->execute();
     }
 
 
     public function viewOneClient($id): array
     {
         $qr = $this->createQueryBuilder('u')
-            ->select('u.id','u.clientname', 'u.type', 'u.contactperson')
+            ->select('u.id', 'u.clientname', 'u.type', 'u.contactperson')
             ->leftJoin('u.mail', 'm')
-            ->addSelect( 'm.mail')
+            ->addSelect('m.mail')
             ->leftJoin('u.phone', 'p')
             ->addSelect('p.phonenumber')
             ->where('u.id = :id');
@@ -52,11 +52,11 @@ class ContactEndClientRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findRelatedAddress($clientId) : ?array
+    public function findRelatedAddress($clientId): ?array
     {
         $em = $this->getEntityManager();
 
-        $query ='SELECT  a.street, a.postcode, a.city
+        $query = 'SELECT  a.street, a.postcode, a.city
                   FROM contact_end_client c
                   INNER JOIN contact_end_client_address cl on c.id = cl.contact_end_client_id
                   INNER JOIN address a on cl.address_id = a.id

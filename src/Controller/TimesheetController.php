@@ -52,13 +52,13 @@ class TimesheetController extends AbstractController
         $dates = $dateGenerator->periodRequest($month, $request->getQueryString());
 
         $contract = $this->entitymanager->getRepository(ClientContract::class)
-                                        ->findBy(['user' =>$this->getUser()->getId()]);
+            ->findBy(['user' => $this->getUser()->getId()]);
 
         return $this->render('timesheet/timesheetview.html.twig', [
 
-           'date' => $dates,
-           'contractdetails' => $contract
-       ]);
+            'date' => $dates,
+            'contractdetails' => $contract
+        ]);
     }
 
     /**
@@ -72,8 +72,8 @@ class TimesheetController extends AbstractController
         $messageBus->dispatch($message);
 
         return new JsonResponse([
-                                    'success' => 'Your Timesheet is beeing processed, you  will receive a pdf copy shortly...'
-                                ]);
+            'success' => 'Your Timesheet is beeing processed, you  will receive a pdf copy shortly...'
+        ]);
     }
 
 
@@ -90,8 +90,8 @@ class TimesheetController extends AbstractController
     public function viewTimeSheetPdfInBrowser($id)
     {
         $path = $this->entitymanager
-                     ->getRepository(Timesheet::class)
-                     ->find($id);
+            ->getRepository(Timesheet::class)
+            ->find($id);
 
         return $this->file($path->getPath(), null, ResponseHeaderBag::DISPOSITION_INLINE);
 
@@ -109,8 +109,8 @@ class TimesheetController extends AbstractController
     public function downloadTimeSheet($id)
     {
         $path = $this->entitymanager
-                     ->getRepository(Timesheet::class)
-                     ->find($id);
+            ->getRepository(Timesheet::class)
+            ->find($id);
 
         return $this->file($path->getPath());
 
@@ -121,35 +121,35 @@ class TimesheetController extends AbstractController
      */
     public function validateUploadTimeSheet(Request $request, UploadHelper $uploadHelper, EventDispatcherInterface $eventDispatcher)
     {
-        try{
+        try {
 
-           $fileuploaded =  $uploadHelper->uploadTimesheet($request);
+            $fileuploaded = $uploadHelper->uploadTimesheet($request);
 
-           switch($fileuploaded){
+            switch ($fileuploaded) {
 
-               case $fileuploaded['status'] === 'success':
+                case $fileuploaded['status'] === 'success':
 
                     $timesheetobject = $this->entitymanager->getRepository(Timesheet::class)->find($fileuploaded['id']);
 
                     $event = new TimeSheetValidationEvent($timesheetobject);
                     $eventDispatcher->dispatch(TimeSheetValidationEvent::NAME, $event);
 
-                   $this->addFlash('success', sprintf('Timesheet validated, %s', $fileuploaded['message']));
+                    $this->addFlash('success', sprintf('Timesheet validated, %s', $fileuploaded['message']));
 
-                   break;
+                    break;
 
-               case $fileuploaded['status'] === 'error':
+                case $fileuploaded['status'] === 'error':
 
-                   $this->addFlash('error', sprintf('Error : %s',$fileuploaded['message']));
+                    $this->addFlash('error', sprintf('Error : %s', $fileuploaded['message']));
 
-                   break;
-           }
+                    break;
+            }
 
             return $this->redirectToRoute('user_dashboard');
 
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
-           return $exception->getMessage();
+            return $exception->getMessage();
         }
 
     }
@@ -157,14 +157,14 @@ class TimesheetController extends AbstractController
     /**
      * @Route(path="/timesheet/edit/{id}", name="modify_timesheet")
      */
-    public function editTimesheet(DateGeneratorService $dateGenerator, Request $request,$id, GeneratePdfReport $generatePdfReport)
+    public function editTimesheet(DateGeneratorService $dateGenerator, Request $request, $id, GeneratePdfReport $generatePdfReport)
     {
 
-        if($request->request->get('edit')){
+        if ($request->request->get('edit')) {
 
             $this->entitymanager
-                  ->getRepository(Timesheet::class)
-                  ->updateTimesheet($request, $id);
+                ->getRepository(Timesheet::class)
+                ->updateTimesheet($request, $id);
 
             $generatePdfReport->reportConstructTimeSheet($request->request->get('currentMonth'), self::EDIT_TIMESHEET);
 
@@ -175,8 +175,8 @@ class TimesheetController extends AbstractController
         }
 
         $timesheettoedit = $this->entitymanager
-                                ->getRepository(Timesheet::class)
-                                ->find($id);
+            ->getRepository(Timesheet::class)
+            ->find($id);
 
         $dates = $dateGenerator->periodRequest($timesheettoedit->getMonth());
 
@@ -196,17 +196,17 @@ class TimesheetController extends AbstractController
     public function deleteTimesheet($id)
     {
         $timesheettodelete = $this->entitymanager
-                                  ->getRepository(Timesheet::class)
-                                  ->find($id);
+            ->getRepository(Timesheet::class)
+            ->find($id);
 
         $filetodelete = $timesheettodelete->getPath();
 
-        try{
+        try {
 
             $this->entitymanager->remove($timesheettodelete);
             $this->entitymanager->flush();
 
-        } catch (\Exception $exception){
+        } catch (\Exception $exception) {
 
             echo $exception->getMessage();
         }

@@ -53,27 +53,22 @@
         <br>
 
         <div class="row">
+
             <form method="post" class="col-md-12">
 
                 <div class="col-md-3 text-center">
-                    <label for="search">Last Name</label>
+                    <label for="search">User name</label>
                     <br>
                     <div class="col-md-12">
-                        <select>
-                            <option value="">--Please select an user--</option>
-                            <option class="form-control" type="text" placeholder="Username" name="Username">
-                                {% set idline = 0 %}
-                                {% for balance in Balance %}
-                                    {% set idline = idline +1 %}
-                                    <tr>
-                                        <td>{{ idline }}</td>
-                                        <td>{{ balance.firstname }}</td>
-                                        <td>{{ balance.lastname }}</td>
-                                    </tr>
-                                {% endfor %}
-                            </option>
+                        <select id="searchByUser" name="userId">
+                            <option>-- Please select a user --</option>
+                            {% for value in Balance %}
+                                <option data-name="{{ value.consultants }}">
+                                    {{ value.firstname }}
+                                    {{ value.lastname }}
+                                </option>
+                            {% endfor %}
                         </select>
-
                     </div>
                 </div>
 
@@ -99,7 +94,6 @@
                     </div>
                     <input type="hidden" name="specialrequest" value="1">
                 </div>
-
                 <br>
                 <button class="btn btn-primary col-md-1">Submit</button>
             </form>
@@ -186,6 +180,19 @@
                 });
             });
         </script>
+        <script>
+            $(document).ready(function () {
+                $('#searchByUser').change(function () {
+                    let searchUser = $(this).find(':selected').data("name")
+                    /* let searchUser = $('#searchByUser option:selected').text().trim().charAt(0);
+                     parseInt(searchUser, 10)*/
+                    console.log(searchUser)
+                    $.get("{{ path('searchByUser') }}", {'username': searchUser})
+                });
+            });
+
+        </script>
     </div>
     </body>
 {% endblock %}
+

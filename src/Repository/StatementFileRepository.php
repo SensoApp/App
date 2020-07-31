@@ -6,6 +6,7 @@ use App\Entity\StatementFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMException;
 
@@ -260,6 +261,15 @@ class StatementFileRepository extends ServiceEntityRepository
 
     }
 
+    public function searchAllUser()
+    {
+        $em = $this->getEntityManager();
+        $sql = 'SELECT * FROM `user` ';
+        $query = $em->getConnection()->prepare($sql);
+        $query->execute();
+        return $query->fetchAll();
+    }
+
     public function searchByCriterionAdmin($datatosearch)
     {
         $em = $this->getEntityManager();
@@ -295,6 +305,15 @@ class StatementFileRepository extends ServiceEntityRepository
 
             $param = ['lastname' => $req->get('Last-name')];
 
+        } elseif (!empty($req->get('User-name'))){
+
+            $sql = 'SELECT  u.firstname, u.lastname, s.*
+                FROM statement_file s 
+                INNER JOIN user u ON u.id = s.user_id
+                WHERE s.user_id = :username
+                ORDER BY s.operationdate desc';
+            $param = ['$username' => $req->get('User-name')];
+
         }
 
         $query = $em->getConnection()->prepare($sql);
@@ -303,6 +322,22 @@ class StatementFileRepository extends ServiceEntityRepository
 
         return $query->fetchAll();
 
+    }
+
+    public function searchId($firstname)
+    {
+        $em = $this->getEntityManager();
+        $query = 'SELECT  u.firstname, u.lastname, s.*
+                FROM statement_file s 
+                INNER JOIN user u ON u.id = s.user_id
+                WHERE s.user_id = :username
+                ORDER BY s.operationdate desc';
+
+        $stmt = $em->getConnection()->prepare($query);
+        $param = ['username'=> $firstname];
+        $stmt->execute($param);
+
+        return $stmt->fetchAll();
     }
 
     public function searchByIbanStatement($iban)

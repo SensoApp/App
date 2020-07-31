@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\StatementFile;
 use App\Form\ClientContractType;
 use App\Form\StatementFileType;
+use App\Repository\StatementFileRepository;
 use App\Service\MailerService;
 use App\Service\UploadHelper;
 use Doctrine\DBAL\DBALException;
@@ -14,6 +15,7 @@ use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -88,7 +90,7 @@ class StatementController extends AbstractController
     }
 
     /**
-     * @Route(path="/newadmin/statements-summary", name="statementAdmin")
+     * @Route(path="/newadmin/statements-summary/", name="statementAdmin")
      * @param Request $request
      * @param PaginatorInterface $paginator
      * @return Response
@@ -191,26 +193,44 @@ class StatementController extends AbstractController
 
     public function searchStatement($request)
     {
-        $user = $request->request->get('Username');
+
         $minamount = $request->request->get('Min-amount');
         $maxamount = $request->request->get('Max-amount');
         $mindate = $request->request->get('Min-date');
         $maxdate = $request->request->get('Max-date');
 
-        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) || !empty($user)) {
+        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) && !empty($username)) {
 
             return $this->entityManager
                 ->getRepository(StatementFile::class)
                 ->searchByCriterionAdmin($request);
-        }
-        return $this->entityManager
-            ->getRepository(StatementFile::class)
-            ->searchAllMovements();
+        } else
+            return $this->entityManager
+                ->getRepository(StatementFile::class)
+                ->searchAllMovements();
     }
 
     /**
+     * @Route(path="/newadmin/statements-summary/searchByUser", name="searchByUser")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function searchByUser(Request $request)
+    {
+        //   dump($request);
+        $entityManager = $this->getDoctrine()->getManager();
+        $template_id = $request->get('username');
+        dd($template_id);
+      //  $templateRepository = $entityManager
+         //   ->getRepository(StatementFile::class)
+       //     ->searchId($template_id);
+
+        return new JsonResponse(json_encode( $template_id));
+    }
+
+
+    /**
      * @Route(path="/newadmin/statements-summary/delete/{id}", name="delete_statements")
-     * @param StatementFile $statementFile
      * @param $id
      * @return RedirectResponse|void
      */
