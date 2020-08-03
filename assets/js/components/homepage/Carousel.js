@@ -1,6 +1,6 @@
 import React from 'react';
 
-import GreenButton from '../GreenButton';
+import Button from '../Button';
 import Image1 from '../../../../public/img/slider/slider1.jpg';
 import Image2 from '../../../../public/img/slider/slider2.jpg';
 import Image3 from '../../../../public/img/slider/slider3.jpg';
@@ -49,7 +49,7 @@ const Carousel = () => {
           <hgroup className="carousel-caption">
             <h1 className="heading-huge">{items[0].name}</h1>
             <h2 className="heading-small mb-5">{items[0].description}</h2>
-            <GreenButton text="Our Services" />
+            <Button text="Our Services" />
           </hgroup>
         </div>
         <div className="carousel-item">
@@ -61,7 +61,7 @@ const Carousel = () => {
           <hgroup className="carousel-caption">
             <h1 className="heading-huge">{items[1].name}</h1>
             <h2 className="heading-small mb-5">{items[1].description}</h2>
-            <GreenButton text="Our Services" />
+            <Button text="Our Services" />
           </hgroup>
         </div>
         <div className="carousel-item">
@@ -73,7 +73,7 @@ const Carousel = () => {
           <hgroup className="carousel-caption">
             <h1 className="heading-huge">{items[2].name}</h1>
             <h2 className="heading-small mb-5">{items[2].description}</h2>
-            <GreenButton text="Our Services" />
+            <Button text="Our Services" />
           </hgroup>
         </div>
       </div>

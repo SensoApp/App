@@ -17,7 +17,7 @@
   &-content {
     @media (min-width: $xl-bp) {
       display: flex;
-      justify-content: space-around;
+      justify-content: space-between;
     }
 
     & > address {
