@@ -193,7 +193,7 @@ class StatementController extends AbstractController
 
     public function searchStatement($request)
     {
-
+        dd($request);
         $minamount = $request->request->get('Min-amount');
         $maxamount = $request->request->get('Max-amount');
         $mindate = $request->request->get('Min-date');

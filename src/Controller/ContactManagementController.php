@@ -153,11 +153,14 @@ class ContactManagementController extends AbstractController
 
                 $this->addFlash('success', 'Contact with id: ' . $id . ' has been successfully updated');
 
+                return $this->redirectToRoute('adminsenso');
+
             } catch (DBALException $DBALException) {
 
-                $this->addFlash('error', 'This Iban you entered is already in use for another user');
+               $this->addFlash('error', 'This Iban you entered is already in use for another user');
+                echo "l'iban ça va pas du tout";
             }
-            return $this->redirectToRoute('adminsenso');
+
 
         }
 

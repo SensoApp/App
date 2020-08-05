@@ -200,7 +200,7 @@ class InvoiceController extends AbstractController
      */
     public function createManualInvoice(Request $request)
     {
-
+        dd($request);
         $month = $request->request->get('month');
 
         $form = $this->createForm(InvoiceManualCreationType::class)

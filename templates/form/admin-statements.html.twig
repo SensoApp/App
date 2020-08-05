@@ -61,9 +61,8 @@
                     <br>
                     <div class="col-md-12">
                         <select id="searchByUser" name="userId">
-                            <option>-- Please select a user --</option>
                             {% for value in Balance %}
-                                <option data-name="{{ value.consultants }}">
+                                <option value="{{ value.consultants }}" >
                                     {{ value.firstname }}
                                     {{ value.lastname }}
                                 </option>
