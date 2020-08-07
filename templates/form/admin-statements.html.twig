@@ -60,9 +60,9 @@
                     <label for="search">User name</label>
                     <br>
                     <div class="col-md-12">
-                        <select id="searchByUser" name="userId">
+                        <select name="User-id" >
                             {% for value in Balance %}
-                                <option value="{{ value.consultants }}" >
+                                <option  value="{{ value.consultants }}">
                                     {{ value.firstname }}
                                     {{ value.lastname }}
                                 </option>
@@ -179,7 +179,7 @@
                 });
             });
         </script>
-        <script>
+{#        <script>
             $(document).ready(function () {
                 $('#searchByUser').change(function () {
                     let searchUser = $(this).find(':selected').data("name")
@@ -190,7 +190,7 @@
                 });
             });
 
-        </script>
+        </script>#}
     </div>
     </body>
 {% endblock %}

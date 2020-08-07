@@ -193,12 +193,13 @@ class StatementController extends AbstractController
 
     public function searchStatement($request)
     {
+        $username = $request->request->get('User-id');
         $minamount = $request->request->get('Min-amount');
         $maxamount = $request->request->get('Max-amount');
         $mindate = $request->request->get('Min-date');
         $maxdate = $request->request->get('Max-date');
 
-        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) && !empty($username)) {
+        if (!empty($minamount) && !empty($maxamount) || !empty($mindate) && !empty($maxdate) || !empty($username)) {
 
             return $this->entityManager
                 ->getRepository(StatementFile::class)
@@ -209,12 +210,8 @@ class StatementController extends AbstractController
                 ->searchAllMovements();
     }
 
-    /**
-     * @Route(path="/newadmin/statements-summary/searchByUser", name="searchByUser")
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function searchByUser(Request $request)
+
+/*    public function searchByUser(Request $request)
     {
         //   dump($request);
         $entityManager = $this->getDoctrine()->getManager();
@@ -224,7 +221,7 @@ class StatementController extends AbstractController
        //     ->searchId($template_id);
 
         return new JsonResponse(json_encode( $template_id));
-    }
+    }*/
 
 
     /**
