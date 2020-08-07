@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Button from '../Button';
+import Form from './Form';
 
 /*************** Import here map component and contact form*************** */
 
@@ -30,7 +30,7 @@ const ContactUs = () => {
       </div>
       <div className="map">
         <iframe
-          width="400"
+          width="300"
           height="400"
           frameBorder="0"
           style={{ border: 0 }}
@@ -38,38 +38,7 @@ const ContactUs = () => {
     &q=2+Rue+du+Nord%2C+2229+Luxembourg"
           allowFullScreen></iframe>
       </div>
-      <form>
-        <div className="form-group">
-          <label htmlFor="name">Your name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            aria-describedby="name"
-          />
-          {/* <small id="emailHelp" className="form-text text-muted">
-            We'll never share your email with anyone else.
-          </small> */}
-        </div>
-        <div className="form-group">
-          <label htmlFor="phone">Phone</label>
-          <input type="password" className="form-control" id="phone" />
-        </div>
-        <div className="form-group form-check">
-          <label htmlFor="mail">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="mail"
-            aria-describedby="emailHelp"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="message">Message</label>
-          <textarea className="form-control" id="message" rows="3"></textarea>
-        </div>
-        <Button type="submit" text="Submit" />
-      </form>
+      <Form />
     </section>
   );
 };

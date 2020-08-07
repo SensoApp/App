@@ -9,13 +9,17 @@
     font-size: 3rem;
     margin-bottom: 2rem;
   }
+
+  &--blue {
+    color: $primary;
+  }
 }
 
 .heading-large {
   color: $primary;
   font-family: $font-display;
   font-weight: 300;
-  font-size: 2rem;
+  font-size: 1.7rem;
   margin-bottom: 3.125rem;
 
   @media (min-width: $md-bp) {
@@ -25,6 +29,10 @@
 
   &--white {
     color: $text-secondary;
+  }
+
+  &--green {
+    color: $secondary;
   }
 }
 

@@ -50,3 +50,7 @@ nav.navbar {
     @include gradient-bg($dropdown-link-active-bg);
   }
 }
+
+.navbar-brand {
+  height: 65px;
+}

@@ -1,9 +1,10 @@
 .carousel {
   grid-column: 1 / 2;
+  height: 93vh;
 
   &-item_img {
     object-fit: cover;
-    height: 100vh;
+    height: 93vh;
     width: 100%;
     filter: brightness(40%);
   }

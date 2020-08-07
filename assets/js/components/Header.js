@@ -3,8 +3,8 @@ import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import Button from '../Button';
-import logo from '../../../../public/img/Logo_Senso_3.png';
+import Button from './Button';
+import logo from '../../../public/img/Logo_Senso_3.png';
 
 const Header = () => {
   function collapse() {
@@ -12,7 +12,7 @@ const Header = () => {
   }
 
   return (
-    <nav className="navbar fixed-top navbar-expand-lg navbar-light">
+    <nav className="navbar sticky-top navbar-expand-lg navbar-light">
       <div className="flex-grow-1">
         <Link to="/frontend/">
           <img src={logo} className="navbar-brand" />

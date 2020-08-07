@@ -8,7 +8,7 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-rows: 100vh repeat(5, min-content);
+  grid-template-rows: auto;
   grid-template-columns: min-max(1fr, 1vw);
   gap: 20px;
 

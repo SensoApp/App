@@ -6,6 +6,7 @@ import {
   faEnvelope,
   faLaptopCode,
   faMoneyBill,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -25,5 +26,6 @@ library.add(
   faMoneyBillAlt,
   faMoneyBill,
   faComments,
-  faUserCircle
+  faUserCircle,
+  faSearch
 );

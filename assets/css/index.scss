@@ -1,13 +1,21 @@
 @import './abstracts/variables';
-
+@import '~react-datepicker/dist/react-datepicker.css';
+@import '~react-datepicker/dist/react-datepicker-cssmodules.css';
 @import '~bootstrap';
 
 @import './abstracts/layout';
 @import './abstracts/typography';
 
-@import './components/aboutUs';
-@import './components/button';
-@import './components/contact';
-@import './components/carousel';
+@import './components/form';
 @import './components/header';
-@import './components/services';
+@import './components/button';
+
+@import './components/homepage/aboutUs';
+@import './components/homepage/contact';
+@import './components/homepage/carousel';
+@import './components/homepage/services';
+
+@import './components/dashboard/balance';
+@import './components/dashboard/search';
+@import './components/dashboard/sidebar';
+@import './components/dashboard/movements';

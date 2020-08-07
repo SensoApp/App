@@ -1,0 +1,98 @@
+.search {
+  margin: 2.5rem;
+
+  @media (min-width: $md-bp) {
+    margin-left: calc(3.125rem * 2);
+  }
+}
+
+.search-btn {
+  border: solid 1px $primary-light;
+  color: $text-primary;
+  background-color: #fff;
+}
+
+.collapse {
+  color: $text-primary;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.form {
+  padding: 3.125rem;
+  min-width: max-content;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  &__input {
+    border: none;
+    border-bottom: 3px solid $primary-light;
+    border-radius: 0;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 1rem 2rem rgba(#000, 0.1);
+      border-bottom: 3px solid $primary-dark;
+    }
+
+    &:focus:invalid {
+      border-bottom: 3px solid $red;
+    }
+  }
+
+  &__label {
+    margin-left: 0.75rem;
+    margin-top: 0.2rem;
+    display: block;
+    transition: all 0.3s;
+    font-size: 0.8em;
+    color: $primary-light;
+  }
+
+  &__input:placeholder-shown + &__label {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2.72rem);
+  }
+}
+
+.form-group {
+  display: block;
+  width: 90%;
+}
+.calendar-container,
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.form-control {
+  width: 100%;
+}
+
+.legend {
+  font-size: 1rem;
+}
+
+.react-datepicker-wrapper {
+  outline: none;
+  border: none;
+}
+
+.react-datepicker__input-container {
+  outline: none;
+  border: none;
+
+  border-radius: 0;
+  margin-bottom: 1rem;
+  width: 100%;
+}

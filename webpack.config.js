@@ -54,6 +54,10 @@ Encore
     config.corejs = 3;
   })
 
+  .configureBabel(function (babelConfig) {
+    babelConfig.plugins.push('@babel/plugin-proposal-class-properties');
+  })
+
   // enables Sass/SCSS support
   .enableSassLoader()
 
