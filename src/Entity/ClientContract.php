@@ -96,6 +96,13 @@ class ClientContract
      */
     private $timesheets;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $active = false;
+
+
+
 
     public function __construct()
     {
@@ -331,6 +338,20 @@ class ClientContract
     {
         return $this->invoices;
     }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(?bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+
 
 
 }

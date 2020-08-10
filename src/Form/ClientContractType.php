@@ -7,6 +7,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -69,6 +70,10 @@ class ClientContractType extends AbstractType
                 'choice_label' => function($choices){
                     return $choices->getFirstname().' '.$choices->getLastname();
                 }
+            ])
+            ->add('active',CheckboxType::class, [
+                'required' => false,
+                'value' => 1,
             ])
             ->add('Submit', SubmitType::class);
 

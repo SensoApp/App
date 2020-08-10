@@ -3,9 +3,15 @@
 namespace App\Repository;
 
 use App\Entity\ClientContract;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\DBALException;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 
 /**
@@ -49,19 +55,19 @@ class ClientContractRepository extends ServiceEntityRepository
      */
     public function getListPerUser($firstname, $lastname)
     {
-            $em = $this->getEntityManager();
+        $em = $this->getEntityManager();
 
-            $query = '
+        $query = '
             SELECT clientname 
             FROM contact_end_client c
-            INNER JOIN client_contract cli ON cli.clientname_id = c.id 
+            INNER JOIN client_contract cli ON cli.clientname_id = c.id AND  cli.active
             INNER JOIN user u ON u.id = cli.user_id
-            WHERE u.firstname = :firstname AND u.lastname = :lastname
+            WHERE u.firstname = :firstname AND u.lastname = :lastname AND cli.active = 1
             ';
 
-            $stmt = $em->getConnection()->prepare($query);
-            $param = ['firstname'=> $firstname, 'lastname' => $lastname];
-            $stmt->execute($param);
-            return $stmt->fetchAll();
+        $stmt = $em->getConnection()->prepare($query);
+        $param = ['firstname' => $firstname, 'lastname' => $lastname];
+        $stmt->execute($param);
+        return $stmt->fetchAll();
     }
 }

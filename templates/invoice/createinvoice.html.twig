@@ -65,7 +65,18 @@
                 {{ form_row(createInvoice.workSaturdays) }}
                 {{ form_row(createInvoice.workSundays) }}
                 {{ form_row(createInvoice.user) }}
-                <div id="hidden" style="display: none">{{ form_row(createInvoice.contract) }}</div>
+
+
+                <ul>
+                    {% for i in 0..4 %}
+                        <li>
+                            {# consomme json, itérer dessus et je l'affiche#}
+
+                        </li>
+                    {% endfor %}
+                </ul>
+
+
                 {{ form_end(createInvoice) }}
             </div>
         </div>
@@ -78,13 +89,13 @@
                 let userName = $('#invoice_manual_creation_user option:selected').text();
                 console.log(userName)
 
-                $.get("{{ path('showAllContract') }}", {'user': userName})
+                    $.get("{{ path('showAllContract') }}", {'user': userName})
 
-                    .done(function (data) {
-                        alert('data : ' + data);
-                    });
+
             });
         });
+
+
     </script>
     </body>
 {% endblock %}

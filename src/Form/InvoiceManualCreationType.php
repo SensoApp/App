@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class InvoiceManualCreationType extends AbstractType
@@ -30,15 +31,17 @@ class InvoiceManualCreationType extends AbstractType
                     return $choices->getFirstname() . ' ' . $choices->getLastname();
                 }
             ])
-            ->add('contract', EntityType::class,[
-                'class' => 'App\Entity\ClientContract',
-                'placeholder' => 'Select related contract',
-                'choice_label' => function ($choices){
+               /*     ->add('contract', EntityType::class,[
+                        'class' => 'App\Entity\ClientContract',
+                        'placeholder' => 'Select related contract',
+                        'choice_label' => function ($choices){
 
-                return 'contract : ' . $choices->getId() . ' ' . $choices->getClientName();
-                }
-            ])
+                        return 'contract ' . $choices->getId() . ' : ' . $choices->getClientName();
+                        }
+                    ])*/
+
             ->add('Create', SubmitType::class);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -299,7 +299,6 @@ class InvoiceController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $template_id = $request->get('user');
-        //dump($template_id);
         $getName = explode(" ", $template_id);
         $firstname = $getName[0];
         $lastname = $getName[1];
@@ -307,5 +306,6 @@ class InvoiceController extends AbstractController
 
         return new JsonResponse(json_encode($templateRepository));
     }
+
 
 }

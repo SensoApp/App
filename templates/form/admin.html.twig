@@ -39,6 +39,7 @@
                             <th>Fee Sunday</th>
                             <th>Fee Bank holidays</th>
                             <th>User</th>
+                            <th>Active</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -54,6 +55,11 @@
                                 <td>{{ client.extrapercentsunday }}</td>
                                 <td>{{ client.extrapercentbankholidays }}</td>
                                 <td>{{ client.user.firstname }} {{ client.user.lastname }} </td>
+                                <td>
+                                    <a href="{{ path('active_client_contract', {id : client.id}) }}">
+                                        <input type="checkbox" id="active" name="active">
+                                    </a>
+                                </td>
                                 <td>
                                     <p data-placement="top" data-toggle="tooltip" title="Edit">
                                         <a href="{{ path('edit_client_contract', {id : client.id}) }}">

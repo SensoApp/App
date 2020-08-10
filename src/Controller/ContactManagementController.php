@@ -16,6 +16,7 @@ use App\Form\ContactEndClientType;
 use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\ContactType;
@@ -157,7 +158,7 @@ class ContactManagementController extends AbstractController
 
             } catch (DBALException $DBALException) {
 
-               $this->addFlash('error', 'This Iban you entered is already in use for another user');
+                $this->addFlash('error', 'This Iban you entered is already in use for another user');
                 echo "l'iban ça va pas du tout";
             }
 
@@ -372,5 +373,19 @@ class ContactManagementController extends AbstractController
 
         return $this->redirectToRoute('adminsenso');
 
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     * @Route(path="/newadmin/clientcontract/active/{id}", name="active_client_contract")
+     */
+    public function activeClientContractManagement(Request $request, $id)
+    {
+        $act = $this->em->getRepository(ClientContract::class)->getActiveClient();
+        $this->addFlash('success', 'User activated');
+
+        return $this->redirectToRoute('adminsenso');
     }
 }
