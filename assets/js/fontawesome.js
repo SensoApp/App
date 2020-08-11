@@ -1,12 +1,16 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faAddressBook,
   faLock,
   faInfoCircle,
+  faBalanceScale,
   faBriefcase,
   faEnvelope,
+  faFileInvoiceDollar,
   faLaptopCode,
   faMoneyBill,
   faSearch,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -17,15 +21,19 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
+  faAddressBook,
+  faBalanceScale,
   faBuilding,
   faLock,
   faLaptopCode,
   faInfoCircle,
+  faFileInvoiceDollar,
   faBriefcase,
   faEnvelope,
   faMoneyBillAlt,
   faMoneyBill,
   faComments,
   faUserCircle,
+  faUser,
   faSearch
 );

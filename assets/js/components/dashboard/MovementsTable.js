@@ -1,4 +1,5 @@
 import React from 'react';
+
 import MovementCard from './MovementCard';
 
 const MovementsTable = () => {

@@ -5,6 +5,9 @@ import Homepage from './homepage/Homepage';
 import Header from './Header';
 import Footer from './footer/Footer';
 import Balance from './dashboard/Balance';
+import Contracts from './dashboard/Contracts';
+import Invoices from './dashboard/Invoices';
+import Profile from './dashboard/Profile';
 //import history from '../history';
 
 const App = () => {
@@ -17,6 +20,9 @@ const App = () => {
           <Header />
           <Route path={`${urlPrefix}/`} exact component={Homepage} />
           <Route path={`${urlPrefix}/dashboard`} exact component={Balance} />
+          <Route path={`${urlPrefix}/contracts`} exact component={Contracts} />
+          <Route path={`${urlPrefix}/invoices`} exact component={Invoices} />
+          <Route path={`${urlPrefix}/profile`} exact component={Profile} />
           <Footer />
         </div>
       </Router>
