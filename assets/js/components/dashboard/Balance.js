@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchCollapse from './SearchCollapse.js';
 import Sidebar from './Sidebar.js';
-import MovementsTable from './MovementsTable.js';
+import Movements from './Movements.js';
 import ExcelExport from '../ExcelExport.js';
 
 const Balance = () => {
@@ -27,7 +27,7 @@ const Balance = () => {
           </div>
         </div>
         <SearchCollapse />
-        <MovementsTable />
+        <Movements />
         <div className="excel-container">
           <ExcelExport />
         </div>

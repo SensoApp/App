@@ -1,8 +1,3 @@
-.cards-list {
-  @media (min-width: $md-bp) {
-    display: none;
-  }
-}
 .card--movement {
   margin: 0 auto;
   width: 90%;
@@ -34,31 +29,33 @@
   @media (min-width: $md-bp) {
     margin: 0 calc(3.125rem * 2);
 
-    max-width: 60rem;
+    max-width: 80rem;
   }
 }
 
 .table {
-  display: none;
+  display: table;
+  height: 100%;
+  width: 100%;
+  border-collapse: separate;
+  border: none;
+  border-spacing: 0 0.5rem;
 
-  @media (min-width: $md-bp) {
-    display: table;
-    height: 100%;
-    width: 100%;
-    border-collapse: separate;
-    border: none;
-    border-spacing: 0 0.5rem;
-    &__header {
-      background-color: $primary;
-      color: $text-secondary;
-      font-weight: 300;
-    }
-
-    &__body {
-      background-color: #fff;
-      color: $text-primary;
-    }
+  &__header {
+    background-color: $primary;
+    color: $text-secondary;
+    font-weight: 300;
   }
+
+  &__body {
+    background-color: #fff;
+    color: $text-primary;
+  }
+}
+
+.table thead th,
+.table td {
+  vertical-align: middle;
 }
 
 .negative {

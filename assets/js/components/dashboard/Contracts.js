@@ -2,7 +2,7 @@ import React from 'react';
 
 import SearchCollapse from './SearchCollapse';
 import Sidebar from './Sidebar.js';
-import MovementsTable from './MovementsTable.js';
+import Movements from './Movements.js';
 import ExcelExport from '../ExcelExport.js';
 
 const Contracts = () => {
@@ -16,7 +16,7 @@ const Contracts = () => {
           </h2>
         </hgroup>
         <SearchCollapse />
-        <MovementsTable />
+        <Movements />
         <div className="excel-container">
           <ExcelExport />
         </div>

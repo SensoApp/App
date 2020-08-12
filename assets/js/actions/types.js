@@ -1,0 +1,3 @@
+export const FETCH_MOVEMENT = 'FETCH_MOVEMENT';
+
+export const FETCH_MOVEMENTS = 'FETCH_MOVEMENTS';
