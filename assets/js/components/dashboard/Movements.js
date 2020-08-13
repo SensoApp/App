@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { fetchMovements } from '../../actions';
 import MovementCard from './MovementCard';
 import MovementsTable from './MovementsTable';
+import Loader from '../Loader';
+import stringDate from '../../helpers/stringDate';
+import positiveNegative from '../../helpers/positiveNegative';
 
 class Movements extends React.Component {
   state = {
@@ -24,10 +27,10 @@ class Movements extends React.Component {
       return (
         <MovementCard
           key={movement.id}
-          date={movement.operationdate}
+          date={stringDate(movement.operationdate)}
           transfer={movement.operations}
           detail={movement.communication}
-          amount={movement.amount}
+          amount={positiveNegative(movement.amount, true)}
         />
       );
     });
@@ -35,11 +38,12 @@ class Movements extends React.Component {
 
   render() {
     if (this.props.movements.length === 0) {
-      return <div>Je suis un loader</div>;
+      return <Loader />;
     }
 
     const { width } = this.state;
-    const isMobile = width <= 768;
+    const mobileWidth = 834; // IPad pro size
+    const isMobile = width <= mobileWidth;
 
     if (isMobile) {
       return <div>{this.renderCards()}</div>;

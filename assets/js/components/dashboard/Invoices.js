@@ -16,7 +16,7 @@ const Invoices = () => {
           </h2>
         </hgroup>
         <SearchCollapse />
-        <MovementsTable />
+        <Movements />
         <div className="excel-container">
           <ExcelExport />
         </div>

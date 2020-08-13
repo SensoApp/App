@@ -12,7 +12,7 @@ const MovementCard = (props) => {
           <p className="card-text card-text--movement font-weight-light">
             {props.detail}
           </p>
-          <span className="negative movement-amount">{props.amount}</span>
+          <div className=" movement-amount">{props.amount}</div>
         </div>
       </div>
     </div>

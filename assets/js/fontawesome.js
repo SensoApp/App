@@ -11,6 +11,7 @@ import {
   faMoneyBill,
   faSearch,
   faUser,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -35,5 +36,6 @@ library.add(
   faComments,
   faUserCircle,
   faUser,
-  faSearch
+  faSearch,
+  faSpinner
 );
