@@ -1,6 +1,6 @@
 import React from 'react';
 
-import SearchCollapse from './SearchCollapse';
+import SearchForm from './SearchForm';
 import Sidebar from './Sidebar.js';
 import Movements from './Movements.js';
 import ExcelExport from '../ExcelExport.js';
@@ -15,7 +15,7 @@ const Contracts = () => {
             My Contracts
           </h2>
         </hgroup>
-        <SearchCollapse />
+        <SearchForm />
         <Movements />
         <div className="excel-container">
           <ExcelExport />

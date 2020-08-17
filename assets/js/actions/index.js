@@ -1,5 +1,5 @@
 import movements from '../apis/movements';
-import { FETCH_MOVEMENT, FETCH_MOVEMENTS } from './types';
+import { FETCH_MOVEMENT, FETCH_MOVEMENTS, FILTER_MOVEMENTS } from './types';
 
 export const fetchMovements = () => {
   return async (dispatch) => {
@@ -19,5 +19,12 @@ export const fetchMovement = (id) => {
   return async (dispatch) => {
     const response = await movements.get(`/statement_files.json/${id}`);
     dispatch({ type: FETCH_MOVEMENT, payload: response.data });
+  };
+};
+
+export const filterMovements = () => {
+  return {
+    type: FILTER_MOVEMENTS,
+    payload: filtered,
   };
 };

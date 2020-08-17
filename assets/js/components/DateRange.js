@@ -1,9 +1,7 @@
-import React, { useState, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
 
-const DateRange = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+const DateRange = ({ label, input }) => {
   const ref = React.createRef();
 
   const CustomDateInput = forwardRef(
@@ -15,9 +13,9 @@ const DateRange = () => {
           onClick={onClick}
           value={value}
           onChange={onClick}
-          ref={ref}
           placeholder={placeholder}
           onKeyDown={onKeyDown}
+          ref={ref}
         />
       );
     }
@@ -26,26 +24,12 @@ const DateRange = () => {
   return (
     <>
       <DatePicker
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-        selectsStart
-        startDate={startDate}
-        endDate={endDate}
+        {...input}
+        selected={input.value || null}
+        onChange={input.onChange}
         dateFormat="dd/MM/yyyy"
-        placeholderText="Start date"
-        customInput={<CustomDateInput ref={ref} placeholder="Start" />}
-      />
-      <br />
-      <DatePicker
-        selected={endDate}
-        onChange={(date) => setEndDate(date)}
-        selectsEnd
-        startDate={startDate}
-        endDate={endDate}
-        minDate={startDate}
-        dateFormat="dd/MM/yyyy"
-        placeholderText="End date"
-        customInput={<CustomDateInput ref={ref} placeholder="End date" />}
+        placeholderText={label}
+        customInput={<CustomDateInput placeholder={label} ref={ref} />}
       />
     </>
   );

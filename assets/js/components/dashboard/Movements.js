@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 
 import { fetchMovements } from '../../actions';
 import MovementCard from './MovementCard';
@@ -36,6 +37,15 @@ class Movements extends React.Component {
     });
   }
 
+  tableData() {
+    console.log(this.props.formValues);
+    if (this.props.formValues.length > 0) {
+      return this.props.formValues;
+    } else {
+      return this.props.movements;
+    }
+  }
+
   render() {
     if (this.props.movements.length === 0) {
       return <Loader />;
@@ -50,15 +60,27 @@ class Movements extends React.Component {
     } else {
       return (
         <div className="table-container">
-          <MovementsTable data={this.props.movements} />
+          <MovementsTable data={this.tableData()} />
         </div>
       );
     }
   }
 }
 
+const selector = formValueSelector('SearchForm');
+
 const mapStateToProps = (state) => {
-  return { movements: state.movements };
+  return {
+    movements: state.movements,
+    formValues: selector(
+      state,
+      'keyword',
+      'minAmount',
+      'maxAmount',
+      'startDate',
+      'endDate'
+    ),
+  };
 };
 
 export default connect(mapStateToProps, { fetchMovements })(Movements);
