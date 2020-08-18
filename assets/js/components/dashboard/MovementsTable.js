@@ -5,7 +5,7 @@ import stringDate from '../../helpers/stringDate';
 import positiveNegative from '../../helpers/positiveNegative';
 
 const MovementsTable = (props) => {
-  console.log(props);
+  //console.log(props);
   const data = props.data;
 
   const columns = React.useMemo(() => [

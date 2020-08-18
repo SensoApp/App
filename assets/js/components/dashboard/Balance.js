@@ -5,8 +5,18 @@ import Movements from './Movements.js';
 import ExcelExport from '../ExcelExport.js';
 
 class Balance extends React.Component {
+  state = { formValues: null };
+
   onSubmit = (formValues) => {
-    alert('yeah sub');
+    return this.setState({ formValues: formValues });
+  };
+
+  handleReset = () => {
+    if (this.state.formValues != null) {
+      return this.setState({ formValues: null });
+    } else {
+      return this.state;
+    }
   };
 
   render() {
@@ -31,8 +41,8 @@ class Balance extends React.Component {
               </span>
             </div>
           </div>
-          <SearchForm onSubmit={this.onSubmit} />
-          <Movements />
+          <SearchForm onSubmit={this.onSubmit} handleReset={this.handleReset} />
+          <Movements formData={this.state.formValues} />
 
           <div className="excel-container">
             <ExcelExport />

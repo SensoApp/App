@@ -12,6 +12,7 @@ import positiveNegative from '../../helpers/positiveNegative';
 class Movements extends React.Component {
   state = {
     width: window.innerWidth,
+    formData: null,
   };
 
   handleWindowSizeChange = () => {
@@ -38,15 +39,62 @@ class Movements extends React.Component {
   }
 
   tableData() {
-    console.log(this.props.formValues);
-    if (this.props.formValues.length > 0) {
-      return this.props.formValues;
-    } else {
-      return this.props.movements;
+    if (this.props.formData != null) {
+      const {
+        keyword,
+        minAmount,
+        maxAmount,
+        startDatePicker,
+        endDatePicker,
+      } = this.props.formData;
+      const filteredData = this.props.movements.filter((movement) => {
+        if (keyword) {
+          const communicationLookUp = movement.communication
+            .toLowerCase()
+            .includes(keyword.toLowerCase());
+          const operationsLookUp = movement.operations
+            .toLowerCase()
+            .includes(keyword.toLowerCase());
+          return communicationLookUp || operationsLookUp;
+        }
+
+        if (minAmount && maxAmount) {
+          return (
+            parseInt(minAmount, 10) <= movement.amount &&
+            movement.amount <= parseInt(maxAmount, 10)
+          );
+        } else if (minAmount && !maxAmount) {
+          return parseInt(minAmount, 10) <= movement.amount;
+        } else if (!minAmount && maxAmount) {
+          return movement.amount <= parseInt(maxAmount, 10);
+        }
+
+        if (startDatePicker && endDatePicker) {
+          return (
+            startDatePicker.setHours(0, 0, 0, 0) <=
+              movement.operationdate.setHours(0, 0, 0, 0) &&
+            movement.operationdate.setHours(0, 0, 0, 0) <=
+              endDatePicker.setHours(0, 0, 0, 0)
+          );
+        } else if (startDatePicker && !endDatePicker) {
+          return (
+            startDatePicker.setHours(0, 0, 0, 0) <=
+            movement.operationdate.setHours(0, 0, 0, 0)
+          );
+        } else if (!startDatePicker && endDatePicker) {
+          return (
+            movement.operationdate.setHours(0, 0, 0, 0) <=
+            endDatePicker.setHours(0, 0, 0, 0)
+          );
+        }
+      });
+      return filteredData;
     }
+    return this.props.movements;
   }
 
   render() {
+    //console.log(this.props.formData);
     if (this.props.movements.length === 0) {
       return <Loader />;
     }

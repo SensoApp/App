@@ -23,12 +23,13 @@ class SearchForm extends React.Component {
   };
 
   onSubmit = (formValues) => {
+    console.log(formValues);
     if (
       !formValues.keyword &&
       !formValues.minAmount &&
       !formValues.maxAmount &&
-      !formValues.startDate &&
-      !formValues.endDate
+      !formValues.startDatePicker &&
+      !formValues.endDatePicker
     ) {
       throw new SubmissionError({
         _error: 'Please complete at least one field',
@@ -38,9 +39,14 @@ class SearchForm extends React.Component {
     }
   };
 
+  onClick = () => {
+    this.props.reset();
+    this.props.handleReset();
+  };
+
   render = () => {
-    console.log(this.props.error);
-    const { error, handleSubmit, pristine, reset, submitting } = this.props;
+    const { error, handleSubmit, pristine, submitting } = this.props;
+
     return (
       <div className="search">
         <p>
@@ -114,10 +120,11 @@ class SearchForm extends React.Component {
             <div className="submit-container">
               <Button type="submit" text="Submit" />
               <button
+                type="reset"
                 className="btn btn-round btn-primary"
                 type="button"
                 disabled={pristine || submitting}
-                onClick={reset}>
+                onClick={this.onClick}>
                 Clear
               </button>
             </div>
@@ -128,24 +135,8 @@ class SearchForm extends React.Component {
   };
 }
 
-SearchForm = reduxForm({ form: 'SearchForm' })(SearchForm);
-
-SearchForm = connect((state) => {
-  const { keyword, minAmount, maxAmount, startDate, endDate } = selector(
-    state,
-    'keyword',
-    'minAmount',
-    'maxAmount',
-    'startDate',
-    'endDate'
-  );
-  return {
-    keyword,
-    minAmount,
-    maxAmount,
-    startDate,
-    endDate,
-  };
-})(SearchForm);
+SearchForm = reduxForm({ form: 'SearchForm', enableReinitialize: true })(
+  SearchForm
+);
 
 export default SearchForm;

@@ -7,7 +7,6 @@ import {
 export default (state = [], action) => {
   switch (action.type) {
     case FETCH_MOVEMENTS:
-      console.log(action.payload);
       return action.payload;
     case FETCH_MOVEMENT:
       return action.payload.id;
