@@ -39,7 +39,7 @@ class Movements extends React.Component {
   }
 
   tableData() {
-    if (this.props.formData != null) {
+    if (this.props.formData) {
       const {
         keyword,
         minAmount,
@@ -47,54 +47,59 @@ class Movements extends React.Component {
         startDatePicker,
         endDatePicker,
       } = this.props.formData;
-      const filteredData = this.props.movements.filter((movement) => {
-        if (keyword) {
-          const communicationLookUp = movement.communication
-            .toLowerCase()
-            .includes(keyword.toLowerCase());
-          const operationsLookUp = movement.operations
-            .toLowerCase()
-            .includes(keyword.toLowerCase());
-          return communicationLookUp || operationsLookUp;
-        }
+      const filteredData = this.props.movements
+        .filter((movement) => {
+          if (keyword) {
+            const communicationLookUp = movement.communication
+              .toLowerCase()
+              .includes(keyword.toLowerCase());
+            const operationsLookUp = movement.operations
+              .toLowerCase()
+              .includes(keyword.toLowerCase());
+            return communicationLookUp || operationsLookUp;
+          }
 
-        if (minAmount && maxAmount) {
-          return (
-            parseInt(minAmount, 10) <= movement.amount &&
-            movement.amount <= parseInt(maxAmount, 10)
-          );
-        } else if (minAmount && !maxAmount) {
-          return parseInt(minAmount, 10) <= movement.amount;
-        } else if (!minAmount && maxAmount) {
-          return movement.amount <= parseInt(maxAmount, 10);
-        }
+          return true;
+        })
+        .filter((movement) => {
+          if (minAmount && maxAmount) {
+            return (
+              parseInt(minAmount, 10) <= movement.amount &&
+              movement.amount <= parseInt(maxAmount, 10)
+            );
+          } else if (minAmount && !maxAmount) {
+            return parseInt(minAmount, 10) <= movement.amount;
+          } else if (!minAmount && maxAmount) {
+            return movement.amount <= parseInt(maxAmount, 10);
+          }
 
-        if (startDatePicker && endDatePicker) {
-          return (
-            startDatePicker.setHours(0, 0, 0, 0) <=
-              movement.operationdate.setHours(0, 0, 0, 0) &&
-            movement.operationdate.setHours(0, 0, 0, 0) <=
-              endDatePicker.setHours(0, 0, 0, 0)
-          );
-        } else if (startDatePicker && !endDatePicker) {
-          return (
-            startDatePicker.setHours(0, 0, 0, 0) <=
-            movement.operationdate.setHours(0, 0, 0, 0)
-          );
-        } else if (!startDatePicker && endDatePicker) {
-          return (
-            movement.operationdate.setHours(0, 0, 0, 0) <=
-            endDatePicker.setHours(0, 0, 0, 0)
-          );
-        }
-      });
+          return true;
+        })
+        .filter((movement) => {
+          const movementDate = movement.operationdate.setHours(0, 0, 0, 0);
+          if (startDatePicker && endDatePicker) {
+            const startDate = startDatePicker.setHours(0, 0, 0, 0);
+            const endDate = endDatePicker.setHours(0, 0, 0, 0);
+
+            return startDate <= movementDate && movementDate <= endDate;
+          } else if (startDatePicker) {
+            const startDate = startDatePicker.setHours(0, 0, 0, 0);
+
+            return startDate <= movementDate;
+          } else if (endDatePicker) {
+            const endDate = endDatePicker.setHours(0, 0, 0, 0);
+
+            return movementDate <= endDate;
+          }
+
+          return true;
+        });
       return filteredData;
     }
     return this.props.movements;
   }
 
   render() {
-    //console.log(this.props.formData);
     if (this.props.movements.length === 0) {
       return <Loader />;
     }
