@@ -72,6 +72,16 @@
   }
 }
 
-.excel-container {
-  margin: 3.125rem calc(3.125rem * 2);
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin: 1rem auto;
+  width: 90%;
+
+  @media (min-width: $md-bp) {
+    margin: 3.125rem calc(3.125rem * 2);
+    justify-content: flex-start;
+  }
 }

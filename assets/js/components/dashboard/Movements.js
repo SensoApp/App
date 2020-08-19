@@ -24,20 +24,6 @@ class Movements extends React.Component {
     this.props.fetchMovements();
   }
 
-  renderCards() {
-    return this.props.movements.map((movement) => {
-      return (
-        <MovementCard
-          key={movement.id}
-          date={stringDate(movement.operationdate)}
-          transfer={movement.operations}
-          detail={movement.communication}
-          amount={positiveNegative(movement.amount, true)}
-        />
-      );
-    });
-  }
-
   tableData() {
     if (this.props.formData) {
       const {
@@ -95,8 +81,23 @@ class Movements extends React.Component {
           return true;
         });
       return filteredData;
+    } else {
+      return this.props.movements;
     }
-    return this.props.movements;
+  }
+
+  renderCards() {
+    return this.tableData().map((movement) => {
+      return (
+        <MovementCard
+          key={movement.id}
+          date={stringDate(movement.operationdate)}
+          transfer={movement.operations}
+          detail={movement.communication}
+          amount={positiveNegative(movement.amount, true)}
+        />
+      );
+    });
   }
 
   render() {

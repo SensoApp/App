@@ -15,11 +15,11 @@ const Contracts = () => {
             My Contracts
           </h2>
         </hgroup>
-        <SearchForm />
-        <Movements />
-        <div className="excel-container">
+        <div className="buttons-container">
+          <SearchForm />
           <ExcelExport />
         </div>
+        <Movements />
       </section>
       <Sidebar />
     </main>

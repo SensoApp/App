@@ -23,7 +23,6 @@ class SearchForm extends React.Component {
   };
 
   onSubmit = (formValues) => {
-    console.log(formValues);
     if (
       !formValues.keyword &&
       !formValues.minAmount &&

@@ -1,73 +1,45 @@
 import React from 'react';
 import ReactExport from 'react-data-export';
+import { connect } from 'react-redux';
+
+import { fetchMovements } from '../actions';
 import Button from './Button';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-const dataSet1 = [
-  {
-    name: 'Johson',
-    amount: 30000,
-    sex: 'M',
-    is_married: true,
-  },
-  {
-    name: 'Monika',
-    amount: 355000,
-    sex: 'F',
-    is_married: false,
-  },
-  {
-    name: 'John',
-    amount: 250000,
-    sex: 'M',
-    is_married: false,
-  },
-  {
-    name: 'Josef',
-    amount: 450500,
-    sex: 'M',
-    is_married: true,
-  },
-];
-
-var dataSet2 = [
-  {
-    name: 'Johnson',
-    total: 25,
-    remainig: 16,
-  },
-  {
-    name: 'Josef',
-    total: 25,
-    remainig: 7,
-  },
-];
-
 class ExcelExport extends React.Component {
+  componentDidMount() {
+    this.props.fetchMovements();
+  }
+
   render() {
     return (
       <ExcelFile
         element={<Button custom="btn-secondary" text="Export to Excel" />}>
-        <ExcelSheet data={dataSet1} name="Employees">
-          <ExcelColumn label="Name" value="name" />
-          <ExcelColumn label="Wallet Money" value="amount" />
-          <ExcelColumn label="Gender" value="sex" />
+        <ExcelSheet data={this.props.movements} name="Statements">
+          <ExcelColumn label="Reference" value="referencemovement" />
+          <ExcelColumn label="Operation" value="operations" />
+          <ExcelColumn label="Communication" value="communication" />
           <ExcelColumn
-            label="Marital Status"
-            value={(col) => (col.is_married ? 'Married' : 'Single')}
+            label="Date"
+            value="operationdate"
+            style={{
+              numFmt: 'm/dd/yy',
+            }}
           />
-        </ExcelSheet>
-        <ExcelSheet data={dataSet2} name="Leaves">
-          <ExcelColumn label="Name" value="name" />
-          <ExcelColumn label="Total Leaves" value="total" />
-          <ExcelColumn label="Remaining Leaves" value="remaining" />
+          <ExcelColumn label="Amount" value="amount" />
         </ExcelSheet>
       </ExcelFile>
     );
   }
 }
 
-export default ExcelExport;
+const mapStateToProps = (state) => {
+  return {
+    movements: state.movements,
+  };
+};
+
+export default connect(mapStateToProps, { fetchMovements })(ExcelExport);

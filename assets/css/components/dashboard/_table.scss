@@ -1,7 +1,7 @@
 .table-container {
   @media (min-width: $md-bp) {
     margin: 0 calc(3.125rem * 2);
-
+    margin-bottom: 3.125rem;
     max-width: 80rem;
   }
 }

@@ -15,11 +15,12 @@ const Invoices = () => {
             My Invoices
           </h2>
         </hgroup>
-        <SearchForm />
-        <Movements />
-        <div className="excel-container">
+        <div className="buttons-container">
+          <SearchForm />
           <ExcelExport />
         </div>
+        <Movements />
+        <div className="excel-container"></div>
       </section>
       <Sidebar />
     </main>

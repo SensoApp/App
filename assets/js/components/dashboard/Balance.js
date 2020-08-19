@@ -40,13 +40,15 @@ class Balance extends React.Component {
                 € 21.845.56
               </span>
             </div>
-          </div>
-          <SearchForm onSubmit={this.onSubmit} handleReset={this.handleReset} />
-          <Movements formData={this.state.formValues} />
-
-          <div className="excel-container">
+          </div>{' '}
+          <div className="buttons-container">
+            <SearchForm
+              onSubmit={this.onSubmit}
+              handleReset={this.handleReset}
+            />
             <ExcelExport />
           </div>
+          <Movements formData={this.state.formValues} />
         </section>
         <Sidebar />
       </main>
