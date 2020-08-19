@@ -159,7 +159,7 @@ class ContactManagementController extends AbstractController
             } catch (DBALException $DBALException) {
 
                 $this->addFlash('error', 'This Iban you entered is already in use for another user');
-                echo "l'iban ça va pas du tout";
+                echo "IBAN incorrect";
             }
 
 
