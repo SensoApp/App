@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+
 import SearchForm from './SearchForm.js';
 import Sidebar from './Sidebar.js';
 import Movements from './Movements.js';
@@ -32,12 +34,17 @@ class Balance extends React.Component {
           <div className="balance">
             <div className="balance_left">
               <p className="heading-small">Current Balance</p>
-              <span className="balance-amount">€ 22.345,56</span>
+              <span className="balance-amount">
+                {new Intl.NumberFormat('de-DE', {
+                  style: 'currency',
+                  currency: 'EUR',
+                }).format(this.props.balanceSum)}
+              </span>
             </div>
             <div className="balance_right">
               <p className="text--basic estimated mb-2">Estimated balance</p>
               <span className="text--basic estimated estimated_amount">
-                € 21.845.56
+                € 21.845,56
               </span>
             </div>
           </div>{' '}
@@ -56,4 +63,16 @@ class Balance extends React.Component {
   }
 }
 
-export default Balance;
+function statementSum(arr) {
+  return arr.reduce(function (prev, cur) {
+    return prev + cur.amount;
+  }, 0);
+}
+
+const mapStateToProps = (state) => {
+  return {
+    balanceSum: statementSum(state.movements),
+  };
+};
+
+export default connect(mapStateToProps)(Balance);

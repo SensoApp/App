@@ -7,6 +7,7 @@ export const fetchMovements = () => {
     // Transform string to date
     const data = response.data;
     data.forEach((movement) => {
+      console.log(movement.operationdate);
       movement.operationdate = new Date(movement.operationdate);
       return movement;
     });

@@ -24,6 +24,52 @@ class Movements extends React.Component {
     this.props.fetchMovements();
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowSizeChange);
+  }
+
+  // Functions to filter data as determined by search form
+  keywordFilter(movement, keyword) {
+    if (keyword) {
+      const communicationLookUp = movement.communication
+        .toLowerCase()
+        .includes(keyword.toLowerCase());
+      const operationsLookUp = movement.operations
+        .toLowerCase()
+        .includes(keyword.toLowerCase());
+      return communicationLookUp || operationsLookUp;
+    }
+    return true;
+  }
+
+  amountFilter(movement, minAmount, maxAmount) {
+    if (minAmount && maxAmount) {
+      return (
+        parseInt(minAmount, 10) <= movement.amount &&
+        movement.amount <= parseInt(maxAmount, 10)
+      );
+    } else if (minAmount && !maxAmount) {
+      return parseInt(minAmount, 10) <= movement.amount;
+    } else if (!minAmount && maxAmount) {
+      return movement.amount <= parseInt(maxAmount, 10);
+    }
+    return true;
+  }
+
+  dateFilter(movement, startDatePicker, endDatePicker) {
+    const movementDate = movement.operationdate;
+    if (startDatePicker && endDatePicker) {
+      endDatePicker.setHours(23, 59, 59, 999);
+      return startDatePicker <= movementDate && movementDate <= endDatePicker;
+    } else if (startDatePicker) {
+      return startDatePicker <= movementDate;
+    } else if (endDatePicker) {
+      endDatePicker.setHours(23, 59, 59, 999);
+      return movementDate <= endDate;
+    }
+    return true;
+  }
+
   tableData() {
     if (this.props.formData) {
       const {
@@ -35,50 +81,13 @@ class Movements extends React.Component {
       } = this.props.formData;
       const filteredData = this.props.movements
         .filter((movement) => {
-          if (keyword) {
-            const communicationLookUp = movement.communication
-              .toLowerCase()
-              .includes(keyword.toLowerCase());
-            const operationsLookUp = movement.operations
-              .toLowerCase()
-              .includes(keyword.toLowerCase());
-            return communicationLookUp || operationsLookUp;
-          }
-
-          return true;
+          return this.keywordFilter(movement, keyword);
         })
         .filter((movement) => {
-          if (minAmount && maxAmount) {
-            return (
-              parseInt(minAmount, 10) <= movement.amount &&
-              movement.amount <= parseInt(maxAmount, 10)
-            );
-          } else if (minAmount && !maxAmount) {
-            return parseInt(minAmount, 10) <= movement.amount;
-          } else if (!minAmount && maxAmount) {
-            return movement.amount <= parseInt(maxAmount, 10);
-          }
-
-          return true;
+          return this.amountFilter(movement, minAmount, maxAmount);
         })
         .filter((movement) => {
-          const movementDate = movement.operationdate.setHours(0, 0, 0, 0);
-          if (startDatePicker && endDatePicker) {
-            const startDate = startDatePicker.setHours(0, 0, 0, 0);
-            const endDate = endDatePicker.setHours(0, 0, 0, 0);
-
-            return startDate <= movementDate && movementDate <= endDate;
-          } else if (startDatePicker) {
-            const startDate = startDatePicker.setHours(0, 0, 0, 0);
-
-            return startDate <= movementDate;
-          } else if (endDatePicker) {
-            const endDate = endDatePicker.setHours(0, 0, 0, 0);
-
-            return movementDate <= endDate;
-          }
-
-          return true;
+          return this.dateFilter(movement, startDatePicker, endDatePicker);
         });
       return filteredData;
     } else {
