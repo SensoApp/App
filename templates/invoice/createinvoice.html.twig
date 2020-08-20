@@ -65,9 +65,6 @@
                 {{ form_row(createInvoice.workSaturdays) }}
                 {{ form_row(createInvoice.workSundays) }}
                 {{ form_row(createInvoice.user) }}
-                {# my contract #}
-
-
                 {{ form_end(createInvoice) }}
             </div>
         </div>
@@ -77,12 +74,26 @@
             $('#invoice_manual_creation_user').change(function (message) {
                 $('#hidden').show();
 
-                let userName = $('#invoice_manual_creation_user option:selected').text();
+                let userName = $('#invoice_manual_creation_user option:selected').val();
 
-                    $.get("{{ path('showAllContract') }}", {'user': userName})
-                console.log( userName)
+                getContract(userName).then(
+                    function (results) {
+                        $('#invoice_manual_creation_contract').empty();
+                        $.each(results, function (index, value) {
+                            console.log(value);
+                            $('#invoice_manual_creation_contract').append(new Option('contract ' + value.id + ' : ' + value.clientname, value.id));
+                        });
+                    },
+                 );
             });
+
+            function getContract(userName) {
+                return new Promise(function (resolve, reject) {
+                    resolve($.get("{{ path('showAllContract') }}", {'user': userName}));
+                });
+            }
         });
+
     </script>
     </body>
 {% endblock %}

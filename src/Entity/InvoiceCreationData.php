@@ -57,6 +57,7 @@ class InvoiceCreationData
      */
     private $updatedAt;
 
+
     public function __construct()
     {
         $this->createdAt = new \DateTime('now');
@@ -170,4 +171,5 @@ class InvoiceCreationData
 
         return $this;
     }
+
 }

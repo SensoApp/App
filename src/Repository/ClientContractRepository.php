@@ -48,25 +48,24 @@ class ClientContractRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param $firstname
-     * @param $lastname
+     * @param $id
      * @return mixed
      * @throws DBALException
      */
-    public function getListPerUser($firstname, $lastname)
+    public function getListPerUser($id)
     {
         $em = $this->getEntityManager();
 
         $query = '
-            SELECT clientname 
+            SELECT cli.id, clientname, cli.user_id 
             FROM contact_end_client c
             INNER JOIN client_contract cli ON cli.clientname_id = c.id AND  cli.active
             INNER JOIN user u ON u.id = cli.user_id
-            WHERE u.firstname = :firstname AND u.lastname = :lastname AND cli.active = 1
+            WHERE u.id = :id AND cli.active = 1
             ';
 
         $stmt = $em->getConnection()->prepare($query);
-        $param = ['firstname' => $firstname, 'lastname' => $lastname];
+        $param = ['id' => $id];
         $stmt->execute($param);
         return $stmt->fetchAll();
     }

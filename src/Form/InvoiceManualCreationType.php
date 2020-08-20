@@ -31,16 +31,16 @@ class InvoiceManualCreationType extends AbstractType
                     return $choices->getFirstname() . ' ' . $choices->getLastname();
                 }
             ])
-               /*     ->add('contract', EntityType::class,[
-                        'class' => 'App\Entity\ClientContract',
-                        'placeholder' => 'Select related contract',
-                        'choice_label' => function ($choices){
+            ->add('contract', EntityType::class, [
+                'class' => 'App\Entity\ClientContract',
+                'placeholder' => 'Select related contract',
+                'choices' => [],
+                'choice_label' => function ($choices) {
+                    return 'contract ' . $choices->getId() . ' : ' . $choices->getClientName();
+                }
+            ]);
 
-                        return 'contract ' . $choices->getId() . ' : ' . $choices->getClientName();
-                        }
-                    ])*/
-
-            ->add('Create', SubmitType::class);
+        $builder->add('Create', SubmitType::class);
 
     }
 

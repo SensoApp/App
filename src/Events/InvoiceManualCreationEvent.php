@@ -22,4 +22,5 @@ class InvoiceManualCreationEvent extends Event
     {
         return $this->invoiceCreationData->getId();
     }
+
 }
