@@ -210,20 +210,6 @@ class StatementController extends AbstractController
                 ->searchAllMovements();
     }
 
-
-/*    public function searchByUser(Request $request)
-    {
-        //   dump($request);
-        $entityManager = $this->getDoctrine()->getManager();
-        $template_id = $request->get('username');
-      //  $templateRepository = $entityManager
-         //   ->getRepository(StatementFile::class)
-       //     ->searchId($template_id);
-
-        return new JsonResponse(json_encode( $template_id));
-    }*/
-
-
     /**
      * @Route(path="/newadmin/statements-summary/delete/{id}", name="delete_statements")
      * @param $id
