@@ -1,18 +1,17 @@
 import React from 'react';
 
-export default function positiveNegative(amount, includeCurrency = false) {
-  if (amount > 0) {
+export default function positiveNegative(amount) {
+  const parsedAmount = parseFloat(amount);
+  if (parsedAmount > 0) {
     return (
       <span className="positive">
         {amount}
-        {includeCurrency ? ' €' : ''}
       </span>
     );
-  } else if (amount < 0) {
+  } else if (parsedAmount < 0) {
     return (
       <span className="negative">
         {amount}
-        {includeCurrency ? ' €' : ''}
       </span>
     );
   }

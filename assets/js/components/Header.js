@@ -73,9 +73,11 @@ const Header = () => {
               </Button>
             </li>
           </ul>
-          <Button text="My Senso" custom="item btn-primary btn-round">
-            <FontAwesomeIcon icon="lock" className="mr-2" />
-          </Button>
+          <Link to="/frontend/dashboard">
+            <Button text="My Senso" custom="item btn-primary btn-round">
+              <FontAwesomeIcon icon="lock" className="mr-2" />
+            </Button>
+          </Link>
         </div>
       </div>
     </nav>

@@ -34,7 +34,11 @@ class SearchForm extends React.Component {
         _error: 'Please complete at least one field',
       });
     } else {
+      
       this.props.onSubmit(formValues);
+      if(formValues.endDatePicker) {
+        formValues.endDatePicker.setHours(23, 59, 59, 999);
+      }
     }
   };
 

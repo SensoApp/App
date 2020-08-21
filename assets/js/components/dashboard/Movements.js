@@ -1,13 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 
 import { fetchMovements } from '../../actions';
 import MovementCard from './MovementCard';
 import MovementsTable from './MovementsTable';
 import Loader from '../Loader';
 import stringDate from '../../helpers/stringDate';
-import positiveNegative from '../../helpers/positiveNegative';
+import amountFormatting from '../../helpers/amountFormatting';
+
+/******
+Fetches the movement from the API, filters the data if necessary, and renders cards or table depending on screen size
+******/
 
 class Movements extends React.Component {
   state = {
@@ -59,13 +62,11 @@ class Movements extends React.Component {
   dateFilter(movement, startDatePicker, endDatePicker) {
     const movementDate = movement.operationdate;
     if (startDatePicker && endDatePicker) {
-      endDatePicker.setHours(23, 59, 59, 999);
       return startDatePicker <= movementDate && movementDate <= endDatePicker;
     } else if (startDatePicker) {
       return startDatePicker <= movementDate;
     } else if (endDatePicker) {
-      endDatePicker.setHours(23, 59, 59, 999);
-      return movementDate <= endDate;
+      return movementDate <= endDatePicker;
     }
     return true;
   }
@@ -97,13 +98,14 @@ class Movements extends React.Component {
 
   renderCards() {
     return this.tableData().map((movement) => {
+     
       return (
         <MovementCard
           key={movement.id}
           date={stringDate(movement.operationdate)}
           transfer={movement.operations}
           detail={movement.communication}
-          amount={positiveNegative(movement.amount, true)}
+          amount={amountFormatting(movement.amount)}
         />
       );
     });
@@ -130,19 +132,9 @@ class Movements extends React.Component {
   }
 }
 
-const selector = formValueSelector('SearchForm');
-
 const mapStateToProps = (state) => {
   return {
-    movements: state.movements,
-    formValues: selector(
-      state,
-      'keyword',
-      'minAmount',
-      'maxAmount',
-      'startDate',
-      'endDate'
-    ),
+    movements: state.movements
   };
 };
 

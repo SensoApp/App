@@ -2,10 +2,10 @@ import React from 'react';
 import TableTemplate from '../TableTemplate';
 
 import stringDate from '../../helpers/stringDate';
-import positiveNegative from '../../helpers/positiveNegative';
+import amountFormatting from '../../helpers/amountFormatting';
 
+// Specific set up for the movements table sent to the TableTemplate
 const MovementsTable = (props) => {
-  //console.log(props);
   const data = props.data;
 
   const columns = React.useMemo(() => [
@@ -23,9 +23,10 @@ const MovementsTable = (props) => {
       Cell: ({ row }) => stringDate(row.original.operationdate),
     },
     {
-      Header: 'Amount (€)',
+      Header: 'Amount',
       accessor: 'amount',
-      Cell: ({ row }) => positiveNegative(row.original.amount),
+      Cell: ({ row }) => amountFormatting(row.original.amount)
+
     },
   ]);
 

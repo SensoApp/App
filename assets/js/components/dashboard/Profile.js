@@ -2,6 +2,11 @@ import React from 'react';
 
 import Sidebar from './Sidebar.js';
 
+/***************
+        Créer encadré qui reprenne: nom prénom, addresse, mail, n° de téléphopne, n° de compte (BIC + IBAN) (=> données modifiables? )
+        + section en dessous pour permettre de reset le password
+***************/
+
 const Profile = () => {
   return (
     <main className="grid-container">
@@ -12,6 +17,7 @@ const Profile = () => {
             My Profile
           </h2>
         </hgroup>
+        
       </section>
       <Sidebar />
     </main>

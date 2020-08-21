@@ -4,10 +4,10 @@ import { FETCH_MOVEMENT, FETCH_MOVEMENTS, FILTER_MOVEMENTS } from './types';
 export const fetchMovements = () => {
   return async (dispatch) => {
     const response = await movements.get('/statement_files.json');
-    // Transform string to date
     const data = response.data;
+    // Transform string to date
     data.forEach((movement) => {
-      console.log(movement.operationdate);
+
       movement.operationdate = new Date(movement.operationdate);
       return movement;
     });

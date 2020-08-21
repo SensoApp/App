@@ -2,7 +2,6 @@ import React from 'react';
 import ReactExport from 'react-data-export';
 import { connect } from 'react-redux';
 
-import { fetchMovements } from '../actions';
 import Button from './Button';
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -10,14 +9,11 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 class ExcelExport extends React.Component {
-  componentDidMount() {
-    this.props.fetchMovements();
-  }
 
   render() {
     return (
       <ExcelFile
-        element={<Button custom="btn-secondary" text="Export to Excel" />}>
+        element={<Button custom="btn-secondary" text="Export to Excel"  />}>
         <ExcelSheet data={this.props.movements} name="Statements">
           <ExcelColumn label="Reference" value="referencemovement" />
           <ExcelColumn label="Operation" value="operations" />
@@ -42,4 +38,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchMovements })(ExcelExport);
+export default connect(mapStateToProps)(ExcelExport);

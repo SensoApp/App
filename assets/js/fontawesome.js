@@ -3,9 +3,9 @@ import {
   faAddressBook,
   faLock,
   faInfoCircle,
-  faBalanceScale,
   faBriefcase,
   faEnvelope,
+  faEuroSign,
   faFileInvoiceDollar,
   faLaptopCode,
   faMoneyBill,
@@ -17,14 +17,15 @@ import {
 import {
   faBuilding,
   faMoneyBillAlt,
+  
   faComments,
   faUserCircle,
 } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faAddressBook,
-  faBalanceScale,
   faBuilding,
+  faEuroSign,
   faLock,
   faLaptopCode,
   faInfoCircle,

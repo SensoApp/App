@@ -6,7 +6,13 @@ import Sidebar from './Sidebar.js';
 import Movements from './Movements.js';
 import ExcelExport from '../ExcelExport.js';
 
+/******
+DASHBOARD DEFAULT TAB
+To do: authentication management for the dashboard  => to store in redux state with a new action creator + reducer
+******/
+
 class Balance extends React.Component {
+  // This component takes the values from the searchForm with onSubmit() and gives them to the Movement component to rerender
   state = { formValues: null };
 
   onSubmit = (formValues) => {
@@ -53,7 +59,7 @@ class Balance extends React.Component {
               onSubmit={this.onSubmit}
               handleReset={this.handleReset}
             />
-            <ExcelExport />
+            <ExcelExport /> 
           </div>
           <Movements formData={this.state.formValues} />
         </section>

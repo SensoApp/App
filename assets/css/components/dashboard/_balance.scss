@@ -1,6 +1,7 @@
 .content-section {
+  background-color: #f6f7fb;
   @media (min-width: $md-bp) {
-    background-color: #f6f7fb;
+    
     grid-column: 2 /-1;
   }
 
@@ -14,8 +15,10 @@
 }
 
 .balance {
-  background-color: $primary-light;
-  color: $text-secondary;
+
+  background-color: #fff;
+    color: $primary;
+
   padding: 3.125rem;
   max-width: 400px;
   margin: 0 auto;
@@ -27,16 +30,15 @@
   &_left {
     margin-bottom: 2rem;
 
-    & > p {
-      @media (min-width: $md-bp) {
+     & > p {
+      
         color: $text-primary;
-      }
+      
     }
   }
 
   @media (min-width: $md-bp) {
-    background-color: #fff;
-    color: $primary;
+    
     grid-column: 2 /-1;
     margin-left: calc(3.125rem * 2);
   }
@@ -55,20 +57,15 @@
 .estimated {
   font-size: 1.125rem;
   font-weight: 300;
-  color: $text-secondary;
+  color: $text-primary;
 
-  @media (min-width: $md-bp) {
-    color: $text-primary;
-  }
 
   &_amount {
     font-size: 1.25rem;
     font-weight: 800;
     font-family: $font-display;
+color: $primary;
 
-    @media (min-width: $md-bp) {
-      color: $primary;
-    }
   }
 }
 

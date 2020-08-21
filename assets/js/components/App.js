@@ -8,7 +8,7 @@ import Balance from './dashboard/Balance';
 import Contracts from './dashboard/Contracts';
 import Invoices from './dashboard/Invoices';
 import Profile from './dashboard/Profile';
-//import history from '../history';
+
 
 const App = () => {
   // urlPrefix for development purposes; routes to be defined

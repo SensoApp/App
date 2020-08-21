@@ -13,7 +13,7 @@ const Sidebar = () => {
             <NavLink to="/frontend/dashboard" activeClassName="selected">
               <Button custom="btn--sidebar" text="Balance">
                 <FontAwesomeIcon
-                  icon="balance-scale"
+                  icon="euro-sign"
                   className="sidebar__icon mr-2"
                   size="lg"
                 />

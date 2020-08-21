@@ -5,6 +5,17 @@ import Sidebar from './Sidebar.js';
 import Movements from './Movements.js';
 import ExcelExport from '../ExcelExport.js';
 
+/*********
+Second tab of the DASHBOARD 
+Créer un tableau qui reprend les contrats passés et actifs de l'utilisateur
+          Données triées du plus récent au plus ancien
+          Permettre un tri par ordre alphabétique
+          Format mobile : une carte contenant => 
+              NOM CLIENT
+              Dates du contrat (from x to y)
+              rate: x%
+*********/
+
 const Contracts = () => {
   return (
     <main className="grid-container">
@@ -17,7 +28,7 @@ const Contracts = () => {
         </hgroup>
         <div className="buttons-container">
           <SearchForm />
-          <ExcelExport />
+
         </div>
         <Movements />
       </section>
