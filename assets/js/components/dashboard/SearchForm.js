@@ -1,6 +1,5 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 import Button from '../Button';
@@ -34,9 +33,8 @@ class SearchForm extends React.Component {
         _error: 'Please complete at least one field',
       });
     } else {
-      
       this.props.onSubmit(formValues);
-      if(formValues.endDatePicker) {
+      if (formValues.endDatePicker) {
         formValues.endDatePicker.setHours(23, 59, 59, 999);
       }
     }

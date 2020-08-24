@@ -3,12 +3,11 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Homepage from './homepage/Homepage';
 import Header from './Header';
-import Footer from './footer/Footer';
+import Footer from './Footer';
 import Balance from './dashboard/Balance';
 import Contracts from './dashboard/Contracts';
 import Invoices from './dashboard/Invoices';
 import Profile from './dashboard/Profile';
-
 
 const App = () => {
   // urlPrefix for development purposes; routes to be defined
