@@ -1,0 +1,23 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-top: 0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: min-max(1fr, 1vw);
+  gap: 20px;
+
+  @media only screen and (min-width: $md-bp) {
+    grid-template-columns: repeat(6, 1fr);
+    //grid-template-columns: [full-start] minmax(6rem, 1fr) [center-start] repeat(8, [col-start] minmax(min-content, 14rem) [col-end]) [center-end] minmax(6rem, 1fr) [full-end];
+  }
+
+  @media only screen and (min-width: $xl-bp) {
+    grid-template-columns: repeat(10, 1fr);
+  }
+}

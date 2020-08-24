@@ -1,0 +1,25 @@
+/******************** COLORS *********************/
+$primary: #1761a0;
+$primary-light: #578ed2;
+$primary-dark: #003871;
+$secondary: #008751;
+$secondary-light: #4bb87e;
+$secondary-dark: #005928;
+
+$color-black: #000;
+
+$text-primary: #4f4f4f;
+$text-primary-dark: #272727;
+$text-secondary: #fff;
+
+/******************* TYPOGRAPHY ******************/
+$font-family-sans-serif: Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+  'Noto Color Emoji';
+$font-display: 'Noto Sans JP', sans-serif;
+
+/******************* BREAKPOINTS ******************/
+$sm-bp: 576px;
+$md-bp: 768px;
+$lg-bp: 992px;
+$xl-bp: 1200px;

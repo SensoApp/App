@@ -1,0 +1,26 @@
+.card--movement {
+  margin: 0 auto;
+  width: 90%;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+.card-body.card-body--movement {
+  text-align: left;
+  font-size: 0.95rem;
+  padding: 1.5rem 0.5rem;
+}
+
+.card-text--movement {
+  color: $text-primary;
+}
+
+.movement-detail {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.movement-amount {
+  align-self: flex-end;
+}

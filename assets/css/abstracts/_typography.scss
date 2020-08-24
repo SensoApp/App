@@ -1,0 +1,61 @@
+.heading-huge {
+  font-family: $font-display;
+  font-weight: 400;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+
+  @media (min-width: $md-bp) {
+    font-weight: 500;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  &--blue {
+    color: $primary;
+  }
+}
+
+.heading-large {
+  color: $primary;
+  font-family: $font-display;
+  font-weight: 300;
+  font-size: 1.7rem;
+  margin-bottom: 3.125rem;
+
+  @media (min-width: $md-bp) {
+    font-weight: 500;
+    font-size: 2rem;
+  }
+
+  &--white {
+    color: $text-secondary;
+  }
+
+  &--green {
+    color: $secondary;
+  }
+}
+
+.heading-small {
+  font-family: $font-display;
+  font-weight: 500;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+
+  &--blue {
+    color: $primary-light;
+  }
+}
+
+.text {
+  &--display {
+    color: $text-primary;
+    font-family: $font-display;
+  }
+
+  &--basic {
+    color: $text-primary;
+    font-family: $font-family-sans-serif;
+    font-weight: 300;
+  }
+}
