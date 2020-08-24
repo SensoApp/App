@@ -57,7 +57,11 @@
                                 <td>{{ client.user.firstname }} {{ client.user.lastname }} </td>
                                 <td>
                                     <a href="{{ path('active_client_contract', {id : client.id}) }}">
-                                        <input type="checkbox" id="active" name="active">
+                                        <button class="btn btn-primary btn-xs" data-title="View" data-toggle="modal"
+                                                data-target="" id="activeClient">
+                                            <span class="glyphicon glyphicon-off">
+                                            </span>
+                                        </button>
                                     </a>
                                 </td>
                                 <td>
@@ -273,6 +277,17 @@
                     );
                 });
 
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#activeClient').click(function () {
+                    $("#activeClient").html('<button class="btn btn-danger btn-xs" data-title="View" data-toggle="modal"\n' +
+                        '                                                data-target="" id="activeClient">\n' +
+                        '                                            <span class="glyphicon glyphicon-off">\n' +
+                        '                                            </span>\n' +
+                        '                                        </button>');
+                })
             });
         </script>
     </div>

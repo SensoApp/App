@@ -383,9 +383,8 @@ class ContactManagementController extends AbstractController
      */
     public function activeClientContractManagement(Request $request, $id)
     {
-        $act = $this->em->getRepository(ClientContract::class)->getActiveClient();
+        $act = $this->em->getRepository(ClientContract::class)->ActiveClient($id);
         $this->addFlash('success', 'User activated');
-
         return $this->redirectToRoute('adminsenso');
     }
 }

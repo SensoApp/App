@@ -69,4 +69,24 @@ class ClientContractRepository extends ServiceEntityRepository
         $stmt->execute($param);
         return $stmt->fetchAll();
     }
+
+    /**
+     * @param $id
+     * @return mixed[]
+     * @throws DBALException
+     */
+    public function ActiveClient($id)
+    {
+        $em = $this->getEntityManager();
+        $query = '
+            UPDATE `client_contract` 
+            SET `active`= TRUE
+            WHERE `id` = :id AND `active`= 0 
+            ';
+
+        $stmt = $em->getConnection()->prepare($query);
+        $param = ['id' => $id];
+        $stmt->execute($param);
+    }
+
 }

@@ -1,0 +1,19 @@
+    <script>
+        $(function () {
+            $('i').on('click', function () {
+                setTimeout(
+                    20000,
+                    $('.alert').remove(),
+                    location.reload()
+                );
+            });
+
+            $('.confirm-email').on('click', function () {
+
+                if (confirm('Do you want to send a notification? ')) {
+
+                    $('.users').append("<input type='checkbox' name='send-email' checked/>");
+                }
+            });
+        });
+    </script>

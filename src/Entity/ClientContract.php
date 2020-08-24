@@ -350,8 +350,4 @@ class ClientContract
 
         return $this;
     }
-
-
-
-
 }
