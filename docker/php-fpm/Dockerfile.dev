@@ -1,0 +1,31 @@
+FROM php:7.3-fpm
+
+RUN apt-get update; \
+    apt-get install -y --no-install-recommends \
+		libjpeg-dev \
+		libpng-dev \
+        libzip-dev
+
+RUN docker-php-ext-install -j "$(nproc)" \
+		gd \
+		zip \
+        sockets \
+        pdo_mysql \
+        opcache
+
+WORKDIR /var/www/html
+
+# RUN useradd -m -u 1000 none-root; \
+#     chown 1000:1000 /var/www/html
+
+# USER none-root
+
+COPY --from=composer:1.8.6 --chown=1000:1000 /usr/bin/composer /usr/local/bin/composer
+
+
+
+ADD ./docker/php-fpm/php.ini /usr/local/etc/php/php.ini
+
+ADD ./docker/php-fpm/www.conf /usr/local/etc/php-fpm.d/www.conf
+
+# COPY --chown=1000:1000 . .

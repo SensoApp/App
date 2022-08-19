@@ -11,7 +11,7 @@ namespace App\DataFixtures;
 use App\Entity\Address;
 use App\Entity\BankDetails;
 use App\Entity\CitizenshipDetails;
-use App\Entity\City;
+// use App\Entity\City;
 use App\Entity\Contact;
 use App\Entity\Contract;
 use App\Entity\Country;
@@ -76,16 +76,15 @@ class BaseFixture extends Fixture
 
         for ($i=0; $i<10; $i++){
 
-            $city = new City();
+            // $city = new City();
             $address = new Address();
 
             $address->setStreet($this->faker->streetAddress);
             $address->setPostcode($this->faker->postcode);
-            $address->setCity($city);
-            $city->setCityname($this->faker->city);
-            $city->setCountry($country);
+            $address->setCity($this->faker->city);
+            // $city->setCityname($this->faker->city);
+            // $city->setCountry($country);
 
-            $this->manager->persist($city);
             $this->manager->persist($address);
         }
 
@@ -118,7 +117,7 @@ class BaseFixture extends Fixture
 
             $contact->setLastname($this->faker->lastName);
             $contact->setFirstname($this->faker->firstName);
-            $contact->setDatefbirth($this->faker->dateTimeInInterval());
+            $contact->setDateofbirth($this->faker->dateTimeInInterval());
             $contact->setSexe($this->valSetter('Male', 'Female'));
             $contact->setContacttype($this->valSetter('Prospect','Employee' ));
             $contact->setSocialesecunumber(rand(100000, 3000000000));
