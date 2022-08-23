@@ -6,7 +6,7 @@ use App\Entity\Timesheet;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Timesheet|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,7 +22,7 @@ class TimesheetRepository extends ServiceEntityRepository
     const TIMESHEET_VALIDATED = 'Validated';
 
 
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Timesheet::class);
     }

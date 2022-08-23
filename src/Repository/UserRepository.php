@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,9 +14,19 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class UserRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+    public function findAllNoneAdminUsers()
+    {
+        $q = $this->createQueryBuilder('u')
+            ->where("JSON_SEARCH(u.roles, 'one', :role) IS NULL")
+            ->setParameter('role', 'ROLE_ADMIN')
+            ->getQuery();
+
+        return $q->getArrayResult();
     }
 
     // /**

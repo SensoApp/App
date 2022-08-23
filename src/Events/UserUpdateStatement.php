@@ -4,7 +4,7 @@
 namespace App\Events;
 
 use App\Entity\StatementFile;
-use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 
 class UserUpdateStatement
 {

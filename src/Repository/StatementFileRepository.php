@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Entity\StatementFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Cache\ApcuCache;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\ORMException;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
 
 /**
  * @method StatementFile|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,7 +22,7 @@ class StatementFileRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         $this->config = new Configuration();
-        $this->config->setResultCacheImpl(new ApcuCache());
+        $this->config->setResultCache(new ApcuAdapter());
 
         parent::__construct($registry, StatementFile::class);
     }

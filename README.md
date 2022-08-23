@@ -4,7 +4,18 @@
 
 Requires docker & docker-compose installed on your machine.
 
-First build and start the app :
+First, check if `senso-shared` docker network exists otherwise create it:
+
+````bash
+docker network ls --filter "name=senso-shared"
+
+# execute it only if the network name wasn't displayed in the result of the previous command
+docker network create senso-shared
+````
+
+
+
+Then, build and start the app :
 ```bash
 docker-compose up -d --build
 ```

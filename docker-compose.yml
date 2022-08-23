@@ -26,6 +26,9 @@ services:
       dockerfile: ./docker/php-fpm/Dockerfile.dev
     volumes:
       - ./:/var/www/html
+    networks:
+      - default
+      - senso-shared
     depends_on:
       - db
     restart: unless-stopped
@@ -44,3 +47,7 @@ services:
 
 volumes:
   db-data:
+
+networks:
+  senso-shared:
+    external: true

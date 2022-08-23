@@ -84,6 +84,11 @@ class User implements UserInterface
     private $invoiceRandoms;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $revolutAccountId;
+
+    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
@@ -396,5 +401,20 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRevolutAccountId()
+    {
+        return $this->revolutAccountId;
+    }
+
+    /**
+     * @param mixed $revolutAccountId
+     */
+    public function setRevolutAccountId($revolutAccountId): void
+    {
+        $this->revolutAccountId = $revolutAccountId;
+    }
 
 }

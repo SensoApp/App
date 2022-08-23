@@ -18,7 +18,7 @@ use App\Entity\Country;
 use App\Entity\Mail;
 use App\Entity\Phone;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use Faker;
 
 class BaseFixture extends Fixture

@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update; \
     apt-get install -y --no-install-recommends \
@@ -13,6 +13,10 @@ RUN docker-php-ext-install -j "$(nproc)" \
         pdo_mysql \
         opcache
 
+RUN pecl install apcu; \
+    docker-php-ext-enable apcu; \
+    pecl clear-cache
+
 WORKDIR /var/www/html
 
 # RUN useradd -m -u 1000 none-root; \
@@ -20,7 +24,7 @@ WORKDIR /var/www/html
 
 # USER none-root
 
-COPY --from=composer:1.8.6 --chown=1000:1000 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.4 --chown=1000:1000 /usr/bin/composer /usr/local/bin/composer
 
 
 

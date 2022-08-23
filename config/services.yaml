@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-
+    app.senso_api_revolut: "%env(SENSO_API_REVOLUT_BASE_URL)%"
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -34,7 +34,7 @@ services:
                 priority: 500
                 connection: 'default'
 
-
+    Doctrine\Persistence\ObjectManager: '@doctrine.orm.default_entity_manager'
 
 
     # add more service definitions when explicit configuration is needed
