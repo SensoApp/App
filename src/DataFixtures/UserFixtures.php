@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Controller\TransactionController;
+use App\Controller\StatementController;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -16,7 +16,7 @@ class UserFixtures extends Fixture
     private $faker;
     private $transactionController;
 
-    public function __construct(UserPasswordEncoderInterface $encoder, TransactionController $transactionController)
+    public function __construct(UserPasswordEncoderInterface $encoder, StatementController $transactionController)
     {
         $this->encoder = $encoder;
         $this->transactionController = $transactionController;
