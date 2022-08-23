@@ -122,7 +122,7 @@ class StatementControllerOld extends AbstractController
         }
 
 
-        return $this->render('form/admin-statements.html.twig', [
+        return $this->render('form/admin-statements-old.html.twig', [
 
             'Balance' => $query,
             'pagination' => $pagination

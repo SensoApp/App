@@ -66,7 +66,7 @@ class StatementController extends AbstractController
         }
 //        dump($transactions->content); die();
 
-        return $this->render('form/admin-transaction.html.twig', [
+        return $this->render('form/admin-statements.html.twig', [
             'accounts' => $accounts,
             'transactions' => $transactions->content
         ]);

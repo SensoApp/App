@@ -36,25 +36,25 @@
                 <div class="jumbotron bg-success ">
                     <div class="container">
                         <br>
-                        {% if statementsum is not empty %}
+                        {% if account is not null %}
                         <h3>Current Balance:</h3>
                         <h4 class="display-4">
-                            {{ statementsum[0].Current_Balance|number_format(2, '.', ',') }} €
+                            {{ account.balance|format_currency(account.currency) }}
                         </h4>
-                        <br>
-                        <h3>Estimated Balance:</h3>
-                        <h4 class="display-4">
-                            {{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }} €
-                        </h4>
+{#                        <br>#}
+{#                        <h3>Estimated Balance:</h3>#}
+{#                        <h4 class="display-4">#}
+{#                            {{ (statementsum[0].Estimated + statementsum[0].Current_Balance)|number_format(2, '.', ',') }} €#}
+{#                        </h4>#}
                         <br>
                         <table class="col-md-2 table table-responsive">
                             <tr>
                                 <th>Currency</th>
-                                <td>EUR</td>
+                                <td>{{ account.currency }}</td>
                             </tr>
                             <tr>
                                 <th>Date</th>
-                                <td>{{ "now"|date('d-M-Y') }}</td>
+                                <td>{{ account.updatedAt|date('d-M-Y') }}</td>
                             </tr>
                             {% else %}
                                 <tr>
@@ -110,27 +110,27 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% if pagination != null %}
+                                {% if statements|length > 0 %}
                                     {% set id = null %}
                                     {% set idline = 0 %}
-                                    {% for list in pagination %}
+                                    {% for statement in statements %}
                                         {% set idline = idline +1 %}
                                         <tr>
                                             <td>{{ idline }}</td>
-                                            <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
-                                            <td>{{ list.operations }}</td>
-                                            <td>{{ list.communication }}</td>
-                                            <td>{{ list.operationdate|date('d-M-Y')}}</td>
-                                            <td class="text-right">{{ list.amount|number_format(2, '.', ',') }}</td>
-                                            <td>EUR</td>
+                                            <td class="reference">{{ statement.reference }}<i class="hidden">-</i></td>
+                                            <td>{{ statement.type }}</td>
+                                            <td>{{ statement.legs[0].description }}</td>
+                                            <td>{{ statement.createdAt|date('d-M-Y')}}</td>
+                                            <td class="text-right">{{ statement.legs[0].amount|number_format(2, '.', ',') }}</td>
+                                            <td>{{ statement.legs[0].currency }}</td>
                                         </tr>
-                                        {% set id = list.referencemovement %}
+{#                                        {% set id = list.referencemovement %}#}
                                     {% endfor %}
                                     <form method="post" action="{{ path('downloadstatement') }}">
-                                        {% for items in pagination %}
-                                            {% set itemnumber = (itemnumber|default(0) + 1) %}
-                                            <input type="hidden" value="{{ items.referencemovement}}" name="ref{{ itemnumber}}">
-                                        {% endfor %}
+{#                                        {% for items in pagination %}#}
+{#                                            {% set itemnumber = (itemnumber|default(0) + 1) %}#}
+{#                                            <input type="hidden" value="{{ items.referencemovement}}" name="ref{{ itemnumber}}">#}
+{#                                        {% endfor %}#}
                                         <div class="col-md-offset-10">
                                             <div class="col-md-">
                                                 Export to Excel
@@ -149,9 +149,9 @@
                                         </td>
                                     </tr>
                                 {% endif %}
-                                <div class="navigation">
-                                    {{ knp_pagination_render(pagination) }}
-                                </div>
+{#                                <div class="navigation">#}
+{#                                    {{ knp_pagination_render(pagination) }}#}
+{#                                </div>#}
                             </table>
                         </div>
                     </section>

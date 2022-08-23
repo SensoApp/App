@@ -18,7 +18,7 @@
             <br>
             <section class="container-fluid">
                 <div class="row">
-                    <h2 class="title text-center">Balance Per Users</h2>
+                    <h2 class="title text-center">Balance Per User</h2>
                 </div>
                 <br>
                 <div class="row">
@@ -27,17 +27,19 @@
                             <thead>
                             <tr>
                                 <th>First Name</th>
-                                <th>Last date</th>
-                                <th>Amount</th>
+                                <th>Last Name</th>
+                                <th>Balance</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {% for balance in Balance %}
-                                <tr>
-                                    <td>{{ balance.firstname }}</td>
-                                    <td>{{ balance.lastname }}</td>
-                                    <td>{{ balance.balance }} €</td>
-                                </tr>
+                            {% for account in accounts %}
+                                {% if account.firstName is defined %}
+                                    <tr>
+                                        <td>{{ account.firstName }}</td>
+                                        <td>{{ account.lastName }}</td>
+                                        <td>{{ account.balance | format_currency(account.currency) }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>
@@ -94,23 +96,29 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% if pagination != null %}
-                                {% set id = null %}
+                            {% if transactions|length > 0 %}
+{#                                {% set id = null %}#}
                                 {% set idline = 0 %}
-                                {% for list in pagination %}
+                                {% for transaction in transactions %}
                                     {% set idline = idline +1 %}
                                     <tr>
                                         <td>{{ idline }}</td>
-                                        <td>{{ list.firstname }}</td>
-                                        <td>{{ list.lastname }}</td>
-                                        <td class="reference">{{ list.referencemovement }}<i class="hidden">-</i></td>
-                                        <td>{{ list.operations }}</td>
-                                        <td>{{ list.communication }}</td>
-                                        <td>{{ list.operationdate|date('d-M-Y')}}</td>
-                                        <td class="text-right">{{ list.amount|number_format(2, '.', ',') }}</td>
-                                        <td>EUR</td>
+                                        <td>
+                                            {% if transaction.firstName is defined %}
+                                                {{ transaction.firstName }}</td>
+                                            {% endif %}
+                                        <td>
+                                            {% if transaction.lastName is defined %}
+                                                {{ transaction.lastName }}</td>
+                                            {% endif %}
+                                        <td class="reference">{{ transaction.reference }}<i class="hidden">-</i></td>
+                                        <td>{{ transaction.type }}</td>
+                                        <td>{{ transaction.legs[0].description }}</td>
+                                        <td>{{ transaction.createdAt|date('d-M-Y')}}</td>
+                                        <td class="text-right">{{ transaction.legs[0].amount|number_format(2, '.', ',') }}</td>
+                                        <td>{{ transaction.legs[0].currency }}</td>
                                     </tr>
-                                    {% set id = list.referencemovement %}
+{#                                    {% set id = list.referencemovement %}#}
                                 {% endfor %}
                             {% else %}
                                 <tr>
@@ -119,9 +127,9 @@
                                     </td>
                                 </tr>
                             {% endif %}
-                            <div class="navigation">
-                                {{ knp_pagination_render(pagination) }}
-                            </div>
+{#                            <div class="navigation">#}
+{#                                {{ knp_pagination_render(pagination) }}#}
+{#                            </div>#}
                         </table>
                     </div>
                 </section>

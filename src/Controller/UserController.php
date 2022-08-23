@@ -25,12 +25,14 @@ use Knp\Component\Pager\PaginatorInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
 class UserController extends AbstractController
@@ -45,9 +47,11 @@ class UserController extends AbstractController
     private $excelGeneratorReport;
     private $usersession;
     private $cache;
+    private $params;
+    private $client;
 
-
-    public function __construct(EntityManagerInterface $entityManager, Security $security, ExcelGeneratorReport $excelGeneratorReport, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, Security $security, ExcelGeneratorReport $excelGeneratorReport,
+                                UserPasswordEncoderInterface $passwordEncoder, ContainerBagInterface $params, HttpClientInterface $client)
     {
         $this->entitymanager = $entityManager;
         $this->user = $security->getToken()->getUser()->getEmail();
@@ -57,8 +61,8 @@ class UserController extends AbstractController
         $this->firstname = $security->getToken()->getUser()->getFirstName();
         $this->lastname = $security->getToken()->getUser()->getLastName();
         $this->cache = new FilesystemAdapter();
-
-
+        $this->params = $params;
+        $this->client = $client;
 
         $this->excelGeneratorReport = $excelGeneratorReport;
     }
@@ -69,33 +73,7 @@ class UserController extends AbstractController
      */
     public function viewDashboard(Request $request, PaginatorInterface $paginator)
     {
-        if($request->request->count() > 0 || is_null($request->query->get('page'))){
-
-            $this->cache->delete('query.sma');
-
-            $this->statement = $this->selectStatementWithConditions($request);
-            try {
-                $val = $this->cache->getItem('query.sma');
-                $val->set($this->statement);
-                $this->cache->save($val);
-
-            } catch (InvalidArgumentException $e) {
-
-                return new Response($e->getMessage());
-            }
-
-            $pagination = $paginator->paginate($this->statement, $request->query->getInt('page', 1), 10 );
-
-        } else {
-
-            $pr = $this->cache->getItem('query.sma');
-
-            $pagination = $paginator->paginate($pr->get(), $request->query->getInt('page', 1), 10 );
-        }
-
-        $statementsum = $this->entitymanager
-                             ->getRepository(StatementFile::class)
-                             ->selectSumPerUserStaement($this->userid);
+        $revolutAccountId = $this->usersession->getRevolutAccountId();
 
         return $this->render('user/dashboard.html.twig', [
 
@@ -103,10 +81,10 @@ class UserController extends AbstractController
             'firsname' => $this->firstname,
             'lastname' => $this->lastname,
             'clientcontract' => $this->selectClientContract(),
+            'statements' => $this->getRevolutTransactions($revolutAccountId)->content,
             'invoice' => $this->selectInvoice(),
             'personaldetails' => $this->selectPersonalDetails(),
-            'pagination' => $pagination,
-            'statementsum' => $statementsum,
+            'account' => $this->getRevolutAccount($revolutAccountId),
             'users' => $this->usersession
         ]);
     }
@@ -358,4 +336,23 @@ class UserController extends AbstractController
 
         return $collection->getValues();
     }
+
+    private function getRevolutAccount(string $accountId) {
+        $account_response = $this->client->request(
+            'GET',
+            $this->params->get('app.senso_api_revolut').'/accounts/'.$accountId
+        );
+
+        return json_decode($account_response->getContent());
+    }
+
+    private function getRevolutTransactions(string $accountId) {
+        $transactions_response = $this->client->request(
+            'GET',
+            $this->params->get('app.senso_api_revolut').'/transactions/'.$accountId
+        );
+
+        return json_decode($transactions_response->getContent());
+    }
+
 }
