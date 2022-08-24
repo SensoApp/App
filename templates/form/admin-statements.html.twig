@@ -90,7 +90,7 @@
                     <br>
                     <button class="btn btn-primary">Submit</button>
                 </form>
-                <section class="col-md-12">
+                <section class="col-md-12" style="margin-top: 25px">
                     <div class="table-responsive">
                         <table id="mytable" class="table table-bordred table-striped">
                             <thead class="label-primary" style="color: whitesmoke">
@@ -126,7 +126,7 @@
                                         <td>{{ transaction.type }}</td>
                                         <td>{{ transaction.legs[0].description }}</td>
                                         <td>{{ transaction.updatedAt|date('d-M-Y')}}</td>
-                                        <td class="text-right">{{ transaction.legs[0].amount|number_format(2, '.', ',') }}</td>
+                                        <td class="text-right text-{{ transaction.legs[0].amount > 0 ? 'success':'danger'}}">{{ transaction.legs[0].amount|number_format(2, '.', ',') }}</td>
                                         <td>{{ transaction.legs[0].currency }}</td>
                                     </tr>
 {#                                    {% set id = list.referencemovement %}#}
