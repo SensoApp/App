@@ -29,32 +29,36 @@ class UserRepository extends ServiceEntityRepository
         return $q->getArrayResult();
     }
 
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findByFullName(string $firstName, string $lastName)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $q = $this->createQueryBuilder('u')
+            ->where("u.firstname = :firstname AND u.lastname = :lastname")
+            ->setParameter('firstname', $firstName)
+            ->setParameter('lastname', $lastName)
+            ->setMaxResults(1)
+            ->getQuery();
+        return $q->getOneOrNullResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?User
+    public function findByFirstName(string $firstName)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $q = $this->createQueryBuilder('u')
+            ->where("u.firstname = :firstname")
+            ->setParameter('firstname', $firstName)
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $q->getOneOrNullResult();
     }
-    */
+
+    public function findByLastName(string $lastName)
+    {
+        $q = $this->createQueryBuilder('u')
+            ->where("u.lastname = :lastname")
+            ->setParameter('lastname', $lastName)
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $q->getOneOrNullResult();
+    }
 }

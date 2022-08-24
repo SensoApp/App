@@ -81,7 +81,7 @@ class UserController extends AbstractController
             'firsname' => $this->firstname,
             'lastname' => $this->lastname,
             'clientcontract' => $this->selectClientContract(),
-            'statements' => $this->getRevolutTransactions($revolutAccountId)->content,
+            'statements' => $this->getRevolutTransactions($request, $revolutAccountId),
             'invoice' => $this->selectInvoice(),
             'personaldetails' => $this->selectPersonalDetails(),
             'account' => $this->getRevolutAccount($revolutAccountId),
@@ -346,10 +346,37 @@ class UserController extends AbstractController
         return json_decode($account_response->getContent());
     }
 
-    private function getRevolutTransactions(string $accountId) {
+    private function getRevolutTransactions(Request $request, string $accountId) {
+        $minAmount =  $request->request->get('Min-amount');
+        $maxAmount = $request->request->get('Max-amount');
+        $minDate = $request->request->get('Min-date');
+        $maxDate = $request->request->get('Max-date');
+
+        $url = $this->params->get('app.senso_api_revolut').'/transactions/search?accountId='.$accountId;
+
+        if(!empty($minAmount))
+        {
+            $url.= "&minAmount=".$minAmount;
+        }
+
+        if(!empty($maxAmount))
+        {
+            $url.= "&maxAmount=".$maxAmount;
+        }
+
+        if(!empty($minDate))
+        {
+            $url.= "&minDate=".$minDate;
+        }
+
+        if(!empty($maxDate))
+        {
+            $url.= "&maxDate=".$maxDate;
+        }
+
         $transactions_response = $this->client->request(
             'GET',
-            $this->params->get('app.senso_api_revolut').'/transactions/'.$accountId
+            $url
         );
 
         return json_decode($transactions_response->getContent());

@@ -52,23 +52,22 @@ class StatementController extends AbstractController
         }
 
         // Transactions
-        $transactions = $this->getRevolutTransactions();
+        $transactions = $this->getRevolutTransactions($request);
 
-        for ($j=0; $j < count($transactions->content); $j++)
+        for ($j=0; $j < count($transactions); $j++)
         {
-            $key = array_search($transactions->content[$j]->legs[0]->accountId, array_column($users, "revolutAccountId"));
+            $key = array_search($transactions[$j]->legs[0]->accountId, array_column($users, "revolutAccountId"));
 
             if($key)
             {
-                $transactions->content[$j]->firstName = $users[$key]["firstname"];
-                $transactions->content[$j]->lastName = $users[$key]["lastname"];
+                $transactions[$j]->firstName = $users[$key]["firstname"];
+                $transactions[$j]->lastName = $users[$key]["lastname"];
             }
         }
-//        dump($transactions->content); die();
 
         return $this->render('form/admin-statements.html.twig', [
             'accounts' => $accounts,
-            'transactions' => $transactions->content
+            'transactions' => $transactions
         ]);
     }
 
@@ -81,13 +80,109 @@ class StatementController extends AbstractController
         return json_decode($accounts_response->getContent());
     }
 
-    public function getRevolutTransactions() {
-        $transactions_response = $this->client->request(
-            'GET',
-            $this->params->get('app.senso_api_revolut').'/transactions'
-        );
+    public function getRevolutTransactions(Request $request) {
+        $accountId =  null;
+        $minAmount =  $request->request->get('Min-amount');
+        $maxAmount = $request->request->get('Max-amount');
+        $minDate = $request->request->get('Min-date');
+        $maxDate = $request->request->get('Max-date');
 
-        return json_decode($transactions_response->getContent());
+        $firstArg = true;
+        $url = $this->params->get('app.senso_api_revolut').'/transactions';
+
+        if(!empty($request->request->get('firstName')) && !empty($request->request->get('lastName'))) {
+            $user = $this->entitymanager
+                 ->getRepository(User::class)
+                 ->findByFullName($request->request->get('firstName'), $request->request->get('lastName'));
+
+            if($user == null) {
+                return [];
+            }
+
+            $accountId = $user->getRevolutAccountId();
+        } elseif (!empty($request->request->get('firstName'))) {
+            $user = $this->entitymanager
+                ->getRepository(User::class)
+                ->findByFirstName($request->request->get('firstName'));
+
+            if($user == null) {
+                return [];
+            }
+
+            $accountId = $user->getRevolutAccountId();
+        } elseif (!empty($request->request->get('lastName'))) {
+            $user = $this->entitymanager
+                ->getRepository(User::class)
+                ->findByLastName($request->request->get('lastName'));
+
+            if($user == null) {
+                return [];
+            }
+
+            $accountId = $user->getRevolutAccountId();
+        }
+
+        if(!empty($accountId))
+        {
+            $url.= "/search?accountId=".$accountId;
+            $firstArg = false;
+        }
+
+        if(!empty($minAmount))
+        {
+            if($firstArg) {
+                $firstArg = false;
+                $url.='/search?';
+            } else {
+                $url.='&';
+            }
+
+            $url.= "minAmount=".$minAmount;
+        }
+
+        if(!empty($maxAmount))
+        {
+            if($firstArg) {
+                $firstArg = false;
+                $url.='/search?';
+            } else {
+                $url.='&';
+            }
+
+            $url.= "maxAmount=".$maxAmount;
+        }
+
+        if(!empty($minDate))
+        {
+            if($firstArg) {
+                $firstArg = false;
+                $url.='/search?';
+            } else {
+                $url.='&';
+            }
+
+            $url.= "minDate=".$minDate;
+        }
+
+        if(!empty($maxDate))
+        {
+            if($firstArg) {
+                $firstArg = false;
+                $url.='/search?';
+            } else {
+                $url.='&';
+            }
+
+            $url.= "maxDate=".$maxDate;
+        }
+
+        $res = json_decode($this->client->request('GET', $url)->getContent());
+
+        if($firstArg) {
+            return $res->content;
+        }
+
+        return $res;
     }
 
 }

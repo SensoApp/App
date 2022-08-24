@@ -56,23 +56,34 @@
             <div class="row">
                 <form method="post" class="col-md-12">
                     <div class="col-md-3 text-center">
+                        <label for="search">Name</label>
+                        <br>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" placeholder="First Name" name="firstName" value="{{ app.request.request.get('firstName') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" placeholder="Last Name" name="lastName" value="{{ app.request.request.get('lastName') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center">
                         <label for="search">Amount between</label>
                         <br>
                         <div class="col-md-6">
-                            <input class="form-control" type="number" placeholder="Min amount" name="Min-amount">
+                            <input class="form-control" type="number" placeholder="Min amount" name="Min-amount" value="{{ app.request.request.get('Min-amount') }}">
                         </div>
                         <div class="col-md-6">
-                            <input class="form-control" type="number" placeholder="Max amount" name="Max-amount">
+                            <input class="form-control" type="number" placeholder="Max amount" name="Max-amount" value="{{ app.request.request.get('Max-amount') }}">
                         </div>
                     </div>
                     <div class="col-md-4 text-center">
                         <label for="search" class="text-center">Dates between</label>
                         <br>
                         <div class="col-md-6">
-                            <input class="form-control" type="date" placeholder="Min date" name="Min-date">
+                            <input class="form-control" type="date" placeholder="Min date" name="Min-date" value="{{ app.request.request.get('Min-date') }}">
                         </div>
                         <div class="col-md-6">
-                            <input class="form-control" type="date" placeholder="Max date" name="Max-date">
+                            <input class="form-control" type="date" placeholder="Max date" name="Max-date" value="{{ app.request.request.get('Max-date') }}">
                         </div>
                         <input type="hidden" name="specialrequest" value="1">
                     </div>
