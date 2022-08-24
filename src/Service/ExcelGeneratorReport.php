@@ -49,7 +49,7 @@ class ExcelGeneratorReport
     }
 
 
-    public function generateStatementInExcel($statement)
+    public function generateStatementInExcel($statements)
     {
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getActiveSheet()->setCellValue('A1', 'Reference');
@@ -59,16 +59,16 @@ class ExcelGeneratorReport
         $spreadsheet->getActiveSheet()->setCellValue('E1', 'Amount');
         $spreadsheet->getActiveSheet()->setCellValue('F1', 'Currency');
 
-        for($i = 0; $i < count($statement); $i++){
+        for($i = 0; $i < count($statements); $i++){
 
             $linenum = 2+$i;
 
-            $spreadsheet->getActiveSheet()->setCellValue('A'.$linenum, $statement[$i]->getReferencemovement());
-            $spreadsheet->getActiveSheet()->setCellValue('B'.$linenum, $statement[$i]->getOperations());
-            $spreadsheet->getActiveSheet()->setCellValue('C'.$linenum, $statement[$i]->getCommunication());
-            $spreadsheet->getActiveSheet()->setCellValue('D'.$linenum, $statement[$i]->getOperationdate());
-            $spreadsheet->getActiveSheet()->setCellValue('E'.$linenum, $statement[$i]->getAmount());
-            $spreadsheet->getActiveSheet()->setCellValue('F'.$linenum, 'EUR');
+            $spreadsheet->getActiveSheet()->setCellValue('A'.$linenum, $statements[$i]->reference);
+            $spreadsheet->getActiveSheet()->setCellValue('B'.$linenum, $statements[$i]->type);
+            $spreadsheet->getActiveSheet()->setCellValue('C'.$linenum, $statements[$i]->legs[0]->description);
+            $spreadsheet->getActiveSheet()->setCellValue('D'.$linenum, $statements[$i]->updatedAt);
+            $spreadsheet->getActiveSheet()->setCellValue('E'.$linenum, $statements[$i]->legs[0]->amount);
+            $spreadsheet->getActiveSheet()->setCellValue('F'.$linenum, $statements[$i]->legs[0]->currency);
         }
 
         $styleArray = [

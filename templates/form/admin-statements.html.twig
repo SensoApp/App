@@ -125,7 +125,7 @@
                                         <td class="reference">{{ transaction.reference }}<i class="hidden">-</i></td>
                                         <td>{{ transaction.type }}</td>
                                         <td>{{ transaction.legs[0].description }}</td>
-                                        <td>{{ transaction.createdAt|date('d-M-Y')}}</td>
+                                        <td>{{ transaction.updatedAt|date('d-M-Y')}}</td>
                                         <td class="text-right">{{ transaction.legs[0].amount|number_format(2, '.', ',') }}</td>
                                         <td>{{ transaction.legs[0].currency }}</td>
                                     </tr>

@@ -74,6 +74,18 @@ class UserController extends AbstractController
     public function viewDashboard(Request $request, PaginatorInterface $paginator)
     {
         $revolutAccountId = $this->usersession->getRevolutAccountId();
+        $revolutTransactions = $this->getRevolutTransactions($request, $revolutAccountId);
+
+        // cache revolutTransactions
+        try {
+            $this->cache->delete('query.sma');
+            $val = $this->cache->getItem('query.sma');
+            $val->set($revolutTransactions);
+            $this->cache->save($val);
+        } catch (InvalidArgumentException $e) {
+
+            return new Response($e->getMessage());
+        }
 
         return $this->render('user/dashboard.html.twig', [
 
@@ -81,7 +93,7 @@ class UserController extends AbstractController
             'firsname' => $this->firstname,
             'lastname' => $this->lastname,
             'clientcontract' => $this->selectClientContract(),
-            'statements' => $this->getRevolutTransactions($request, $revolutAccountId),
+            'statements' => $revolutTransactions,
             'invoice' => $this->selectInvoice(),
             'personaldetails' => $this->selectPersonalDetails(),
             'account' => $this->getRevolutAccount($revolutAccountId),

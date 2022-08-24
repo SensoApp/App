@@ -120,7 +120,7 @@
                                             <td class="reference">{{ statement.reference }}<i class="hidden">-</i></td>
                                             <td>{{ statement.type }}</td>
                                             <td>{{ statement.legs[0].description }}</td>
-                                            <td>{{ statement.createdAt|date('d-M-Y')}}</td>
+                                            <td>{{ statement.updatedAt|date('d-M-Y')}}</td>
                                             <td class="text-right">{{ statement.legs[0].amount|number_format(2, '.', ',') }}</td>
                                             <td>{{ statement.legs[0].currency }}</td>
                                         </tr>
