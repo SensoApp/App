@@ -32,6 +32,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
@@ -355,7 +359,15 @@ class UserController extends AbstractController
             $this->params->get('app.senso_api_revolut').'/accounts/'.$accountId
         );
 
-        return json_decode($account_response->getContent());
+        try {
+            return json_decode($account_response->getContent());
+        } catch (ClientExceptionInterface $e) {
+        } catch (RedirectionExceptionInterface $e) {
+        } catch (ServerExceptionInterface $e) {
+        } catch (TransportExceptionInterface $e) {
+        }
+
+        return null;
     }
 
     private function getRevolutTransactions(Request $request, string $accountId) {
