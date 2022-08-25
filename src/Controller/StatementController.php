@@ -44,12 +44,13 @@ class StatementController extends AbstractController
         {
             $key = array_search($accounts[$i]->id, array_column($users, "revolutAccountId"));
 
-            if($key)
+            if($key !== FALSE)
             {
                 $accounts[$i]->firstName = $users[$key]["firstname"];
                 $accounts[$i]->lastName = $users[$key]["lastname"];
             }
         }
+
 
         // Transactions
         $transactions = $this->getRevolutTransactions($request);
@@ -58,7 +59,7 @@ class StatementController extends AbstractController
         {
             $key = array_search($transactions[$j]->legs[0]->accountId, array_column($users, "revolutAccountId"));
 
-            if($key)
+            if($key !== FALSE)
             {
                 $transactions[$j]->firstName = $users[$key]["firstname"];
                 $transactions[$j]->lastName = $users[$key]["lastname"];
@@ -88,7 +89,7 @@ class StatementController extends AbstractController
         $maxDate = $request->request->get('Max-date');
 
         $firstArg = true;
-        $url = $this->params->get('app.senso_api_revolut').'/transactions';
+        $url = $this->params->get('app.senso_api_revolut').'/transactions?';
 
         if(!empty($request->request->get('firstName')) && !empty($request->request->get('lastName'))) {
             $user = $this->entitymanager
@@ -124,7 +125,7 @@ class StatementController extends AbstractController
 
         if(!empty($accountId))
         {
-            $url.= "/search?accountId=".$accountId;
+            $url.= "accountId=".$accountId;
             $firstArg = false;
         }
 
@@ -132,7 +133,6 @@ class StatementController extends AbstractController
         {
             if($firstArg) {
                 $firstArg = false;
-                $url.='/search?';
             } else {
                 $url.='&';
             }
@@ -144,7 +144,6 @@ class StatementController extends AbstractController
         {
             if($firstArg) {
                 $firstArg = false;
-                $url.='/search?';
             } else {
                 $url.='&';
             }
@@ -156,7 +155,6 @@ class StatementController extends AbstractController
         {
             if($firstArg) {
                 $firstArg = false;
-                $url.='/search?';
             } else {
                 $url.='&';
             }
@@ -166,23 +164,14 @@ class StatementController extends AbstractController
 
         if(!empty($maxDate))
         {
-            if($firstArg) {
-                $firstArg = false;
-                $url.='/search?';
-            } else {
+            if(!$firstArg) {
                 $url.='&';
             }
 
             $url.= "maxDate=".$maxDate;
         }
 
-        $res = json_decode($this->client->request('GET', $url)->getContent());
-
-        if($firstArg) {
-            return $res->content;
-        }
-
-        return $res;
+        return json_decode($this->client->request('GET', $url)->getContent());
     }
 
 }

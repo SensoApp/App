@@ -22,7 +22,7 @@ class UserRepository extends ServiceEntityRepository
     public function findAllNoneAdminUsers()
     {
         $q = $this->createQueryBuilder('u')
-            ->where("JSON_SEARCH(u.roles, 'one', :role) IS NULL")
+            ->where("JSON_SEARCH(u.roles, 'all', :role) IS NULL")
             ->setParameter('role', 'ROLE_ADMIN')
             ->getQuery();
 

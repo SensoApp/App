@@ -364,7 +364,7 @@ class UserController extends AbstractController
         $minDate = $request->request->get('Min-date');
         $maxDate = $request->request->get('Max-date');
 
-        $url = $this->params->get('app.senso_api_revolut').'/transactions/search?accountId='.$accountId;
+        $url = $this->params->get('app.senso_api_revolut').'/transactions?accountId='.$accountId;
 
         if(!empty($minAmount))
         {
