@@ -98,9 +98,8 @@
                                 <th>#</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Reference</th>
-                                <th>Operation</th>
                                 <th>Communication</th>
+                                <th>Operation</th>
                                 <th>Date</th>
                                 <th>Amount</th>
                                 <th>Currency</th>
@@ -122,9 +121,24 @@
                                             {% if transaction.lastName is defined %}
                                                 {{ transaction.lastName }}</td>
                                             {% endif %}
-                                        <td class="reference">{{ transaction.reference }}<i class="hidden">-</i></td>
+                                        <td class="reference">
+                                            <div class="ref-container">
+                                                <span>{{ transaction.reference }}</span>
+                                                <button class="btn btn-xs btn-info" style="float: right" onclick="showReferenceEditForm(this)">Edit</button>
+                                            </div>
+                                            <div class="edit-reference" style="display: none">
+                                                {% set form = formTransaction.createView %}
+                                                {{ form_start(form) }}
+                                                    {{ form_widget(form.id, { 'attr': {'value': transaction.id} }) }}
+                                                    {{ form_widget(form.communication, { 'value': transaction.reference }) }}
+                                                    <div class="text-right" style="margin-top: 5px">
+                                                        <button type="button" class="btn btn-xs btn-default" onclick="hideReferenceEditForm(this)">Cancel</button>
+                                                        {{ form_widget(form.Submit) }}
+                                                    </div>
+                                                {{ form_end(form) }}
+                                            </div>
+                                        </td>
                                         <td>{{ transaction.type }}</td>
-                                        <td>{{ transaction.legs[0].description }}</td>
                                         <td>{{ transaction.updatedAt|date('d-M-Y')}}</td>
                                         <td class="text-right text-{{ transaction.legs[0].amount > 0 ? 'success':'danger'}}">{{ transaction.legs[0].amount|number_format(2, '.', ',') }}</td>
                                         <td>{{ transaction.legs[0].currency }}</td>
@@ -156,6 +170,19 @@
                         );
                     });
                 });
+
+                function showReferenceEditForm(ref){
+                    const refDev = $(ref).parentsUntil('.reference').closest('.ref-container');
+                    refDev.hide();
+                    refDev.next().show();
+                }
+
+                function hideReferenceEditForm(ref){
+                    const refDev = $(ref).parentsUntil('.reference').closest('.edit-reference');
+                    refDev.hide();
+                    refDev.prev().show();
+                }
+
             </script>
         </div>
     </body>

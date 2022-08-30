@@ -5,12 +5,14 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Form\TransactionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 
@@ -20,6 +22,7 @@ class StatementController extends AbstractController
     private $params;
     private $client;
     private $entitymanager;
+
 
     public function __construct(ContainerBagInterface $params, HttpClientInterface $client, EntityManagerInterface $entityManager)
     {
@@ -34,6 +37,22 @@ class StatementController extends AbstractController
      */
     public function statementSummary(Request $request, PaginatorInterface $paginator)
     {
+        $formTransaction = $this->createForm(TransactionType::class)
+                                ->handleRequest($request);
+
+        if($formTransaction->isSubmitted() && $formTransaction->isValid()){
+
+            $data = $formTransaction->getData();
+            $url = $this->params->get('app.senso_api_revolut').'/transactions/'.$data['id'].'?reference='.$data['communication'];
+
+            try{
+                $this->client->request('PUT', $url)->getContent();
+                $this->addFlash('success', 'Transaction updated successfully');
+            } catch (ClientExceptionInterface $e) {
+                $this->addFlash('error', 'An error occurred, please try again.');
+            }
+        }
+
         // Balance per User
         $accounts = $this->getRevolutAccounts();
         $users = $this->entitymanager
@@ -68,7 +87,8 @@ class StatementController extends AbstractController
 
         return $this->render('form/admin-statements.html.twig', [
             'accounts' => $accounts,
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'formTransaction' => $formTransaction
         ]);
     }
 
