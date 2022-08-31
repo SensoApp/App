@@ -102,8 +102,9 @@ class StatementController extends AbstractController
     }
 
     public function getRevolutTransactions(Request $request) {
-        $accountId =  null;
-        $minAmount =  $request->request->get('Min-amount');
+        $communication = $request->request->get('communication');
+        $isCommunicationNull = $request->request->get('isCommunicationNull');
+        $minAmount = $request->request->get('Min-amount');
         $maxAmount = $request->request->get('Max-amount');
         $minDate = $request->request->get('Min-date');
         $maxDate = $request->request->get('Max-date');
@@ -111,27 +112,7 @@ class StatementController extends AbstractController
         $firstArg = true;
         $url = $this->params->get('app.senso_api_revolut').'/transactions?';
 
-        if(!empty($request->request->get('firstName')) && !empty($request->request->get('lastName'))) {
-            $user = $this->entitymanager
-                 ->getRepository(User::class)
-                 ->findByFullName($request->request->get('firstName'), $request->request->get('lastName'));
-
-            if($user == null) {
-                return [];
-            }
-
-            $accountId = $user->getRevolutAccountId();
-        } elseif (!empty($request->request->get('firstName'))) {
-            $user = $this->entitymanager
-                ->getRepository(User::class)
-                ->findByFirstName($request->request->get('firstName'));
-
-            if($user == null) {
-                return [];
-            }
-
-            $accountId = $user->getRevolutAccountId();
-        } elseif (!empty($request->request->get('lastName'))) {
+        if (!empty($request->request->get('lastName'))) {
             $user = $this->entitymanager
                 ->getRepository(User::class)
                 ->findByLastName($request->request->get('lastName'));
@@ -140,13 +121,29 @@ class StatementController extends AbstractController
                 return [];
             }
 
-            $accountId = $user->getRevolutAccountId();
+            $url.= "accountId=".$user->getRevolutAccountId();
+            $firstArg = false;
         }
 
-        if(!empty($accountId))
-        {
-            $url.= "accountId=".$accountId;
-            $firstArg = false;
+        if(!empty($communication)) {
+            if($firstArg) {
+                $firstArg = false;
+            } else {
+                $url.='&';
+            }
+
+            $url.= "reference=".$communication;
+        }
+
+        if(isset($isCommunicationNull)) {
+
+            if($firstArg) {
+                $firstArg = false;
+            } else {
+                $url.='&';
+            }
+
+            $url.= "isReferenceNull=true";
         }
 
         if(!empty($minAmount))

@@ -98,9 +98,8 @@
                                 <thead class="label-primary" style="color: whitesmoke">
                                 <tr>
                                     <th>#</th>
-                                    <th>Reference</th>
-                                    <th>Operation</th>
                                     <th>Communication</th>
+                                    <th>Operation</th>
                                     <th>Date</th>
                                     <th>Amount</th>
                                     <th>Currency</th>
@@ -116,7 +115,6 @@
                                             <td>{{ idline }}</td>
                                             <td class="reference">{{ statement.reference }}<i class="hidden">-</i></td>
                                             <td>{{ statement.type }}</td>
-                                            <td>{{ statement.legs[0].description }}</td>
                                             <td>{{ statement.updatedAt|date('d-M-Y')}}</td>
                                             <td class="text-right text-{{ statement.legs[0].amount > 0 ? 'success':'danger'}}">{{ statement.legs[0].amount|number_format(2, '.', ',') }}</td>
                                             <td>{{ statement.legs[0].currency }}</td>

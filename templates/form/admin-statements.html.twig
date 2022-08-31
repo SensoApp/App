@@ -55,14 +55,22 @@
             <br>
             <div class="row">
                 <form method="post" class="col-md-12">
-                    <div class="col-md-3 text-center">
+                    <div class="col-md-2 text-center">
                         <label for="search">Name</label>
                         <br>
                         <div class="col-md-6">
-                            <input class="form-control" type="text" placeholder="First Name" name="firstName" value="{{ app.request.request.get('firstName') }}">
+                            <input class="form-control" type="text" placeholder="Last Name" name="lastName" value="{{ app.request.request.get('lastName') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 text-center">
+                        <label for="search">Communication</label>
+                        <br>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" placeholder="Communication" name="communication" value="{{ app.request.request.get('communication') }}">
                         </div>
                         <div class="col-md-6">
-                            <input class="form-control" type="text" placeholder="Last Name" name="lastName" value="{{ app.request.request.get('lastName') }}">
+                            <label>Null only <input type="checkbox" name="isCommunicationNull" {{ app.request.request.get('isCommunicationNull') ? 'checked':'' }}></label>
                         </div>
                     </div>
 
@@ -76,7 +84,7 @@
                             <input class="form-control" type="number" placeholder="Max amount" name="Max-amount" value="{{ app.request.request.get('Max-amount') }}">
                         </div>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-3 text-center">
                         <label for="search" class="text-center">Dates between</label>
                         <br>
                         <div class="col-md-6">
